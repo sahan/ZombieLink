@@ -1,0 +1,210 @@
+/**
+ *
+ */
+package com.lonepulse.zombielink.core;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
+
+import com.lonepulse.zombielink.core.annotation.Parser;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.core.response.AsyncHandler;
+import com.lonepulse.zombielink.core.response.ObjectResponseParser;
+import com.lonepulse.zombielink.core.response.ResponseParser;
+import com.lonepulse.zombielink.core.response.ResponseParserUndefinedException;
+import com.lonepulse.zombielink.core.response.StringResponseParser;
+import com.lonepulse.zombielink.rest.response.JsonResponseParser;
+
+/**
+ * <p>A concrete implementation of {@link HttpClient} which provides network 
+ * interfacing over an <b>asynchronous</b> HTTP client.</p>
+ * 
+ * @version 1.1.1
+ * <br><br>
+ * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ */
+public class MultiThreadedHttpClient implements AsyncHttpClientContract {
+
+	
+	/**
+	 * <p>The multi-threaded implementation of {@link HttpClient} which is used to 
+	 * execute requests in parallel.</p>
+	 * <br><br>
+	 * @since 1.1.1
+	 */
+	private HttpClient httpClient; 
+	
+	
+	/**
+	 * <p>Default constructor overridden to provide an implementation of 
+	 * {@link HttpClient} which can handle <i>multi-threaded request execution</i>.</p> 
+	 * 
+	 * <p>This implementation uses a {@link PoolingClientConnectionManager} with a 
+	 * {@link SchemeRegistry} which has default port registrations of <b>HTTP</b> 
+	 * and <b>HTTPS</b>.</p> 
+	 * <br><br>
+	 * @since 1.1.1
+	 */
+	public MultiThreadedHttpClient() {
+		
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+		schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+		
+		PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
+		pccm.setMaxTotal(32); //Max. number of client connections pooled
+		
+		this.httpClient = new DefaultHttpClient(pccm);
+	}
+	
+	/**
+	 * <p>Parameterized constructor takes an implementation of {@link HttpClient} 
+	 * which can handle <i>multi-threaded request execution</i>.</p>
+	 * 
+	 * <p>See {@link #MultiThreadedHttpClient()} for default configuration.</p>
+	 * 
+	 * @param httpClient 	
+	 * 				the {@link HttpClient} which is to be used
+	 * <br><br>
+	 * @since 1.1.1
+	 */
+	public MultiThreadedHttpClient(HttpClient httpClient) {
+
+		this.httpClient = httpClient;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T extends HttpRequestBase> void executeAsyncRequest(final T httpRequestBase, final ProxyInvocationConfiguration config) { //TODO more detailed logs
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+		
+				String errorContext = "Asynchronous request execution failed. ";
+
+				HttpResponse httpResponse;
+				
+				try {
+				
+					httpResponse = httpClient.execute(httpRequestBase); //execute the request on the multi-threaded client
+				} 
+				catch (ClientProtocolException cpe) {
+
+					LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "Protocol cannot be resolved.", cpe);
+					return;
+				} 
+				catch (IOException ioe) {
+
+					LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "IO failure.", ioe);
+					return;
+				}  
+					
+				AsyncHandler asyncHandler = null;
+					
+				for (Object object : config.getRequestArgs()) { //find the provided AsyncHandler (if any)
+						
+					if(object instanceof AsyncHandler)
+						asyncHandler = (AsyncHandler) object;
+				}
+					
+				if(asyncHandler != null) { //response handling has to commence
+					
+					Class<?> typeClass = config.getEndpointClass();
+					Method method = config.getRequest();
+					
+					Parser parser = null;	
+					Class<? extends ResponseParser<?>> parserType = null;
+					
+					if(method.isAnnotationPresent(Parser.class)) //check parser definition at method level first
+						parser = method.getAnnotation(Parser.class);
+					
+					else if(typeClass.isAnnotationPresent(Parser.class))
+						parser = method.getAnnotation(Parser.class);
+						
+					else
+						throw new ResponseParserUndefinedException(typeClass, method);
+					
+					switch (parser.value()) {
+					
+						case STRING:
+							parserType = StringResponseParser.class;
+							break;
+							
+						case JSON:
+							parserType = JsonResponseParser.class;
+								
+						case OBJECT:
+							parserType = ObjectResponseParser.class;
+							break;
+								
+						case UNDEFINED:
+							parserType = parser.typeClass();
+					}
+			
+					ResponseParser<? extends Object> responseParser = null;
+					
+					try {
+									
+						responseParser = parserType.newInstance();
+					} 
+					catch (InstantiationException ie) {
+
+						LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "Response-parser instantiation failed.", ie);
+						return;
+					} 
+					catch (IllegalAccessException iae) {
+
+						LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "Response-parser invocation failed.", iae);
+						return;
+					}
+						
+					Object reponseEntity = responseParser.parse(httpResponse, config);
+						
+					if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+						asyncHandler.onSuccess(httpResponse, reponseEntity); 
+						
+					else 
+						asyncHandler.onFailure(httpResponse, reponseEntity);
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * {@inheritDoc} 
+	 */
+	@Override
+	public <T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase) throws ClientProtocolException, IOException {
+
+		return this.httpClient.execute(httpRequestBase);
+	}
+	
+	/**
+	 * <p>Retrieves the instance of {@link HttpClient} which is being used.
+	 * 
+	 * @return the {@link HttpClient}
+	 * <br><br>
+	 * @since 1.1.1
+	 */
+	protected HttpClient getHttpClient() {
+		
+		return httpClient;
+	}
+}
