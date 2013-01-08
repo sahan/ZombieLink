@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -8,17 +8,25 @@
 	<version>0.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>ZombieLink</name>
-	<description>A lightweight HTTP facade which simplifies network communication.</description>
-	<url>http://lonepulse.com/zombielink</url>
-	<inceptionYear>2013</inceptionYear>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.name>ZombieLink</project.name>
+		<project.url>http://lonepulse.com/zombielink</project.url>
+		<project.inceptionYear>2013</project.inceptionYear>
+		<project.developer.name>Lahiru Sahan Jayasinghe</project.developer.name>
+		<project.developer.email>lahiru@lonepulse.com</project.developer.email>
+		<project.organization.name>Lonepulse</project.organization.name>
+		<project.organization.url>http://lonepulse.com</project.organization.url>
+		<license.licenseName>apache_v2</license.licenseName>
 	</properties>
+	
+	<name>${project.name}</name>
+	<description>A lightweight HTTP facade which simplifies network communication.</description>
+	<url>${project.url}</url>
+	<inceptionYear>${project.inceptionYear}</inceptionYear>
 
 	<licenses>
 		<license>
@@ -30,11 +38,11 @@
 
 	<developers>
 		<developer>
-			<id>lahiru</id>
-			<name>Lahiru Sahan Jayasinghe</name>
-			<email>lahiru@lonepulse.com</email>
-			<organization>Lonepulse</organization>
-			<organizationUrl>http://lonepulse.com</organizationUrl>
+			<id>sahan</id>
+			<name>${project.developer.name}</name>
+			<email>${project.developer.email}</email>
+			<organization>${project.organization.name}</organization>
+			<organizationUrl>${project.organization.url}</organizationUrl>
 			<roles>
 				<role>Owner</role>
 				<role>Committer</role>
@@ -47,7 +55,7 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.2.2</version>
-		</dependency>  
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -80,20 +88,20 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version> 
+					<version>2.3.2</version>
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
 					</configuration>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -122,6 +130,33 @@
 				</plugin>
 
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.3</version>
+					<executions>
+						<execution>
+							<id>download-licenses</id>
+							<goals>
+								<goal>download-licenses</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>update-file-header</id>
+							<goals>
+								<goal>update-file-header</goal>
+							</goals>
+							<phase>process-sources</phase>
+							<configuration>
+								<roots>
+									<root>src/main/java</root>
+									<root>src/test/java</root>
+								</roots>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.1</version>
@@ -132,4 +167,17 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus</id>
+			<name>Codehaus Release Repo</name>
+			<url>http://repository.codehaus.org</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>codehaus-snapshot</id>
+			<name>Codehaus Snapshot Repo</name>
+			<url>http://snapshots.repository.codehaus.org</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
