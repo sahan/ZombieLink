@@ -31,9 +31,9 @@ import com.lonepulse.zombielink.core.request.RequestMethod;
  * <p>Marks the policy of a <b>remote endpoint</b>. For example, an interface which 
  * mirrors the method signatures of a web service contract.</p>
  * <br>
- * <p>By default, all the methods in the interface are considered to be web requests 
- * (without any explicit annotations) having a default <b>HTTP</b> method type of 
- * {@link RequestMethod#HTTP_GET}.</p>
+ * <p>By default, only them methods annotated with {@code @Request} and {@code @Rest} 
+ * are considered to be web requests (without any explicit annotations) having a default 
+ * <b>HTTP</b> method type of {@link RequestMethod#HTTP_GET}.</p>
  *
  * <b>Usage:</b>
  * <br>

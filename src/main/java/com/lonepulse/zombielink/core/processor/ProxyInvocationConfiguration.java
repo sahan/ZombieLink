@@ -27,9 +27,9 @@ import java.util.Arrays;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 
 /**
- * <p>This is a wrapper class which encompasses the <i>configuration</i> of a particular 
- * proxy invocation. It serves to consolidate method parameters for the functionality 
- * in {@link EndpointProxyFactory}.</p>
+ * <p>This is a wrapper class which encompasses the <i>configuration</i> of a 
+ * particular proxy invocation. It serves to consolidate method parameters for 
+ * the functionality in {@link EndpointProxyFactory}.</p>
  * 
  * @version 1.1.2
  * <br><br>
@@ -50,7 +50,7 @@ public final class ProxyInvocationConfiguration {
 		/**
 		 * @see ProxyInvocationConfiguration#endpointClass
 		 */
-		private Class<?> endpointClass;
+		private Class<? extends Object> endpointClass;
 		
 		/**
 		 * @see ProxyInvocationConfiguration#uri
@@ -74,14 +74,14 @@ public final class ProxyInvocationConfiguration {
 		
 		
 		/**
-		 * <p>{@link ProxyInvocationConfiguration.Builder} made accessible for creation of 
-		 * {@link ProxyInvocationConfiguration} instances.</p>
+		 * <p>{@link ProxyInvocationConfiguration.Builder} made accessible 
+		 * for creation of {@link ProxyInvocationConfiguration} instances.</p>
 		 */
 		public Builder() {
 			//TODO consider including essential builder parameters in here
 		}
 
-		public Builder setEndpointClass(Class<?> endpointClass) {
+		public Builder setEndpointClass(Class<? extends Object> endpointClass) {
 			this.endpointClass = endpointClass;
 			return this;
 		}
@@ -143,7 +143,7 @@ public final class ProxyInvocationConfiguration {
 	/**
 	 * <p>The {@link Class} of the interface which model an {@link Endpoint}.
 	 */
-	private Class<?> endpointClass;
+	private Class<? extends Object> endpointClass;
 	
 	/**
 	 * <p>The base {@link URI} which was constructed from the endpoint.
@@ -179,7 +179,7 @@ public final class ProxyInvocationConfiguration {
 		this.requestArgs = builder.requestArgs;
 	}
 
-	public Class<?> getEndpointClass() {
+	public Class<? extends Object> getEndpointClass() {
 		return endpointClass;
 	}
 

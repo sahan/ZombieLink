@@ -20,8 +20,8 @@ package com.lonepulse.zombielink.core.inject;
  * #L%
  */
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * <p>A <b>singleton</b> implementation of the {@link ClassDirectory} policy 
@@ -35,21 +35,24 @@ public enum EndpointDirectory implements ClassDirectory {
 	
 	
 	/**
-	 * <p>The only instance of {@link EndpointDirectory} which allows the clients to access its services. 
+	 * <p>The only instance of {@link EndpointDirectory} which allows the clients 
+	 * to access its services. 
 	 */
 	INSTANCE;
 
 	/**
-	 * <p>The {@link Map} of endpoint interface implementations which are maintained as <i>Singletons</i>. 
+	 * <p>The {@link Map} of endpoint interface implementations which are maintained 
+	 * as <i>Singletons</i>. 
 	 */
-	private static volatile Map<Class<?>, Object> ENDPOINTS = new HashMap<Class<?>, Object>();
+	private static Map<Class<? extends Object>, Object> ENDPOINTS 
+		= new WeakHashMap<Class<? extends Object>, Object>();
 	
 	
 	/**
 	 * See {@link ClassDirectory#put(Class, Object)}.
 	 */
 	@Override
-	public void put(Class<?> entryKey, Object entryValue) {
+	public synchronized void put(Class<? extends Object> entryKey, Object entryValue) {
 		
 		if(!ENDPOINTS.containsKey(entryKey))
 			ENDPOINTS.put(entryKey, entryValue);
@@ -59,7 +62,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#post(Class, Object)}.
 	 */
 	@Override
-	public Object post(Class<?> entryKey, Object entryValue) {
+	public synchronized Object post(Class<? extends Object> entryKey, Object entryValue) {
 		
 		return entryKey.cast(ENDPOINTS.put(entryKey, entryValue));
 	}
@@ -68,7 +71,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#get(Class)}.
 	 */
 	@Override
-	public Object get(Class<?> entryKey) {
+	public synchronized Object get(Class<? extends Object> entryKey) {
 		
 		return entryKey.cast(ENDPOINTS.get(entryKey));
 	}
@@ -77,7 +80,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#delete(Class)}.
 	 */
 	@Override
-	public Object delete(Class<?> entryKey) {
+	public synchronized Object delete(Class<? extends Object> entryKey) {
 		
 		return entryKey.cast(ENDPOINTS.remove(entryKey));
 	}

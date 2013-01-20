@@ -21,8 +21,8 @@ package com.lonepulse.zombielink.core.inject;
  */
 
 /**
- * <p>This interface determines the policy of a <i>directory service</i> which can 
- * register and retrieve entities by their {@link Class} representations.
+ * <p>This interface determines the policy of a <i>directory service</i> which 
+ * can register and retrieve entities by their {@link Class} representations.
  * 
  * @version 1.1.1
  * <br><br>

@@ -43,8 +43,10 @@ public class HeaderParamTypeException extends ZombieLinkRuntimeException {
 	 */
 	public HeaderParamTypeException(Object param, Method method) {
 		
-		this("Variable header parameters should be of type " + StringBuilder.class.getSimpleName() + 
-			 ". Instead type " + param.getClass().getName() + " was found on request " + method.getName());
+		this("Variable header parameters should be of type " + 
+			 StringBuilder.class.getSimpleName() + ". Instead type " + 
+			 param.getClass().getName() + " was found on request " + 
+			 method.getName());
 	}
 	
 	/**

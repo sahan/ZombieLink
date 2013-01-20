@@ -175,7 +175,7 @@ public class Zombie {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public static <T> T infect(Class<T> injectee) {
+	public static <T extends Object> T infect(Class<T> injectee) {
 
 		Class<?> endpointInterface = null;
 		Constructor<?>[] constructors = injectee.getConstructors();

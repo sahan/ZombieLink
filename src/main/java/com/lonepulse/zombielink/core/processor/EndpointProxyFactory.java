@@ -43,9 +43,9 @@ import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
 import com.lonepulse.zombielink.core.request.EndpointComponentFactory;
 import com.lonepulse.zombielink.core.request.RequestBuilderFactory;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
-import com.lonepulse.zombielink.core.response.ResponseParserUndefinedException;
 import com.lonepulse.zombielink.core.response.ObjectResponseParser;
 import com.lonepulse.zombielink.core.response.ResponseParser;
+import com.lonepulse.zombielink.core.response.ResponseParserUndefinedException;
 import com.lonepulse.zombielink.core.response.StringResponseParser;
 import com.lonepulse.zombielink.rest.response.JsonResponseParser;
 
@@ -201,8 +201,9 @@ public final class EndpointProxyFactory implements ProxyFactory {
 			HttpResponse response = communicator.executeRequest(httpRequestBase);
 			
 			if(!(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK))
-				throw new IOException("HTTP request for " + httpRequestBase.getURI() + " failed with status code " + 
-									   response.getStatusLine().getStatusCode() + ", " + response.getStatusLine().getReasonPhrase());
+				throw new IOException("HTTP request for " + httpRequestBase.getURI() + 
+									  " failed with status code " + response.getStatusLine().getStatusCode() + 
+									  ", " + response.getStatusLine().getReasonPhrase());
 			
 			return response;
 		}

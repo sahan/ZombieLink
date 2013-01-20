@@ -47,8 +47,9 @@ public class ResponseParserUndefinedException extends ZombieLinkRuntimeException
 	 */
 	public ResponseParserUndefinedException(Class<?> endpoint, Method method) {
 		
-		this("Cannot parse the response for request " + method.getName() + " on endpoint " + endpoint.getName() +
-			 ": a " + ResponseParser.class.getName() + " has not been defined via the " + Parser.class.getName() + " annotation.");
+		this("Cannot parse the response for request " + method.getName() + " on endpoint " + 
+			 endpoint.getName() + ": a " + ResponseParser.class.getName() + " has not been defined via the " + 
+			 Parser.class.getName() + " annotation.");
 	}
 
 	/**

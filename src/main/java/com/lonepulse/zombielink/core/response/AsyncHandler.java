@@ -44,44 +44,49 @@ public abstract class AsyncHandler {
 	/**
 	 * <p>Callback method to handle the a <i>successful request execution</i>.
 	 * 
-	 * <p>Generic {@code E} is used to identify the {@link Type} of the response which is 
-	 * returned via the designated {@link ResponseParser}.
+	 * <p>Generic {@code E} is used to identify the {@link Type} of the response 
+	 * which is returned via the designated {@link ResponseParser}.
 	 *  
 	 * @param httpResponse
-	 * 			the original instance {@link HttpResponse} returned as a result of the execution
+	 * 			the original instance {@link HttpResponse} returned as a result of 
+	 * 			the execution
 	 * 
 	 * @param e
-	 * 			an instance of the response type ({@link HttpResponse} processed using the specified {@link Parser})
+	 * 			an instance of the response type ({@link HttpResponse} processed 
+	 * 			using the specified {@link Parser})
 	 * 
 	 * @throws ZombieLinkRuntimeException
 	 * 			when processing fails due to some miscellaneous error
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public abstract <E extends Object> void onSuccess(HttpResponse httpResponse, E e) throws ZombieLinkRuntimeException;
+	public abstract <E extends Object> void onSuccess(HttpResponse httpResponse, E e) 
+	throws ZombieLinkRuntimeException;
 
 	/**
 	 * <p>Callback method to handle a <i>failed request execution</i>.
 	 * 
-	 * <p>Generic {@code E} is used to identify the {@link Type} of the response which is 
-	 * returned via the designated {@link ResponseParser}. 
+	 * <p>Generic {@code E} is used to identify the {@link Type} of the response 
+	 * which is returned via the designated {@link ResponseParser}. 
 	 *  
-	 * <p>Note that the default implementation does absolutely nothing. A minimal usage would 
-	 * be to override this method and log the HTTP status code.
+	 * <p>Note that the default implementation does absolutely nothing. A minimal 
+	 * usage would be to override this method and log the HTTP status code.
 	 * 
 	 * @param httpResponse
-	 * 			the original instance {@link HttpResponse} returned as a result of the execution
+	 * 			the original instance {@link HttpResponse} returned as a result of 
+	 * 			the execution
 	 * 
 	 * @param e
-	 * 			an instance of the response type ({@link HttpResponse} processed using the specified {@link Parser})
+	 * 			an instance of the response type ({@link HttpResponse} processed 
+	 * 			using the specified {@link Parser})
 	 * 
 	 * @throws ZombieLinkRuntimeException
 	 * 			when processing fails due to some miscellaneous error
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public <E extends Object> void onFailure(HttpResponse httpResponse, E e) throws ZombieLinkRuntimeException {
-	}
+	public <E extends Object> void onFailure(HttpResponse httpResponse, E e) 
+	throws ZombieLinkRuntimeException {}
 }
 
 /*

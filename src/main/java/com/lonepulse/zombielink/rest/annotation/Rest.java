@@ -39,7 +39,11 @@ import com.lonepulse.zombielink.core.request.RequestMethod;
  * 
  * <p>The interface method parameters may then be annotated with {@link Param} and
  * the {@link Param#value()} given the same value as those in the place-holders:</p>
- * <p><code>String getPhoto(@Param(name = "artist"), @Param(name = "song"))</p>
+ * <p><code>
+ * <pre>
+ * String getLyrics(@Param(name = "artist") String artist,@Param(name = "song") String song);
+ * </pre>
+ * </code></p>
  * 
  * <p><b>Parameter values that never change could be coded into the path itself.</b></p>  
  * 

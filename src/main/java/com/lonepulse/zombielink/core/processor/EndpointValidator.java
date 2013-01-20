@@ -48,5 +48,5 @@ public interface EndpointValidator {
 	 * @since 1.1.1
 	 * 				{@link URI} creation via {@link URIBuilder} 
 	 */
-	public abstract URI validate(Class<?> endpointInterface);
+	public abstract URI validate(Class<? extends Object> endpointInterface);
 }

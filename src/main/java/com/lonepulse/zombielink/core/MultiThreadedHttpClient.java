@@ -47,7 +47,7 @@ import com.lonepulse.zombielink.rest.response.JsonResponseParser;
 
 /**
  * <p>A concrete implementation of {@link HttpClient} which provides network 
- * interfacing over an <b>asynchronous</b> HTTP client.</p>
+ * interfacing over a thread-safe, <b>asynchronous</b> HTTP client.</p>
  * 
  * @version 1.1.1
  * <br><br>

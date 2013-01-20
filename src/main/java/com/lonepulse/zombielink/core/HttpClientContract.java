@@ -28,7 +28,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 /**
  * <p>This contract declares the basic network communication capabilities of 
- * the API. It grows on the <b>Apache HTTP Components library</b>.</p> 
+ * an HTTP client. It grows on the <a href="http://hc.apache.org">Apache HTTP Components library</a>.</p> 
  * 
  * @version 1.1.2
  * <br><br>

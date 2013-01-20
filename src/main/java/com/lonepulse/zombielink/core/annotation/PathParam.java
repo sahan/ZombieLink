@@ -39,8 +39,8 @@ import java.lang.annotation.Target;
  * <p>
  * <code>
  * <pre>
- * <br><b>@Request(path = "/:username/feed.json")</b>
- *public abstract String getFeed(<b>@Pathparam(name = "username", value = "Zombie")</b> String username);
+ * <br><b>@Request(path = "/:username/posts.json")</b>
+ *public abstract String getFeed(<b>@Pathparam(name = "username", value = "zombie")</b> String username);
  * </pre>
  * </code>
  * </p>

@@ -49,29 +49,39 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
 public class RestfulRequestBuilder extends AbstractRequestBuilder {
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected URI buildPath(ProxyInvocationConfiguration config) throws Exception {
 
 		return config.getUri(); //root path return as it is
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected HttpRequestBase buildRequestWithParameters(URI uri, ProxyInvocationConfiguration config) throws Exception {
+	protected HttpRequestBase buildRequestWithParameters(URI uri, ProxyInvocationConfiguration config) 
+	throws Exception {
 		
 		Method request = config.getRequest();
 		
 		Rest restfulRequest = request.getAnnotation(Rest.class);
 		String subpath = restfulRequest.path();
 		
-		Map<Object, Param> annotatedParams = AnnotationExtractor.<Param>extractWithParameterValues(Param.class, request, config.getRequestArgs());
+		Map<Object, Param> annotatedParams 
+			= AnnotationExtractor.<Param>extractWithParameterValues(Param.class, request, config.getRequestArgs());
+		
 		Set<Object> methodParams = annotatedParams.keySet();
 		
 		for (Object paramValue : methodParams) {
 			
 			if(!(paramValue instanceof String))
-				throw new IllegalArgumentException("Parameters for RESTful requests can only be of type " + String.class.getName()); 
+				throw new IllegalArgumentException("Parameters for RESTful requests can only be of type " + 
+													String.class.getName()); 
 
-			subpath = subpath.replaceAll(":" + annotatedParams.get(paramValue).value(), (String)paramValue); //replace param place-holders with param value
+			subpath = subpath.replaceAll(":" + annotatedParams.get(paramValue).value(), (String)paramValue);
 		}
 		
 		URI uriWithParameters = new URI(uri.toASCIIString() + subpath);
@@ -102,6 +112,9 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected HttpRequestBase buildHeader(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws Exception {
 

@@ -29,8 +29,8 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpTrace;
 
 /**
- * <p>This enum is used to identify the request type. This may be a basic HTTP request 
- * or it might be a JSON based web service request...etc
+ * <p>This enum is used to identify the request type. This may be a basic HTTP 
+ * request or it might be a JSON based web service request...etc
  * 
  * @version 1.1.3
  * <br><br>
@@ -40,36 +40,50 @@ public enum RequestMethod {
 
 	/**
 	 * <p>Identifies an {@link HttpGet} request.
+	 * 
+	 * @since 1.0.0
 	 */
 	HTTP_GET,
 	
 	/**
 	 * <p>Identifies an {@link HttpPost} request.
+	 * 
+	 * @since 1.0.0
 	 */
 	HTTP_POST,
 	
 	/**
 	 * <p>Identifies an {@link HttpPut} request.
+	 * 
+	 * @since 1.0.0
 	 */
 	HTTP_PUT,
 	
 	/**
 	 * <p>Identifies an {@link HttpDelete} request.
+	 * 
+	 * @since 1.0.0
 	 */
 	HTTP_DELETE,
 	
 	/**
 	 * <p>Identifies an {@link HttpHead} request.
+	 * 
+	 * @since 1.1.3
 	 */
 	HTTP_HEAD,
 	
 	/**
 	 * <p>Identifies an {@link HttpTrace} request.
+	 * 
+	 * @since 1.1.3
 	 */
 	HTTP_TRACE,
 	
 	/**
 	 * <p>Identifies an {@link HttpOptions} request.
+	 * 
+	 * @since 1.1.3
 	 */
 	HTTP_OPTIONS;
 }

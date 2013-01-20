@@ -24,8 +24,6 @@ import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 
-
-
 /**
  * <p>This is is a common policy which all proxy factories must implement.
  * 

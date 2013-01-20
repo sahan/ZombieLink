@@ -26,7 +26,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
 
 /**
- * <p>Declares the asynchronous network communication capabilities of the application.</p> 
+ * <p>Declares the asynchronous network communication capabilities of an HTTP client.</p> 
  * 
  * @version 1.1.2
  * <br><br>
