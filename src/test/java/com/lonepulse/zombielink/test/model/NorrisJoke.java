@@ -41,7 +41,6 @@ public class NorrisJoke implements Serializable {
 	private long id;
 	private String joke;
 	
-	
 	/**
 	 * <p>Accessor for id.
 	 *

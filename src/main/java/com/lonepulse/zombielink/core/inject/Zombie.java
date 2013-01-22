@@ -191,9 +191,13 @@ public class Zombie {
 					try {
 
 						endpointInterface = constructorParameters[0];
-						EndpointDirectory.INSTANCE.put(injectee, EndpointProxyFactory.newInstance().create(endpointInterface));
+						EndpointDirectory.INSTANCE.put(endpointInterface, EndpointProxyFactory.newInstance().create(endpointInterface));
 
-						return injectee.cast(constructor.newInstance(EndpointDirectory.INSTANCE.get(injectee)));
+						T instance = injectee.cast(constructor.newInstance(EndpointDirectory.INSTANCE.get(endpointInterface)));
+						
+						Zombie.infect(instance); //constructor injection complete; now perform property injection 
+						
+						return instance;
 						
 					} 
 					catch (Exception e) {
@@ -216,14 +220,16 @@ public class Zombie {
 
 		try { //constructor injection failed, attempt instantiation without injection
 			
-			T instance = injectee.newInstance();
+			StringBuilder stringBuilder = new StringBuilder()
+			.append("Incompatible contructor(s) for injection on ")
+			.append(injectee.getName())
+			.append(". Are you missing an @Bite annotation on the constructor? \n")
+			.append("Attempting property injection. ");
 			
-			StringBuilder stringBuilder = new StringBuilder();
-			
-			stringBuilder.append(injectee.getName());
-			stringBuilder.append(" instance created without constructor injection. ");
-
 			Logger.getLogger(Zombie.class.getName()).log(Level.INFO, stringBuilder.toString());
+			
+			T instance = injectee.newInstance();
+			Zombie.infect(instance);
 			
 			return instance; 
 		}

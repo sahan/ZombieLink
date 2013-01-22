@@ -84,6 +84,7 @@ public class ICNDBService {
 	/**
 	 * <p>Facilitates constructor injection. 
 	 */
+	@Bite
 	public ICNDBService(ICNDBEndpoint icndbEndpoint) {
 		
 		this.constructedICNDBEndpoint = icndbEndpoint;

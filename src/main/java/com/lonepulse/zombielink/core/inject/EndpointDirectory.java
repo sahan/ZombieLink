@@ -44,15 +44,15 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * <p>The {@link Map} of endpoint interface implementations which are maintained 
 	 * as <i>Singletons</i>. 
 	 */
-	private static Map<Class<? extends Object>, Object> ENDPOINTS 
-		= new WeakHashMap<Class<? extends Object>, Object>();
+	private static Map<Class<?>, Object> ENDPOINTS 
+		= new WeakHashMap<Class<?>, Object>();
 	
 	
 	/**
 	 * See {@link ClassDirectory#put(Class, Object)}.
 	 */
 	@Override
-	public synchronized void put(Class<? extends Object> entryKey, Object entryValue) {
+	public synchronized void put(Class<?> entryKey, Object entryValue) {
 		
 		if(!ENDPOINTS.containsKey(entryKey))
 			ENDPOINTS.put(entryKey, entryValue);
@@ -62,7 +62,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#post(Class, Object)}.
 	 */
 	@Override
-	public synchronized Object post(Class<? extends Object> entryKey, Object entryValue) {
+	public synchronized Object post(Class<?> entryKey, Object entryValue) {
 		
 		return entryKey.cast(ENDPOINTS.put(entryKey, entryValue));
 	}
@@ -71,7 +71,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#get(Class)}.
 	 */
 	@Override
-	public synchronized Object get(Class<? extends Object> entryKey) {
+	public synchronized Object get(Class<?> entryKey) {
 		
 		return entryKey.cast(ENDPOINTS.get(entryKey));
 	}
@@ -80,7 +80,7 @@ public enum EndpointDirectory implements ClassDirectory {
 	 * See {@link ClassDirectory#delete(Class)}.
 	 */
 	@Override
-	public synchronized Object delete(Class<? extends Object> entryKey) {
+	public synchronized Object delete(Class<?> entryKey) {
 		
 		return entryKey.cast(ENDPOINTS.remove(entryKey));
 	}

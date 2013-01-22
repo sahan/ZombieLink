@@ -275,7 +275,7 @@ public final class EndpointProxyFactory implements ProxyFactory {
 				parser = method.getAnnotation(Parser.class);
 			
 			else if(typeClass.isAnnotationPresent(Parser.class))
-				parser = method.getAnnotation(Parser.class);
+				parser = typeClass.getAnnotation(Parser.class);
 				
 			else
 				throw new ResponseParserUndefinedException(typeClass, method);
@@ -288,6 +288,7 @@ public final class EndpointProxyFactory implements ProxyFactory {
 					
 				case JSON:
 					parserType = JsonResponseParser.class;
+					break;
 						
 				case OBJECT:
 					parserType = ObjectResponseParser.class;

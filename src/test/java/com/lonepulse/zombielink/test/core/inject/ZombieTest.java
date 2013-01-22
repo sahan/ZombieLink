@@ -139,5 +139,11 @@ public class ZombieTest {
 	public final void testInjecteeInstantiation() {
 		
 		assertNotNull(icndbServiceInstantiated);
+		assertNotNull(icndbServiceInstantiated.getConstructedICNDBEndpoint());
+		assertNotNull(icndbServiceInstantiated.getDefaultICNDDBEndpoint());
+		assertNotNull(icndbServiceInstantiated.getForcedPrivateICNDBEndpoint());
+		assertNotNull(icndbServiceInstantiated.getPrivateICNDDBEndpoint());
+		assertNotNull(icndbServiceInstantiated.getProtectedICNDDBEndpoint());
+		assertNotNull(icndbServiceInstantiated.getPublicICNDDBEndpoint());
 	}
 }

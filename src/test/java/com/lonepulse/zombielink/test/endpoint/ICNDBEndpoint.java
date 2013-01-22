@@ -37,7 +37,7 @@ import com.lonepulse.zombielink.test.model.NorrisJoke;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Endpoint("http://api.icndb.com/jokes/")
+@Endpoint("api.icndb.com/jokes/")
 @Parser(PARSER_TYPE.JSON)
 public interface ICNDBEndpoint {
 	
