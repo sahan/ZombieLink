@@ -31,24 +31,25 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.processor.AnnotationExtractor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
+import com.lonepulse.zombielink.core.request.HttpParamBuilder;
 import com.lonepulse.zombielink.core.request.RequestMethod;
+import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>This is an implementation of {@link AbstractRequestBuilder} which handles the 
  * request creation for RESTful requests.
  * 
- * @version 1.1.1
+ * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public class RestfulRequestBuilder extends AbstractRequestBuilder {
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,21 +71,23 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		Rest restfulRequest = request.getAnnotation(Rest.class);
 		String subpath = restfulRequest.path();
 		
-		Map<Object, Param> annotatedParams 
-			= AnnotationExtractor.<Param>extractWithParameterValues(Param.class, request, config.getRequestArgs());
+		Map<Object, PathParam> annotatedParams 
+			= AnnotationExtractor.<PathParam>extractWithParameterValues(PathParam.class, request, config.getRequestArgs());
 		
 		Set<Object> methodParams = annotatedParams.keySet();
 		
 		for (Object paramValue : methodParams) {
 			
 			if(!(paramValue instanceof String))
-				throw new IllegalArgumentException("Parameters for RESTful requests can only be of type " + 
-													String.class.getName()); 
+				throw new IllegalArgumentException("Path parameters for RESTful requests can only be of type " + 
+													String.class.getName());
 
 			subpath = subpath.replaceAll(":" + annotatedParams.get(paramValue).value(), (String)paramValue);
 		}
 		
-		URI uriWithParameters = new URI(uri.toASCIIString() + subpath);
+		URI uriWithPathParameters = new URI(uri.toASCIIString() + subpath);
+		
+		HttpRequestBase httpRequestBase  = HttpParamBuilder.build(uriWithPathParameters, config);
 		
 		RequestMethod httpMethod = (restfulRequest == null)? RequestMethod.HTTP_GET :restfulRequest.method();
 		
@@ -92,35 +95,25 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		
 			case HTTP_GET: { 
 				
-				return new HttpGet(uriWithParameters);
+				return new HttpGet(httpRequestBase.getURI());
 			}
 			case HTTP_POST: { 
 				
-				return new HttpPost(uriWithParameters);
+				return new HttpPost(httpRequestBase.getURI());
 			}
 			case HTTP_PUT: { 
 				
-				return new HttpPut(uriWithParameters);
+				return new HttpPut(httpRequestBase.getURI());
 			}
 			case HTTP_DELETE: { 
 				
-				return new HttpDelete(uriWithParameters);
+				return new HttpDelete(httpRequestBase.getURI());
 			}
 			
-			default:
+			default: {
+				
 				return null;
+			}
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected HttpRequestBase buildHeader(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws Exception {
-
-		//TODO so RESTful requests, the header is built in the same "basic" way? 
-		
-		return null;
-	}
-
 }

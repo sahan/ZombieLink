@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.lonepulse.zombielink.test.core.inject;
 
 /*

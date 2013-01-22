@@ -24,6 +24,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
 
 /**
@@ -33,7 +34,7 @@ import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
  * <p>This parser uses the <a href="http://code.google.com/p/google-gson/">GSON Library</a> 
  * for converting JSON strings to their respective entity objects automatically.</p>
  * 
- * @version 1.1.1
+ * @version 1.1.2
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -47,9 +48,8 @@ public class JsonResponseParser extends AbstractResponseParser<Object> {
 	protected Object processResponse(HttpResponse httpResponse) throws Exception {
 		
 		String jsonString = EntityUtils.toString(httpResponse.getEntity());
-		return new Gson().fromJson(jsonString, getRequestReturnType());
 		
-		//TODO what about JSON arrays
+		return new Gson().fromJson(jsonString, TypeToken.get(getRequestReturnType()).getType());
 	}
 
 	/**

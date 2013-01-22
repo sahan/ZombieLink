@@ -26,7 +26,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 
 /**
@@ -37,11 +36,11 @@ import com.lonepulse.zombielink.core.request.RequestMethod;
  * 
  * <p><code>@Rest(path = "/:artist/:song")</code></p>
  * 
- * <p>The interface method parameters may then be annotated with {@link Param} and
- * the {@link Param#value()} given the same value as those in the place-holders:</p>
+ * <p>The interface method parameters may then be annotated with {@link PathParam} and
+ * the {@link PathParam#value()} given the same value as those in the place-holders:</p>
  * <p><code>
  * <pre>
- * String getLyrics(@Param(name = "artist") String artist,@Param(name = "song") String song);
+ * String getLyrics(@PathParam("artist") String artist,@PathParam("song") String song);
  * </pre>
  * </code></p>
  * 

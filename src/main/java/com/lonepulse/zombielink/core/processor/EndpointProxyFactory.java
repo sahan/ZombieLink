@@ -155,7 +155,7 @@ public final class EndpointProxyFactory implements ProxyFactory {
 					ProxyInvocationConfiguration config = configBuilder.build();
 					
 					//2.Create the request
-					final HttpRequestBase httpRequestBase = endpointComponentFactory.create(config).build(config); //TODO Check for exception!
+					final HttpRequestBase httpRequestBase = endpointComponentFactory.create(config).build(config);
 					
 					//3.Execute the HttpRequestBase either asynchronously or synchronously
 					if(endpointClass.isAnnotationPresent(Asynchronous.class)) {
@@ -200,10 +200,18 @@ public final class EndpointProxyFactory implements ProxyFactory {
 		
 			HttpResponse response = communicator.executeRequest(httpRequestBase);
 			
-			if(!(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK))
-				throw new IOException("HTTP request for " + httpRequestBase.getURI() + 
-									  " failed with status code " + response.getStatusLine().getStatusCode() + 
-									  ", " + response.getStatusLine().getReasonPhrase());
+			if(!(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)) {
+				
+				StringBuilder builder = new StringBuilder()
+				.append("HTTP request for ")
+				.append(httpRequestBase.getURI())
+				.append(" failed with status code ")
+				.append(response.getStatusLine().getStatusCode())
+				.append(", ")
+				.append(response.getStatusLine().getReasonPhrase());
+				
+				throw new IOException(builder.toString());
+			}
 			
 			return response;
 		}

@@ -77,9 +77,8 @@ public final class ProxyInvocationConfiguration {
 		 * <p>{@link ProxyInvocationConfiguration.Builder} made accessible 
 		 * for creation of {@link ProxyInvocationConfiguration} instances.</p>
 		 */
-		public Builder() {
-			//TODO consider including essential builder parameters in here
-		}
+		public Builder() {}
+		
 
 		public Builder setEndpointClass(Class<? extends Object> endpointClass) {
 			this.endpointClass = endpointClass;

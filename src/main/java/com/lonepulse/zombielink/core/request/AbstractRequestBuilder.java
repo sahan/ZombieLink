@@ -39,7 +39,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <p>This is abstract implementation declares the policy for a factory which creates an 
  * {@link HttpRequestBase} using the information in an instance of {@link ProxyInvocationConfiguration}.</p> 
  * 
- * @version 1.1.4
+ * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -110,7 +110,7 @@ public abstract class AbstractRequestBuilder {
 		Set<Map.Entry<StringBuilder, Header>> variableEntries = variableHeaderParams.entrySet();
 		
 		for (Map.Entry<StringBuilder, Header> entry : variableEntries) 
-			httpRequestBase.addHeader(entry.getValue().value(), entry.getKey().toString()); //TODO addHeader because there may be "same header name, different value" scenarios
+			httpRequestBase.addHeader(entry.getValue().value(), entry.getKey().toString());
 		
 		return httpRequestBase;
 	}
@@ -153,5 +153,4 @@ public abstract class AbstractRequestBuilder {
 	 */
 	protected abstract HttpRequestBase buildRequestWithParameters(URI uri, ProxyInvocationConfiguration config) 
 	throws Exception;
-	
 }

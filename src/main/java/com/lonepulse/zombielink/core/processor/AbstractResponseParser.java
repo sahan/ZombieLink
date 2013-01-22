@@ -85,7 +85,7 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 * <br><br> 
 	 * @since 1.1.5
 	 */
-	protected Class<?> requestReturnType = null; 
+	protected Class<? extends Object> requestReturnType = null; 
 	
 	
 	/**
@@ -95,7 +95,7 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 * <br><br>
 	 * @since 1.1.5
 	 */
-	protected Class<?> getRequestReturnType() {
+	protected Class<? extends Object> getRequestReturnType() {
 
 		return requestReturnType;
 	}
@@ -128,7 +128,7 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 * @param requestReturnType
 	 * 				the {@link Class} of the request return type
 	 */
-	private void throwIfNotAssignable(Class<?> requestReturnType) {
+	private void throwIfNotAssignable(Class<? extends Object> requestReturnType) {
 		
 		if(!getType().isAssignableFrom(requestReturnType))   
 			throw new ResponseParserNotAssignableException(getType(), requestReturnType);

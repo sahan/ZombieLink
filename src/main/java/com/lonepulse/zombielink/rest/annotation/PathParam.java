@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.annotation;
+package com.lonepulse.zombielink.rest.annotation;
 
 /*
  * #%L
@@ -26,12 +26,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>This annotation marks a RESTful path parameter. The {@link Request#path()} 
+ * <p>This annotation marks a RESTful path parameter. The {@link Rest#path()} 
  * may be marked with parameter place-holders having the format <i>:<parameter_name>
  * </i>.</p> 
  * 
  * <p>The interface method parameters may then be annotated with {@link PathParam} and 
- * the {@link PathParam#name()} given the same value as those in the place-holders.</p>
+ * the {@link PathParam#value()} given the same value as those in the place-holders.</p>
  *  
  * <b>Usage:</b>
  * <br>
@@ -39,8 +39,8 @@ import java.lang.annotation.Target;
  * <p>
  * <code>
  * <pre>
- * <br><b>@Request(path = "/:username/posts.json")</b>
- *public abstract String getFeed(<b>@Pathparam(name = "username", value = "zombie")</b> String username);
+ * <br><b>@Rest(path = "/:username/posts.json")</b>
+ *public abstract String getPosts(<b>@PathParam("username")</b> String username);
  * </pre>
  * </code>
  * </p>
@@ -58,16 +58,6 @@ public @interface PathParam {
 	 * <p>The name of the RESTful request's path parameter.</p>
 	 * 
 	 * @return the name of the request parameter
-	 * <br><br>
-	 * @since 1.1.1
-	 */
-	public String name();
-	
-	/**
-	 * <p>The value of the RESTful path parameter.</p>
-	 * 
-	 * @return a default value for the parameter (as a serialized 
-	 * 		   {@link String})
 	 * <br><br>
 	 * @since 1.1.1
 	 */

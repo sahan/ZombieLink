@@ -107,7 +107,7 @@ public class MultiThreadedHttpClient implements AsyncHttpClientContract {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T extends HttpRequestBase> void executeAsyncRequest(final T httpRequestBase, final ProxyInvocationConfiguration config) { //TODO more detailed logs
+	public <T extends HttpRequestBase> void executeAsyncRequest(final T httpRequestBase, final ProxyInvocationConfiguration config) {
 		
 		new Thread(new Runnable() {
 			
