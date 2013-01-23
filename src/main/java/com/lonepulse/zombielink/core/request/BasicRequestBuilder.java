@@ -50,6 +50,9 @@ public class BasicRequestBuilder extends AbstractRequestBuilder {
 		Method request = config.getRequest();
 		Request webRequest = request.getAnnotation(Request.class); //annotation may not exist
 		
+		if(webRequest == null)
+			throw new MissingRequestAnnotationException(request, Request.class);
+		
 		String subPath = (webRequest == null)? "" :webRequest.path();
 		URI uri =  config.getUri();
 		URIBuilder uriBuilder = new URIBuilder(uri);

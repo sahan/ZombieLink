@@ -34,7 +34,7 @@ import com.lonepulse.zombielink.test.endpoint.ICNDBEndpoint;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ICNDBResponse implements Serializable {
+public class ICNDBResponseArray implements Serializable {
 
 
 	private static final long serialVersionUID = -1575987881009903297L;
@@ -46,9 +46,9 @@ public class ICNDBResponse implements Serializable {
 	private String type;
 	
 	/**
-	 * <p>The {@link NorrisJoke} which was requested. 
+	 * <p>The list of {@link NorrisJoke}s which were requested. 
 	 */
-	private NorrisJoke value;
+	private List<NorrisJoke> value;
 	
 	/**
 	 * <p>The categories, such as <b>nerdy</b> and <b>explicit</b>, to which 
@@ -81,7 +81,7 @@ public class ICNDBResponse implements Serializable {
 	 *
 	 * @return the value
 	 */
-	public NorrisJoke getValue() {
+	public List<NorrisJoke> getValue() {
 		return value;
 	}
 
@@ -91,7 +91,7 @@ public class ICNDBResponse implements Serializable {
 	 * @param value 
 	 *			the value to set
 	 */
-	public void setValue(NorrisJoke value) {
+	public void setValue(List<NorrisJoke> value) {
 		this.value = value;
 	}
 
@@ -122,7 +122,7 @@ public class ICNDBResponse implements Serializable {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("ICNDBResponse [type=");
+		builder.append("ICNDBResponseArray [type=");
 		builder.append(type);
 		builder.append(", value=");
 		builder.append(value);

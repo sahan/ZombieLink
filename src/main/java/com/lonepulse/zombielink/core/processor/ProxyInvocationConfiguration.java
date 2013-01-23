@@ -22,7 +22,6 @@ package com.lonepulse.zombielink.core.processor;
 
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.util.Arrays;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 
@@ -116,26 +115,6 @@ public final class ProxyInvocationConfiguration {
 			
 			return new ProxyInvocationConfiguration(this);
 		}
-
-		@Override
-		public String toString() {
-			
-			StringBuilder builder = new StringBuilder();
-			
-			builder.append("Builder [endpointClass=");
-			builder.append(endpointClass);
-			builder.append(", uri=");
-			builder.append(uri);
-			builder.append(", proxy=");
-			builder.append(proxy);
-			builder.append(", request=");
-			builder.append(request);
-			builder.append(", requestArgs=");
-			builder.append(Arrays.toString(requestArgs));
-			builder.append("]");
-			
-			return builder.toString();
-		}
 	}
 	
 	
@@ -196,25 +175,5 @@ public final class ProxyInvocationConfiguration {
 
 	public Object[] getRequestArgs() {
 		return requestArgs;
-	}
-
-	@Override
-	public String toString() {
-		
-		StringBuilder builder2 = new StringBuilder();
-		
-		builder2.append("ProxyInvocationConfiguration [endpointClass=");
-		builder2.append(endpointClass);
-		builder2.append(", uri=");
-		builder2.append(uri);
-		builder2.append(", proxy=");
-		builder2.append(proxy);
-		builder2.append(", request=");
-		builder2.append(request);
-		builder2.append(", requestArgs=");
-		builder2.append(Arrays.toString(requestArgs));
-		builder2.append("]");
-		
-		return builder2.toString();
 	}
 }

@@ -45,7 +45,7 @@ public class BasicEndpointValidator implements EndpointValidator {
 		try {
 			
 			if(!endpointInterface.isAnnotationPresent(Endpoint.class))
-				throw new EndpointMissingAnnotationException(endpointInterface, Endpoint.class);
+				throw new MissingEndpointAnnotationException(endpointInterface, Endpoint.class);
 			
 			String scheme = endpointInterface.getAnnotation(Endpoint.class).scheme();
 			String host = endpointInterface.getAnnotation(Endpoint.class).value();

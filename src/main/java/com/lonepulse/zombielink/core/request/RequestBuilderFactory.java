@@ -77,8 +77,7 @@ public final class RequestBuilderFactory implements EndpointComponentFactory<Abs
 		
 		Method request = proxyInvocationConfiguration.getRequest();
 		
-		return
-				(request.isAnnotationPresent(Request.class))? new BasicRequestBuilder():
-				(request.isAnnotationPresent(Rest.class))? new RestfulRequestBuilder(): null;
+		return (request.isAnnotationPresent(Request.class))? new BasicRequestBuilder():
+			   		((request.isAnnotationPresent(Rest.class))? new RestfulRequestBuilder(): null);
 	}
 }

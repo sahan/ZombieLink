@@ -35,6 +35,7 @@ import com.lonepulse.zombielink.core.processor.AnnotationExtractor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
 import com.lonepulse.zombielink.core.request.HttpParamBuilder;
+import com.lonepulse.zombielink.core.request.MissingRequestAnnotationException;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
@@ -67,8 +68,11 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 	throws Exception {
 		
 		Method request = config.getRequest();
-		
 		Rest restfulRequest = request.getAnnotation(Rest.class);
+		
+		if(restfulRequest == null)
+			throw new MissingRequestAnnotationException(request, Rest.class);
+		
 		String subpath = restfulRequest.path();
 		
 		Map<Object, PathParam> annotatedParams 
@@ -89,7 +93,7 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		
 		HttpRequestBase httpRequestBase  = HttpParamBuilder.build(uriWithPathParameters, config);
 		
-		RequestMethod httpMethod = (restfulRequest == null)? RequestMethod.HTTP_GET :restfulRequest.method();
+		RequestMethod httpMethod = restfulRequest.method();
 		
 		switch (httpMethod) {
 		

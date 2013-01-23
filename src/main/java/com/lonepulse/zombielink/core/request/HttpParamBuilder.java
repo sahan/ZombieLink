@@ -48,6 +48,7 @@ import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.AnnotationExtractor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>Responsible for populating the parameters for an {@link HttpRequest} depending 
@@ -83,13 +84,19 @@ public final class HttpParamBuilder {
 	public static HttpRequestBase build(URI uri, ProxyInvocationConfiguration config) {
 	
 		Method request = config.getRequest();
-		Request webRequest = request.getAnnotation(Request.class); //annotation may not exist
 		
-		Map<Object, Param> argParams = AnnotationExtractor.<Param>extractWithParameterValues(Param.class, request, config.getRequestArgs());
-		List<Request.Param> methodParams = Arrays.asList(webRequest.params());
+		Request webRequest = request.getAnnotation(Request.class);
+		Rest restfulRequest = request.getAnnotation(Rest.class);
 		
-		RequestMethod httpMethod = (webRequest == null)? RequestMethod.HTTP_GET :webRequest.method();
-
+		Request.Param[] requestParams 
+			= (webRequest != null)? webRequest.params() :restfulRequest.params();
+		
+		List<Request.Param> methodParams = Arrays.asList(requestParams);
+		
+		Map<Object, Param> argParams 
+			= AnnotationExtractor.<Param>extractWithParameterValues(Param.class, request, config.getRequestArgs());
+		
+		RequestMethod httpMethod = (webRequest != null)? webRequest.method() :restfulRequest.method();
 		URIBuilder uriBuilder = new URIBuilder(uri);
 		
 		try {

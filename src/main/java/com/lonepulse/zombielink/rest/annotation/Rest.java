@@ -26,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
+import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 
 /**
@@ -46,7 +47,7 @@ import com.lonepulse.zombielink.core.request.RequestMethod;
  * 
  * <p><b>Parameter values that never change could be coded into the path itself.</b></p>  
  * 
- * @version 1.1.1
+ * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -76,4 +77,14 @@ public @interface Rest {
 	 * @since 1.1.2
 	 */
 	public String path() default "";
+	
+	/**
+	 * <p>An array of {@link Request.Param}s which indicate parameters that 
+	 * never change for a particular RESTful request.
+	 * 
+	 * @return an array of {@link Request.Param}s for this particular request
+	 * <br><br>
+	 * @since 1.2.0
+	 */
+	public Request.Param[] params() default {};
 }

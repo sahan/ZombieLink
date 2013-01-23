@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.request;
 
 /*
  * #%L
@@ -20,41 +20,51 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
+import java.lang.reflect.Method;
+
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
  * <p>This runtime exception is thrown when a required annotation is missing from 
- * the designated endpoint interface.</p>
+ * a request method on the endpoint interface.</p>
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class EndpointMissingAnnotationException extends ZombieLinkRuntimeException {
+public class MissingRequestAnnotationException extends ZombieLinkRuntimeException {
 
 	
-	private static final long serialVersionUID = 4087362624687849076L;
+	private static final long serialVersionUID = -5554974798638106181L;
 
-	
+
 	/**
-	 * <p>Displays a detailed description along with the stacktrace. 
+	 * <p>Displays a detailed description along with the stacktrace.
+	 * 
+	 * @param requestMethod
+	 * 			the request {@link Method} which is missing an annotation
+	 * 
+	 * @param missingAnnotation
+	 * 			the annotation which is missing
+	 * 
+	 * @since 1.1.0
 	 */
-	public EndpointMissingAnnotationException(Class<?> endpointInterface, Class<?> missingAnnotation) {
+	public MissingRequestAnnotationException(Method requestMethod, Class<?> missingAnnotation) {
 		
-		this("Missing annotation " + missingAnnotation.getName() + " on endpoint " + 
-			  endpointInterface.getName());
+		this("Missing annotation " + missingAnnotation.getName() + " on request method " + 
+			  requestMethod.getName());
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public EndpointMissingAnnotationException() {
+	public MissingRequestAnnotationException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public EndpointMissingAnnotationException(String detailMessage) {
+	public MissingRequestAnnotationException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -62,7 +72,7 @@ public class EndpointMissingAnnotationException extends ZombieLinkRuntimeExcepti
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public EndpointMissingAnnotationException(Throwable throwable) {
+	public MissingRequestAnnotationException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -70,7 +80,7 @@ public class EndpointMissingAnnotationException extends ZombieLinkRuntimeExcepti
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public EndpointMissingAnnotationException(String detailMessage, Throwable throwable) {
+	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

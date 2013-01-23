@@ -26,7 +26,10 @@ import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.rest.annotation.PathParam;
+import com.lonepulse.zombielink.rest.annotation.Rest;
 import com.lonepulse.zombielink.test.model.ICNDBResponse;
+import com.lonepulse.zombielink.test.model.ICNDBResponseArray;
 import com.lonepulse.zombielink.test.model.NorrisJoke;
 
 /**
@@ -52,6 +55,19 @@ public interface ICNDBEndpoint {
 	public ICNDBResponse random();
 	
 	/**
+	 * <p>Retrieves mutiple random {@link NorrisJoke}s.
+	 * 
+	 * @param amount
+	 * 			the number of {@link NorrisJoke}s to retrieve
+	 * 
+	 * @return multile {@link NorrisJoke}s.
+	 * 
+	 * @since 1.0.0
+	 */
+	@Rest(path = "/random/:amount")
+	public ICNDBResponseArray random(@PathParam("amount") String amount);
+	
+	/**
 	 * <p>Retrieves a random {@link NorrisJoke} with the name 
 	 * <i>Chuck Norris</i> replaced by the given parameters.
 	 * 
@@ -68,4 +84,23 @@ public interface ICNDBEndpoint {
 	@Request(path = "/random")
 	public ICNDBResponse random(@Param("firstName") String firstName, 
 								@Param("lastName") String lastName);
+	
+	/**
+	 * <p>Retrieves a random {@link NorrisJoke} with the name 
+	 * <i>John Doe</i>.
+	 * 
+	 * @param firstName
+	 * 			the name to replace <i>Chuck</i>
+	 * 
+	 * @param lastName
+	 * 			the name to replace <i>Norris</i>
+	 * 
+	 * @return a random {@link NorrisJoke}
+	 * 
+	 * @since 1.0.0
+	 */
+	@Request(path = "/random", params = {@Request.Param(name = "firstName", value = "John"), 
+										 @Request.Param(name = "lastName", value = "Doe")})
+	public ICNDBResponse randomJohnDoeJoke();
+	
 }
