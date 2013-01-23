@@ -102,8 +102,8 @@
 	</dependencies>
 	
 	<scm>
-	    <connection>scm:git:ssh://github.com/sahan/ZombieLink.git</connection>
-		<developerConnection>scm:git:ssh://github.com/sahan/ZombieLink.git</developerConnection>
+	    <connection>scm:git:git@github.com:sahan/ZombieLink.git</connection>
+		<developerConnection>scm:git:git@github.com:sahan/ZombieLink.git</developerConnection>
 	    <url>http://github.com/sahan/ZombieLink</url>
 	</scm>
 	
