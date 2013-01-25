@@ -18,7 +18,7 @@ runtime.
 <br/>
 
 ##Wiki
-Coding with ZombieLink is a breeze. It's follows a simple annotation based coding style 
+Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
 and adheres to a *minimal intrusion* policy.   
 
 
@@ -30,7 +30,9 @@ and adheres to a *minimal intrusion* policy.
 
 4. [Working With Response Parsers](https://github.com/sahan/ZombieLink/wiki/Working-With-Response-Parsers)
 
-5. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
+5. [Injecting Endpoint Proxies](https://github.com/sahan/ZombieLink/wiki/Injecting-Endpoint-Proxies)
+
+6. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
 <br/>
 
 ##License
