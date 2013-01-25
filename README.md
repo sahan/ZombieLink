@@ -18,7 +18,7 @@ runtime.
 <br/>
 
 ##Wiki
-Coding with ZombieLink is a breeze. It's follows a simple annotation based coding style 
+Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
 and adheres to a *minimal intrusion* policy.   
 
 
