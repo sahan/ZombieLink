@@ -37,8 +37,13 @@ import com.lonepulse.zombielink.core.processor.EndpointProxyFactory;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class Zombie {
+public final class Zombie {
 	
+	
+	/**
+	 * <p>Constructor visibility restricted. Instantiation is nonsensical. 
+	 */
+	private Zombie() {}
 	
 	/**
 	 * <p>Takes an object and scans it for {@link Bite} annotations. If found, 
