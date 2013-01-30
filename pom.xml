@@ -107,6 +107,11 @@
 	    <url>https://github.com/sahan/ZombieLink</url>
 	</scm>
 	
+	<issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/sahan/ZombieLink/issues</url>
+    </issueManagement>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
