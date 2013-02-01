@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.test.core.inject;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.lonepulse.zombielink.core.inject.Zombie;
@@ -45,12 +45,12 @@ public class ZombieTest {
 	/**
 	 * <p>A typical {@link ICNDBEndpoint} instance.
 	 */
-	private ICNDBService icndbService;
+	private static ICNDBService icndbService;
 	
 	/**
 	 * <p>An {@link ICNDBEndpoint} instance instantiated via the {@link Zombie}. 
 	 */
-	private ICNDBService icndbServiceInstantiated;
+	private static ICNDBService icndbServiceInstantiated;
 	
 	
 	/**
@@ -60,8 +60,8 @@ public class ZombieTest {
 	 * @throws java.lang.Exception
 	 * 			if the setup failed
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 
 		//perform property and setter injection
 		icndbService = new ICNDBService();

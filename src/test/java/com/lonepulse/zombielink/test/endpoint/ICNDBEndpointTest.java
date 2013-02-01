@@ -24,7 +24,7 @@ package com.lonepulse.zombielink.test.endpoint;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
@@ -55,7 +55,7 @@ public class ICNDBEndpointTest {
 	/**
 	 * <p>A typical {@link ICNDBEndpoint} instance.
 	 */
-	private ICNDBEndpoint icndbEndpoint;
+	private static ICNDBEndpoint icndbEndpoint;
 	
 	
 	/**
@@ -65,8 +65,8 @@ public class ICNDBEndpointTest {
 	 * @throws java.lang.Exception
 	 * 			if the endpoint injection failed
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		
 		icndbEndpoint = Zombie.infect(ICNDBService.class).getConstructedICNDBEndpoint();
 	}
