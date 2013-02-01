@@ -1,8 +1,7 @@
 ![ZombieLink](http://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ZombieLink_Banner.png/1024px-ZombieLink_Banner.png)
 
-> <p><b>ZombieLink</b> /zŏm'bē'lĭngk/ <em>noun.</em> <b>1</b> A lightweight HTTP facade 
-which simplifies network communication. <b>2</b> An endpoint proxy generator for web services.</p>   
-	
+> **ZombieLink** /zŏm'bē'lĭngk/ <em>noun.</em> **1** A lightweight HTTP facade 
+which simplifies network communication. **2** An endpoint proxy generator for web services. 
 [![Build Status](https://travis-ci.org/sahan/ZombieLink.png?branch=master)](https://travis-ci.org/sahan/ZombieLink)
 
 <br/>
