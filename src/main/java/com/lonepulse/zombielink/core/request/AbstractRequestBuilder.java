@@ -21,29 +21,22 @@ package com.lonepulse.zombielink.core.request;
  */
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 
-import com.lonepulse.zombielink.core.annotation.Header;
-import com.lonepulse.zombielink.core.annotation.HeaderSet;
-import com.lonepulse.zombielink.core.processor.AnnotationExtractor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.core.request.header.HeaderBuilders;
 
 /**
- * <p>This is abstract implementation declares the policy for a factory which creates an 
- * {@link HttpRequestBase} using the information in an instance of {@link ProxyInvocationConfiguration}.</p> 
+ * <p>This is abstract implementation of {@link RequestBuilder} which implements the policy for a factory 
+ * creating a {@link HttpRequestBase}s using the information in an instance of {@link ProxyInvocationConfiguration}.</p> 
  * 
  * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class AbstractRequestBuilder {
+public abstract class AbstractRequestBuilder implements RequestBuilder {
 
 
 	/**
@@ -60,6 +53,7 @@ public abstract class AbstractRequestBuilder {
 	 * <br><br>
 	 * @since 1.1.2
 	 */
+	@Override
 	public final HttpRequestBase build(ProxyInvocationConfiguration config) {
 		
 		try {
@@ -79,40 +73,14 @@ public abstract class AbstractRequestBuilder {
 	}
 	
 	/**
-	 * <p>Populates the created {@link HttpRequestBase} with any headers.</p> 
+	 * <p>Creates all HTTP headers using a builder defined in {@link HeaderBuilders}.
 	 * 
-	 * @param httpRequestBase
-	 * 			the {@link HttpRequestBase} which is created by this instance of {@link AbstractRequestBuilder}
-	 * 
-	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} which supplies the parameters
-	 * <br><br>
-	 * @return the {@link HttpRequestBase} with the headers populated
-	 * <br><br>
-	 * @throws Exception
-	 * 			a generic exception is thrown in case operation failed
-	 * <br><br>
 	 * @since 1.1.3
 	 */
 	protected HttpRequestBase buildHeader(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)
 	throws Exception {
 		
-		HeaderSet headerSet = config.getRequest().getAnnotation(HeaderSet.class);
-		
-		List<HeaderSet.Header> staticHeaderParams = (headerSet == null)? new ArrayList<HeaderSet.Header>()
-				:Arrays.asList(headerSet.value());
-		
-		Map<StringBuilder, Header> variableHeaderParams = AnnotationExtractor.extractHeaders(config.getRequest(), config.getRequestArgs());
-		
-		for (HeaderSet.Header param : staticHeaderParams)
-			httpRequestBase.setHeader(param.name(), param.value());
-		
-		Set<Map.Entry<StringBuilder, Header>> variableEntries = variableHeaderParams.entrySet();
-		
-		for (Map.Entry<StringBuilder, Header> entry : variableEntries) 
-			httpRequestBase.addHeader(entry.getValue().value(), entry.getKey().toString());
-		
-		return httpRequestBase;
+		return HeaderBuilders.BASIC.build(httpRequestBase, config);
 	}
 	
 	/**

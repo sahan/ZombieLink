@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L

@@ -1,13 +1,11 @@
 /**
- * <p>Contains the set of classes which create HTTP responses of any <i>method 
- * type</i> using the annotated meta-data. Use {@link com.lonepulse.zombielink.core.request.RequestBuilders} 
- * to access all available request builders.</p>
+ * <p>Contains the set of utility classes for ZombieLink.</p>
  * 
- * @since 1.1.1
+ * @since 1.2.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.util;
 
 /*
  * #%L

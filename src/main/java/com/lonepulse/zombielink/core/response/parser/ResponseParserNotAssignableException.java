@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -20,34 +20,42 @@ package com.lonepulse.zombielink.core.response;
  * #L%
  */
 
-import org.apache.http.HttpResponse;
-
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
+import com.lonepulse.zombielink.core.annotation.Parser;
+import com.lonepulse.zombielink.core.annotation.Request;
 
 /**
- * <p>This runtime exception is thrown whenever there is a failure in parsing 
- * the content of an {@link HttpResponse} to the desired entity.
+ * <p>This runtime exception is thrown when the return type of a {@link Request} method 
+ * cannot be assigned to the designated {@link Parser}'s return type. 
  * 
  * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ResponseParserExecutionException extends ZombieLinkRuntimeException {
+class ResponseParserNotAssignableException extends ResponseParserException {
+
+
+	private static final long serialVersionUID = -2526887708389941964L;
 
 	
-	private static final long serialVersionUID = 8193182870145739105L;
-
+	/**
+	 * <p>Displays a detailed description along with the stacktrace.
+	 */
+	public ResponseParserNotAssignableException(Class<?> parserReturnType, Class<?> requestReturnType) {
+		
+		this("Cannot assign the parser's response of type " + parserReturnType.getName() + 
+			  " to an instance of the request return type " + requestReturnType.getName());
+	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public ResponseParserExecutionException() {
+	public ResponseParserNotAssignableException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public ResponseParserExecutionException(String detailMessage) {
+	public ResponseParserNotAssignableException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -55,7 +63,7 @@ public class ResponseParserExecutionException extends ZombieLinkRuntimeException
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public ResponseParserExecutionException(Throwable throwable) {
+	public ResponseParserNotAssignableException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -63,7 +71,7 @@ public class ResponseParserExecutionException extends ZombieLinkRuntimeException
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public ResponseParserExecutionException(String detailMessage, Throwable throwable) {
+	public ResponseParserNotAssignableException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

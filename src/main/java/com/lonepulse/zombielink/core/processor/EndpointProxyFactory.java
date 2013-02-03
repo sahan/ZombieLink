@@ -20,118 +20,39 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.core.AsyncHttpClientContract;
-import com.lonepulse.zombielink.core.BasicHttpClient;
-import com.lonepulse.zombielink.core.HttpClientContract;
-import com.lonepulse.zombielink.core.MultiThreadedHttpClient;
-import com.lonepulse.zombielink.core.ZombieLinkIllegalAccessException;
-import com.lonepulse.zombielink.core.ZombieLinkInstantiationException;
-import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
-import com.lonepulse.zombielink.core.annotation.Parser;
-import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
-import com.lonepulse.zombielink.core.request.EndpointComponentFactory;
-import com.lonepulse.zombielink.core.request.RequestBuilderFactory;
-import com.lonepulse.zombielink.core.response.AsyncHandler;
-import com.lonepulse.zombielink.core.response.ObjectResponseParser;
-import com.lonepulse.zombielink.core.response.ResponseParser;
-import com.lonepulse.zombielink.core.response.ResponseParserUndefinedException;
-import com.lonepulse.zombielink.core.response.StringResponseParser;
-import com.lonepulse.zombielink.rest.response.JsonResponseParser;
+import com.lonepulse.zombielink.core.processor.executor.RequestExecutors;
+import com.lonepulse.zombielink.core.processor.validator.Validators;
+import com.lonepulse.zombielink.core.request.RequestBuilders;
+import com.lonepulse.zombielink.core.response.parser.ResponseParsers;
 
 /**
  * <p>This factory is used for creating dynamic proxies for communication 
  * endpoint interfaces that are annotated with {@link Endpoint}.</p>
  * 
- * @version 1.2.1 - Asynchronous Execution was handled 
+ * @version 2.1.2
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public final class EndpointProxyFactory implements ProxyFactory {
-
-
-	/**
-	 * <p>The instance of {@link EndpointValidator} which is used to validate 
-	 * the endpoint interface.
-	 */
-	private EndpointValidator endpointValidator;
+public enum EndpointProxyFactory implements ProxyFactory {
 	
 	/**
-	 * <p>The instance of a {@link EndpointComponentFactory} which creates 
-	 * {@link AbstractRequestBuilder}s.
-	 */
-	private EndpointComponentFactory<AbstractRequestBuilder> endpointComponentFactory;
-	
-	/**
-	 * <p>This is the instance of {@link HttpClientContract} which is used to the 
-	 * perform the network IO. By default a {@link BasicHttpClient} is used.   
-	 */
-	private final AsyncHttpClientContract communicator;
-	
-
-	{ 
-		endpointValidator = new BasicEndpointValidator();
-		endpointComponentFactory = RequestBuilderFactory.newInstance();
-	}
-	
-	
-	/**
-	 * <p>Default constructor overridden to provided an implementation 
-	 * of {@link AsyncHttpClientContract}. 
-	 */
-	public EndpointProxyFactory() {
-	
-		this.communicator = new MultiThreadedHttpClient();
-	}
-	
-	/**
-	 * <p>Parameterized constructor to provide an implementation of 
-	 * {@link HttpClientContract}.
-	 */
-	private EndpointProxyFactory(AsyncHttpClientContract communicator) {
-		
-		this.communicator = communicator;
-	}
-	
-	/**
-	 * <p>Configures a new instance of this factory using the default 
-	 * {@link BasicHttpClient}.
+	 * <p>The single instance of the factory which caters to all endpoint 
+	 * injection requirements by creating endpoint proxies.
 	 * 
-	 * @return an instance of {@link EndpointProxyFactory} configured 
-	 * 		   with defaults
-	 * <br><br>
-     * @since 1.1.5
+	 * @since 2.1.2
 	 */
-	public static ProxyFactory newInstance() {
+	INSTANCE;
 
-		return EndpointProxyFactory.newInstance(new MultiThreadedHttpClient());
-	}
-	
-	/**
-	 * <p>Configures a new instance of this factory using the provided instance of {@link HttpClientContract}.
-	 * 
-	 * @param communicator
-	 * 			the {@link HttpClientContract} which is used for request execution
-	 * <br><br>
-	 * @return an instance of {@link EndpointProxyFactory} configured with defaults
-	 * <br><br> 
-     * @since 1.1.5
-	 */
-	public static ProxyFactory newInstance(AsyncHttpClientContract communicator) {
 
-		return new EndpointProxyFactory(communicator);
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -140,39 +61,42 @@ public final class EndpointProxyFactory implements ProxyFactory {
 
 		try {
 		
-			//1.Validate the endpoint interface
-			final URI uri = endpointValidator.validate(endpointClass);
+			final ProxyInvocationConfiguration.Builder builder = new  ProxyInvocationConfiguration.Builder()
+			.setEndpointClass(endpointClass);
 			
-			@SuppressWarnings("unchecked")
-			T endpointProxy = (T)Proxy.newProxyInstance(endpointClass.getClassLoader(), new  Class<?>[] {endpointClass} , new InvocationHandler() {
+			//1.Validate the endpoint interface and create the URI
+			final URI uri = (URI) Validators.ENDPOINT.validate(builder.build());
+			
+			T endpointProxy = endpointClass.cast(Proxy.newProxyInstance(endpointClass.getClassLoader(), 
+												 new  Class<?>[] {endpointClass} , 
+												 new InvocationHandler() {
 				
 				@Override
 				public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 					
-					//1.Construct the ProxyInvocationConfiguration
-					ProxyInvocationConfiguration.Builder configBuilder = new  ProxyInvocationConfiguration.Builder();
-					configBuilder.setEndpointClass(endpointClass).setUri(uri).setProxy(proxy).setRequest(method).setRequestArgs(args);
-					ProxyInvocationConfiguration config = configBuilder.build();
+					//2.Continue to construct the ProxyInvocationConfiguration
+					ProxyInvocationConfiguration config = builder
+					.setEndpointClass(endpointClass)
+					.setUri(uri)
+					.setProxy(proxy)
+					.setRequest(method)
+					.setRequestArgs(args)
+					.build();
 					
-					//2.Create the request
-					final HttpRequestBase httpRequestBase = endpointComponentFactory.create(config).build(config);
+					//3.Create the request
+					HttpRequestBase httpRequestBase 
+						= RequestBuilders.RESOLVER.resolve(config).build(config);
 					
-					//3.Execute the HttpRequestBase either asynchronously or synchronously
-					if(endpointClass.isAnnotationPresent(Asynchronous.class)) {
-						
-						executeAsyncRequest(httpRequestBase, config);
-						
-						return null; //asynchronous requests are not expected to return synchronously (or return Void.class.newInstance())
-					}
-					else {
-						 
-						HttpResponse httpResponse = executeRequest(httpRequestBase);
+					//4.Execute the HttpRequestBase either asynchronously or synchronously
+					HttpResponse httpResponse 
+						= RequestExecutors.RESOLVER.resolve(config).execute(httpRequestBase, config);
 
-						//4.Parse the received HttpResponse and return the entity
-						return parseResponse(httpResponse, config);
-					}
+					if(httpResponse == null) return null; //request is asynchronous 
+						
+					//5.Parse the received HttpResponse and return the entity
+					return ResponseParsers.RESOLVER.resolve(config).parse(httpResponse, config);
 				}
-			});
+			}));
 			
 			return endpointProxy;
 		}
@@ -180,139 +104,5 @@ public final class EndpointProxyFactory implements ProxyFactory {
 			
 			throw new ProxyFactoryException(getClass(), e);
 		}
-	}
-	
-	/**
-	 * <p>Executes the {@link HttpRequestBase} and return the result as the type specified 
-	 * by the {@link InvocationHandler#invoke(Object, Method, Object[])}'s generic objects 
-	 * {@link Class} type.</p> 
-	 * 
-	 * @param httpRequestBase
-	 * 				the instance of {@link HttpRequestBase} to execute
-	 * <br><br>
-	 * @return the {@link HttpResponse} which was received as a result of the execution.
-	 * <br><br>
-	 * @since 1.1.1
-	 */
-	private HttpResponse executeRequest(HttpRequestBase httpRequestBase) {
-
-		try {
-		
-			HttpResponse response = communicator.executeRequest(httpRequestBase);
-			
-			if(!(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)) {
-				
-				StringBuilder builder = new StringBuilder()
-				.append("HTTP request for ")
-				.append(httpRequestBase.getURI())
-				.append(" failed with status code ")
-				.append(response.getStatusLine().getStatusCode())
-				.append(", ")
-				.append(response.getStatusLine().getReasonPhrase());
-				
-				throw new IOException(builder.toString());
-			}
-			
-			return response;
-		}
-		catch(Exception e) {
-			
-			throw new ProxyFactoryException(getClass(), e);
-		}
-	}
-	
-	/**
-	 * <p>Takes an {@link HttpRequestBase} and executes it <i>asynchronously<i> using 
-	 * an {@link AsyncHttpClientContract}. If no {@link AsyncHandler} is found in the supplied 
-	 * {@link ProxyInvocationConfiguration#getRequestArgs()}, then it is assumed that 
-	 * response handling is not required.</p>
-	 * 
-	 * @param httpRequestBase
-	 * 			the {@link HttpRequestBase} which is to be executed asynchronously
-	 * 
-	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} of the current request
-	 * <br><br>
-	 * @since 1.2.1
-	 */
-	private void executeAsyncRequest(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) {
-		
-		communicator.executeAsyncRequest(httpRequestBase, config);
-	}
-	
-	/**
-	 * <p>Takes the {@link HttpResponse} received from request execution and 
-	 * returns the parsed response as an instance of the type defined on the 
-	 * request method.</p>
-	 * 
-	 * @param httpResponse
-	 * 				the {@link HttpResponse} whose content needs to be parsed
-	 * 
-	 * @param config
-	 * 				the {@link ProxyInvocationConfiguration} which supplies the parser any parameters
-	 * <br><br>
-	 * @return the parsed response as an instance of the user desired type
-	 * <br><br>
-	 * @throws ZombieLinkInstantiationException
-	 * 			if the {@link ResponseParser} cannot be instantiated
-	 * <br><br>
-	 * @throws ZombieLinkIllegalAccessException
-	 * 			if the {@link ResponseParser} cannot be instantiated
-	 * <br><br>
-	 * @since 1.1.2
-	 */
-	private Object parseResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
-
-		Class<?> typeClass = config.getEndpointClass();
-		Method method = config.getRequest();
-		
-		if(!method.getReturnType().equals(Void.class)) { //i.e. a response is expected
-	
-			Parser parser = null;	
-			Class<? extends ResponseParser<?>> parserType = null;
-			
-			if(method.isAnnotationPresent(Parser.class)) //check parser definition at method level first
-				parser = method.getAnnotation(Parser.class);
-			
-			else if(typeClass.isAnnotationPresent(Parser.class))
-				parser = typeClass.getAnnotation(Parser.class);
-				
-			else
-				throw new ResponseParserUndefinedException(typeClass, method);
-			
-			switch (parser.value()) {
-			
-				case STRING:
-					parserType = StringResponseParser.class;
-					break;
-					
-				case JSON:
-					parserType = JsonResponseParser.class;
-					break;
-						
-				case OBJECT:
-					parserType = ObjectResponseParser.class;
-					break;
-						
-				case UNDEFINED:
-					parserType = parser.typeClass();
-			}
-	
-			try {
-					
-				ResponseParser<?> responseParser = parserType.newInstance();
-				return responseParser.parse(httpResponse, config);
-			} 
-			catch (InstantiationException ie) {
-
-				throw new ZombieLinkInstantiationException(parserType, ie);
-			} 
-			catch (IllegalAccessException iae) {
-
-				throw new ZombieLinkIllegalAccessException(parserType, iae);
-			}
-		}
-			
-		return null;
 	}
 }

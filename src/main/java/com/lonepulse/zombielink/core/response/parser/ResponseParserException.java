@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -20,49 +20,34 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
-import java.lang.reflect.Method;
+import org.apache.http.HttpResponse;
+
+import com.lonepulse.zombielink.core.response.ResponseHandlerException;
 
 /**
- * <p>This runtime exception is thrown when a required annotation is missing from 
- * a request method on the endpoint interface.</p>
+ * <p>This runtime exception is thrown whenever there is a failure in parsing 
+ * the content of an {@link HttpResponse} to the desired entity.
  * 
- * @version 1.1.0
+ * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class MissingRequestAnnotationException extends RequestBuilderException {
+class ResponseParserException extends ResponseHandlerException {
 
 	
-	private static final long serialVersionUID = -5554974798638106181L;
+	private static final long serialVersionUID = 8193182870145739105L;
 
-
-	/**
-	 * <p>Displays a detailed description along with the stacktrace.
-	 * 
-	 * @param requestMethod
-	 * 			the request {@link Method} which is missing an annotation
-	 * 
-	 * @param missingAnnotation
-	 * 			the annotation which is missing
-	 * 
-	 * @since 1.1.0
-	 */
-	public MissingRequestAnnotationException(Method requestMethod, Class<?> missingAnnotation) {
-		
-		this("Missing annotation " + missingAnnotation.getName() + " on request method " + 
-			  requestMethod.getName());
-	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public MissingRequestAnnotationException() {
+	public ResponseParserException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage) {
+	public ResponseParserException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -70,7 +55,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public MissingRequestAnnotationException(Throwable throwable) {
+	public ResponseParserException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -78,7 +63,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
+	public ResponseParserException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

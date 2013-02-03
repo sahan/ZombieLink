@@ -79,10 +79,10 @@ public @interface Rest {
 	public String path() default "";
 	
 	/**
-	 * <p>An array of {@link Request.Param}s which indicate parameters that 
+	 * <p>An array of {@link Request} Params which indicate parameters that 
 	 * never change for a particular RESTful request.
 	 * 
-	 * @return an array of {@link Request.Param}s for this particular request
+	 * @return an array of {@link Request} Params for this particular request
 	 * <br><br>
 	 * @since 1.2.0
 	 */

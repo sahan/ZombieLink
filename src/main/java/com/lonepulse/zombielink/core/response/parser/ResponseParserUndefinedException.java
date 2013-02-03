@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -22,7 +22,6 @@ package com.lonepulse.zombielink.core.response;
 
 import java.lang.reflect.Method;
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Request;
@@ -36,7 +35,7 @@ import com.lonepulse.zombielink.core.annotation.Request;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ResponseParserUndefinedException extends ZombieLinkRuntimeException {
+class ResponseParserUndefinedException extends ResponseParserException {
 
 	
 	private static final long serialVersionUID = -7605261918947538557L;

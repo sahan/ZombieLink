@@ -103,10 +103,8 @@ public final class Zombie {
 					
 					endpointInterface = field.getType();
 					
-					EndpointDirectory.INSTANCE.put(endpointInterface,
-							   EndpointProxyFactory.newInstance().create(endpointInterface));
-					
-					Object proxyInstance = EndpointDirectory.INSTANCE.get(endpointInterface);
+					Object proxyInstance = EndpointDirectory.INSTANCE.put(endpointInterface,
+										   		EndpointProxyFactory.INSTANCE.create(endpointInterface));
 					
 					try { //1.Simple Property Injection 
 						
@@ -132,15 +130,14 @@ public final class Zombie {
 			} 
 			catch (Exception e) {
 				
-				StringBuilder stringBuilder = new StringBuilder();
-				
-				stringBuilder.append("Failed to inject the endpoint proxy instance of type ");
-				stringBuilder.append(endpointInterface.getName());
-				stringBuilder.append(" on property ");
-				stringBuilder.append(field.getName());
-				stringBuilder.append(" at ");
-				stringBuilder.append(injecteeClass.getName());
-				stringBuilder.append(". ");
+				StringBuilder stringBuilder = new StringBuilder()
+				.append("Failed to inject the endpoint proxy instance of type ")
+				.append(endpointInterface.getName())
+				.append(" on property ")
+				.append(field.getName())
+				.append(" at ")
+				.append(injecteeClass.getName())
+				.append(". ");
 				
 				Logger.getLogger(Zombie.class.getName()).log(Level.SEVERE, stringBuilder.toString(), e);
 			}
@@ -196,9 +193,11 @@ public final class Zombie {
 					try {
 
 						endpointInterface = constructorParameters[0];
-						EndpointDirectory.INSTANCE.put(endpointInterface, EndpointProxyFactory.newInstance().create(endpointInterface));
+						
+						Object proxyInstance = EndpointDirectory.INSTANCE.put(endpointInterface, 
+													EndpointProxyFactory.INSTANCE.create(endpointInterface));
 
-						T instance = injectee.cast(constructor.newInstance(EndpointDirectory.INSTANCE.get(endpointInterface)));
+						T instance = injectee.cast(constructor.newInstance(proxyInstance));
 						
 						Zombie.infect(instance); //constructor injection complete; now perform property injection 
 						
@@ -207,15 +206,14 @@ public final class Zombie {
 					} 
 					catch (Exception e) {
 						
-						StringBuilder stringBuilder = new StringBuilder();
-						
-						stringBuilder.append("Failed to inject the endpoint proxy instance of type ");
-						stringBuilder.append(endpointInterface.getName());
-						stringBuilder.append(" on constructor ");
-						stringBuilder.append(constructor.getName());
-						stringBuilder.append(" at ");
-						stringBuilder.append(injectee.getName());
-						stringBuilder.append(". ");
+						StringBuilder stringBuilder = new StringBuilder()
+						.append("Failed to inject the endpoint proxy instance of type ")
+						.append(endpointInterface.getName())
+						.append(" on constructor ")
+						.append(constructor.getName())
+						.append(" at ")
+						.append(injectee.getName())
+						.append(". ");
 						
 						Logger.getLogger(Zombie.class.getName()).log(Level.SEVERE, stringBuilder.toString(), e);
 					}
@@ -240,11 +238,10 @@ public final class Zombie {
 		}
 		catch (Exception e) {
 
-			StringBuilder stringBuilder = new StringBuilder();
-			
-			stringBuilder.append("Failed to create an instance of  ");
-			stringBuilder.append(injectee.getName());
-			stringBuilder.append(" with constructor injection. ");
+			StringBuilder stringBuilder = new StringBuilder()
+			.append("Failed to create an instance of  ")
+			.append(injectee.getName())
+			.append(" with constructor injection. ");
 			
 			Logger.getLogger(Zombie.class.getName()).log(Level.SEVERE, stringBuilder.toString(), e);
 			

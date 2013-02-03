@@ -30,7 +30,7 @@ import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ProxyFactoryException extends ZombieLinkRuntimeException {
+class ProxyFactoryException extends ZombieLinkRuntimeException {
 
 
 	private static final long serialVersionUID = -1466493374397626604L;

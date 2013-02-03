@@ -29,7 +29,6 @@ import org.apache.http.client.utils.URIBuilder;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
-
 /**
  * <p>This is an implementation of {@link AbstractRequestBuilder} which handles the 
  * request creation for the basic HTTP method types GET, POST, PUT, DELETE.</p>
@@ -38,7 +37,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class BasicRequestBuilder extends AbstractRequestBuilder {
+class BasicRequestBuilder extends AbstractRequestBuilder {
 	
 	
 	/**

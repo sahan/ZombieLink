@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -22,8 +22,6 @@ package com.lonepulse.zombielink.core.response;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-
-import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
@@ -49,7 +47,7 @@ public class StringResponseParser extends AbstractResponseParser<CharSequence> {
 	}
 
 	/**
-	 * @see com.lonepulse.zombielink.core.processor.AbstractResponseParser#getType()
+	 * See {@link AbstractResponseParser#getType()}.
 	 */
 	@Override
 	public Class<CharSequence> getType() {

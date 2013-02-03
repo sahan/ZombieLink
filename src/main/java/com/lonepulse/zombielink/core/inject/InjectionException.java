@@ -23,17 +23,16 @@ package com.lonepulse.zombielink.core.inject;
 import java.lang.reflect.Field;
 
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.core.processor.ProxyFactory;
 
 /**
  * <p>This runtime exception is thrown whenever a failure occurs in creating 
- * a proxy via an instance of {@link ProxyFactory}.
+ * a proxy via the proxy factory.
  * 
  * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class InjectionException extends ZombieLinkRuntimeException {
+class InjectionException extends ZombieLinkRuntimeException {
 
 
 	private static final long serialVersionUID = -1466493374397626604L;

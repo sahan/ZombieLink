@@ -1,12 +1,11 @@
 /**
- * <p>Contains the set of classes which are used to process responses 
- * received for <b>RESTful</b> invocations.</p>
+ * <p>Contains the set of utility classes using in the core.</p>
  * 
- * @since 1.2.0
+ * @since 1.2.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-package com.lonepulse.zombielink.rest.response;
+package com.lonepulse.zombielink.core.util;
 
 /*
  * #%L

@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.request.header;
 
 /*
  * #%L
@@ -20,40 +20,43 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
+import java.lang.reflect.Method;
+
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a validation fails on a particular 
- * endpoint interface's {@link Class}.</p>
+ * <p>This runtime exception is thrown whenever a failure occurs in processing 
+ * headers for an HTTP request.</p>
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class EndpointValidationFailedException extends ZombieLinkRuntimeException {
+class HeaderException extends ZombieLinkRuntimeException {
 
 	
-	private static final long serialVersionUID = 3284104184402594315L;
-
+	private static final long serialVersionUID = -7083028842706994616L;
 	
+
 	/**
 	 * <p>Displays a detailed description along with the stacktrace. 
 	 */
-	public EndpointValidationFailedException(Class<?> endpointInterface, Throwable throwable) {
+	public HeaderException(Method request, Class<?> endpoint, Throwable rootCause) {
 		
-		this("Validation failed for endpoint " + endpointInterface.getName(), throwable);
+		this("Failed to process headers for " + request.getName() + 
+			 " on " + endpoint.getSimpleName(), rootCause);
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public EndpointValidationFailedException() {
+	public HeaderException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public EndpointValidationFailedException(String detailMessage) {
+	public HeaderException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -61,7 +64,7 @@ public class EndpointValidationFailedException extends ZombieLinkRuntimeExceptio
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public EndpointValidationFailedException(Throwable throwable) {
+	public HeaderException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -69,7 +72,7 @@ public class EndpointValidationFailedException extends ZombieLinkRuntimeExceptio
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public EndpointValidationFailedException(String detailMessage, Throwable throwable) {
+	public HeaderException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

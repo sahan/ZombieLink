@@ -34,7 +34,7 @@ import com.lonepulse.zombielink.core.inject.Zombie;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
-import com.lonepulse.zombielink.rest.response.JsonResponseParser;
+import com.lonepulse.zombielink.rest.response.parser.JsonResponseParser;
 import com.lonepulse.zombielink.test.model.ICNDBResponse;
 import com.lonepulse.zombielink.test.model.ICNDBResponseArray;
 import com.lonepulse.zombielink.test.model.NorrisJoke;

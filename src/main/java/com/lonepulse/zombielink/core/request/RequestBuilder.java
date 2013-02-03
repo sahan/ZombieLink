@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core;
+package com.lonepulse.zombielink.core.request;
 
 /*
  * #%L
@@ -21,33 +21,32 @@ package com.lonepulse.zombielink.core;
  */
 
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+
 /**
- * <p>This contract declares the basic network communication capabilities of an HTTP client. 
- * It grows on the <a href="http://hc.apache.org">Apache HTTP Components library</a>.</p> 
+ * <p>Specifies the contract for creating HTTP requests. 
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface HttpClientContract {
-
+public interface RequestBuilder {
+	
 	/**
-	 * <p>Takes an {@link HttpRequestBase}, executes it and 
-	 * returns the results as an {@link HttpResponse}.</p>
+	 * <p>Creates an {@link HttpRequestBase} and configures it using the information in 
+	 * the given {@link ProxyInvocationConfiguration} instance.</p> 
 	 * 
-	 * @param httpRequestBase 
-	 * 			any request of type {@link HttpRequestBase}
-	 * 
-	 * @return the {@link HttpResponse} of the execution.
+	 * @param config
+	 * 			the instance of {@link ProxyInvocationConfiguration} which supplies the parameters
+	 * <br><br>
+	 * @return the {@link HttpRequestBase} with the populated parameters
+	 * <br><br>
+	 * @throws {@link RequestBuilderException}
+	 * 				thrown if the {@link HttpRequestBase} cannot be built	
 	 * <br><br>
 	 * @since 1.1.0
 	 */
-	<T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase) 
-	throws ClientProtocolException, IOException;
+	HttpRequestBase build(ProxyInvocationConfiguration config);
 }

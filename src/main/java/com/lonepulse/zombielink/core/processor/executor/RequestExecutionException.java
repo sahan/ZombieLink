@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.core.processor.executor;
 
 /*
  * #%L
@@ -22,47 +22,41 @@ package com.lonepulse.zombielink.core.request;
 
 import java.lang.reflect.Method;
 
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
+
 /**
- * <p>This runtime exception is thrown when a required annotation is missing from 
- * a request method on the endpoint interface.</p>
+ * <p>This runtime exception is thrown whenever a failure occurs in executing 
+ * an HTTP request.</p>
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class MissingRequestAnnotationException extends RequestBuilderException {
+class RequestExecutionException extends ZombieLinkRuntimeException {
 
 	
-	private static final long serialVersionUID = -5554974798638106181L;
-
+	private static final long serialVersionUID = -7083028842706994616L;
+	
 
 	/**
-	 * <p>Displays a detailed description along with the stacktrace.
-	 * 
-	 * @param requestMethod
-	 * 			the request {@link Method} which is missing an annotation
-	 * 
-	 * @param missingAnnotation
-	 * 			the annotation which is missing
-	 * 
-	 * @since 1.1.0
+	 * <p>Displays a detailed description along with the stacktrace. 
 	 */
-	public MissingRequestAnnotationException(Method requestMethod, Class<?> missingAnnotation) {
+	public RequestExecutionException(Method request, Class<?> endpoint, Throwable rootCause) {
 		
-		this("Missing annotation " + missingAnnotation.getName() + " on request method " + 
-			  requestMethod.getName());
+		this("Failed to execute request " + request.getName() + 
+			 " on " + endpoint.getSimpleName(), rootCause);
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public MissingRequestAnnotationException() {
+	public RequestExecutionException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage) {
+	public RequestExecutionException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -70,7 +64,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public MissingRequestAnnotationException(Throwable throwable) {
+	public RequestExecutionException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -78,7 +72,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
+	public RequestExecutionException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

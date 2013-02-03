@@ -31,12 +31,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.core.processor.AnnotationExtractor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
 import com.lonepulse.zombielink.core.request.HttpParamBuilder;
 import com.lonepulse.zombielink.core.request.MissingRequestAnnotationException;
 import com.lonepulse.zombielink.core.request.RequestMethod;
+import com.lonepulse.zombielink.core.util.AnnotationExtractor;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 

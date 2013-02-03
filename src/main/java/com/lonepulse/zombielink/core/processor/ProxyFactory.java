@@ -31,7 +31,7 @@ import com.lonepulse.zombielink.core.annotation.Request;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface ProxyFactory {
+interface ProxyFactory {
 
 	/**
 	 * <p>This factory method takes a {@link Class} representation of an interface 

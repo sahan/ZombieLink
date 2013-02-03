@@ -1,13 +1,12 @@
 /**
- * <p>Contains the set of classes which create HTTP responses of any <i>method 
- * type</i> using the annotated meta-data. Use {@link com.lonepulse.zombielink.core.request.RequestBuilders} 
- * to access all available request builders.</p>
+ * <p>Contains the set of classes which execute HTTP requests on an HTTP client. 
+ * Use {@link java.util.concurrent.Executors} to access all available executors.</p>
  * 
- * @since 1.1.1
+ * @since 1.2.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.core.processor.executor;
 
 /*
  * #%L

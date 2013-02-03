@@ -1,13 +1,4 @@
-/**
- * <p>Contains the set of classes which create HTTP responses of any <i>method 
- * type</i> using the annotated meta-data. Use {@link com.lonepulse.zombielink.core.request.RequestBuilders} 
- * to access all available request builders.</p>
- * 
- * @since 1.1.1
- * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
- */
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.util;
 
 /*
  * #%L
@@ -28,3 +19,26 @@ package com.lonepulse.zombielink.core.request;
  * limitations under the License.
  * #L%
  */
+
+
+
+/**
+ * <p>Resolves a requirement based on the given parameter.
+ * 
+ * @version 1.1.0
+ * <br><br>
+ * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ */
+public interface Resolver<Arg, Result> {
+
+	/**
+	 * <p>Processes the given argument to find the correct result.
+	 * 
+	 * @param arg
+	 * 			the argument on which the resolution should be 
+	 * 			attempted
+	 * 
+	 * @return the result of the resolution
+	 */
+	Result resolve(Arg arg);
+}

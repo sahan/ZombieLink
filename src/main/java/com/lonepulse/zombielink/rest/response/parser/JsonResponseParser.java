@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.rest.response;
+package com.lonepulse.zombielink.rest.response.parser;
 
 /*
  * #%L
@@ -25,7 +25,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
+import com.lonepulse.zombielink.core.response.parser.AbstractResponseParser;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
@@ -53,7 +53,7 @@ public class JsonResponseParser extends AbstractResponseParser<Object> {
 	}
 
 	/**
-	 * @see com.lonepulse.zombielink.core.processor.AbstractResponseParser#getType()
+	 * See {@link AbstractResponseParser}.
 	 */
 	@Override
 	protected Class<Object> getType() {

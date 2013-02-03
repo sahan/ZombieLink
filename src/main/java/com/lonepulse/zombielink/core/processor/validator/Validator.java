@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core;
+package com.lonepulse.zombielink.core.processor.validator;
 
 /*
  * #%L
@@ -21,33 +21,35 @@ package com.lonepulse.zombielink.core;
  */
 
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.HttpClientContract;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+
 /**
- * <p>This contract declares the basic network communication capabilities of an HTTP client. 
- * It grows on the <a href="http://hc.apache.org">Apache HTTP Components library</a>.</p> 
+ * <p>Specifies the contract for validating endpoints and their 
+ * request methods. 
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface HttpClientContract {
+public interface Validator<Result extends Object> {
 
 	/**
-	 * <p>Takes an {@link HttpRequestBase}, executes it and 
-	 * returns the results as an {@link HttpResponse}.</p>
+	 * <p>Executes the given {@link HttpRequestBase} using a 
+	 * suitable {@link HttpClientContract} implementation.
 	 * 
-	 * @param httpRequestBase 
-	 * 			any request of type {@link HttpRequestBase}
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} which 
+	 * 			contains the parameters to perform the validation
+	 * 			
+	 * @return the result of the validation 
 	 * 
-	 * @return the {@link HttpResponse} of the execution.
+	 * @throws ValidationFailedException
+	 * 			if the validation failed with the give parameters
 	 * <br><br>
 	 * @since 1.1.0
 	 */
-	<T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase) 
-	throws ClientProtocolException, IOException;
+	Result validate(ProxyInvocationConfiguration config) throws ValidationFailedException;
 }

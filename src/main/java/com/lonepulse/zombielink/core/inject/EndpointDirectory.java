@@ -20,8 +20,8 @@ package com.lonepulse.zombielink.core.inject;
  * #L%
  */
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * <p>A <b>singleton</b> implementation of the {@link ClassDirectory} policy 
@@ -33,29 +33,32 @@ import java.util.WeakHashMap;
  */
 public enum EndpointDirectory implements ClassDirectory {
 	
-	
 	/**
 	 * <p>The only instance of {@link EndpointDirectory} which allows the clients 
-	 * to access its services. 
+	 * to access its services.
+	 * 
+	 * @since 1.1.0
 	 */
 	INSTANCE;
 
+	
 	/**
 	 * <p>The {@link Map} of endpoint interface implementations which are maintained 
 	 * as <i>Singletons</i>. 
 	 */
-	private static Map<Class<?>, Object> ENDPOINTS 
-		= new WeakHashMap<Class<?>, Object>();
+	private static Map<Class<?>, Object> ENDPOINTS = new HashMap<Class<?>, Object>();
 	
 	
 	/**
 	 * See {@link ClassDirectory#put(Class, Object)}.
 	 */
 	@Override
-	public synchronized void put(Class<?> entryKey, Object entryValue) {
+	public synchronized Object put(Class<?> entryKey, Object entryValue) {
 		
 		if(!ENDPOINTS.containsKey(entryKey))
 			ENDPOINTS.put(entryKey, entryValue);
+		
+		return ENDPOINTS.get(entryKey);
 	}
 
 	/**

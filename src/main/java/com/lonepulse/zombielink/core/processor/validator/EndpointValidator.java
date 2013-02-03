@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.processor.validator;
 
 /*
  * #%L
@@ -20,27 +20,35 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
+
 import java.net.URI;
 
 import org.apache.http.client.utils.URIBuilder;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>Validates the structure of an endpoint interface.</p>
+ * <p>A concrete implementation of {@link EndpointValidator} which 
+ * validates endpoints. 
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class BasicEndpointValidator implements EndpointValidator {
-
+class EndpointValidator implements Validator<URI> {
 
 	/**
-	 * {@inheritDoc}
+	 * <p>Validates an endpoint annotated with {@link Endpoint}.</p>
+	 * 
+	 * <p>See {@link Validator#validate(ProxyInvocationConfiguration)}.
+	 * 
+	 * @since 1.1.0
 	 */
 	@Override
-	public URI validate(Class<?> endpointInterface) {
+	public URI validate(ProxyInvocationConfiguration config) throws ValidationFailedException {
+
+		Class<?> endpointInterface = config.getEndpointClass();
 		
 		try {
 			

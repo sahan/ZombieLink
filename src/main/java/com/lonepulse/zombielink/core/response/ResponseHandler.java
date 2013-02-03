@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.core.response;
 
 /*
  * #%L
@@ -20,27 +20,32 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
+
+import org.apache.http.HttpResponse;
+
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>This interface declares the generic policy for a <i>factory</i> which builds the 
- * components of an endpoint.
+ * <p>Specifies the contract for handling HTTP responses. 
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface EndpointComponentFactory<T> {
+public interface ResponseHandler {
 
 	/**
-	 * <p>Takes an array of arguments, constructs the component and returns it.
+	 * <p>Processes the given {@link HttpResponse} and returns its results 
+	 * for consumption.
 	 * 
-	 * @param proxyInvocationConfiguration
-	 * 			the arguments which are used to create the component
+	 * @param httpResponse
+	 * 			the {@link HttpResponse} to be processed
+	 * 			
+	 * @return the consumable contents of the response
 	 * 
-	 * @return the created component
-	 * <br><br>
-	 * @since 1.1.1
+	 * @throws ResponseHandlerException
+	 * 			if the response handling failed
 	 */
-	public abstract T create(ProxyInvocationConfiguration proxyInvocationConfiguration);
+	Object handle(HttpResponse httpResponse, ProxyInvocationConfiguration config) 
+	throws ResponseHandlerException;
 }

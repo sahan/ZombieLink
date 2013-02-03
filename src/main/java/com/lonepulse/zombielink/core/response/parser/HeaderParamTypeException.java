@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -20,43 +20,43 @@ package com.lonepulse.zombielink.core.response;
  * #L%
  */
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.core.annotation.Parser;
-import com.lonepulse.zombielink.core.annotation.Request;
+import java.lang.reflect.Method;
 
 /**
- * <p>This runtime exception is thrown when the return type of a {@link Request} method 
- * cannot be assigned to the designated {@link Parser}'s return type. 
+ * <p>This runtime exception is thrown when a header parameter annotation is 
+ * marked on a variable other than that of type {@link StringBuilder}.</p>
  * 
  * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ResponseParserNotAssignableException extends ZombieLinkRuntimeException {
+public class HeaderParamTypeException extends ResponseParserException {
 
-
-	private static final long serialVersionUID = -2526887708389941964L;
+	
+	private static final long serialVersionUID = -8060844427557378441L;
 
 	
 	/**
-	 * <p>Displays a detailed description along with the stacktrace.
+	 * <p>Displays a detailed description along with the stacktrace. 
 	 */
-	public ResponseParserNotAssignableException(Class<?> parserReturnType, Class<?> requestReturnType) {
+	public HeaderParamTypeException(Object param, Method method) {
 		
-		this("Cannot assign the parser's response of type " + parserReturnType.getName() + 
-			  " to an instance of the request return type " + requestReturnType.getName());
+		this("Variable header parameters should be of type " + 
+			 StringBuilder.class.getSimpleName() + ". Instead type " + 
+			 param.getClass().getName() + " was found on request " + 
+			 method.getName());
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public ResponseParserNotAssignableException() {
+	public HeaderParamTypeException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public ResponseParserNotAssignableException(String detailMessage) {
+	public HeaderParamTypeException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -64,7 +64,7 @@ public class ResponseParserNotAssignableException extends ZombieLinkRuntimeExcep
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public ResponseParserNotAssignableException(Throwable throwable) {
+	public HeaderParamTypeException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -72,7 +72,7 @@ public class ResponseParserNotAssignableException extends ZombieLinkRuntimeExcep
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public ResponseParserNotAssignableException(String detailMessage, Throwable throwable) {
+	public HeaderParamTypeException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

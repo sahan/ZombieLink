@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.util;
 
 /*
  * #%L
@@ -28,6 +28,7 @@ import java.util.Map;
 
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.Param;
+import com.lonepulse.zombielink.core.response.parser.HeaderParamTypeException;
 
 
 /**
@@ -40,6 +41,12 @@ import com.lonepulse.zombielink.core.annotation.Param;
  */
 public final class AnnotationExtractor {
 
+	
+	/**
+	 * <p>Constructor visibility restricted. Instantiation is nonsensical. 
+	 */
+	private AnnotationExtractor() {}
+	
 	/**
 	 * <p>Extracts annotations of a given type from a {@link Method} and returns 
 	 * them along with their arguments provided as an {@link Object} array.</p>
@@ -110,8 +117,17 @@ public final class AnnotationExtractor {
 			
 			for(Annotation annotation: annotationSet) {
 				
-				if(Header.class.isAssignableFrom(annotation.getClass())) 
-					headerParams.put((StringBuilder)args[i], (Header)annotation);
+				if(Header.class.isAssignableFrom(annotation.getClass())) {
+					
+					try {
+						
+						headerParams.put((StringBuilder)args[i], (Header)annotation);
+					}
+					catch (ClassCastException cce) {
+						
+						throw new HeaderParamTypeException(args[i], method);
+					}
+				}
 				
 				i++;
 			}

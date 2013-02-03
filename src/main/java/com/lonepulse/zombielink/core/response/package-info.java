@@ -1,6 +1,7 @@
 /**
- * <p>Contains the set of classes which process the results of an HTTP call, 
- * and makes them available after conversion to the requested format.</p>
+ * <p>Contains the set of classes which initiates the processing of the 
+ * results of an HTTP call. Use {@link com.lonepulse.zombielink.core.response.ResponseHandlers} 
+ * to access all available response handlers.</p>
  * 
  * @since 1.1.1
  * <br><br>

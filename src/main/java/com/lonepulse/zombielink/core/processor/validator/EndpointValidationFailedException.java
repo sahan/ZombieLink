@@ -1,4 +1,5 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.processor.validator;
+
 
 /*
  * #%L
@@ -20,41 +21,39 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a required annotation is missing from 
- * the designated endpoint interface.</p>
+ * <p>This runtime exception is thrown whenever an {@link EndpointValidator} 
+ * fails to validate an endpoint.
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class MissingEndpointAnnotationException extends ZombieLinkRuntimeException {
+class EndpointValidationFailedException extends ValidationFailedException {
 
-	
-	private static final long serialVersionUID = 4087362624687849076L;
+
+	private static final long serialVersionUID = 4063102218823910819L;
 
 	
 	/**
 	 * <p>Displays a detailed description along with the stacktrace. 
 	 */
-	public MissingEndpointAnnotationException(Class<?> endpointInterface, Class<?> missingAnnotation) {
+	public EndpointValidationFailedException(Class<?> endpoint, Throwable rootCause) {
 		
-		this("Missing annotation " + missingAnnotation.getName() + " on endpoint " + 
-			  endpointInterface.getName());
+		this("Failed to validate endpoint " + endpoint.getName(), rootCause);
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public MissingEndpointAnnotationException() {
+	public EndpointValidationFailedException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public MissingEndpointAnnotationException(String detailMessage) {
+	public EndpointValidationFailedException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -62,7 +61,7 @@ public class MissingEndpointAnnotationException extends ZombieLinkRuntimeExcepti
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public MissingEndpointAnnotationException(Throwable throwable) {
+	public EndpointValidationFailedException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -70,7 +69,7 @@ public class MissingEndpointAnnotationException extends ZombieLinkRuntimeExcepti
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public MissingEndpointAnnotationException(String detailMessage, Throwable throwable) {
+	public EndpointValidationFailedException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

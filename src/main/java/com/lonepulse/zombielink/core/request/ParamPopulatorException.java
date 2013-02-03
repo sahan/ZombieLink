@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
@@ -31,7 +30,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ParamPopulatorException extends ZombieLinkRuntimeException {
+class ParamPopulatorException extends RequestBuilderException {
 
 	
 	private static final long serialVersionUID = -1466493374397626604L;

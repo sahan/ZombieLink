@@ -25,10 +25,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.lonepulse.zombielink.core.response.ObjectResponseParser;
-import com.lonepulse.zombielink.core.response.ResponseParser;
-import com.lonepulse.zombielink.core.response.StringResponseParser;
-import com.lonepulse.zombielink.rest.response.JsonResponseParser;
+import com.lonepulse.zombielink.core.response.parser.ResponseParser;
+import com.lonepulse.zombielink.core.response.parser.StringResponseParser;
 
 /**
  * <p>Identifies the {@link ResponseParser} which is to be used to parse 
@@ -76,21 +74,24 @@ public @interface Parser {
 	public static enum PARSER_TYPE {
 		
 		/**
-		 * <p>Identifies an instance of {@link StringResponseParser}.</p>
+		 * <p>Identifies a response parser which makes the response 
+		 * available as a string content..</p>
 		 * 
 		 * @since 1.1.1
 		 */
 		STRING,
 		
 		/**
-		 * <p>Identifies an instance of {@link JsonResponseParser}.</p>
+		 * <p>Identifies a response parser which parses JSON 
+		 * serialized objects.</p>
 		 * 
 		 * @since 1.1.1
 		 */
 		JSON,
 		
 		/**
-		 * <p>Identifies an instance of {@link ObjectResponseParser}.</p>
+		 * <p>Identifies a response parser which deserializes binary 
+		 * serialized objects.</p>
 		 * 
 		 * @since 1.1.1
 		 */
@@ -121,7 +122,7 @@ public @interface Parser {
 	 * create their own response parsers by extending {@link ResponseParser} and 
 	 * use them in this context.</p>
 	 * 
-	 * <p>By default {@link StringResponseParser} is used.</p>
+	 * <p>By default, a {@link StringResponseParser} is used.</p>
 	 * 
 	 * <code>
      * <pre>@Request("/license.txt")<br><b>@Parser(typeClass = CustomParser.class)</b>

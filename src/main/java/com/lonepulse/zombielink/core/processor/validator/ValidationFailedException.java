@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.request;
+package com.lonepulse.zombielink.core.processor.validator;
 
 /*
  * #%L
@@ -20,49 +20,33 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
-import java.lang.reflect.Method;
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a required annotation is missing from 
- * a request method on the endpoint interface.</p>
+ * <p>This runtime exception is thrown whenever a {@link Validator} fails 
+ * on an endpoint or an endpoint method. 
+ * an HTTP request.</p>
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class MissingRequestAnnotationException extends RequestBuilderException {
-
-	
-	private static final long serialVersionUID = -5554974798638106181L;
+class ValidationFailedException extends ZombieLinkRuntimeException {
 
 
-	/**
-	 * <p>Displays a detailed description along with the stacktrace.
-	 * 
-	 * @param requestMethod
-	 * 			the request {@link Method} which is missing an annotation
-	 * 
-	 * @param missingAnnotation
-	 * 			the annotation which is missing
-	 * 
-	 * @since 1.1.0
-	 */
-	public MissingRequestAnnotationException(Method requestMethod, Class<?> missingAnnotation) {
-		
-		this("Missing annotation " + missingAnnotation.getName() + " on request method " + 
-			  requestMethod.getName());
-	}
+	private static final long serialVersionUID = 4063102218823910819L;
+
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public MissingRequestAnnotationException() {
+	public ValidationFailedException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage) {
+	public ValidationFailedException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -70,7 +54,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public MissingRequestAnnotationException(Throwable throwable) {
+	public ValidationFailedException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -78,7 +62,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
+	public ValidationFailedException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

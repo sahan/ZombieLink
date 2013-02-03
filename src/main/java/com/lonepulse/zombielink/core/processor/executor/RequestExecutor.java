@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core;
+package com.lonepulse.zombielink.core.processor.executor;
 
 /*
  * #%L
@@ -20,33 +20,35 @@ package com.lonepulse.zombielink.core;
  * #L%
  */
 
+
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.HttpClientContract;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.response.AsyncHandler;
 
 /**
- * <p>Declares the asynchronous network communication capabilities of an HTTP client.</p> 
+ * <p>Specifies the contract for executing HTTP requests. 
  * 
- * @version 1.1.2
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface AsyncHttpClientContract extends HttpClientContract {
-	
+public interface RequestExecutor {
 
 	/**
-	 * <p>Takes an {@link HttpRequestBase}, executes it asynchronously 
-	 * and uses the results to run the {@link AsyncHandler}.
+	 * <p>Executes the given {@link HttpRequestBase} using a 
+	 * suitable {@link HttpClientContract} implementation.
 	 * 
-	 * @param httpRequestBase 
-	 * 			any request of type {@link HttpRequestBase}
+	 * @param httpRequestBase
+	 * 			the {@link HttpRequestBase} to be executed
+	 * 			
+	 * @return the {@link HttpResponse} which is the result 
+	 * 			of the execution 
 	 * 
-	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} of the current request
-	 * <br><br>
-	 * @since 1.1.2
+	 * @throws RequestExecutionException
+	 * 			if the HTTP request execution failed
 	 */
-	public abstract <T extends HttpRequestBase> 
-	void executeAsyncRequest(final T httpRequestBase, final ProxyInvocationConfiguration config);
+	HttpResponse execute(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) 
+	throws RequestExecutionException;
 }

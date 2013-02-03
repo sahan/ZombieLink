@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core;
+package com.lonepulse.zombielink.core.request.header;
 
 /*
  * #%L
@@ -21,33 +21,36 @@ package com.lonepulse.zombielink.core;
  */
 
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+
 /**
- * <p>This contract declares the basic network communication capabilities of an HTTP client. 
- * It grows on the <a href="http://hc.apache.org">Apache HTTP Components library</a>.</p> 
+ * <p>Specifies the contract for creating HTTP request headers. 
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface HttpClientContract {
+public interface HeaderBuilder {
 
 	/**
-	 * <p>Takes an {@link HttpRequestBase}, executes it and 
-	 * returns the results as an {@link HttpResponse}.</p>
+	 * <p>Populates the created {@link HttpRequestBase} with any headers.</p> 
 	 * 
-	 * @param httpRequestBase 
-	 * 			any request of type {@link HttpRequestBase}
+	 * @param httpRequestBase
+	 * 			the {@link HttpRequestBase} which is created by this instance of 
+	 * 			abstract request builder
 	 * 
-	 * @return the {@link HttpResponse} of the execution.
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} which supplies the parameters
+	 * <br><br>
+	 * @return the {@link HttpRequestBase} with the headers populated
+	 * <br><br>
+	 * @throws Exception
+	 * 			a generic exception is thrown in case operation failed
 	 * <br><br>
 	 * @since 1.1.0
 	 */
-	<T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase) 
-	throws ClientProtocolException, IOException;
+	HttpRequestBase build(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)
+    throws Exception;
 }

@@ -28,7 +28,7 @@ package com.lonepulse.zombielink.core.inject;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface ClassDirectory {
+interface ClassDirectory {
 
 	
 	/**
@@ -41,10 +41,13 @@ public interface ClassDirectory {
 	 * 
 	 * @param entryValue
 	 * 			the <b>proxy</b> instance to be registered in the directory
+	 * 
+	 * @return the new entry value which was added
+	 * 
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public void put(Class<?> entryKey, Object entryValue);
+	public Object put(Class<?> entryKey, Object entryValue);
 	
 	/**
 	 * <p>Adds an entry to the endpoint directory. If an entry is already defined 

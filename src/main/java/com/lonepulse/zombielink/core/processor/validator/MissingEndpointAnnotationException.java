@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.processor.validator;
 
 /*
  * #%L
@@ -20,45 +20,40 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
-import java.lang.reflect.Method;
-
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a header parameter annotation is not 
- * marked on a variable of type {@link StringBuilder}.</p>
+ * <p>This runtime exception is thrown when a required annotation is missing from 
+ * the designated endpoint interface.</p>
  * 
  * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class HeaderParamTypeException extends ZombieLinkRuntimeException {
+class MissingEndpointAnnotationException extends EndpointValidationFailedException {
 
 	
-	private static final long serialVersionUID = -8060844427557378441L;
+	private static final long serialVersionUID = 4087362624687849076L;
 
 	
 	/**
 	 * <p>Displays a detailed description along with the stacktrace. 
 	 */
-	public HeaderParamTypeException(Object param, Method method) {
+	public MissingEndpointAnnotationException(Class<?> endpointInterface, Class<?> missingAnnotation) {
 		
-		this("Variable header parameters should be of type " + 
-			 StringBuilder.class.getSimpleName() + ". Instead type " + 
-			 param.getClass().getName() + " was found on request " + 
-			 method.getName());
+		this("Missing annotation " + missingAnnotation.getName() + " on endpoint " + 
+			  endpointInterface.getName());
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public HeaderParamTypeException() {
+	public MissingEndpointAnnotationException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public HeaderParamTypeException(String detailMessage) {
+	public MissingEndpointAnnotationException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -66,7 +61,7 @@ public class HeaderParamTypeException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public HeaderParamTypeException(Throwable throwable) {
+	public MissingEndpointAnnotationException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -74,7 +69,7 @@ public class HeaderParamTypeException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public HeaderParamTypeException(String detailMessage, Throwable throwable) {
+	public MissingEndpointAnnotationException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

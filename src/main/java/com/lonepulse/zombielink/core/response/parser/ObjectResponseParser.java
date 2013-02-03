@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -28,8 +28,6 @@ import java.io.Serializable;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
-
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
  * of object data. 
@@ -38,7 +36,7 @@ import com.lonepulse.zombielink.core.processor.AbstractResponseParser;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ObjectResponseParser extends AbstractResponseParser<Object> {
+class ObjectResponseParser extends AbstractResponseParser<Object> {
 
 	/**
 	 * <p> Parses the content in the {@link HttpResponse} to any type which is assignable 

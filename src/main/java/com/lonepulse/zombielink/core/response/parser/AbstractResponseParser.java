@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.processor;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -29,10 +29,8 @@ import java.util.Set;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Header;
-import com.lonepulse.zombielink.core.response.ResponseParser;
-import com.lonepulse.zombielink.core.response.ResponseParserExecutionException;
-import com.lonepulse.zombielink.core.response.ResponseParserNotAssignableException;
-import com.lonepulse.zombielink.core.response.StringResponseParser;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.core.util.AnnotationExtractor;
 
 /**
  * <p>This is an implementation of {@link ResponseParser} which defines and executes the 
@@ -117,7 +115,7 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 		}
 		catch(Exception e) {
 			
-			throw new ResponseParserExecutionException(e);
+			throw new ResponseParserException(e);
 		}
 	}
 	
