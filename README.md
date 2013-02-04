@@ -18,7 +18,7 @@ metadata. It is then wired into your code via an annotation, where it'll be crea
 runtime.   
 <br/>
 
-#Setup
+##Setup
 
 ### 1. For Maven Projects
 Simply add it as a dependency in your [Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html) 
