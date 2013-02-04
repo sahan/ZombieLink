@@ -46,7 +46,7 @@ build path. You may download and attach the documentation as well.
 ([ZombieLink-1.2.0-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.0/zombielink-1.2.0-javadoc.jar))   
 <br/>
 
-##Wiki
+##Usage
 Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
 and adheres to a *minimal intrusion* policy. Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) 
 and follow the rest of the wiki pages. 
