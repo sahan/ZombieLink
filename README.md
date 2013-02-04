@@ -36,7 +36,8 @@ project's **pom.xml**.
 ```bash
 $ mvn dependency:resolve -Dclassifier=javadoc
 ```   
-
+   
+<br/>
 ### 2. For Non-Maven Projects
 
 For projects which use an alternative build tool, download the library using the link below and add it to the 
@@ -45,7 +46,7 @@ build path. You may download and attach the documentation as well.
 > ZombieLink-1.2.0 with REST support: ([ZombieLink-1.2.0.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.0/zombielink-1.2.0.jar)), 
 ([ZombieLink-1.2.0-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.0/zombielink-1.2.0-javadoc.jar))   
 
-<br/>
+<br/><br/>
 ##Usage
 Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
 and adheres to a *minimal intrusion* policy. Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) 
