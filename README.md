@@ -18,22 +18,48 @@ metadata. It is then wired into your code via an annotation, where it'll be crea
 runtime.   
 <br/>
 
+#Setup
+
+### 1. For Maven Projects
+Simply add it as a dependency in your [Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html) 
+project's **pom.xml**.
+
+```xml
+<dependency>
+   <groupId>com.lonepulse</groupId>
+   <artifactId>zombielink</artifactId>
+   <version>1.2.0</version>
+</dependency>
+```
+      
+> For documentation, resolve dependencies with   
+```bash
+$ mvn dependency:resolve -Dclassifier=javadoc
+```   
+
+### 2. For Non-Maven Projects
+
+For projects which use an alternative build tool, download the library using the link below and add it to the 
+build path. You may download and attach the documentation as well.
+
+> ZombieLink-1.2.0 with REST support: ([ZombieLink-1.2.0.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.0/zombielink-1.2.0.jar)), 
+([ZombieLink-1.2.0-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.0/zombielink-1.2.0-javadoc.jar))   
+<br/>
+
 ##Wiki
 Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
-and adheres to a *minimal intrusion* policy.   
+and adheres to a *minimal intrusion* policy. Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) 
+and follow the rest of the wiki pages. 
 
+1. [Quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart)
 
-1. [Setup](https://github.com/sahan/ZombieLink/wiki/Setup)
+2. [Defining Endpoint Contracts](https://github.com/sahan/ZombieLink/wiki/Defining-Endpoint-Contracts)
 
-2. [Quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart)
+3. [Working With Response Parsers](https://github.com/sahan/ZombieLink/wiki/Working-With-Response-Parsers)
 
-3. [Defining Endpoint Contracts](https://github.com/sahan/ZombieLink/wiki/Defining-Endpoint-Contracts)
+4. [Injecting Endpoint Proxies](https://github.com/sahan/ZombieLink/wiki/Injecting-Endpoint-Proxies)
 
-4. [Working With Response Parsers](https://github.com/sahan/ZombieLink/wiki/Working-With-Response-Parsers)
-
-5. [Injecting Endpoint Proxies](https://github.com/sahan/ZombieLink/wiki/Injecting-Endpoint-Proxies)
-
-6. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
+5. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
 <br/>
 
 ##License
