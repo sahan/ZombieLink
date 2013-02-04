@@ -121,27 +121,27 @@ public final class ProxyInvocationConfiguration {
 	/**
 	 * <p>The {@link Class} of the interface which model an {@link Endpoint}.
 	 */
-	private Class<? extends Object> endpointClass;
+	private final Class<? extends Object> endpointClass;
 	
 	/**
 	 * <p>The base {@link URI} which was constructed from the endpoint.
 	 */
-	private URI uri;
+	private final URI uri;
 	
 	/**
 	 * <p>The proxy instance of the endpoint interface on which the request was invoked.
 	 */
-	private Object proxy;
+	private final Object proxy;
 	
 	/**
 	 * <p>The {@link Method} of the invoked request.
 	 */
-	private Method request; 
+	private final Method request; 
 	
 	/**
 	 * <p>The parameters supplied to {@link #request}.
 	 */
-	private Object[] requestArgs;
+	private final Object[] requestArgs;
 
 
 	/**
