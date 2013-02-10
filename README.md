@@ -1,4 +1,4 @@
-![ZombieLink](http://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ZombieLink_Banner.png/1024px-ZombieLink_Banner.png)
+![ZombieLink](https://raw.github.com/sahan/ZombieLink/master/logo.png)
 
 > **ZombieLink** /zŏm'bē'lĭngk/ <em>noun.</em> **1** A lightweight HTTP facade 
 which simplifies network communication. **2** An endpoint proxy generator for web services. 
