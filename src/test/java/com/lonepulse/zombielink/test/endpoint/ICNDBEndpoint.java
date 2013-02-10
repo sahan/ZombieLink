@@ -36,6 +36,8 @@ import com.lonepulse.zombielink.test.model.NorrisJoke;
  * <p>An endpoint interface which defines the contract to the 
  * <a href="http://www.icndb.com/api/">ICNDB API</a>.
  * 
+ * @category test
+ * <br><br> 
  * @version 1.0.0
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>

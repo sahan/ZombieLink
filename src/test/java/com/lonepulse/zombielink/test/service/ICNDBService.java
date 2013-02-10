@@ -35,6 +35,8 @@ import com.lonepulse.zombielink.test.endpoint.ICNDBEndpoint;
  * <p>Also contains a mutator and a parameterized contructor to test 
  * setter and contructor injection.</p>
  * 
+ * @category test
+ * <br><br> 
  * @version 1.0.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>

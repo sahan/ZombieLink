@@ -30,6 +30,8 @@ import com.lonepulse.zombielink.test.endpoint.ICNDBEndpoint;
  * <p>This entity represents a <b>response</b> which is received from the 
  * ICNDB API via the {@link ICNDBEndpoint}.
  * 
+ * @category test
+ * <br><br> 
  * @version 1.0.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
