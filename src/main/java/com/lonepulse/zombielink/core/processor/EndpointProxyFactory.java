@@ -68,7 +68,7 @@ public enum EndpointProxyFactory implements ProxyFactory {
 			final URI uri = (URI) Validators.ENDPOINT.validate(builder.build());
 			
 			T endpointProxy = endpointClass.cast(Proxy.newProxyInstance(endpointClass.getClassLoader(), 
-												 new  Class<?>[] {endpointClass} , 
+												 new Class<?>[] {endpointClass} , 
 												 new InvocationHandler() {
 				
 				@Override
