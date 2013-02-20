@@ -22,16 +22,21 @@ package com.lonepulse.zombielink.test.endpoint;
 
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.http.HttpResponse;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
+import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.inject.Zombie;
 import com.lonepulse.zombielink.core.request.RequestMethod;
+import com.lonepulse.zombielink.core.response.AsyncHandler;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 import com.lonepulse.zombielink.rest.response.parser.JsonResponseParser;
@@ -121,5 +126,26 @@ public class ICNDBEndpointTest {
 		
 		assertNotNull(icndbResponse);
 		assertTrue(icndbResponse.getValue().size() == 4);
+	}
+	
+	/**
+	 * <p>Test method for {@link Asynchronous} and {@link AsyncHandler}.
+	 */
+	@Test
+	public final void testAsyncRequest() {
+		
+		ICNDBResponseArray synchronousResult = icndbEndpoint.randomAsync(new AsyncHandler<ICNDBResponseArray>() {
+
+			@Override
+			public void onSuccess(HttpResponse httpResponse, ICNDBResponseArray icndbResponseArray) 
+			throws ZombieLinkRuntimeException {
+
+				assertNotNull(icndbResponseArray);
+				assertNotNull(icndbResponseArray.getValue());
+				assertTrue(icndbResponseArray.getValue().size() == 10);
+			}
+		});
+		
+		assertNull(synchronousResult);
 	}
 }

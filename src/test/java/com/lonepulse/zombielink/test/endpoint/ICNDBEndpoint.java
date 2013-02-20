@@ -21,11 +21,13 @@ package com.lonepulse.zombielink.test.endpoint;
  */
 
 
+import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.core.response.AsyncHandler;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 import com.lonepulse.zombielink.test.model.ICNDBResponse;
@@ -38,7 +40,7 @@ import com.lonepulse.zombielink.test.model.NorrisJoke;
  * 
  * @category test
  * <br><br> 
- * @version 1.0.0
+ * @version 1.1.0
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -104,5 +106,17 @@ public interface ICNDBEndpoint {
 	@Request(path = "/random", params = {@Request.Param(name = "firstName", value = "John"), 
 										 @Request.Param(name = "lastName", value = "Doe")})
 	public ICNDBResponse randomJohnDoeJoke();
-	
+
+	/**
+	 * <p>Retrieves mutiple random {@link NorrisJoke}s asynchronously 
+	 * and processes them in the supplied {@link AsyncHandler}.
+	 * 
+	 * @param asyncHandler
+	 * 			the {@link AsyncHandler} which handles the results of 
+	 * 			the asynchronous request execution
+	 * 
+	 * @since 1.1.0
+	 */
+	@Asynchronous @Rest(path = "/random/10")
+	public ICNDBResponseArray randomAsync(AsyncHandler<ICNDBResponseArray> asyncHandler);
 }

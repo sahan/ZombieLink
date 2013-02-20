@@ -22,6 +22,8 @@ package com.lonepulse.zombielink.core.processor.executor;
 
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpRequest;
@@ -51,6 +53,12 @@ class AsyncRequestExecutor implements RequestExecutor {
 
 	
 	/**
+	 * <p>A cached thread pool which will be used to execute asynchronous requests.
+	 */
+	private static final ExecutorService ASYNC_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+	
+	
+	/**
 	 * <p>Takes an {@link HttpRequestBase} and executes it asynchronously. 
 	 * This method returns {@code null} immediately.
 	 * 
@@ -67,8 +75,9 @@ class AsyncRequestExecutor implements RequestExecutor {
 	public HttpResponse execute(final HttpRequestBase httpRequestBase, final ProxyInvocationConfiguration config)
 	throws RequestExecutionException {
 
-		new Thread(new Runnable() {
+		ASYNC_EXECUTOR_SERVICE.execute(new Runnable() {
 			
+			@SuppressWarnings("unchecked") //type-safe cast from object to AsyncHandler
 			@Override
 			public void run() {
 		
@@ -82,21 +91,25 @@ class AsyncRequestExecutor implements RequestExecutor {
 				} 
 				catch (ClientProtocolException cpe) {
 
-					LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "Protocol cannot be resolved.", cpe);
+					LogFactory.getLog(MultiThreadedHttpClient.class)
+								.error(errorContext + "Protocol cannot be resolved.", cpe);
+					
 					return;
 				} 
 				catch (IOException ioe) {
 
-					LogFactory.getLog(MultiThreadedHttpClient.class).error(errorContext + "IO failure.", ioe);
+					LogFactory.getLog(MultiThreadedHttpClient.class)
+								.error(errorContext + "IO failure.", ioe);
+					
 					return;
 				}  
 					
-				AsyncHandler asyncHandler = null;
+				AsyncHandler<Object> asyncHandler = null;
 					
 				for (Object object : config.getRequestArgs()) { //find the provided AsyncHandler (if any)
 						
 					if(object instanceof AsyncHandler)
-						asyncHandler = (AsyncHandler) object;
+						asyncHandler = AsyncHandler.class.cast(object);
 				}
 				
 				if(asyncHandler != null) { //response handling has to commence
@@ -110,7 +123,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 						asyncHandler.onFailure(httpResponse, reponseEntity);
 				}
 			}
-		}).start();
+		});
 		
 		return null;
 	}

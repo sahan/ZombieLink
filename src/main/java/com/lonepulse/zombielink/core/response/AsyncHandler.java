@@ -29,17 +29,19 @@ import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.response.parser.ResponseParser;
 
 /**
- * <p>This is the <i>strategy</i> for a handler which can be used to process an HTTP request 
- * <b>asynchronously</b>.
+ * <p>This is the <i>strategy</i> for a handler which can be used to 
+ * process an HTTP request <b>asynchronously</b>.
  * 
- * <p>Executes HTTP request on a separate thread and invokes either {@link AsyncHandler#onSuccess(HttpResponse, Object)} 
- * or {@link AsyncHandler#onFailure(HttpResponse, Object)} depending on whether the request executed successfully or not.</p>
+ * <p>Executes HTTP request on a separate thread and invokes either 
+ * {@link AsyncHandler#onSuccess(HttpResponse, Object)} 
+ * or {@link AsyncHandler#onFailure(HttpResponse, Object)} depending 
+ * on whether the request executed successfully or not.</p>
  * 
  * @version 1.1.2
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class AsyncHandler {
+public abstract class AsyncHandler<E extends Object> {
 
 	
 	/**
@@ -61,7 +63,7 @@ public abstract class AsyncHandler {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public abstract <E extends Object> void onSuccess(HttpResponse httpResponse, E e) 
+	public abstract void onSuccess(HttpResponse httpResponse, E e) 
 	throws ZombieLinkRuntimeException;
 
 	/**
@@ -86,27 +88,6 @@ public abstract class AsyncHandler {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public <E extends Object> void onFailure(HttpResponse httpResponse, E e) 
+	public void onFailure(HttpResponse httpResponse, E e) 
 	throws ZombieLinkRuntimeException {}
 }
-
-/*
-TODO Async Handler Implementation (NOTES BELOW)
-
-Let them build async handlers by annotating their classes, then link them to the endpoint ""interface"" via another annotation
-
-@AsyncHandler, @OnSuccess, @OnFailure
-
-Or just letting them implement this on the spot is easier right?
-
-Or @OnSuccess on any method, then @AsyncHandler(onSuccess = "processPerson")
-
-@OnSuccess(binding = myCCEndpoint.getUserProfile())
-processPerson(HttpRequest httpRequest, Person person)
-
-@OnSuccess
-processPerson(HttpRequest httpRequest)
-
-@OnSuccess
-processPerson(Person person)
-*/

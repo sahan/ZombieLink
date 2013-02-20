@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
  * <li>
  * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
  * <code>
- * <pre>@Request<br><b>@Asynchronous</b><br>public Set&lt;Mention&gt; getMentions();</pre>
+ * <pre>@Asynchronous<br><b>@Request</b><br>public Set&lt;Mention&gt; getMentions();</pre>
  * </code>
  * </li>
  * </ol>
