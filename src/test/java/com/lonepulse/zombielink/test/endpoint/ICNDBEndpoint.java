@@ -25,6 +25,7 @@ import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
+import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
@@ -40,7 +41,7 @@ import com.lonepulse.zombielink.test.model.NorrisJoke;
  * 
  * @category test
  * <br><br> 
- * @version 1.1.0
+ * @version 1.1.1
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -119,4 +120,15 @@ public interface ICNDBEndpoint {
 	 */
 	@Asynchronous @Rest(path = "/random/10")
 	public ICNDBResponseArray randomAsync(AsyncHandler<ICNDBResponseArray> asyncHandler);
+	
+	/**
+	 * <p>Retrieves a random {@link NorrisJoke} while maintaining 
+	 * state with the server.
+	 * 
+	 * @return a random {@link NorrisJoke}.
+	 * 
+	 * @since 1.1.1
+	 */
+	@Stateful @Request(path = "/random")
+	public ICNDBResponse randomStateful(); 
 }

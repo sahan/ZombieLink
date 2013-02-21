@@ -30,7 +30,7 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.util.AnnotationExtractor;
+import com.lonepulse.zombielink.util.AnnotationExtractor;
 
 /**
  * <p>This is an implementation of {@link ResponseParser} which defines and executes the 

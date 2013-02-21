@@ -1,11 +1,11 @@
 /**
- * <p>Contains the set of utility classes using in the core.</p>
+ * <p>Contains the set of classes which process cookies and HTTP contexts.</p>
  * 
- * @since 1.2.1
+ * @since 1.2.2
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-package com.lonepulse.zombielink.core.util;
+package com.lonepulse.zombielink.core.cookie;
 
 /*
  * #%L

@@ -32,12 +32,13 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.protocol.HttpContext;
 
 /**
  * <p>A concrete implementation of {@link HttpClient} which provides network 
  * interfacing over a thread-safe, <b>asynchronous</b> HTTP client.</p>
  * 
- * @version 2.1.0
+ * @version 2.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -92,5 +93,15 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 	throws ClientProtocolException, IOException {
 
 		return this.httpClient.execute(httpRequestBase);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase, HttpContext httpContext)
+	throws ClientProtocolException, IOException {
+	
+		return this.httpClient.execute(httpRequestBase, httpContext);
 	}
 }

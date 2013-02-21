@@ -27,6 +27,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
 
 /**
  * <p>A primitive implementation of {@link HttpClientContract} which provides the 
@@ -78,6 +79,16 @@ public class BasicHttpClient implements HttpClientContract {
 	throws ClientProtocolException, IOException {
 
 		return httpClient.execute(httpRequestBase);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T extends HttpRequestBase> HttpResponse executeRequest(T httpRequestBase, HttpContext httpContext)
+	throws ClientProtocolException, IOException {
+
+		return httpClient.execute(httpRequestBase, httpContext);
 	}
 	
 	/**

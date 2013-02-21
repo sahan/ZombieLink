@@ -22,6 +22,7 @@ package com.lonepulse.zombielink.core.processor.executor;
 
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,8 +33,11 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.protocol.HttpContext;
 
 import com.lonepulse.zombielink.core.MultiThreadedHttpClient;
+import com.lonepulse.zombielink.core.annotation.Stateful;
+import com.lonepulse.zombielink.core.cookie.HttpContextDirectory;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
 import com.lonepulse.zombielink.core.response.ResponseHandlers;
@@ -83,11 +87,22 @@ class AsyncRequestExecutor implements RequestExecutor {
 		
 				String errorContext = "Asynchronous request execution failed. ";
 
+				Class<?> endpointClass = config.getEndpointClass();
+				Method request = config.getRequest();
 				HttpResponse httpResponse;
 				
 				try {
-				
-					httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
+					
+					if(endpointClass.isAnnotationPresent(Stateful.class)
+						|| request.isAnnotationPresent(Stateful.class)) {
+						
+						HttpContext httpContext = HttpContextDirectory.INSTANCE.get(endpointClass);
+						httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase, httpContext);
+					}
+					else {
+						
+						httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
+					}
 				} 
 				catch (ClientProtocolException cpe) {
 

@@ -47,8 +47,8 @@ import org.apache.http.params.HttpParams;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.util.AnnotationExtractor;
 import com.lonepulse.zombielink.rest.annotation.Rest;
+import com.lonepulse.zombielink.util.AnnotationExtractor;
 
 /**
  * <p>Responsible for populating the parameters for an {@link HttpRequest} depending 

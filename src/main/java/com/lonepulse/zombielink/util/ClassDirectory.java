@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.inject;
+package com.lonepulse.zombielink.util;
 
 /*
  * #%L
@@ -28,7 +28,7 @@ package com.lonepulse.zombielink.core.inject;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-interface ClassDirectory {
+public interface ClassDirectory<T extends Object> {
 
 	
 	/**
@@ -37,56 +37,56 @@ interface ClassDirectory {
 	 * <i>new entry is silently ignored</i>.  
 	 * 
 	 * @param entryKey
-	 * 			the endpoint {@link Class} representation used as the <b>key</b>
+	 * 			the {@link Class} representation used as the <b>key</b>
 	 * 
 	 * @param entryValue
-	 * 			the <b>proxy</b> instance to be registered in the directory
+	 * 			the entity instance to be registered in the directory
 	 * 
 	 * @return the new entry value which was added
 	 * 
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Object put(Class<?> entryKey, Object entryValue);
+	public T put(Class<?> entryKey, T entryValue);
 	
 	/**
-	 * <p>Adds an entry to the endpoint directory. If an entry is already defined 
-	 * with this {@link Class} <i>the existing proxy is <b>replaced</b> and 
+	 * <p>Adds an entry to the class directory. If an entry is already defined 
+	 * with this {@link Class} <i>the existing entity is <b>replaced</b> and 
 	 * <b>returned</b></i>.  
 	 * 
 	 * @param entryKey
-	 * 			the endpoint {@link Class} representation used as the <b>key</b>
+	 * 			the {@link Class} representation used as the <b>key</b>
 	 * 
 	 * @param entryValue
-	 * 			the <b>proxy</b> instance to be registered in the directory
+	 * 			the entity instance to be registered in the directory
 	 * 
 	 * @return the previous entry's value
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Object post(Class<?> entryKey, Object entryValue);
+	public T post(Class<?> entryKey, T entryValue);
 
 	/**
 	 * <p>Retrieves an entry from the directory using the {@link Class} key.
 	 * 
 	 * @param entryKey
-	 * 			the {@link Class} which identifies the proxy to retrieve
+	 * 			the {@link Class} which identifies the entity to retrieve
 	 * 
-	 * @return the entry <b>value</b> or <b>null</b> if the endpoint {@link Class} key is missing
+	 * @return the entry <b>value</b> or <b>null</b> if the {@link Class} key is missing
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Object get(Class<?> entryKey);
+	public T get(Class<?> entryKey);
 	
 	/**
 	 * <p>Deletes an entry from the directory using the {@link Class} key.
 	 * 
 	 * @param entryKey
-	 * 			the {@link Class} which identifies the proxy to delete
+	 * 			the {@link Class} which identifies the entity to delete
 	 * 
-	 * @return the deleted entry <b>value</b> or <b>null</b> if the endpoint {@link Class} key is missing
+	 * @return the deleted entry <b>value</b> or <b>null</b> if the {@link Class} key is missing
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Object delete(Class<?> entryKey);
+	public T delete(Class<?> entryKey);
 }

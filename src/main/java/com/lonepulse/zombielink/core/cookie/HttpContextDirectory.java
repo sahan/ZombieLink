@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.inject;
+package com.lonepulse.zombielink.core.cookie;
 
 /*
  * #%L
@@ -23,21 +23,24 @@ package com.lonepulse.zombielink.core.inject;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.protocol.HttpContext;
+
 import com.lonepulse.zombielink.util.ClassDirectory;
 
 /**
  * <p>A <b>singleton</b> implementation of the {@link ClassDirectory} policy 
- * which allows registering and retrieving <b>endpoint proxies</b>. 
+ * which allows registering and retrieving {@link HttpContext}s for stateful 
+ * endpoints.
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public enum EndpointDirectory implements ClassDirectory<Object> {
+public enum HttpContextDirectory implements ClassDirectory<HttpContext> {
 	
 	/**
-	 * <p>The only instance of {@link EndpointDirectory} which allows the clients 
-	 * to access its services.
+	 * <p>The instance of {@link HttpContextDirectory} which allows 
+	 * access to the {@link HttpContext} cache.
 	 * 
 	 * @since 1.1.0
 	 */
@@ -45,48 +48,51 @@ public enum EndpointDirectory implements ClassDirectory<Object> {
 
 	
 	/**
-	 * <p>The {@link Map} of endpoint interface implementations which are maintained 
-	 * as <i>Singletons</i>. 
+	 * <p>The {@link Map} of {@link HttpContext}s which are maintained for 
+	 * stateful endpoints. 
 	 */
-	private static Map<Class<?>, Object> ENDPOINTS = new HashMap<Class<?>, Object>();
+	private static Map<Class<?>, HttpContext> CONTEXTS = new HashMap<Class<?>, HttpContext>();
 	
 	
 	/**
 	 * See {@link ClassDirectory#put(Class, Object)}.
 	 */
 	@Override
-	public synchronized Object put(Class<?> entryKey, Object entryValue) {
+	public synchronized HttpContext put(Class<?> entryKey, HttpContext entryValue) {
 		
-		if(!ENDPOINTS.containsKey(entryKey))
-			ENDPOINTS.put(entryKey, entryValue);
+		if(!CONTEXTS.containsKey(entryKey))
+			CONTEXTS.put(entryKey, entryValue);
 		
-		return ENDPOINTS.get(entryKey);
+		return entryValue;
 	}
 
 	/**
 	 * See {@link ClassDirectory#post(Class, Object)}.
 	 */
 	@Override
-	public synchronized Object post(Class<?> entryKey, Object entryValue) {
+	public synchronized HttpContext post(Class<?> entryKey, HttpContext entryValue) {
 		
-		return entryKey.cast(ENDPOINTS.put(entryKey, entryValue));
+		return CONTEXTS.put(entryKey, entryValue);
 	}
 
 	/**
 	 * See {@link ClassDirectory#get(Class)}.
 	 */
 	@Override
-	public synchronized Object get(Class<?> entryKey) {
+	public synchronized HttpContext get(Class<?> entryKey) {
 		
-		return entryKey.cast(ENDPOINTS.get(entryKey));
+		HttpContext httpContext = CONTEXTS.get(entryKey);
+		
+		return (httpContext == null)? 
+					put(entryKey, HttpContextFactory.INSTANCE.newInstance()) :httpContext;
 	}
 
 	/**
 	 * See {@link ClassDirectory#delete(Class)}.
 	 */
 	@Override
-	public synchronized Object delete(Class<?> entryKey) {
+	public synchronized HttpContext delete(Class<?> entryKey) {
 		
-		return entryKey.cast(ENDPOINTS.remove(entryKey));
+		return CONTEXTS.remove(entryKey);
 	}
 }

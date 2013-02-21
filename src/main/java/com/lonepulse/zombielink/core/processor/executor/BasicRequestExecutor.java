@@ -22,13 +22,17 @@ package com.lonepulse.zombielink.core.processor.executor;
 
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.protocol.HttpContext;
 
 import com.lonepulse.zombielink.core.MultiThreadedHttpClient;
+import com.lonepulse.zombielink.core.annotation.Stateful;
+import com.lonepulse.zombielink.core.cookie.HttpContextDirectory;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
@@ -51,22 +55,35 @@ class BasicRequestExecutor implements RequestExecutor {
 	
 		try {
 			
-			HttpResponse response = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
+			Class<?> endpointClass = config.getEndpointClass();
+			Method request = config.getRequest();
+			HttpResponse httpResponse;
 			
-			if(!(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)) {
+			if(endpointClass.isAnnotationPresent(Stateful.class)
+				|| request.isAnnotationPresent(Stateful.class)) {
+				
+				HttpContext httpContext = HttpContextDirectory.INSTANCE.get(endpointClass);
+				httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase, httpContext);
+			}
+			else {
+				
+				httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
+			}
+			
+			if(!(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK)) {
 				
 				StringBuilder builder = new StringBuilder()
 				.append("HTTP request for ")
 				.append(httpRequestBase.getURI())
 				.append(" failed with status code ")
-				.append(response.getStatusLine().getStatusCode())
+				.append(httpResponse.getStatusLine().getStatusCode())
 				.append(", ")
-				.append(response.getStatusLine().getReasonPhrase());
+				.append(httpResponse.getStatusLine().getReasonPhrase());
 				
 				throw new IOException(builder.toString());
 			}
 		
-			return response;
+			return httpResponse;
 		}
 		catch (Exception e) {
 			

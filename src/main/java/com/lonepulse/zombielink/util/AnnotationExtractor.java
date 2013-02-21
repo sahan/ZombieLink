@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.util;
+package com.lonepulse.zombielink.util;
 
 /*
  * #%L

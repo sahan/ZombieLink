@@ -32,7 +32,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.util.AnnotationExtractor;
+import com.lonepulse.zombielink.util.AnnotationExtractor;
 
 /**
  * <p>A concrete implementation of {@link HeaderBuilder} which creates the 

@@ -36,9 +36,9 @@ import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
 import com.lonepulse.zombielink.core.request.HttpParamBuilder;
 import com.lonepulse.zombielink.core.request.MissingRequestAnnotationException;
 import com.lonepulse.zombielink.core.request.RequestMethod;
-import com.lonepulse.zombielink.core.util.AnnotationExtractor;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
+import com.lonepulse.zombielink.util.AnnotationExtractor;
 
 /**
  * <p>This is an implementation of {@link AbstractRequestBuilder} which handles the 

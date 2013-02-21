@@ -34,6 +34,8 @@ import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.core.annotation.Stateful;
+import com.lonepulse.zombielink.core.cookie.HttpContextDirectory;
 import com.lonepulse.zombielink.core.inject.Zombie;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
@@ -147,5 +149,14 @@ public class ICNDBEndpointTest {
 		});
 		
 		assertNull(synchronousResult);
+	}
+	
+	/**
+	 * <p>Test method for {@link Stateful} and {@link HttpContextDirectory}.
+	 */
+	@Test
+	public final void testState() {
+		
+		assertNotNull(icndbEndpoint.randomStateful());
 	}
 }
