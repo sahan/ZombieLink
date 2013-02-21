@@ -23,11 +23,12 @@ package com.lonepulse.zombielink.test.endpoint;
 
 import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
+import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
-import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
@@ -130,5 +131,16 @@ public interface ICNDBEndpoint {
 	 * @since 1.1.1
 	 */
 	@Stateful @Request(path = "/random")
-	public ICNDBResponse randomStateful(); 
+	public ICNDBResponse randomStateful();
+	
+	/**
+	 * <p>Retrieves a random {@link NorrisJoke} and populates the 
+	 * response <i>server</i> response header.
+	 * 
+	 * @return a random {@link NorrisJoke}.
+	 * 
+	 * @since 1.1.1
+	 */
+	@Rest(path = "/random")
+	public ICNDBResponse random(@Header("Server") StringBuilder server); 
 }

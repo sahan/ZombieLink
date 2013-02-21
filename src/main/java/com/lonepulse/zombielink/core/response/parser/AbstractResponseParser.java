@@ -169,7 +169,7 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 					StringBuilder arg = ((StringBuilder)object);
 					StringBuilder argBeforeRequest = (StringBuilder)entry.getKey();
 					
-					if(arg.toString().equals(argBeforeRequest))
+					if(arg.toString().equals(argBeforeRequest.toString()))
 						arg.replace(0, arg.length(), responseHeaderValue);
 				}
 			}

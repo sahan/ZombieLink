@@ -32,6 +32,7 @@ import org.junit.Test;
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
+import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
@@ -158,5 +159,20 @@ public class ICNDBEndpointTest {
 	public final void testState() {
 		
 		assertNotNull(icndbEndpoint.randomStateful());
+	}
+	
+	/**
+	 * <p>Test method for {@link Header}.
+	 */
+	@Test
+	public final void testResponseHeader() {
+		
+		StringBuilder header = new StringBuilder();
+		
+		assertNotNull(icndbEndpoint.random(header));
+		
+		String server = header.toString();
+		assertTrue(server != null);
+		assertTrue(!server.equals(""));
 	}
 }
