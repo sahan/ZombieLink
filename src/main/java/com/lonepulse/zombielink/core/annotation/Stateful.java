@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * <li>
  * <p>At <b>type-level</b> on an endpoint <i>interface</i> for all requests.</p><br>
  * <code>
- * <pre><b> @Stateful</b>&nbsp;@Endpoint("accounts.lonepulse.org")
+ * <pre><b> @Stateful</b>&nbsp;@Endpoint("accounts.google.com")
  * public interface GoogleAccountsEndpoint {<br> }
  * </pre>
  * </code>
