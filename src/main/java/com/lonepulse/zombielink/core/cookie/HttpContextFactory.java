@@ -27,44 +27,23 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import com.lonepulse.zombielink.util.AbstractGenericFactory;
 import com.lonepulse.zombielink.util.GenericFactory;
 
 /**
- * <p>Follows the {@link GenericFactory} policy to create {@link HttpContext}s 
- * for a given endpoint {@link Class}.
+ * <p>Follows the {@link GenericFactory} policy to create local {@link HttpContext}s 
+ * for a given endpoint {@link Class} which are reused for each endpoint invocation. 
  * 
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public enum HttpContextFactory implements GenericFactory<Void, HttpContext> {
-
+public class HttpContextFactory extends AbstractGenericFactory<Void, HttpContext> {
+	
 	
 	/**
-	 * <p>The single instance of the {@link HttpContextFactory}.
-	 * 
-	 * @since 1.1.0
-	 */
-	INSTANCE;
-
-	
-	/**
-	 * See {@link GenericFactory#newInstance(Object, Object...)}.
-	 */
-	@Override
-	public HttpContext newInstance(Void input, Void... inputs) {
-		
-		StringBuilder builder = new StringBuilder()
-		.append(getClass().getName())
-		.append(".newInstance(Void, Void...) is unsupported. Use ")
-		.append(getClass().getSimpleName())
-		.append(".newInstance() instead");
-		
-		throw new UnsupportedOperationException(builder.toString());
-	}
-	
-	/**
-	 * See {@link GenericFactory#newInstance()}.
+	 * <p>Creates a local instance of {@link HttpContext} and with a new 
+	 * {@link CookieStore} to be used for each subsequent request invocation. 
 	 */
 	@Override
 	public HttpContext newInstance() {

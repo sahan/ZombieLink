@@ -52,6 +52,12 @@ public enum HttpContextDirectory implements ClassDirectory<HttpContext> {
 	 * stateful endpoints. 
 	 */
 	private static Map<Class<?>, HttpContext> CONTEXTS = new HashMap<Class<?>, HttpContext>();
+
+	/**
+	 * <p>The instance of {@link HttpContextFactory} which creates new instance of 
+	 * {@link HttpContext}s.
+	 */
+	private final HttpContextFactory httpContextFactory = new HttpContextFactory();
 	
 	
 	/**
@@ -84,7 +90,7 @@ public enum HttpContextDirectory implements ClassDirectory<HttpContext> {
 		HttpContext httpContext = CONTEXTS.get(entryKey);
 		
 		return (httpContext == null)? 
-					put(entryKey, HttpContextFactory.INSTANCE.newInstance()) :httpContext;
+					put(entryKey, httpContextFactory.newInstance()) :httpContext;
 	}
 
 	/**
