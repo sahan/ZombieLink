@@ -29,7 +29,6 @@ import org.apache.http.HttpResponse;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Header;
@@ -140,9 +139,9 @@ public class ICNDBEndpointTest {
 		ICNDBResponseArray synchronousResult = icndbEndpoint.randomAsync(new AsyncHandler<ICNDBResponseArray>() {
 
 			@Override
-			public void onSuccess(HttpResponse httpResponse, ICNDBResponseArray icndbResponseArray) 
-			throws ZombieLinkRuntimeException {
+			public void onSuccess(HttpResponse httpResponse, ICNDBResponseArray icndbResponseArray) {
 
+				assertNotNull(httpResponse);
 				assertNotNull(icndbResponseArray);
 				assertNotNull(icndbResponseArray.getValue());
 				assertTrue(icndbResponseArray.getValue().size() == 10);

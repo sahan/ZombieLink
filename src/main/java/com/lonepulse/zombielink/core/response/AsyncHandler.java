@@ -36,7 +36,7 @@ import com.lonepulse.zombielink.core.response.parser.ResponseParser;
  * or {@link AsyncHandler#onFailure(HttpResponse, Object)} depending 
  * on whether the request executed successfully or not.</p>
  * 
- * @version 1.1.2
+ * @version 1.1.3
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -73,12 +73,8 @@ public abstract class AsyncHandler<E extends Object> {
 	 * @param httpResponse
 	 * 			the original instance {@link HttpResponse} returned as a result of 
 	 * 			the execution
-	 * 
-	 * @param e
-	 * 			an instance of the response type ({@link HttpResponse} processed 
-	 * 			using the specified {@link Parser})
 	 * <br><br>
-	 * @since 1.1.1
+	 * @since 1.1.3
 	 */
-	public void onFailure(HttpResponse httpResponse, E e){}
+	public void onFailure(HttpResponse httpResponse){}
 }

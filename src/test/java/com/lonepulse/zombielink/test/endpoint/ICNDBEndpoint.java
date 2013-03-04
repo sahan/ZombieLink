@@ -42,11 +42,11 @@ import com.lonepulse.zombielink.test.model.NorrisJoke;
  * 
  * @category test
  * <br><br> 
- * @version 1.1.1
+ * @version 1.1.2
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Endpoint("api.icndb.com/jokes/")
+@Endpoint("api.icndb.com/jokes")
 @Parser(PARSER_TYPE.JSON)
 public interface ICNDBEndpoint {
 	
@@ -117,7 +117,7 @@ public interface ICNDBEndpoint {
 	 * 			the {@link AsyncHandler} which handles the results of 
 	 * 			the asynchronous request execution
 	 * 
-	 * @since 1.1.0
+	 * @since 1.1.1
 	 */
 	@Asynchronous @Rest(path = "/random/10")
 	public ICNDBResponseArray randomAsync(AsyncHandler<ICNDBResponseArray> asyncHandler);

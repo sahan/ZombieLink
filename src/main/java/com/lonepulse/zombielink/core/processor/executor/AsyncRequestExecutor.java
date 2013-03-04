@@ -132,12 +132,11 @@ class AsyncRequestExecutor implements RequestExecutor {
 				
 				if(asyncHandler != null) { //response handling has to commence
 					
-					Object reponseEntity = ResponseHandlers.BASIC.handle(httpResponse, config);
-						
 					if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						
 						try {
 							
+							Object reponseEntity = ResponseHandlers.BASIC.handle(httpResponse, config);
 							asyncHandler.onSuccess(httpResponse, reponseEntity);
 						}
 						catch (Exception e) {
@@ -150,7 +149,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 						
 						try {
 							
-							asyncHandler.onFailure(httpResponse, reponseEntity);
+							asyncHandler.onFailure(httpResponse);
 						}
 						catch (Exception e) {
 							
