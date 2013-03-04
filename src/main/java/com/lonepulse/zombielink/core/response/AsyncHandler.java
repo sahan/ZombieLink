@@ -24,7 +24,6 @@ import java.lang.reflect.Type;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.response.parser.ResponseParser;
 
@@ -57,14 +56,10 @@ public abstract class AsyncHandler<E extends Object> {
 	 * @param e
 	 * 			an instance of the response type ({@link HttpResponse} processed 
 	 * 			using the specified {@link Parser})
-	 * 
-	 * @throws ZombieLinkRuntimeException
-	 * 			when processing fails due to some miscellaneous error
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public abstract void onSuccess(HttpResponse httpResponse, E e) 
-	throws ZombieLinkRuntimeException;
+	public abstract void onSuccess(HttpResponse httpResponse, E e);
 
 	/**
 	 * <p>Callback method to handle a <i>failed request execution</i>.
@@ -82,12 +77,8 @@ public abstract class AsyncHandler<E extends Object> {
 	 * @param e
 	 * 			an instance of the response type ({@link HttpResponse} processed 
 	 * 			using the specified {@link Parser})
-	 * 
-	 * @throws ZombieLinkRuntimeException
-	 * 			when processing fails due to some miscellaneous error
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public void onFailure(HttpResponse httpResponse, E e) 
-	throws ZombieLinkRuntimeException {}
+	public void onFailure(HttpResponse httpResponse, E e){}
 }

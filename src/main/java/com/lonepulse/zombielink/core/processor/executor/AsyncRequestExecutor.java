@@ -81,7 +81,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 
 		ASYNC_EXECUTOR_SERVICE.execute(new Runnable() {
 			
-			@SuppressWarnings("unchecked") //type-safe cast from object to AsyncHandler
+			@SuppressWarnings("unchecked") //type-safe cast from Object to AsyncHandler
 			@Override
 			public void run() {
 		
@@ -123,19 +123,41 @@ class AsyncRequestExecutor implements RequestExecutor {
 					
 				for (Object object : config.getRequestArgs()) { //find the provided AsyncHandler (if any)
 						
-					if(object instanceof AsyncHandler)
+					if(object instanceof AsyncHandler) {
+						
 						asyncHandler = AsyncHandler.class.cast(object);
+						break;
+					}
 				}
 				
 				if(asyncHandler != null) { //response handling has to commence
 					
 					Object reponseEntity = ResponseHandlers.BASIC.handle(httpResponse, config);
 						
-					if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-						asyncHandler.onSuccess(httpResponse, reponseEntity); 
+					if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 						
-					else 
-						asyncHandler.onFailure(httpResponse, reponseEntity);
+						try {
+							
+							asyncHandler.onSuccess(httpResponse, reponseEntity);
+						}
+						catch (Exception e) {
+							
+							LogFactory.getLog(AsyncRequestExecutor.class)
+										.error("Callback \"onSuccess\" aborted with an exception.", e);
+						}
+					}
+					else { 
+						
+						try {
+							
+							asyncHandler.onFailure(httpResponse, reponseEntity);
+						}
+						catch (Exception e) {
+							
+							LogFactory.getLog(AsyncRequestExecutor.class)
+										.error("Callback \"onFailure\" aborted with an exception.", e);
+						}
+					}
 				}
 			}
 		});
