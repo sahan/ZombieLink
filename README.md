@@ -61,6 +61,8 @@ and follow the rest of the wiki pages.
 4. [Injecting Endpoint Proxies](https://github.com/sahan/ZombieLink/wiki/Injecting-Endpoint-Proxies)
 
 5. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
+
+6. [Executing Requests Asynchronously](https://github.com/sahan/ZombieLink/wiki/Executing-Requests-Asynchronously)   
 <br/>
 
 ##License
