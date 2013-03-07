@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.http.HttpHeaders;
@@ -161,11 +162,11 @@ public final class HttpParamBuilder {
 		for (Request.Param param : staticParams)
 			uriBuilder.setParameter(param.name(), param.value());
 		
-		Set<Object> methodParams = annotatedParams.keySet();
+		Set<Entry<Object, Param>> methodParams = annotatedParams.entrySet();
 		
-		for (Object object : methodParams) {
+		for (Entry<Object, Param> entry : methodParams) {
 			
-			if(!(object instanceof String)) {
+			if(!(entry.getKey() instanceof String)) {
 			
 				StringBuilder message = new StringBuilder();
 
@@ -177,7 +178,7 @@ public final class HttpParamBuilder {
 				throw new IllegalArgumentException(message.toString());
 			}
 		
-			uriBuilder.setParameter(annotatedParams.get(object).value(), (String)object);
+			uriBuilder.setParameter(entry.getValue().value(), (String)entry.getKey());
 		}
 		
 		return new HttpGet(uriBuilder.build());
@@ -215,10 +216,10 @@ public final class HttpParamBuilder {
 		for (Request.Param param : staticParams)
 			nameValuePairs.add(new BasicNameValuePair(param.name(), param.value()));
 		
-		Set<Object> methodParams = annotatedParams.keySet();
+		Set<Entry<Object, Param>> methodParams = annotatedParams.entrySet();
 		
-		for (Object object : methodParams)
-			nameValuePairs.add(new BasicNameValuePair(annotatedParams.get(object).value(), object.toString()));
+		for (Entry<Object, Param> entry : methodParams)
+			nameValuePairs.add(new BasicNameValuePair(entry.getValue().value(), entry.getKey().toString()));
 		
 		UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairs);
 		urlEncodedFormEntity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
@@ -262,12 +263,11 @@ public final class HttpParamBuilder {
 		for (Request.Param param : staticParams)
 			nameValuePairs.add(new BasicNameValuePair(param.name(), param.value()));
 		
-		Set<Object> methodParams = annotatedParams.keySet();
+		Set<Entry<Object, Param>> methodParams = annotatedParams.entrySet();
 		
-		for (Object object : methodParams)
-			nameValuePairs.add(new BasicNameValuePair(annotatedParams.get(object).value(), object.toString()));
-		
-		
+		for (Entry<Object, Param> entry : methodParams)
+			nameValuePairs.add(new BasicNameValuePair(entry.getValue().value(), entry.getKey().toString()));
+
 		UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairs);
 		urlEncodedFormEntity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
 		
@@ -311,10 +311,10 @@ public final class HttpParamBuilder {
 		for (Request.Param param : staticParams)
 			httpParams.setParameter(param.name(), param.value());
 		
-		Set<Object> methodParams = annotatedParams.keySet();
+		Set<Entry<Object, Param>> methodParams = annotatedParams.entrySet();
 		
-		for (Object object : methodParams)
-			httpParams.setParameter(annotatedParams.get(object).value(), object.toString());
+		for (Entry<Object, Param> entry : methodParams)
+			httpParams.setParameter(entry.getValue().value(), entry.getKey().toString());
 		
 		HttpDelete httpDelete = new HttpDelete(uriBuilder.build());
 		httpDelete.setParams(httpParams);

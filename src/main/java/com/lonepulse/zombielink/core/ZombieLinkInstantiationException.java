@@ -54,7 +54,7 @@ public class ZombieLinkInstantiationException extends ZombieLinkRuntimeException
 	public ZombieLinkInstantiationException(Class<?> componentClass, Constructor<?> constructor, InstantiationException rootCause) {
 		
 		this("Could not instantiate component " + componentClass.getName() + 
-			 " via the parameterized constructor with arguments " + constructor.getParameterTypes() + 
+			 " via the parameterized constructor with arguments " + constructor.getParameterTypes().toString() + 
 			 ". Make sure that this constructor is available and accessible. Note that " + componentClass.getName() + 
 			 " cannot be an abstract class, an interface class, an array class, a primitive type, or void.", rootCause);
 	}

@@ -139,7 +139,11 @@ public final class ProxyInvocationConfiguration {
 	private final Method request; 
 	
 	/**
-	 * <p>The parameters supplied to {@link #request}.
+	 * <p>The parameters supplied to {@link #request}.</p>
+	 * 
+	 * <p>Note that this array cannot be defensive copied. 
+	 * Each element is required to be an <i>out</i> parameter 
+	 * to support response header access.</p> 
 	 */
 	private final Object[] requestArgs;
 

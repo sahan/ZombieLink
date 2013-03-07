@@ -23,6 +23,7 @@ package com.lonepulse.zombielink.rest.request;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.http.client.methods.HttpDelete;
@@ -78,15 +79,15 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		Map<Object, PathParam> annotatedParams 
 			= AnnotationExtractor.<PathParam>extractWithParameterValues(PathParam.class, request, config.getRequestArgs());
 		
-		Set<Object> methodParams = annotatedParams.keySet();
+		Set<Entry<Object, PathParam>> methodParams = annotatedParams.entrySet();
 		
-		for (Object paramValue : methodParams) {
+		for (Entry<Object, PathParam> paramEntry : methodParams) {
 			
-			if(!(paramValue instanceof String))
+			if(!(paramEntry.getKey() instanceof String))
 				throw new IllegalArgumentException("Path parameters for RESTful requests can only be of type " + 
 													String.class.getName());
 
-			subpath = subpath.replaceAll(":" + annotatedParams.get(paramValue).value(), (String)paramValue);
+			subpath = subpath.replaceAll(":" + paramEntry.getValue().value(), (String)paramEntry.getKey());
 		}
 		
 		URI uriWithPathParameters = new URI(uri.toASCIIString() + subpath);
