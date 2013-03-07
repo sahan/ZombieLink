@@ -28,7 +28,7 @@ project's **pom.xml**.
 <dependency>
    <groupId>com.lonepulse</groupId>
    <artifactId>zombielink</artifactId>
-   <version>1.2.1</version>
+   <version>1.2.2</version>
 </dependency>
 ```
       
@@ -43,8 +43,8 @@ $ mvn dependency:resolve -Dclassifier=javadoc
 For projects which use an alternative build tool, download the library using the link below and add it to the 
 build path. You may download and attach the documentation as well.
 
-> ZombieLink-1.2.1 with REST support: ([ZombieLink-1.2.1.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.1/zombielink-1.2.1.jar)), 
-([ZombieLink-1.2.1-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.1/zombielink-1.2.1-javadoc.jar))   
+> ZombieLink-1.2.2 with asynchronous request execution: ([ZombieLink-1.2.2.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2.jar)), 
+([ZombieLink-1.2.2-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2-javadoc.jar))   
 
 <br/><br/>
 ##Usage
