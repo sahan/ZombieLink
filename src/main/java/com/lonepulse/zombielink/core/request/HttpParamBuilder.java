@@ -127,9 +127,9 @@ public final class HttpParamBuilder {
 				}
 			}
 		} 
-		catch (Throwable t) {
+		catch (Exception e) {
 
-			throw new ParamPopulatorException(HttpParamBuilder.class, config, t);
+			throw new ParamPopulatorException(HttpParamBuilder.class, config, e);
 		}
 	}
 	
@@ -150,14 +150,14 @@ public final class HttpParamBuilder {
 	 * <br><br>
 	 * @return the created {@link HttpRequestBase} which is an instance of {@link HttpGet}
 	 * <br><br>
-	 * @throws Throwable
+	 * @throws Exception
 	 * 				when the {@link HttpRequestBase} could not be created due to an exception
 	 * <br><br>
 	 * @since 1.1.2
 	 */
 	private static HttpRequestBase populateGetParameters(URIBuilder uriBuilder, 
 													     Map<Object, Param> annotatedParams, 
-													     List<Request.Param> staticParams) throws Throwable {
+													     List<Request.Param> staticParams) throws Exception {
 		
 		for (Request.Param param : staticParams)
 			uriBuilder.setParameter(param.name(), param.value());
@@ -202,14 +202,14 @@ public final class HttpParamBuilder {
 	 * <br><br>
 	 * @return the created {@link HttpRequestBase} which is an instance of {@link HttpPost}
 	 * <br><br>
-	 * @throws Throwable
+	 * @throws Exception
 	 * 				when the {@link HttpRequestBase} could not be created due to an exception
 	 * <br><br>
 	 * @since 1.1.2
 	 */
 	private static HttpRequestBase populatePostParameters(URIBuilder uriBuilder, 
 														  Map<Object, Param> annotatedParams, 
-														  List<Request.Param> staticParams) throws Throwable {
+														  List<Request.Param> staticParams) throws Exception {
 		
 		List <NameValuePair> nameValuePairs = new ArrayList <NameValuePair>();
 		
@@ -249,14 +249,14 @@ public final class HttpParamBuilder {
 	 * <br><br>
 	 * @return the created {@link HttpRequestBase} which is an instance of {@link HttpPost}
 	 * <br><br>
-	 * @throws Throwable
+	 * @throws Exception
 	 * 				when the {@link HttpRequestBase} could not be created due to an exception
 	 * <br><br>
 	 * @since 1.1.3
 	 */
 	private static HttpRequestBase populatePutParameters(URIBuilder uriBuilder, 
 												  Map<Object, Param> annotatedParams, 
-												  List<Request.Param> staticParams) throws Throwable {
+												  List<Request.Param> staticParams) throws Exception {
 		
 		List <NameValuePair> nameValuePairs = new ArrayList <NameValuePair>();
 		
@@ -296,7 +296,7 @@ public final class HttpParamBuilder {
 	 * <br><br>
 	 * @return the created {@link HttpRequestBase} which is an instance of {@link HttpPost}
 	 * <br><br>
-	 * @throws Throwable
+	 * @throws Exception
 	 * 				when the {@link HttpRequestBase} could not be created due to an exception
 	 * <br><br>
 	 * @since 1.1.3
@@ -304,7 +304,7 @@ public final class HttpParamBuilder {
 	
 	private static HttpRequestBase populateDeleteParameters(URIBuilder uriBuilder, 
 													        Map<Object, Param> annotatedParams, 
-													        List<Request.Param> staticParams) throws Throwable {
+													        List<Request.Param> staticParams) throws Exception {
 		
 		HttpParams httpParams = new BasicHttpParams();
 		
