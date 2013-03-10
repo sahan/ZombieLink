@@ -87,7 +87,7 @@ public enum HttpContextDirectory implements ClassDirectory<HttpContext> {
 	@Override
 	public synchronized HttpContext get(Class<?> entryKey) {
 		
-		HttpContext httpContext = CONTEXTS.get(entryKey);
+		HttpContext httpContext = CONTEXTS.get(entryKey); 
 		
 		return (httpContext == null)? 
 					put(entryKey, httpContextFactory.newInstance()) :httpContext;

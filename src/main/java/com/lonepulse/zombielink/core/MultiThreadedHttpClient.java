@@ -60,7 +60,7 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	private transient HttpClient httpClient; 
+	private transient HttpClient httpClient;
 	
 	
 	/**
@@ -80,7 +80,7 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 		schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 		
 		PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
-		pccm.setMaxTotal(32); //Max. number of client connections pooled
+		pccm.setMaxTotal(128); //Max. number of client connections pooled
 		
 		this.httpClient = new DefaultHttpClient(pccm);
 	}
