@@ -60,7 +60,7 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	private transient HttpClient httpClient;
+	private final transient HttpClient httpClient;
 	
 	
 	/**
@@ -80,9 +80,19 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 		schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 		
 		PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
-		pccm.setMaxTotal(128); //Max. number of client connections pooled
+		pccm.setMaxTotal(256); //Max. number of client connections pooled
+		pccm.setDefaultMaxPerRoute(24); //Max connections per route
 		
 		this.httpClient = new DefaultHttpClient(pccm);
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			
+			@Override
+			public void run() { //HttpClient considered to be "out of scope" only on VM exit
+			
+				httpClient.getConnectionManager().shutdown(); 
+			}
+		}));
 	}
 
 	/**
