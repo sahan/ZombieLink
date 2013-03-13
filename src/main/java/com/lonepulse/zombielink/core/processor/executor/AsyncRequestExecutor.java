@@ -23,9 +23,12 @@ package com.lonepulse.zombielink.core.processor.executor;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -34,6 +37,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 
 import com.lonepulse.zombielink.core.MultiThreadedHttpClient;
 import com.lonepulse.zombielink.core.annotation.Stateful;
@@ -59,7 +63,42 @@ class AsyncRequestExecutor implements RequestExecutor {
 	/**
 	 * <p>A cached thread pool which will be used to execute asynchronous requests.
 	 */
-	private static final ExecutorService ASYNC_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+	private static final ExecutorService ASYNC_EXECUTOR_SERVICE;
+	
+	static
+	{
+		ASYNC_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				Log log = LogFactory.getLog(AsyncRequestExecutor.class);
+				
+				ASYNC_EXECUTOR_SERVICE.shutdown(); //finish executing all pending asynchronous requests 
+				
+				try {
+					
+					if(!ASYNC_EXECUTOR_SERVICE.awaitTermination(60, TimeUnit.SECONDS)) {
+						
+						List<Runnable> pendingRequests = ASYNC_EXECUTOR_SERVICE.shutdownNow();
+						log.info(pendingRequests.size() + " asynchronous requests aborted.");
+						
+						if(!ASYNC_EXECUTOR_SERVICE.awaitTermination(10, TimeUnit.SECONDS))
+							log.error(pendingRequests.size() + " failed to shutdown the cached thread pool for asynchronous requests.");
+					}
+				}
+				catch (InterruptedException ie) {
+
+					List<Runnable> pendingRequests = ASYNC_EXECUTOR_SERVICE.shutdownNow();
+					log.info(pendingRequests.size() + " asynchronous requests aborted.");
+					
+					Thread.currentThread().interrupt();
+				}
+			}
+		}));
+	}
 	
 	
 	/**
@@ -85,6 +124,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 			@Override
 			public void run() {
 		
+				Log log = LogFactory.getLog(AsyncRequestExecutor.class);
 				String errorContext = "Asynchronous request execution failed. ";
 
 				Class<?> endpointClass = config.getEndpointClass();
@@ -106,22 +146,31 @@ class AsyncRequestExecutor implements RequestExecutor {
 				} 
 				catch (ClientProtocolException cpe) {
 
-					LogFactory.getLog(MultiThreadedHttpClient.class)
-								.error(errorContext + "Protocol cannot be resolved.", cpe);
-					
+					log.error(errorContext + "Protocol cannot be resolved.", cpe);
 					return;
 				} 
 				catch (IOException ioe) {
 
-					LogFactory.getLog(MultiThreadedHttpClient.class)
-								.error(errorContext + "IO failure.", ioe);
-					
+					log.error(errorContext + "IO failure.", ioe);
 					return;
-				}  
+				} 
+				catch (Exception e) {
 					
+					log.error(errorContext, e);
+					return;
+				}
+					
+				Object[] requestArgs = config.getRequestArgs();
+				
+				if(requestArgs == null || requestArgs.length == 0) {
+					
+					EntityUtils.consumeQuietly(httpResponse.getEntity());
+					return;
+				}
+				
 				AsyncHandler<Object> asyncHandler = null;
-					
-				for (Object object : config.getRequestArgs()) { //find the provided AsyncHandler (if any)
+				
+				for (Object object : requestArgs) { //find the provided AsyncHandler (if any)
 						
 					if(object instanceof AsyncHandler) {
 						
@@ -130,9 +179,11 @@ class AsyncRequestExecutor implements RequestExecutor {
 					}
 				}
 				
+				boolean successful = httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK;
+				
 				if(asyncHandler != null) { //response handling has to commence
 					
-					if(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+					if(successful) {
 						
 						try {
 							
@@ -141,20 +192,19 @@ class AsyncRequestExecutor implements RequestExecutor {
 						}
 						catch (Exception e) {
 							
-							LogFactory.getLog(AsyncRequestExecutor.class)
-										.error("Callback \"onSuccess\" aborted with an exception.", e);
+							log.error("Callback \"onSuccess\" aborted with an exception.", e);
 						}
 					}
 					else { 
 						
 						try {
 							
+							EntityUtils.consumeQuietly(httpResponse.getEntity());
 							asyncHandler.onFailure(httpResponse);
 						}
 						catch (Exception e) {
 							
-							LogFactory.getLog(AsyncRequestExecutor.class)
-										.error("Callback \"onFailure\" aborted with an exception.", e);
+							log.error("Callback \"onFailure\" aborted with an exception.", e);
 						}
 					}
 				}

@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
@@ -107,15 +108,19 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 		this.requestReturnType = config.getRequest().getReturnType();
 		
 		throwIfNotAssignable(requestReturnType);
-		processHeaders(httpResponse, config);
 		
 		try {
 			
+			processHeaders(httpResponse, config);
 			return processResponse(httpResponse);
 		}
 		catch(Exception e) {
-			
+		
 			throw new ResponseParserException(e);
+		}
+		finally {
+			
+			EntityUtils.consumeQuietly(httpResponse.getEntity());
 		}
 	}
 	

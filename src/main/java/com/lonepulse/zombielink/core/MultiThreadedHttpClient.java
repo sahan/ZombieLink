@@ -89,8 +89,8 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 			
 			@Override
 			public void run() { //HttpClient considered to be "out of scope" only on VM exit
-			
-				httpClient.getConnectionManager().shutdown(); 
+				
+				httpClient.getConnectionManager().shutdown();
 			}
 		}));
 	}
