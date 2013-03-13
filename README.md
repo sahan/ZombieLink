@@ -40,11 +40,18 @@ $ mvn dependency:resolve -Dclassifier=javadoc
 <br/>
 ### 2. For Non-Maven Projects
 
-For projects which use an alternative build tool, download the library using the link below and add it to the 
-build path. You may download and attach the documentation as well.
+For projects which use an alternative build tool, clone the repository and package with Maven to find the uberjar 
+in the target directory. 
 
-> ZombieLink-1.2.2 with asynchronous request execution: ([ZombieLink-1.2.2.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2.jar)), 
-([ZombieLink-1.2.2-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2-javadoc.jar))   
+```bash
+$ git clone git://github.com/sahan/ZombieLink.git
+$ cd ZombieLink
+$ mvn package
+```
+   
+Attach documentation using [ZombieLink-1.2.2-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2-javadoc.jar).   
+
+> The uberjar will be available in the Maven central repository after the next release.   
 
 <br/><br/>
 ##Usage
