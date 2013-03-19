@@ -148,17 +148,17 @@ public enum ResponseParsers implements ResponseParser<Object> {
 						try {
 							
 							ResponseParser<?> responseParser 
-								= ResponseParser.class.cast(parser.typeClass().newInstance());
+								= ResponseParser.class.cast(parser.type().newInstance());
 							
 							return responseParser;
 						} 
 						catch (InstantiationException ie) {
 						
-							throw new ZombieLinkInstantiationException(parser.typeClass(), ie);
+							throw new ZombieLinkInstantiationException(parser.type(), ie);
 						} 
 						catch (IllegalAccessException iae) {
 							
-							throw new ZombieLinkIllegalAccessException(parser.typeClass(), iae);
+							throw new ZombieLinkIllegalAccessException(parser.type(), iae);
 						}
 					}
 				}

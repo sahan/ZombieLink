@@ -125,7 +125,7 @@ public @interface Parser {
 	 * <p>By default, a {@link StringResponseParser} is used.</p>
 	 * 
 	 * <code>
-     * <pre>@Request("/license.txt")<br><b>@Parser(typeClass = CustomParser.class)</b>
+     * <pre>@Request("/license.txt")<br><b>@Parser(type = CustomParser.class)</b>
      *public abstract String getLicense();</b></b></pre>
      * </code>
 	 * 
@@ -133,5 +133,5 @@ public @interface Parser {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Class<? extends ResponseParser<?>> typeClass() default StringResponseParser.class;
+	public Class<? extends ResponseParser<?>> type() default StringResponseParser.class;
 }
