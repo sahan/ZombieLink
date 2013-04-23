@@ -28,7 +28,7 @@ project's **pom.xml**.
 <dependency>
    <groupId>com.lonepulse</groupId>
    <artifactId>zombielink</artifactId>
-   <version>1.2.2</version>
+   <version>1.2.3</version>
 </dependency>
 ```
       
@@ -49,9 +49,7 @@ $ cd ZombieLink
 $ mvn package
 ```
    
-Attach documentation using [ZombieLink-1.2.2-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.2/zombielink-1.2.2-javadoc.jar).   
-
-> The uberjar will be available in the Maven central repository after the next release.   
+Attach documentation using [ZombieLink-1.2.3-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.3/zombielink-1.2.3-javadoc.jar).   
 
 <br/><br/>
 ##Usage
