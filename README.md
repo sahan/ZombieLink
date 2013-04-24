@@ -50,8 +50,8 @@ $ mvn package
 ```
    
 Attach documentation using [ZombieLink-1.2.3-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.3/zombielink-1.2.3-javadoc.jar).   
+<br/>
 
-<br/><br/>
 ##Usage
 Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
 and adheres to a *minimal intrusion* policy. Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) 
