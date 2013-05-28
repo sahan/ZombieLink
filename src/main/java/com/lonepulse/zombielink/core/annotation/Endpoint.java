@@ -69,7 +69,7 @@ public @interface Endpoint {
 	 * <br><br>
 	 * @since 1.1.2
 	 */
-	public String value();
+	public String value() default "";
 	
 	/**
 	 * <p>The <b>port</b> through which a channel is opened for communication 

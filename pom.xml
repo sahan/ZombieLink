@@ -105,6 +105,13 @@
 		<url>https://github.com/sahan/ZombieLink/issues</url>
 	</issueManagement>
 
+	<mailingLists>
+		<mailingList>
+			<name>ZombieLink-ost.io</name>
+			<post>http://ost.io/@sahan/ZombieLink</post>
+		</mailingList>
+	</mailingLists>
+	
 	<ciManagement>
 		<system>Travis-CI</system>
 		<url>https://travis-ci.org/sahan/ZombieLink</url>
