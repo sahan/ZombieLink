@@ -36,8 +36,7 @@ import com.lonepulse.zombielink.core.cookie.HttpContextDirectory;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>A concrete implementation of {@link RequestExecutor} which executes 
- * {@link HttpRequest}s. 
+ * <p>A concrete implementation of {@link RequestExecutor} which executes {@link HttpRequest}s. 
  * 
  * @version 1.1.0
  * <br><br>

@@ -72,6 +72,15 @@ public @interface Endpoint {
 	public String value() default "";
 	
 	/**
+	 * <p>The hostname of the endpoint.</p> 
+	 * 
+	 * @return the hostname of the endpoint
+	 * <br><br>
+	 * @since 1.1.2
+	 */
+	public String host() default "";
+	
+	/**
 	 * <p>The <b>port</b> through which a channel is opened for communication 
 	 * with the endpoint.</p> 
 	 * 
