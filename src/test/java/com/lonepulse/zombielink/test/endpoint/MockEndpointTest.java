@@ -84,7 +84,7 @@ public class MockEndpointTest {
 		mockEndpoint.stateful(cookieHeader);
 		assertEquals(cookie, cookieHeader.toString()); //the server should return a cookie to store 
 		
-		mockEndpoint.stateful(cookieHeader); //a second request should submit the cookie
+		mockEndpoint.stateful(new StringBuilder()); //a second request should submit the cookie
 		
 		verify(getRequestedFor(urlMatching("/stateful")).withHeader("Cookie", matching(cookie)));
 	}
