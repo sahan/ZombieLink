@@ -1,6 +1,7 @@
+[![Stories in Ready](https://badge.waffle.io/sahan/ZombieLink.png)](http://waffle.io/sahan/ZombieLink)  
 ![ZombieLink](https://raw.github.com/sahan/ZombieLink/master/logo.png)
 
-> **ZombieLink** /zŏm'bē'lĭngk/ <em>noun.</em> **1** A lightweight HTTP facade 
+> **ZombieLink** /zEm'bD'lD-ngk/ <em>noun.</em> **1** A lightweight HTTP facade 
 which simplifies network communication. **2** An endpoint proxy generator for web services. 
 [![Build Status](https://travis-ci.org/sahan/ZombieLink.png?branch=master)](https://travis-ci.org/sahan/ZombieLink)
 
