@@ -25,15 +25,20 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.annotation.Header;
+import com.lonepulse.zombielink.core.annotation.HeaderSet;
+import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
+import com.lonepulse.zombielink.core.request.RequestMethod;
 
 /**
  * <p>An interface which represents a dummy endpoint with mock paths.
  * 
  * @category test
+ * <br><br> 
+ * @version 1.1.1
  * <br><br> 
  * @since 1.2.4
  * <br><br> 
@@ -45,7 +50,83 @@ import com.lonepulse.zombielink.core.annotation.Stateful;
 public interface MockEndpoint {
 	
 	/**
-	 * <p>A mock request for which initiates a stateful connection.
+	 * <p>A mock request which uses the HTTP method POST.
+	 * 
+	 * @param name
+	 * 			the first request parameter
+	 * 
+	 * @param age
+	 * 			the second request parameter
+	 * 
+	 * @param location
+	 * 			the third request parameter
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/postrequest", method = RequestMethod.HTTP_POST)
+	public String postRequest(@Param("name") String name, 
+					   @Param("age") String age,
+					   @Param("location") String location);
+	
+	/**
+	 * <p>A mock request which uses the HTTP method PUT.
+	 * 
+	 * @param name
+	 * 			the first request parameter
+	 * 
+	 * @param age
+	 * 			the second request parameter
+	 * 
+	 * @param location
+	 * 			the third request parameter
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/putrequest", method = RequestMethod.HTTP_PUT)
+	public String putRequest(@Param("name") String name, 
+							 @Param("age") String age,
+							 @Param("location") String location);
+	/**
+	 * <p>A mock request which uses the HTTP method DELETE.
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/deleterequest/timelord/doctorwho", method = RequestMethod.HTTP_DELETE)
+	public String deleteRequest();
+	
+	/**
+	 * <p>A mock request which inserts a request header.
+	 * 
+	 * @param userAgent
+	 * 			a variable header - <i>User-Agent</i> in this case
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/requestheader")
+	public String requestHeader(@Header("User-Agent") StringBuilder userAgent);
+	
+	/**
+	 * <p>A mock request which inserts a constant set of headers.
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/headerset")
+	@HeaderSet({@HeaderSet.Header(name = "Accept", value = "application/json"),
+				@HeaderSet.Header(name = "Accept-Charset", value = "utf-8")})
+	public String headerSet();
+	
+	/**
+	 * <p>A mock request which initiates a stateful connection.
 	 * 
 	 * @param cookieHeader
 	 * 			a response header which the server sets with a cookie
