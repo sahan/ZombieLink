@@ -60,7 +60,7 @@ public enum MultiThreadedHttpClient implements HttpClientContract {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	private final transient HttpClient httpClient;
+	private final HttpClient httpClient;
 	
 	
 	/**

@@ -26,8 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.lonepulse.zombielink.core.inject.Zombie;
-import com.lonepulse.zombielink.test.endpoint.ICNDBEndpoint;
-import com.lonepulse.zombielink.test.service.ICNDBService;
+import com.lonepulse.zombielink.test.service.MockService;
 
 
 /**
@@ -43,19 +42,19 @@ public class ZombieTest {
 	
 
 	/**
-	 * <p>A typical {@link ICNDBEndpoint} instance.
+	 * <p>A typical {@link MockService} instance.
 	 */
-	private static ICNDBService icndbService;
+	private static MockService mockService;
 	
 	/**
-	 * <p>An {@link ICNDBEndpoint} instance instantiated via the {@link Zombie}. 
+	 * <p>An {@link MockService} instance instantiated via the {@link Zombie}. 
 	 */
-	private static ICNDBService icndbServiceInstantiated;
+	private static MockService mockServiceInstantiated;
 	
 	
 	/**
 	 * <p>Sets up the test case by performing endpoint injection on 
-	 * {@link #icndbService} and {@link #icndbServiceInstantiated}.
+	 * {@link #mockService} and {@link #mockServiceInstantiated}.
 	 * 
 	 * @throws java.lang.Exception
 	 * 			if the setup failed
@@ -64,11 +63,11 @@ public class ZombieTest {
 	public static void setUp() throws Exception {
 
 		//perform property and setter injection
-		icndbService = new ICNDBService();
-		Zombie.infect(icndbService);
+		mockService = new MockService();
+		Zombie.infect(mockService);
 		
 		//perform constructor injection
-		icndbServiceInstantiated = Zombie.infect(ICNDBService.class);
+		mockServiceInstantiated = Zombie.infect(MockService.class);
 	}
 	
 
@@ -79,7 +78,7 @@ public class ZombieTest {
 	@Test
 	public final void testForcedPrivateEndpointInjection() {
 		
-		assertNotNull(icndbService.getForcedPrivateICNDBEndpoint());
+		assertNotNull(mockService.getForcedPrivateMockEndpoint());
 	}
 	
 	/**
@@ -89,7 +88,7 @@ public class ZombieTest {
 	@Test
 	public final void testDefaultEndpointInjection() {
 		
-		assertNotNull(icndbService.getDefaultICNDDBEndpoint());
+		assertNotNull(mockService.getDefaultMockEndpoint());
 	}
 	
 	/**
@@ -99,7 +98,7 @@ public class ZombieTest {
 	@Test
 	public final void testProtectedEndpointInjection() {
 		
-		assertNotNull(icndbService.getProtectedICNDDBEndpoint());
+		assertNotNull(mockService.getProtectedMockEndpoint());
 	}
 	
 	/**
@@ -109,7 +108,7 @@ public class ZombieTest {
 	@Test
 	public final void testPublicEndpointInjection() {
 		
-		assertNotNull(icndbService.getPublicICNDDBEndpoint());
+		assertNotNull(mockService.getPublicMockEndpoint());
 	}
 	
 	/**
@@ -119,7 +118,7 @@ public class ZombieTest {
 	@Test
 	public final void testMutatorInjection() {
 		
-		assertNotNull(icndbService.getPrivateICNDDBEndpoint());
+		assertNotNull(mockService.getPrivateMockEndpoint());
 	}
 	
 	/**
@@ -129,7 +128,7 @@ public class ZombieTest {
 	@Test
 	public final void testConstructorInjection() {
 		
-		assertNotNull(icndbService.getConstructedICNDBEndpoint());
+		assertNotNull(mockService.getConstructedMockEndpoint());
 	}
 	
 	/**
@@ -138,12 +137,12 @@ public class ZombieTest {
 	@Test
 	public final void testInjecteeInstantiation() {
 		
-		assertNotNull(icndbServiceInstantiated);
-		assertNotNull(icndbServiceInstantiated.getConstructedICNDBEndpoint());
-		assertNotNull(icndbServiceInstantiated.getDefaultICNDDBEndpoint());
-		assertNotNull(icndbServiceInstantiated.getForcedPrivateICNDBEndpoint());
-		assertNotNull(icndbServiceInstantiated.getPrivateICNDDBEndpoint());
-		assertNotNull(icndbServiceInstantiated.getProtectedICNDDBEndpoint());
-		assertNotNull(icndbServiceInstantiated.getPublicICNDDBEndpoint());
+		assertNotNull(mockServiceInstantiated);
+		assertNotNull(mockServiceInstantiated.getConstructedMockEndpoint());
+		assertNotNull(mockServiceInstantiated.getDefaultMockEndpoint());
+		assertNotNull(mockServiceInstantiated.getForcedPrivateMockEndpoint());
+		assertNotNull(mockServiceInstantiated.getPrivateMockEndpoint());
+		assertNotNull(mockServiceInstantiated.getProtectedMockEndpoint());
+		assertNotNull(mockServiceInstantiated.getPublicMockEndpoint());
 	}
 }
