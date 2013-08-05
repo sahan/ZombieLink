@@ -34,7 +34,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.core.request.AbstractRequestBuilder;
-import com.lonepulse.zombielink.core.request.HttpParamBuilder;
+import com.lonepulse.zombielink.core.request.RequestUtils;
 import com.lonepulse.zombielink.core.request.MissingRequestAnnotationException;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.rest.annotation.PathParam;
@@ -92,7 +92,7 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		
 		URI uriWithPathParameters = new URI(uri.toASCIIString() + subpath);
 		
-		HttpRequestBase httpRequestBase  = HttpParamBuilder.build(uriWithPathParameters, config);
+		HttpRequestBase httpRequestBase  = RequestUtils.build(uriWithPathParameters, config);
 		
 		RequestMethod httpMethod = restfulRequest.method();
 		
