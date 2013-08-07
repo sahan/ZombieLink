@@ -83,13 +83,13 @@ public @interface Request {
 	 * <p>The type of the HTTP request which can be indicated using 
 	 * {@link RequestMethod}.</p>
 	 * <br>
-	 * <p>The default method type is {@link RequestMethod#HTTP_GET}.
+	 * <p>The default method type is {@link RequestMethod#GET}.
 	 * 
 	 * @return the type of the HTTP request
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public RequestMethod method() default RequestMethod.HTTP_GET;
+	public RequestMethod method() default RequestMethod.GET;
 	
 	/**
 	 * <p>A sub-path which which continues from the root hierarchy of the uri 

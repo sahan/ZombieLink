@@ -33,7 +33,7 @@ import com.lonepulse.zombielink.core.request.RequestMethod;
  * <br>
  * <p>By default, only them methods annotated with {@code @Request} and {@code @Rest} 
  * are considered to be web requests (without any explicit annotations) having a default 
- * <b>HTTP</b> method type of {@link RequestMethod#HTTP_GET}.</p>
+ * <b>HTTP</b> method type of {@link RequestMethod#GET}.</p>
  *
  * <b>Usage:</b>
  * <br>

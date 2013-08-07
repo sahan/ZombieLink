@@ -157,7 +157,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/postrequest", method = RequestMethod.HTTP_POST)
+	@Request(path = "/postrequest", method = RequestMethod.POST)
 	public String postRequest(@Param("name") String name, 
 							  @Param("age") String age,
 							  @Param("location") String location);
@@ -178,7 +178,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/putrequest", method = RequestMethod.HTTP_PUT)
+	@Request(path = "/putrequest", method = RequestMethod.PUT)
 	public String putRequest(@Param("name") String name, 
 							 @Param("age") String age,
 							 @Param("location") String location);
@@ -189,7 +189,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/deleterequest", method = RequestMethod.HTTP_DELETE)
+	@Request(path = "/deleterequest", method = RequestMethod.DELETE)
 	public String deleteRequest();
 	
 	/**

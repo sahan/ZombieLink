@@ -30,7 +30,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ParamPopulatorException extends RequestBuilderException {
+class RequestPopulatorException extends RequestBuilderException {
 
 	
 	private static final long serialVersionUID = -1466493374397626604L;
@@ -39,7 +39,7 @@ class ParamPopulatorException extends RequestBuilderException {
 	/**
 	 * <p>Displays a detailed description along with the stacktrace.
 	 */
-	public ParamPopulatorException(Class<?> paramPopulatorClass, 
+	public RequestPopulatorException(Class<?> paramPopulatorClass, 
 									ProxyInvocationConfiguration config, 
 									Throwable throwable) {
 	
@@ -49,13 +49,13 @@ class ParamPopulatorException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public ParamPopulatorException() {
+	public RequestPopulatorException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public ParamPopulatorException(String detailMessage) {
+	public RequestPopulatorException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -63,7 +63,7 @@ class ParamPopulatorException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public ParamPopulatorException(Throwable throwable) {
+	public RequestPopulatorException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -71,7 +71,7 @@ class ParamPopulatorException extends RequestBuilderException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public ParamPopulatorException(String detailMessage, Throwable throwable) {
+	public RequestPopulatorException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

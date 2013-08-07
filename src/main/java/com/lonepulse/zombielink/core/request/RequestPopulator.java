@@ -42,7 +42,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface ParamPopulator {
+public interface RequestPopulator {
 
 	/**
 	 * <p>Takes the {@link ProxyInvocationConfiguration} for a request and creates an {@link HttpRequestBase} 
@@ -57,10 +57,10 @@ public interface ParamPopulator {
 	 * @return an {@link HttpRequestBase} which coincides with the request's {@link RequestMethod}, along 
 	 * 		   with all <b>request parameters</b> which were to be inserted
 	 * 
-	 * @throws ParamPopulatorException
+	 * @throws RequestPopulatorException
 	 * 			if a {@link HttpRequestBase} failed to be created or if a request parameter failed to be inserted 
 	 * 
 	 * @since 1.2.4
 	 */
-	HttpRequestBase populate(ProxyInvocationConfiguration config) throws ParamPopulatorException;
+	HttpRequestBase populate(ProxyInvocationConfiguration config) throws RequestPopulatorException;
 }

@@ -28,62 +28,67 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpTrace;
 
+import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.rest.annotation.Rest;
+
 /**
- * <p>This enum is used to identify the request type. This may be a basic HTTP 
- * request or it might be a JSON based web service request...etc
+ * <p>This enum is used to identify the request types as specified in <a href="">Section 9</a> of the HTTP 
+ * 1.1 RFC. These request methods are common for both {@link Request}s and {@link Rest}ful requests.
  * 
- * @version 1.1.3
+ * @version 1.1.4
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.1.0
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public enum RequestMethod {
 
 	/**
 	 * <p>Identifies an {@link HttpGet} request.
 	 * 
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
-	HTTP_GET,
+	GET,
 	
 	/**
 	 * <p>Identifies an {@link HttpPost} request.
 	 * 
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
-	HTTP_POST,
+	POST,
 	
 	/**
 	 * <p>Identifies an {@link HttpPut} request.
 	 * 
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
-	HTTP_PUT,
+	PUT,
 	
 	/**
 	 * <p>Identifies an {@link HttpDelete} request.
 	 * 
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
-	HTTP_DELETE,
+	DELETE,
 	
 	/**
 	 * <p>Identifies an {@link HttpHead} request.
 	 * 
-	 * @since 1.1.3
+	 * @since 1.1.0
 	 */
-	HTTP_HEAD,
+	HEAD,
 	
 	/**
 	 * <p>Identifies an {@link HttpTrace} request.
 	 * 
-	 * @since 1.1.3
+	 * @since 1.1.0
 	 */
-	HTTP_TRACE,
+	TRACE,
 	
 	/**
 	 * <p>Identifies an {@link HttpOptions} request.
 	 * 
-	 * @since 1.1.3
+	 * @since 1.1.0
 	 */
-	HTTP_OPTIONS;
+	OPTIONS;
 }

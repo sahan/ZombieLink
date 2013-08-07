@@ -21,6 +21,9 @@ package com.lonepulse.zombielink.core.request;
  */
 
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -29,13 +32,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.SerializableEntity;
+import org.apache.http.entity.StringEntity;
+
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
- * <p>This utility class provides 
+ * <p>This utility class offers some common operations which are used in building requests - most commonly 
+ * using the information contained within a {@link ProxyInvocationConfiguration}.
  * 
  * @version 1.1.0
  * <br><br>
@@ -66,9 +77,17 @@ public final class RequestUtils {
 	 * @return an unmodifiable {@link List} which aggregates all the @{@link Request.Param} annotations found on 
 	 * 		   the {@link Request} or {@link Rest}ful request 
 	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was null
+	 * 
 	 * @since 1.2.4
 	 */
 	public static List<Request.Param> findConstantRequestParams(ProxyInvocationConfiguration config) {
+		
+		if(config == null) {
+			
+			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
+		}
 		
 		Method request = config.getRequest();
 		
@@ -92,9 +111,17 @@ public final class RequestUtils {
 	 * @return an unmodifiable {@link Map} in the form {@code Map<name, value>} which aggregates all the param 
 	 * 		   names coupled with the value of the linked method argument
 	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
+	 * 
 	 * @since 1.2.4
 	 */
 	public static Map<String, Object> findRequestParams(ProxyInvocationConfiguration config) {
+		
+		if(config == null) {
+			
+			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
+		}
 		
 		Map<String, Object> paramMap = new LinkedHashMap<String, Object>(); 
 		
@@ -118,5 +145,91 @@ public final class RequestUtils {
 		}
 		
 		return Collections.unmodifiableMap(paramMap);
+	}
+	
+	/**
+	 * <p>Discovers which concrete implementation of {@link HttpEntity} is suitable for wrapping the given object. 
+	 * This discovery proceeds in the following order by checking the runtime-type of the generic object:</p> 
+	 *
+	 * <ol>
+	 * 	<li>org.apache.http.{@link HttpEntity} --&gt; returned as-is.</li> 
+	 * 	<li>{@code byte[]}, {@link Byte}[] --&gt; {@link ByteArrayEntity}</li> 
+	 *  <li>java.io.{@link File} --&gt; {@link FileEntity}</li>
+	 * 	<li>java.io.{@link InputStream} --&gt; {@link BasicHttpEntity}</li>
+	 * 	<li>{@link CharSequence} --&gt; {@link StringEntity}</li>
+	 * 	<li>java.io.{@link Serializable} --&gt; {@link SerializableEntity} (with an internal buffer)</li>
+	 * </ol>
+	 *
+	 * @param genericEntity
+	 * 			a generic reference to an object whose concrete {@link HttpEntity} is to be resolved 
+	 * 
+	 * @return the resolved concrete {@link HttpEntity} implementation
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the supplied generic entity was null
+	 * 
+	 * @throws EntityResolutionFailedException
+	 * 			if a specific {@link HttpEntity} implementation failed to be resolved
+	 * 
+	 * @since 1.2.4
+	 */
+	public static HttpEntity resolveHttpEntity(Object genericEntity) {
+		
+		if(genericEntity == null) {
+			
+			new IllegalArgumentException("The supplied generic entity cannot be <null>.");
+		}
+		
+		try {
+		
+			if(genericEntity instanceof HttpEntity) {
+				
+				return (HttpEntity)genericEntity;
+			}
+			else if(byte[].class.isAssignableFrom(genericEntity.getClass())) {
+				
+				return new ByteArrayEntity(((byte[])genericEntity));
+			}
+			else if(Byte[].class.isAssignableFrom(genericEntity.getClass())) {
+				
+				Byte[] wrapperBytes = (Byte[])genericEntity;
+				byte[] primitiveBytes = new byte[wrapperBytes.length];
+				
+				for (int i = 0; i < wrapperBytes.length; i++) {
+					
+					primitiveBytes[i] = wrapperBytes[i].byteValue();
+				}
+				
+				return new ByteArrayEntity(primitiveBytes);
+			}
+			else if(genericEntity instanceof File) {
+				
+				return new FileEntity((File)genericEntity);
+			}
+			else if(genericEntity instanceof InputStream) {
+				
+				BasicHttpEntity basicHttpEntity = new BasicHttpEntity();
+				basicHttpEntity.setContent((InputStream)genericEntity);
+				
+				return basicHttpEntity;
+			}
+			else if(genericEntity instanceof CharSequence) {
+				
+				return new StringEntity(((CharSequence)genericEntity).toString());
+			}
+			else if(genericEntity instanceof Serializable) {
+				
+				return new SerializableEntity((Serializable)genericEntity, true);
+			}
+			else {
+				
+				throw new EntityResolutionFailedException(genericEntity);
+			}
+		}
+		catch(Exception e) {
+
+			throw (e instanceof EntityResolutionFailedException)?
+					(EntityResolutionFailedException)e :new EntityResolutionFailedException(genericEntity, e);
+		}
 	}
 }

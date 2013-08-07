@@ -98,19 +98,19 @@ public class RestfulRequestBuilder extends AbstractRequestBuilder {
 		
 		switch (httpMethod) {
 		
-			case HTTP_GET: { 
+			case GET: { 
 				
 				return new HttpGet(httpRequestBase.getURI());
 			}
-			case HTTP_POST: { 
+			case POST: { 
 				
 				return new HttpPost(httpRequestBase.getURI());
 			}
-			case HTTP_PUT: { 
+			case PUT: { 
 				
 				return new HttpPut(httpRequestBase.getURI());
 			}
-			case HTTP_DELETE: { 
+			case DELETE: { 
 				
 				return new HttpDelete(httpRequestBase.getURI());
 			}

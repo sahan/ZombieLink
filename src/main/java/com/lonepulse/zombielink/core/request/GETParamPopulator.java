@@ -24,7 +24,6 @@ package com.lonepulse.zombielink.core.request;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -36,8 +35,8 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
- * <p>This is a concrete implementation of {@link ParamPopulator} which serves {@link Request}s and 
- * {@link Rest}ful requests which uses {@link RequestMethod#HTTP_GET}.</p>
+ * <p>This is a concrete implementation of {@link RequestPopulator} which serves {@link Request}s and 
+ * {@link Rest}ful requests that employ {@link RequestMethod#GET}.</p>
  * 
  * <p>It acts on @{@link Param} and @{@link Request.Param} annotations on an endpoint interface method 
  * and constructs a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> that's appended 
@@ -45,11 +44,11 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.0
+ * @since 1.2.4
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class GETParamPopulator implements ParamPopulator {
+class GETParamPopulator implements RequestPopulator {
 
 	
 	/**
@@ -61,19 +60,19 @@ class GETParamPopulator implements ParamPopulator {
 	 * <p>See {@link ParamPopulator#populate(ProxyInvocationConfiguration)}.</p>
 	 * 
 	 * @param config
-	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the 
-	 * 			query string and create the {@link HttpRequestBase}
+	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the query 
+	 * 			string and create the {@link HttpGet} request
 	 * 
 	 * @return an instance of {@link HttpGet} having a URI with an appended query string (if any request 
 	 * 		   parameters were specified)
 	 * 
 	 * @throws ParamPopulatorException
-	 * 			if an {@link HttpGet} instance failed to be carted or if a query parameter failed to be inserted
+	 * 			if an {@link HttpGet} instance failed to be created or if a query parameter failed to be inserted
 	 * 
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase populate(ProxyInvocationConfiguration config) throws ParamPopulatorException {
+	public HttpRequestBase populate(ProxyInvocationConfiguration config) throws RequestPopulatorException {
 
 		try {
 		
@@ -87,9 +86,7 @@ class GETParamPopulator implements ParamPopulator {
 				uriBuilder.setParameter(param.name(), param.value());
 			}
 			
-			Set<Entry<String, Object>> entrySet = queryParams.entrySet();
-			
-			for (Entry<String, Object> entry : entrySet) {
+			for (Entry<String, Object> entry : queryParams.entrySet()) {
 				
 				String name = entry.getKey();
 				Object value = entry.getValue();
@@ -102,7 +99,7 @@ class GETParamPopulator implements ParamPopulator {
 					.append(". Please consider implementing CharSequence ")
 					.append("and providing a meaningful toString() representation. ");
 					
-					throw new ParamPopulatorException(new IllegalArgumentException(errorContext.toString()));
+					throw new RequestPopulatorException(new IllegalArgumentException(errorContext.toString()));
 				}
 			
 				uriBuilder.setParameter(name, ((CharSequence)value).toString());
@@ -112,8 +109,8 @@ class GETParamPopulator implements ParamPopulator {
 		}
 		catch(Exception e) {
 			
-			throw (e instanceof ParamPopulatorException)? 
-					(ParamPopulatorException)e :new ParamPopulatorException(e);
+			throw (e instanceof RequestPopulatorException)? 
+					(RequestPopulatorException)e :new RequestPopulatorException(e);
 		}
 	}
 }

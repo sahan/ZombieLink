@@ -37,9 +37,11 @@ import java.lang.annotation.Target;
  * </code>
  * </p>
  * 
- * @version 1.1.3
+ * @version 1.1.4
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.1.0
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
@@ -51,7 +53,7 @@ public @interface Param {
 	 * 
 	 * @return the name of the request parameter
 	 * <br><br>
-	 * @since 1.1.1
+	 * @since 1.1.0
 	 */
-	public String value();
+	public String value() default "";
 }
