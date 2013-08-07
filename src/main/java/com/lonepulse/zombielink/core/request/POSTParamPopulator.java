@@ -43,9 +43,9 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
  * <p>This is a concrete implementation of {@link RequestPopulator} which serves {@link Request}s and 
  * {@link Rest}ful requests that employ {@link RequestMethod#POST}.</p>
  * 
- * <p>It acts on @{@link Param} and @{@link Request.Param} annotations on an endpoint interface method 
- * and constructs a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> that's appended 
- * to the request URI.</p> 
+ * <p>It acts on @{@link Param} annotations on the arguments to an endpoint interface method and constructs 
+ * a string of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms"> application/
+ * x-www-form-urlencoded</a> key-value pairs to be included in the request body.</p> 
  * 
  * @version 1.1.0
  * <br><br>
@@ -59,7 +59,7 @@ class POSTParamPopulator implements RequestPopulator {
 	/**
 	 * <p>Accepts the {@link ProxyInvocationConfiguration} of a request which uses {@link RequestMethod#POST} 
 	 * and creates a string of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms">
-	 * application/x-www-form-urlencoded</i> key-value pairs using any arguments which were annotated with 
+	 * application/x-www-form-urlencoded</a> key-value pairs using any arguments which were annotated with 
 	 * @{@link Param} and @{@link Request.Param}. This is then inserted into the body of a freshly constructed 
 	 * {@link HttpPost} instance, which is subsequently returned.</p>
 	 * 
