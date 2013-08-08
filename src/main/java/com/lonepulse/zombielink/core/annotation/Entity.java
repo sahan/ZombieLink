@@ -26,34 +26,25 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>Marks a parameter to be sent with the request.</p> 
+ * <p>Marks an entity which is to be included in the body of a request.</p>
  * 
  * <b>Usage:</b>
  * <br>
  * <br>
  * <p>
  * <code>
- * <pre>public abstract String search(<b>@Param("query")</b> String searchTerm);</pre>
+ * <pre>@Request(path = "/users/update", method = RequestMethod.POST)<br>@HeaderSet(@HeaderSet.Header(name = "Content-Type", value = "application/json"))
+ *public abstract String updateUser(<b>@Entity</b> String userJson);</pre>
  * </code>
  * </p>
  * 
- * @version 1.1.4
+ * @version 1.1.0
  * <br><br>
- * @since 1.1.0
+ * @since 1.2.4
  * <br><br>
+ * 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Param {
-	
-	
-	/**
-	 * <p>The name of the request parameter.</p>
-	 * 
-	 * @return the name of the request parameter
-	 * <br><br>
-	 * @since 1.1.0
-	 */
-	public String value();
-}
+public @interface Entity {}

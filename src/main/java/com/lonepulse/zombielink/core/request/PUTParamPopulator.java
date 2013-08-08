@@ -21,8 +21,6 @@ package com.lonepulse.zombielink.core.request;
  */
 
 
-import java.util.Map;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpPost;
@@ -30,6 +28,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 
+import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
@@ -81,25 +80,46 @@ class PUTParamPopulator implements RequestPopulator {
 
 		try {
 			
-			HttpPut httpPut = new HttpPut();
+			HttpPut httpPut = new HttpPut(config.getUri());
 			
-			Map<String, Object> formParams = RequestUtils.findRequestParams(config); //expects a single entry [<"">, <entity>]
-			Object genericEntity = formParams.get("");
+			HttpEntity httpEntity = RequestUtils.findAndResolveEntity(config);
 			
-			if(genericEntity != null) {
-				
-				HttpEntity httpEntity = RequestUtils.resolveHttpEntity(genericEntity);
-				
-				httpPut.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());
-				httpPut.setEntity(httpEntity);
-			}
-
+			httpPut.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());
+			httpPut.setEntity(httpEntity);
+			
 			return httpPut;
+		}
+		catch(MissingEntityException mee) { //violates HTTP 1.1 specification, be more verbose 
+			
+			StringBuilder errorContext = new StringBuilder("It is imperative that a PUT request encloses an entity. ")
+			.append("Identify exactly one entity by annotating an argument with @")
+			.append(Entity.class.getSimpleName());
+			
+			throw new RequestPopulatorException(errorContext.toString(), mee);
+		}
+		catch(MultipleEntityException mee) { //violates HTTP 1.1 specification, be more verbose 
+			
+			StringBuilder errorContext = new StringBuilder("A PUT request is only able to enclose exactly one entity. ")
+			.append("Remove all @")
+			.append(Entity.class.getSimpleName())
+			.append(" annotations except for a single entity which is identified by this URI. ");
+			
+			throw new RequestPopulatorException(errorContext.toString(), mee);
+		}
+		catch (EntityResolutionFailedException erfe) { //violates HTTP 1.1 specification, be more verbose
+			
+			StringBuilder errorContext = new StringBuilder("A PUT request cannot proceed without an enclosing entity. ")
+			.append(" Ensure that the entity which is annotated with ")
+			.append(Entity.class.getSimpleName())
+			.append(" complies with the supported types as documented in ")
+			.append(RequestUtils.class.getName())
+			.append("#resolveHttpEntity(Object)");
+			
+			throw new RequestPopulatorException(errorContext.toString(), erfe); 
 		}
 		catch(Exception e) {
 			
-			throw (e instanceof RequestPopulatorException)? 
-					(RequestPopulatorException)e :new RequestPopulatorException(e);
+			throw new RequestPopulatorException(e);
 		}
 	}
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -34,6 +35,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
@@ -46,6 +48,9 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
  * <p>It acts on @{@link Param} annotations on the arguments to an endpoint interface method and constructs 
  * a string of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms"> application/
  * x-www-form-urlencoded</a> key-value pairs to be included in the request body.</p> 
+ * 
+ * <p>If an @{@link Entity} annotation is found, the argument value is resolved and enclosed in the resulting 
+ * {@link HttpPost} request using {@link RequestUtils#findAndResolveEntity(ProxyInvocationConfiguration)}.</p> 
  * 
  * @version 1.1.0
  * <br><br>
@@ -80,34 +85,54 @@ class POSTParamPopulator implements RequestPopulator {
 	@Override
 	public HttpRequestBase populate(ProxyInvocationConfiguration config) throws RequestPopulatorException {
 
+		HttpPost httpPost = null;
+		
 		try {
 			
-			List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
+			httpPost = new HttpPost(config.getUri());
 			
-			List<Request.Param> constantFormParams = RequestUtils.findConstantRequestParams(config);
-			Map<String, Object> formParams = RequestUtils.findRequestParams(config);
+			HttpEntity httpEntity = RequestUtils.findAndResolveEntity(config);
 			
-			for (Request.Param param : constantFormParams) {
-				
-				nameValuePairs.add(new BasicNameValuePair(param.name(), param.value()));
-			}
+			httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());
+			httpPost.setEntity(httpEntity);
 			
-			for (Entry<String, Object> entry : formParams.entrySet()) {
-				
-				String name = entry.getKey();
-				Object value = entry.getValue();
-				
-				nameValuePairs.add(new BasicNameValuePair(name, String.valueOf(value)));
-			}
-			
-			UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairs);
-			urlEncodedFormEntity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
-
-			HttpPost httpPost = new HttpPost(config.getUri());
-			httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
 			return httpPost;
+		}
+		catch(MissingEntityException mee) { //assume form params are being used 
+			
+			try {
+				
+				List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
+				
+				List<Request.Param> constantFormParams = RequestUtils.findConstantRequestParams(config);
+				Map<String, Object> formParams = RequestUtils.findRequestParams(config);
+				
+				for (Request.Param param : constantFormParams) {
+					
+					nameValuePairs.add(new BasicNameValuePair(param.name(), param.value()));
+				}
+				
+				for (Entry<String, Object> entry : formParams.entrySet()) {
+					
+					String name = entry.getKey();
+					Object value = entry.getValue();
+					
+					nameValuePairs.add(new BasicNameValuePair(name, String.valueOf(value)));
+				}
+				
+				UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairs);
+				urlEncodedFormEntity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
+	
+				httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	
+				return httpPost;
+			}
+			catch(Exception e) {
+				
+				throw (e instanceof RequestPopulatorException)? 
+						(RequestPopulatorException)e :new RequestPopulatorException(e);
+			}
 		}
 		catch(Exception e) {
 			

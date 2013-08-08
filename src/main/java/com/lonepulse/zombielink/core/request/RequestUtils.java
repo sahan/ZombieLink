@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -39,6 +40,7 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.SerializableEntity;
 import org.apache.http.entity.StringEntity;
 
+import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
@@ -74,8 +76,8 @@ public final class RequestUtils {
 	 * 			the {@link ProxyInvocationConfiguration} from which all {@link Request.Param} annotations applied 
 	 * 			on the endpoint method will be extracted
 	 * 
-	 * @return an unmodifiable {@link List} which aggregates all the @{@link Request.Param} annotations found on 
-	 * 		   the {@link Request} or {@link Rest}ful request 
+	 * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Request.Param} annotations found 
+	 * 		   on the {@link Request} or {@link Rest}ful request 
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			if the supplied {@link ProxyInvocationConfiguration} was null
@@ -108,8 +110,8 @@ public final class RequestUtils {
 	 * 			the {@link ProxyInvocationConfiguration} from which all {@link Param} annotations applied 
 	 * 			on the endpoint method arguments will be extracted
 	 * 
-	 * @return an unmodifiable {@link Map} in the form {@code Map<name, value>} which aggregates all the param 
-	 * 		   names coupled with the value of the linked method argument
+	 * @return an <b>unmodifiable</b> {@link Map} in the form {@code Map<name, value>} which aggregates all the 
+	 * 		   param names coupled with the value of the linked method argument
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
@@ -130,15 +132,13 @@ public final class RequestUtils {
 		
 		Annotation[][] annotationsForAllParams = request.getParameterAnnotations();
 		
-		int i = 0;
-		
-		for (Annotation[] annotationsForEachParam : annotationsForAllParams) {
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
 			
-			for (Annotation annotation : annotationsForEachParam) {
-			
+			for (Annotation annotation : annotationsForAllParams[i]) {
+				
 				if(Param.class.isAssignableFrom(annotation.getClass())) {
 					
-					paramMap.put(((Param)annotation).value(), paramValues[i++]);
+					paramMap.put(((Param)annotation).value(), paramValues[i]);
 					break; //only one @Param annotation is expected per endpoint method argument
 				}
 			}
@@ -231,5 +231,65 @@ public final class RequestUtils {
 			throw (e instanceof EntityResolutionFailedException)?
 					(EntityResolutionFailedException)e :new EntityResolutionFailedException(genericEntity, e);
 		}
+	}
+	
+	/**
+	 * <p>Finds the single <b>entity parameter</b> in the given {@link ProxyInvocationConfiguration} which 
+	 * is identified by placing an @{@link Entity} annotation on an endpoint method argument. If found, the 
+	 * corresponding {@link HttpEntity} is resolved via {@link #resolveHttpEntity(Object)} and returned.</p> 
+	 * 
+	 * <p>Only one such entity is expected to be found, if multiple @{@link Entity} annotations are discovered 
+	 * a {@link MultipleEntityException} is thrown. If no @{@link Entity} annotation is discovered a
+	 * {@link MissingEntityException} is thrown. These might be caught and recovered from if preferred.</p>
+	 *
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} whose single entity is to be discovered and resolved
+	 * 
+	 * @return the resolved {@link HttpEntity} which was discovered as an argument annotated with @{@link Entity}
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the {@link ProxyInvocationConfiguration} was {@code null}
+	 * 
+	 * @throws MultipleEntityException
+	 * 			if many arguments were found to be annotated with @{@link Entity} 
+	 * 
+	 * @throws MissingEntityException
+	 * 			if no arguments were found to be annotated with @{@link Entity}
+	 * 
+	 * @throws EntityResolutionFailedException
+	 * 			if a specific {@link HttpEntity} implementation failed to be resolved
+	 * 
+	 * @since 1.2.4
+	 */
+	public static HttpEntity findAndResolveEntity(ProxyInvocationConfiguration config) {
+		
+		Object[] paramValues = config.getRequestArgs();
+		Annotation[][] annotationsForAllParams = config.getRequest().getParameterAnnotations();
+		
+		List<Object> entities = new ArrayList<Object>();
+		
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
+			
+			for (Annotation annotation : annotationsForAllParams[i]) {
+
+				if(Entity.class.isAssignableFrom(annotation.getClass())) {
+					
+					entities.add(paramValues[i]);
+					break; //only one @Entity annotation is expected per endpoint method argument
+				}
+			}
+		}
+		
+		if(entities.isEmpty()) {
+			
+			throw new MissingEntityException(config);
+		}
+		
+		if(entities.size() > 1) {
+			
+			throw new MultipleEntityException(config);
+		}
+		
+		return RequestUtils.resolveHttpEntity(entities.get(0));
 	}
 }
