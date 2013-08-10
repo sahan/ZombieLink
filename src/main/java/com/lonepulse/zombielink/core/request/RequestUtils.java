@@ -42,6 +42,7 @@ import org.apache.http.entity.StringEntity;
 
 import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.Param;
+import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.rest.annotation.Rest;
@@ -102,6 +103,52 @@ public final class RequestUtils {
 	}
 	
 	/**
+	 * <p>Finds all <b>query parameters</b> in the given {@link ProxyInvocationConfiguration}.</p> 
+	 * 
+	 * <p>Query parameters are introduced with @{@link QueryParam} on the arguments to a request method.</p>
+	 *
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} from which all @{@link QueryParam} annotations applied 
+	 * 			on the endpoint method arguments will be extracted
+	 * 
+	 * @return an <b>unmodifiable</b> {@link Map} in the form {@code Map<name, value>} which aggregates all the 
+	 * 		   param names coupled with the value of the linked method argument
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
+	 * 
+	 * @since 1.2.4
+	 */
+	public static Map<String, Object> findQueryParams(ProxyInvocationConfiguration config) {
+		
+		if(config == null) {
+			
+			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
+		}
+		
+		Map<String, Object> paramMap = new LinkedHashMap<String, Object>(); 
+		
+		Method request = config.getRequest();
+		Object[] paramValues = config.getRequestArgs();
+		
+		Annotation[][] annotationsForAllParams = request.getParameterAnnotations();
+		
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
+			
+			for (Annotation annotation : annotationsForAllParams[i]) {
+				
+				if(QueryParam.class.isAssignableFrom(annotation.getClass())) {
+					
+					paramMap.put(((Param)annotation).value(), paramValues[i]);
+					break; //only one @QueryParam annotation is expected per endpoint method argument
+				}
+			}
+		}
+		
+		return Collections.unmodifiableMap(paramMap);
+	}
+	
+	/**
 	 * <p>Finds all <b>request parameters</b> in the given {@link ProxyInvocationConfiguration}.</p> 
 	 * 
 	 * <p>Request parameters are introduced with @{@link Param} on arguments to an endpoint request method.</p>
@@ -118,6 +165,7 @@ public final class RequestUtils {
 	 * 
 	 * @since 1.2.4
 	 */
+	@Deprecated //TODO remove RequestUtils#findRequestParams(cofig) after the deprecation of @Param on API
 	public static Map<String, Object> findRequestParams(ProxyInvocationConfiguration config) {
 		
 		if(config == null) {

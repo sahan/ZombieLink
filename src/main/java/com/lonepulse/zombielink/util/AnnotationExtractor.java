@@ -75,14 +75,17 @@ public final class AnnotationExtractor {
 		
 		Map<Object, T> argumentAndAnnotationList = new HashMap<Object, T>();
 		
-		Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+		Annotation[][] annotationsForAllParams = method.getParameterAnnotations();
 		
-		int i = 0;
-		for(Annotation[] annotationSet: parameterAnnotations) { 
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
 			
-			for(Annotation annotation: annotationSet)
-				if(annotationType.isAssignableFrom(annotation.getClass()))
-					argumentAndAnnotationList.put(args[i++], (T)annotation);
+			for (Annotation annotationForEachParam : annotationsForAllParams[i]) {
+		
+				if(annotationType.isAssignableFrom(annotationForEachParam.getClass())) {
+					
+					argumentAndAnnotationList.put(args[i], (T)annotationForEachParam);
+				}
+			}
 		}
 		
 		return argumentAndAnnotationList;
@@ -110,26 +113,23 @@ public final class AnnotationExtractor {
 		
 		Map<StringBuilder, Header> headerParams = new HashMap<StringBuilder, Header>();
 		
-		Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+		Annotation[][] annotationsForAllParams = method.getParameterAnnotations();
 		
-		int i = 0;
-		for(Annotation[] annotationSet: parameterAnnotations) { 
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
 			
-			for(Annotation annotation: annotationSet) {
+			for (Annotation annotationForEachParam : annotationsForAllParams[i]) {
 				
-				if(Header.class.isAssignableFrom(annotation.getClass())) {
+				if(Header.class.isAssignableFrom(annotationForEachParam.getClass())) {
 					
 					try {
 						
-						headerParams.put((StringBuilder)args[i], (Header)annotation);
+						headerParams.put((StringBuilder)args[i], (Header)annotationForEachParam);
 					}
 					catch (ClassCastException cce) {
 						
 						throw new HeaderParamTypeException(args[i], method);
 					}
 				}
-				
-				i++;
 			}
 		}
 		
