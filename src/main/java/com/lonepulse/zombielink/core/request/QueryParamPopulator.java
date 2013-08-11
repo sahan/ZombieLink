@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 
@@ -55,26 +54,29 @@ class QueryParamPopulator implements RequestPopulator {
 
 	
 	/**
-	 * <p>Accepts the {@link ProxyInvocationConfiguration} of a request which uses {@link RequestMethod#HTTP_GET} 
-	 * and creates a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> using any arguments 
-	 * which were annotated with @{@link Param} and @{@link Request.Param}. This is then appended to the URI and 
-	 * a new instance of {@link HttpGet} is constructed, which is subsequently returned.</p>
+	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with an {@link HttpRequestBase} and creates 
+	 * a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> using any arguments which were 
+	 * annotated with @{@link Param} and @{@link Request.Param}. This is then appended to the URI and a new 
+	 * instance of {@link HttpGet} is constructed, which is subsequently returned.</p>
+	 * 
+	 * <p><b>Note</b> that any constant request parameters which are annotated with @{@link Request.Param} 
+	 * will be treated as <b>name-value</b> pairs to be used in the query string.</p>
 	 * 
 	 * <p>See {@link ParamPopulator#populate(ProxyInvocationConfiguration)}.</p>
 	 * 
 	 * @param httpRequestBase
-	 * 			prefers an instance of {@link HttpGet} so as to conform with HTTP 1.1; however, other types such 
-	 * 			as {@link HttpPut} will be entertained to allow compliance with unusual endpoint definitions 
+	 * 			prefers an instance of {@link HttpGet} so as to conform with HTTP 1.1; however, other request 
+	 * 			types will be entertained to allow compliance with unusual endpoint definitions 
 	 * <br><br>
 	 * @param config
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the query 
-	 * 			string and create the {@link HttpGet} request
+	 * 			string and append it to the request URL
 	 * <br><br>
-	 * @return an instance of {@link HttpGet} having a URI with an appended query string (if any request 
-	 * 		   parameters were specified)
+	 * @return the passed instance of {@link HttpRequestBase} having a URL with an appended query string (if 
+	 * 		   any query parameters were identified)
 	 * <br><br>
 	 * @throws ParamPopulatorException
-	 * 			if an {@link HttpGet} instance failed to be created or if a query parameter failed to be inserted
+	 * 			if the creation of a query string failed
 	 * <br><br>
 	 * @since 1.2.4
 	 */
