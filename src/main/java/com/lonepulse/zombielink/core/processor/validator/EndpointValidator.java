@@ -29,24 +29,49 @@ import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>A concrete implementation of {@link EndpointValidator} which validates endpoints. 
+ * <p>A concrete implementation of {@link Validator} which validates an endpoint definition 
+ * for the existence of mandatory metadata and their integrity.
  * 
  * @version 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 class EndpointValidator implements Validator<URI> {
 
 	/**
-	 * <p>Validates an endpoint annotated with {@link Endpoint}.</p>
+	 * <p>Validates metadata annotated with @{@link Endpoint} on an endpoint interface.</p>
 	 * 
 	 * <p>See {@link Validator#validate(ProxyInvocationConfiguration)}.
+	 * 
+	 * @param config
+	 * 			a partially built {@link ProxyInvocationConfiguration} which contains the endpoint 
+	 * 			definition {@link Class} along with its annotated metadata 
+	 * 
+	 * @return the {@link URI} which represents the <i>root</i> of this endpoint
+	 * 
+	 * @throws ValidationFailedException
+	 * 			if the mandatory @{@link Endpoint} annotation was not found or if the metadata 
+	 * 			contained therein is corrupt
+	 * 
+	 * @throws IllegalArgumentException 
+	 * 			if the given {@link ProxyInvocationConfiguration} is {@code null} or if its 
+	 * 			{@link ProxyInvocationConfiguration#getEndpointClass()} property is {@code null}
 	 * 
 	 * @since 1.1.0
 	 */
 	@Override
 	public URI validate(ProxyInvocationConfiguration config) throws ValidationFailedException {
 
+		if(config == null) {
+		
+			throw new IllegalArgumentException("The ProxyInvocationConfiguration cannot be <null>. ");
+		}
+		
+		if(config.getEndpointClass() == null) {
+			
+			throw new IllegalArgumentException("The ProxyInvocationConfiguration's <endpoint> property cannot be <null>. ");
+		}
+		
 		Class<?> endpointInterface = config.getEndpointClass();
 		
 		try {

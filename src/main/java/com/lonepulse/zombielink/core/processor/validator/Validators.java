@@ -22,6 +22,7 @@ package com.lonepulse.zombielink.core.processor.validator;
 
 
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.core.processor.executor.RequestExecutor;
 
 /**
  * <p>Exposes all available {@link Validator}s and delegates communication. 
@@ -38,7 +39,14 @@ public enum Validators implements Validator<Object> {
 	 * 
 	 * @since 1.1.0
 	 */
-	ENDPOINT(new EndpointValidator());
+	ENDPOINT(new EndpointValidator()),
+	
+	/**
+	 * See {@link RequestValidator}.
+	 * 
+	 * @since 1.2.4
+	 */
+	REQUEST(new RequestValidator());
 	
 	
 	/**

@@ -20,16 +20,21 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
+import java.lang.reflect.Method;
+
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 
 import com.lonepulse.zombielink.core.annotation.Request;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.rest.annotation.Rest;
+import com.lonepulse.zombielink.util.Resolver;
 
 /**
  * <p>This enum is used to identify the request types as specified in <a href="">Section 9</a> of the HTTP 
@@ -91,4 +96,58 @@ public enum RequestMethod {
 	 * @since 1.1.0
 	 */
 	OPTIONS;
+	
+	
+	/**
+	 * <p>Resolves the {@link RequestMethod} for the given {@link ProxyInvocationConfiguration}.</p>
+	 * 
+	 * <p>This implementation assumes that a {@link ProxyInvocationConfiguration} will never be 
+	 * constructed for an endpoint request method without an @{@link Request} or an @{@link Rest} 
+	 * annotation.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	public static final Resolver<ProxyInvocationConfiguration, RequestMethod> RESOLVER 
+	= new Resolver<ProxyInvocationConfiguration, RequestMethod>() {
+
+		@Override
+		public RequestMethod resolve(ProxyInvocationConfiguration config) {
+			
+			Method request = config.getRequest();
+			
+			Request commonRequest = request.getAnnotation(Request.class);
+			Rest restfulRequest = request.getAnnotation(Rest.class);
+			
+			return (commonRequest != null)? commonRequest.method() :restfulRequest.method();
+		}
+	};
+	
+	/**
+	 * <p>Translates a given {@link ProxyInvocationConfiguration} to its {@link RequestMethod}.</p>
+	 * 
+	 * <p>This implementation is solely dependent upon the {@link RequestMethod} property in the 
+	 * annotated metdata of the endpoint method definition.</p> 
+	 * 
+	 * @since 1.2.4
+	 */
+	public static final RequestTranslator TRANSLATOR = new RequestTranslator() {
+		
+		@Override
+		public HttpRequestBase translate(ProxyInvocationConfiguration config) throws RequestTranslationException {
+			
+			RequestMethod requestMethod = RESOLVER.resolve(config);
+			
+			switch (requestMethod) {
+			
+				case GET: return new HttpGet();
+				case POST: return new HttpPost();
+				case PUT: return new HttpPut();
+				case DELETE: return new HttpDelete();
+				case HEAD: return new HttpHead();
+				case TRACE: return new HttpTrace();
+				case OPTIONS: return new HttpOptions();
+				default: return new HttpGet();
+			}
+		}
+	};
 }

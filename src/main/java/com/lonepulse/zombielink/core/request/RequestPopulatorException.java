@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.core.request;
  * #L%
  */
 
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
@@ -30,7 +31,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class RequestPopulatorException extends RequestBuilderException {
+class RequestPopulatorException extends ZombieLinkRuntimeException {
 
 	
 	private static final long serialVersionUID = -1466493374397626604L;
@@ -40,20 +41,20 @@ class RequestPopulatorException extends RequestBuilderException {
 	 * <p>Displays a detailed description along with the stacktrace.
 	 */
 	public RequestPopulatorException(Class<?> paramPopulatorClass, 
-									ProxyInvocationConfiguration config, 
-									Throwable throwable) {
+									 ProxyInvocationConfiguration config, 
+									 Throwable throwable) {
 	
 		this(paramPopulatorClass.getName() + " was unable to populate request with configuration " + config, throwable);
 	}
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 */
 	public RequestPopulatorException() {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 */
 	public RequestPopulatorException(String detailMessage) {
 		
@@ -61,7 +62,7 @@ class RequestPopulatorException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 */
 	public RequestPopulatorException(Throwable throwable) {
 		
@@ -69,7 +70,7 @@ class RequestPopulatorException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 */
 	public RequestPopulatorException(String detailMessage, Throwable throwable) {
 

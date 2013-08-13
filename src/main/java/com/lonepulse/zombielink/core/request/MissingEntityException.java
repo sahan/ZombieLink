@@ -36,7 +36,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class MissingEntityException extends RequestBuilderException {
+class MissingEntityException extends RequestPopulatorException {
 	
 
 	private static final long serialVersionUID = 8019567518599766350L;
@@ -76,13 +76,13 @@ class MissingEntityException extends RequestBuilderException {
 	}
 	
 	/**
-	 * See {@link RuntimeException#RequestBuilderException()}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException()}.
 	 */
 	public MissingEntityException() {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(String)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String)}.
 	 */
 	public MissingEntityException(String detailMessage) {
 		
@@ -90,7 +90,7 @@ class MissingEntityException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(Throwable)}.
 	 */
 	public MissingEntityException(Throwable throwable) {
 		
@@ -98,7 +98,7 @@ class MissingEntityException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(String, Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String, Throwable)}.
 	 */
 	public MissingEntityException(String detailMessage, Throwable throwable) {
 

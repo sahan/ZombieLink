@@ -54,13 +54,13 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	}
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link RequestBuilderException#RequestBuilderException()}.
 	 */
 	public MissingRequestAnnotationException() {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link RequestBuilderException#RequestBuilderException(String)}.
 	 */
 	public MissingRequestAnnotationException(String detailMessage) {
 		
@@ -68,7 +68,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link RequestBuilderException#RequestBuilderException(Throwable)}.
 	 */
 	public MissingRequestAnnotationException(Throwable throwable) {
 		
@@ -76,7 +76,7 @@ public class MissingRequestAnnotationException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link RequestBuilderException#RequestBuilderException(String, Throwable)}.
 	 */
 	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
 

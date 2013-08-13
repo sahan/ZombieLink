@@ -32,7 +32,7 @@ import org.apache.http.HttpEntity;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class EntityResolutionFailedException extends RequestBuilderException {
+class EntityResolutionFailedException extends RequestPopulatorException {
 
 	
 	private static final long serialVersionUID = 905599478471679754L;
@@ -69,13 +69,13 @@ class EntityResolutionFailedException extends RequestBuilderException {
 	}
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException()}.
 	 */
 	public EntityResolutionFailedException() {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String)}.
 	 */
 	public EntityResolutionFailedException(String detailMessage) {
 		
@@ -83,7 +83,7 @@ class EntityResolutionFailedException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(Throwable)}.
 	 */
 	public EntityResolutionFailedException(Throwable throwable) {
 		
@@ -91,7 +91,7 @@ class EntityResolutionFailedException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String, Throwable)}.
 	 */
 	public EntityResolutionFailedException(String detailMessage, Throwable throwable) {
 

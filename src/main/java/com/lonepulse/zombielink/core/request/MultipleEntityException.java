@@ -36,7 +36,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class MultipleEntityException extends RequestBuilderException {
+class MultipleEntityException extends RequestPopulatorException {
 	
 
 	private static final long serialVersionUID = 7599536137960728412L;
@@ -58,13 +58,13 @@ class MultipleEntityException extends RequestBuilderException {
 	}
 	
 	/**
-	 * See {@link RuntimeException#RequestBuilderException()}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException()}.
 	 */
 	public MultipleEntityException() {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(String)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String)}.
 	 */
 	public MultipleEntityException(String detailMessage) {
 		
@@ -72,7 +72,7 @@ class MultipleEntityException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(Throwable)}.
 	 */
 	public MultipleEntityException(Throwable throwable) {
 		
@@ -80,7 +80,7 @@ class MultipleEntityException extends RequestBuilderException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RequestBuilderException(String, Throwable)}.
+	 * See {@link RequestPopulatorException#RequestPopulatorException(String, Throwable)}.
 	 */
 	public MultipleEntityException(String detailMessage, Throwable throwable) {
 
