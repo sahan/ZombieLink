@@ -126,11 +126,12 @@ public enum RequestMethod {
 	 * <p>Translates a given {@link ProxyInvocationConfiguration} to its {@link RequestMethod}.</p>
 	 * 
 	 * <p>This implementation is solely dependent upon the {@link RequestMethod} property in the 
-	 * annotated metdata of the endpoint method definition.</p> 
+	 * annotated metdata of the endpoint method definition.</p>
 	 * 
 	 * @since 1.2.4
 	 */
-	public static final RequestTranslator TRANSLATOR = new RequestTranslator() {
+	public static final RequestTranslator TRANSLATOR 
+	= new RequestTranslator() {
 		
 		@Override
 		public HttpRequestBase translate(ProxyInvocationConfiguration config) throws RequestTranslationException {

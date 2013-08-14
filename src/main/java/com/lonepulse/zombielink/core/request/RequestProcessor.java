@@ -29,15 +29,16 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>This contract specifies a strategy for populating the <i>parameters</i> on an HTTP request.</p> 
+ * <p>This contract specifies a strategy for processing the <i>data</i> and <i>metadata</i> on a proxy 
+ * endpoint request invocation.</p> 
  * 
  * <p>All implementations must be aware of the {@link ProxyInvocationConfiguration} which can be used 
- * to discover metadata about the endpoint and the request declaration. This information can be queried 
- * based on the targeting criteria for this request populator and the resulting information should be 
- * used to <i>build upon</i> the given {@link HttpRequest}.</p>
+ * to discover information about the endpoint and the request declaration. This information can be queried 
+ * based on the <i>targeting criteria</i> for this request processor and the resulting information should 
+ * be used to <i>build upon</i> the given {@link HttpRequest}.</p>
  * 
- * <p>It is advised to follow <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">Section 
- * 9</a> of the <b>HTTP 1.1</b> RFC when designing an implementation.</p>
+ * <p>It is advised to adhere to <a href="www.w3.org/Protocols/rfc2616/rfc2616.html‎">RFC 2616</a> of <b>HTTP 
+ * 1.1</b> when designing an implementation.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -45,7 +46,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface RequestPopulator {
+public interface RequestProcessor {
 
 	/**
 	 * <p>Takes the {@link ProxyInvocationConfiguration} for the given {@link HttpRequestBase} and uses the 
@@ -59,20 +60,21 @@ public interface RequestPopulator {
 	 * 
 	 * @param httpRequestBase
 	 * 			a concrete implementation of {@link HttpRequestBase}, such as {@link HttpGet} which should 
-	 * 			to grow on based on the targeting criteria for this request populator 
+	 * 			be used to grow on based on the targeting criteria for this request processor
 	 *
 	 * @param config
 	 * 			the {@link ProxyInvocationConfiguration} which is used to discover the request's 
-	 * 			{@link RequestMethod} and any metadata along with the actual data to populate 
+	 * 			{@link RequestMethod} and any annotated metadata along with the invocation arguments  
  	 *
 	 * @return an {@link HttpRequestBase} which coincides with the request's {@link RequestMethod}, with 
-	 * 		   some content that may have been inserted based on the targeting criteria for this populator 
+	 * 		   some content that may have been inserted based on the targeting criteria for this processor 
 	 * 
-	 * @throws RequestPopulatorException
-	 * 			if the populator finds an {@link HttpRequestBase} <i>which it should act upon</i> and yet 
-	 * 			fails to perform the necessary population 
+	 * @throws RequestProcessorException
+	 * 			if the processor finds an {@link HttpRequestBase} <i>which it should act upon</i> and yet 
+	 * 			fails to perform the necessary processing 
 	 * 
 	 * @since 1.2.4
 	 */
-	HttpRequestBase populate(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestPopulatorException;
+	HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)
+	throws RequestProcessorException;
 }

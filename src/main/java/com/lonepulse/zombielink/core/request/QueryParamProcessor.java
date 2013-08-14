@@ -35,7 +35,7 @@ import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>This is a concrete implementation of {@link RequestPopulator} which discovers <i>query parameters</i> 
+ * <p>This is a concrete implementation of {@link RequestProcessor} which discovers <i>query parameters</i> 
  * in a request declaration by searching for any arguments which are annotated with @{@link QueryParam} and 
  * constructs a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> which will be appended 
  * to the request URL.</p> 
@@ -50,7 +50,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class QueryParamPopulator implements RequestPopulator {
+class QueryParamProcessor implements RequestProcessor {
 
 	
 	/**
@@ -81,7 +81,7 @@ class QueryParamPopulator implements RequestPopulator {
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase populate(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestPopulatorException {
+	public HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
 
 		try {
 			
@@ -110,7 +110,7 @@ class QueryParamPopulator implements RequestPopulator {
 					.append("and providing a meaningful toString() representation for the ")
 					.append("<name> of the query parameter. ");
 					
-					throw new RequestPopulatorException(new IllegalArgumentException(errorContext.toString()));
+					throw new RequestProcessorException(new IllegalArgumentException(errorContext.toString()));
 				}
 			
 				uriBuilder.setParameter(name, ((CharSequence)value).toString());
@@ -122,8 +122,8 @@ class QueryParamPopulator implements RequestPopulator {
 		}
 		catch(Exception e) {
 			
-			throw (e instanceof RequestPopulatorException)? 
-					(RequestPopulatorException)e :new RequestPopulatorException(e);
+			throw (e instanceof RequestProcessorException)? 
+					(RequestProcessorException)e :new RequestProcessorException(e);
 		}
 	}
 }

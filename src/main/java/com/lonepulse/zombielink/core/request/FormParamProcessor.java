@@ -41,7 +41,7 @@ import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>This is a concrete implementation of {@link RequestPopulator} which discovers <i>form parameters</i> 
+ * <p>This is a concrete implementation of {@link RequestProcessor} which discovers <i>form parameters</i> 
  * in a request declaration by searching for any arguments which are annotated with @{@link FormParam} and 
  * constructs a list of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms">
  * form-urlencoded</a> <b>name-value</b> pairs which will be sent in the request body.</p> 
@@ -56,7 +56,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class FormParamPopulator implements RequestPopulator {
+class FormParamProcessor implements RequestProcessor {
 
 	
 	/**
@@ -71,7 +71,7 @@ class FormParamPopulator implements RequestPopulator {
 	 * <p><b>Note</b> that any constant request parameters which are annotated with @{@link Request.Param} will be 
 	 * treated as <b>name-value</b> pairs to used as <b>form-urlencoded</b> params.</p>
 	 * 
-	 * <p>See {@link RequestPopulator#populate(HttpRequestBase, ProxyInvocationConfiguration)}.</p>
+	 * <p>See {@link RequestProcessor#process(HttpRequestBase, ProxyInvocationConfiguration)}.</p>
 	 * 
 	 * @param httpRequestBase
 	 * 			prefers an instance of {@link HttpPost} so as to conform with HTTP 1.1; however, other  
@@ -85,13 +85,13 @@ class FormParamPopulator implements RequestPopulator {
 	 * @return an instance of {@link HttpGet} having a URI with an appended query string (if any request 
 	 * 		   parameters were specified)
 	 * <br><br>
-	 * @throws ParamPopulatorException
+	 * @throws RequestProcessorException
 	 * 			if an {@link HttpGet} instance failed to be created or if a query parameter failed to be inserted
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase populate(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestPopulatorException {
+	public HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
 
 		try {
 			
@@ -121,7 +121,7 @@ class FormParamPopulator implements RequestPopulator {
 						.append("and providing a meaningful toString() representation for the ")
 						.append("<name> of the form parameter. ");
 						
-						throw new RequestPopulatorException(new IllegalArgumentException(errorContext.toString()));
+						throw new RequestProcessorException(new IllegalArgumentException(errorContext.toString()));
 					}
 					
 					nameValuePairs.add(new BasicNameValuePair(name, String.valueOf(value)));
@@ -138,8 +138,8 @@ class FormParamPopulator implements RequestPopulator {
 		}
 		catch(Exception e) {
 			
-			throw (e instanceof RequestPopulatorException)? 
-					(RequestPopulatorException)e :new RequestPopulatorException(e);
+			throw (e instanceof RequestProcessorException)? 
+					(RequestProcessorException)e :new RequestProcessorException(e);
 		}
 	}
 }

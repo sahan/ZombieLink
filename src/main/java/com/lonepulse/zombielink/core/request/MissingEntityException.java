@@ -36,7 +36,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class MissingEntityException extends RequestPopulatorException {
+class MissingEntityException extends RequestProcessorException {
 	
 
 	private static final long serialVersionUID = 8019567518599766350L;
