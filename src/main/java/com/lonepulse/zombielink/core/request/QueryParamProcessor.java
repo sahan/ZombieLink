@@ -50,14 +50,13 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class QueryParamProcessor implements RequestProcessor {
+class QueryParamProcessor extends AbstractRequestProcessor {
 
 	
 	/**
 	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with an {@link HttpRequestBase} and creates 
 	 * a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> using any arguments which were 
-	 * annotated with @{@link Param} and @{@link Request.Param}. This is then appended to the URI and a new 
-	 * instance of {@link HttpGet} is constructed, which is subsequently returned.</p>
+	 * annotated with @{@link Param} and @{@link Request.Param} which is subsequently appended to the URI.</p>
 	 * 
 	 * <p><b>Note</b> that any constant request parameters which are annotated with @{@link Request.Param} 
 	 * will be treated as <b>name-value</b> pairs to be used in the query string.</p>
@@ -72,20 +71,17 @@ class QueryParamProcessor implements RequestProcessor {
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the query 
 	 * 			string and append it to the request URL
 	 * <br><br>
-	 * @return the passed instance of {@link HttpRequestBase} having a URL with an appended query string (if 
-	 * 		   any query parameters were identified)
-	 * <br><br>
 	 * @throws ParamPopulatorException
 	 * 			if the creation of a query string failed
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
+	public void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
 
 		try {
 			
-			URIBuilder uriBuilder = new URIBuilder(config.getUri());
+			URIBuilder uriBuilder = new URIBuilder(httpRequestBase.getURI());
 			
 			List<Request.Param> constantQueryParams = RequestUtils.findConstantRequestParams(config);
 			
@@ -117,13 +113,11 @@ class QueryParamProcessor implements RequestProcessor {
 			}
 			
 			httpRequestBase.setURI(uriBuilder.build());
-			
-			return httpRequestBase;
 		}
 		catch(Exception e) {
 			
 			throw (e instanceof RequestProcessorException)? 
-					(RequestProcessorException)e :new RequestProcessorException(e);
+					(RequestProcessorException)e :new RequestProcessorException(getClass(), config, e);
 		}
 	}
 }

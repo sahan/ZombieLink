@@ -26,11 +26,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.processor.Processor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>This contract specifies a strategy for processing the <i>data</i> and <i>metadata</i> on a proxy 
- * endpoint request invocation.</p> 
+ * <p>This contract is an extension of {@link RequestProcessor} which specifies a strategy for processing the 
+ * <i>data</i> and <i>metadata</i> on a proxy endpoint <b>request invocation</b>.</p> 
  * 
  * <p>All implementations must be aware of the {@link ProxyInvocationConfiguration} which can be used 
  * to discover information about the endpoint and the request declaration. This information can be queried 
@@ -46,7 +47,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface RequestProcessor {
+public interface RequestProcessor extends Processor<Void, RequestProcessorException> {
 
 	/**
 	 * <p>Takes the {@link ProxyInvocationConfiguration} for the given {@link HttpRequestBase} and uses the 
@@ -66,15 +67,12 @@ public interface RequestProcessor {
 	 * 			the {@link ProxyInvocationConfiguration} which is used to discover the request's 
 	 * 			{@link RequestMethod} and any annotated metadata along with the invocation arguments  
  	 *
-	 * @return an {@link HttpRequestBase} which coincides with the request's {@link RequestMethod}, with 
-	 * 		   some content that may have been inserted based on the targeting criteria for this processor 
-	 * 
 	 * @throws RequestProcessorException
 	 * 			if the processor finds an {@link HttpRequestBase} <i>which it should act upon</i> and yet 
 	 * 			fails to perform the necessary processing 
 	 * 
 	 * @since 1.2.4
 	 */
-	HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)
+	void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)
 	throws RequestProcessorException;
 }

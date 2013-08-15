@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class EntityProcessor implements RequestProcessor {
+class EntityProcessor extends AbstractRequestProcessor {
 
 	
 	/**
@@ -65,20 +65,22 @@ class EntityProcessor implements RequestProcessor {
 	 * {@link RequestUtils#resolveHttpEntity(Object)}.
 	 * 
 	 * <p>See {@link RequestProcessor#process(HttpRequestBase, ProxyInvocationConfiguration)}.</p>
-	 * 
+	 *
+	 * @param httpRequestBase
+	 * 			an instance of {@link HttpEntityEnclosingRequestBase} which allows the inclusion of an 
+	 * 			{@link HttpEntity} in its body
+	 * <br><br>
 	 * @param config
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to retrieve the entity
-	 * 
-	 * @return an instance of {@link HttpRequestBase} with a body that may include an enclosed {@link HttpEntity}
-	 * 
+	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if an {@link HttpEntityEnclosingRequestBase} was discovered and yet the entity failed to be resolved 
 	 * 			and inserted into the request body
-	 * 
+	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) 
+	public void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) 
 	throws RequestProcessorException {
 
 		try {
@@ -92,8 +94,6 @@ class EntityProcessor implements RequestProcessor {
 				
 				((HttpEntityEnclosingRequestBase)httpRequestBase).setEntity(httpEntity);
 			}
-			
-			return httpRequestBase;
 		}
 		catch(MissingEntityException mee) { //violates HTTP 1.1 specification, be more verbose 
 			

@@ -56,7 +56,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class FormParamProcessor implements RequestProcessor {
+class FormParamProcessor extends AbstractRequestProcessor {
 
 	
 	/**
@@ -76,14 +76,11 @@ class FormParamProcessor implements RequestProcessor {
 	 * @param httpRequestBase
 	 * 			prefers an instance of {@link HttpPost} so as to conform with HTTP 1.1; however, other  
 	 * 			{@link HttpEntityEnclosingRequestBase}s will be entertained to allow compliance with unusual 
-	 * 			endpoint definitions 
+	 * 			endpoint definitions (as long as they are {@link HttpEntityEnclosingRequestBase}s) 
 	 * <br><br>
 	 * @param config
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the query 
 	 * 			string and create the {@link HttpGet} request
-	 * <br><br>
-	 * @return an instance of {@link HttpGet} having a URI with an appended query string (if any request 
-	 * 		   parameters were specified)
 	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if an {@link HttpGet} instance failed to be created or if a query parameter failed to be inserted
@@ -91,7 +88,7 @@ class FormParamProcessor implements RequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpRequestBase process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
+	public void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
 
 		try {
 			
@@ -133,13 +130,11 @@ class FormParamProcessor implements RequestProcessor {
 				httpRequestBase.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
 				((HttpEntityEnclosingRequestBase)httpRequestBase).setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			}
-
-			return httpRequestBase;
 		}
 		catch(Exception e) {
 			
 			throw (e instanceof RequestProcessorException)? 
-					(RequestProcessorException)e :new RequestProcessorException(e);
+					(RequestProcessorException)e :new RequestProcessorException(getClass(), config, e);
 		}
 	}
 }

@@ -147,6 +147,7 @@ public enum RequestMethod {
 				case HEAD: return new HttpHead();
 				case TRACE: return new HttpTrace();
 				case OPTIONS: return new HttpOptions();
+				
 				default: return new HttpGet();
 			}
 		}
