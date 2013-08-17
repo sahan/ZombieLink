@@ -44,6 +44,11 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * provides the <i>value</i> for each <i>name-value</i> pair; and the supplied {@link QueryParam#value()} 
  * provides the <i>name</i>.</p>
  * 
+ * <p>Processor Dependencies:</p>
+ * <ul>
+ * 	<li>{@link PathParamProcessor}</li>
+ * </ul>
+ * 
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
@@ -71,13 +76,13 @@ class QueryParamProcessor extends AbstractRequestProcessor {
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to form the query 
 	 * 			string and append it to the request URL
 	 * <br><br>
-	 * @throws ParamPopulatorException
-	 * 			if the creation of a query string failed
+	 * @throws RequestProcessorException
+	 * 			if the creation of a query string failed due to an unrecoverable error
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
+	protected void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) throws RequestProcessorException {
 
 		try {
 			

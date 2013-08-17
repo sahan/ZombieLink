@@ -46,6 +46,7 @@ import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.rest.annotation.PathParam;
 import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
@@ -59,6 +60,8 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
  * @category utility
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * 
+ * TODO revise utilities isolate a common algorithm for annotated params extraction 
  */
 public final class RequestUtils {
 	
@@ -82,7 +85,7 @@ public final class RequestUtils {
 	 * 		   on the {@link Request} or {@link Rest}ful request 
 	 * 
 	 * @throws IllegalArgumentException
-	 * 			if the supplied {@link ProxyInvocationConfiguration} was null
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null}
 	 * 
 	 * @since 1.2.4
 	 */
@@ -113,10 +116,10 @@ public final class RequestUtils {
 	 * 			on the endpoint method arguments will be extracted
 	 * 
 	 * @return an <b>unmodifiable</b> {@link Map} in the form {@code Map<name, value>} which aggregates all the 
-	 * 		   param names coupled with the value of the linked method argument
+	 * 		   param names coupled with the value of the linked method argument annotated with @{@link QueryParam}
 	 * 
 	 * @throws IllegalArgumentException
-	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null} 
 	 * 
 	 * @since 1.2.4
 	 */
@@ -163,7 +166,7 @@ public final class RequestUtils {
 	 * 		   param names coupled with the value of the linked method argument
 	 * 
 	 * @throws IllegalArgumentException
-	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null} 
 	 * 
 	 * @since 1.2.4
 	 */
@@ -387,5 +390,50 @@ public final class RequestUtils {
 		}
 		
 		return RequestUtils.resolveHttpEntity(entities.get(0));
+	}
+	
+	/**
+	 * <p>Finds all <b>path parameters</b> in the given {@link ProxyInvocationConfiguration}. Path parameters 
+	 * are introduced with @{@link PathParam} on the arguments to a request method.</p>
+	 * 
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} from which all @{@link PathParam} annotations applied 
+	 * 			on the endpoint method arguments will be extracted
+	 * 
+	 * @return an <b>unmodifiable</b> {@link Map} in the form {@code Map<name, value>} which aggregates all the 
+	 * 		   param names coupled with the value of the linked method argument annotated with @{@link PathParam}
+	 * 
+	 * @throws IllegalArgumentException
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null}
+	 * 
+	 * @since 1.2.4
+	 */
+	public static Map<String, Object> findPathParams(ProxyInvocationConfiguration config) {
+		
+		if(config == null) {
+			
+			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
+		}
+		
+		Map<String, Object> paramMap = new LinkedHashMap<String, Object>(); 
+		
+		Method request = config.getRequest();
+		Object[] paramValues = config.getRequestArgs();
+		
+		Annotation[][] annotationsForAllParams = request.getParameterAnnotations();
+		
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
+			
+			for (Annotation annotation : annotationsForAllParams[i]) {
+				
+				if(PathParam.class.isAssignableFrom(annotation.getClass())) {
+					
+					paramMap.put(((PathParam)annotation).value(), paramValues[i]);
+					break; //only one @PathParam annotation is expected per endpoint method argument
+				}
+			}
+		}
+		
+		return Collections.unmodifiableMap(paramMap);
 	}
 }

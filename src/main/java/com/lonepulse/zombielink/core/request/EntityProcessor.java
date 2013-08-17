@@ -80,7 +80,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	public void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) 
+	protected void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config) 
 	throws RequestProcessorException {
 
 		try {
