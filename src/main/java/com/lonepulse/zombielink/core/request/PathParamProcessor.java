@@ -27,8 +27,8 @@ import java.util.Map.Entry;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.annotation.PathParam;
 
 /**
  * <p>This is a concrete implementation of {@link RequestProcessor} which discovers <i>path parameters</i> 

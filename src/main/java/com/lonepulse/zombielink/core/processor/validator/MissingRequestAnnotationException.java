@@ -1,7 +1,6 @@
 package com.lonepulse.zombielink.core.processor.validator;
 
 import com.lonepulse.zombielink.core.annotation.Request;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /*
  * #%L
@@ -25,8 +24,8 @@ import com.lonepulse.zombielink.rest.annotation.Rest;
 
 
 /**
- * <p>This runtime exception is thrown when a either an @{@link Request} or @{@link Rest} annotation is 
- * not found on an endpoint method definition.</p>
+ * <p>This runtime exception is thrown when an @{@link Request} annotation is not found on an 
+ * endpoint method definition.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -47,8 +46,8 @@ class MissingRequestAnnotationException extends RequestValidationFailedException
 	 */
 	public MissingRequestAnnotationException() {
 		
-		this("An endpoint method definition requires either an @" + 
-			 Request.class.getName() + " or an @" + Rest.class.getName() + " annotation. ");
+		this(new StringBuilder("An endpoint method definition requires an @")
+			 .append(Request.class.getName()).append(" annotation. ").toString());
 	}
 
 	/**
@@ -70,9 +69,9 @@ class MissingRequestAnnotationException extends RequestValidationFailedException
 	/**
 	 * <p>Displays a detailed description along with the root cause.
 	 */
-	public MissingRequestAnnotationException(String detailMessage, Throwable throwable) {
+	public MissingRequestAnnotationException(String detailMessage, Throwable rootCause) {
 
-		super("An endpoint method definition requires either an @" + 
-			  Request.class.getName() + " or an @" + Rest.class.getName() + " annotation. ", throwable);
+		super(new StringBuilder("An endpoint method definition requires an @")
+		 	  .append(Request.class.getName()).append(" annotation. ").toString(), rootCause);
 	}
 }

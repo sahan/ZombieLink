@@ -25,13 +25,12 @@ import java.lang.reflect.Method;
 
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>A concrete implementation of {@link RequestValidator} which validates a request definition 
  * on an endpoint.</p>
  * 
- * @version 1.1.1
+ * @version 1.2.0
  * <br><br>
  * @since 1.2.4
  * <br><br>
@@ -42,7 +41,7 @@ class RequestValidator implements Validator<Void> {
 	/**
 	 * <p>Validates a request definition {@link Method} on an endpoint which is contained in the 
 	 * property {@link ProxyInvocationConfiguration#getRequest()}. It checks for the mandatory 
-	 * existence of either @{@link Request} or @{@link Rest} (but not both).</p>
+	 * existence of an @{@link Request} annotation.</p>
 	 * 
 	 * <p>See {@link Validator#validate(ProxyInvocationConfiguration)}.
 	 * 
@@ -54,8 +53,7 @@ class RequestValidator implements Validator<Void> {
 	 * 		   exception indication a <i>pass</i>
 	 * 
 	 * @throws ValidationFailedException
-	 * 			if a @{@link Request} or @{@link Rest} annotation was not found or if the metadata 
-	 * 			contained therein is corrupt
+	 * 			if an @{@link Request} annotation was not found or if its metadata is corrupt
 	 * 
 	 * @throws IllegalArgumentException 
 	 * 			if the given {@link ProxyInvocationConfiguration} is {@code null} or if its 
@@ -81,16 +79,10 @@ class RequestValidator implements Validator<Void> {
 		try {
 			
 			Request commonRequest = request.getAnnotation(Request.class);
-			Rest restfulRequest = request.getAnnotation(Rest.class);
 			
-			if(commonRequest == null && restfulRequest == null) {
+			if(commonRequest == null) {
 				
 				throw new MissingRequestAnnotationException();
-			}
-			
-			if(commonRequest != null && restfulRequest != null) {
-				
-				throw new MultipleRequestAnnotationsException();
 			}
 			
 			return null;

@@ -29,7 +29,6 @@ import com.lonepulse.zombielink.core.ZombieLinkIllegalAccessException;
 import com.lonepulse.zombielink.core.ZombieLinkInstantiationException;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.response.parser.JsonResponseParser;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**

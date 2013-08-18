@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.rest.response.parser;
+package com.lonepulse.zombielink.core.response.parser;
 
 /*
  * #%L
@@ -25,7 +25,6 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lonepulse.zombielink.core.response.parser.AbstractResponseParser;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 

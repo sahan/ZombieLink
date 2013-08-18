@@ -55,12 +55,11 @@ import com.lonepulse.zombielink.core.annotation.Bite;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.annotation.Param;
+import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.inject.Zombie;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
-import com.lonepulse.zombielink.rest.annotation.PathParam;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>Performs <b>Unit Testing</b> on the proxy of {@link MockEndpoint}.

@@ -33,12 +33,11 @@ import org.apache.http.client.methods.HttpTrace;
 
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**
  * <p>This enum is used to identify the request types as specified in <a href="">Section 9</a> of the HTTP 
- * 1.1 RFC. These request methods are common for both {@link Request}s and {@link Rest}ful requests.
+ * 1.1 RFC. These request methods are common for both common and RESTful requests.
  * 
  * @version 1.1.4
  * <br><br>
@@ -102,8 +101,7 @@ public enum RequestMethod {
 	 * <p>Resolves the {@link RequestMethod} for the given {@link ProxyInvocationConfiguration}.</p>
 	 * 
 	 * <p>This implementation assumes that a {@link ProxyInvocationConfiguration} will never be 
-	 * constructed for an endpoint request method without an @{@link Request} or an @{@link Rest} 
-	 * annotation.</p>
+	 * constructed for an endpoint request method without an @{@link Request} annotation.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -114,11 +112,7 @@ public enum RequestMethod {
 		public RequestMethod resolve(ProxyInvocationConfiguration config) {
 			
 			Method request = config.getRequest();
-			
-			Request commonRequest = request.getAnnotation(Request.class);
-			Rest restfulRequest = request.getAnnotation(Rest.class);
-			
-			return (commonRequest != null)? commonRequest.method() :restfulRequest.method();
+			return request.getAnnotation(Request.class).method();
 		}
 	};
 	

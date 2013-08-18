@@ -30,12 +30,11 @@ import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
+import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.core.response.AsyncHandler;
-import com.lonepulse.zombielink.rest.annotation.PathParam;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>An interface which represents a dummy endpoint with mock paths.
@@ -87,7 +86,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Rest(path = "/restfulsubpath")
+	@Request(path = "/restfulsubpath")
 	public String restfulSubpath();
 	
 	/**
@@ -100,7 +99,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Rest(path = "/restfulsubpathwithparam/:id")
+	@Request(path = "/restfulsubpathwithparam/:id")
 	public String restfulSubpathWithParam(@PathParam("id") String id);
 	
 	/**
@@ -124,7 +123,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Asynchronous @Rest(path = "/async")
+	@Asynchronous @Request(path = "/async")
 	public String async(AsyncHandler<String> asyncHandler);
 	
 	/**
@@ -138,7 +137,7 @@ public interface MockEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Rest(path = "/responseheader")
+	@Request(path = "/responseheader")
 	public String responseHeader(@Header("Server") StringBuilder server); 
 	
 	/**
