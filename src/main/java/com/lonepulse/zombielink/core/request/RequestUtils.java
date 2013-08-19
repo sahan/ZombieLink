@@ -47,7 +47,6 @@ import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.annotation.Rest;
 
 /**
  * <p>This utility class offers some common operations which are used in building requests - most commonly 
@@ -75,14 +74,14 @@ public final class RequestUtils {
 	/**
 	 * <p>Finds all <b><i>constant</i> request parameters</b> in the given {@link ProxyInvocationConfiguration}.</p> 
 	 * <p>Constant request parameters are introduced with @{@link Request.Param} at <b>request level</b> using 
-	 * either the @{@link Request} or the @{@link Rest} annotation.</p>
+	 * the @{@link Request} annotation.</p>
 	 *
 	 * @param config
 	 * 			the {@link ProxyInvocationConfiguration} from which all {@link Request.Param} annotations applied 
 	 * 			on the endpoint method will be extracted
 	 * 
-	 * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Request.Param} annotations found 
-	 * 		   on the {@link Request} or {@link Rest}ful request 
+	 * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Request.Param} annotations 
+	 * `	   found on the {@link Request} annotation 
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null}
@@ -97,11 +96,7 @@ public final class RequestUtils {
 		}
 		
 		Method request = config.getRequest();
-		
-		Request webRequest = request.getAnnotation(Request.class);
-		Rest restfulRequest = request.getAnnotation(Rest.class);
-		
-		Request.Param[] requestParams = (webRequest != null)? webRequest.params() :restfulRequest.params();
+		Request.Param[] requestParams = request.getAnnotation(Request.class).params();
 		
 		return Collections.unmodifiableList(Arrays.asList(requestParams));
 	}

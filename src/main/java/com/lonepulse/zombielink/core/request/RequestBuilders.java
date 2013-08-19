@@ -26,8 +26,6 @@ import java.lang.reflect.Method;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.rest.annotation.Rest;
-import com.lonepulse.zombielink.rest.request.RestfulRequestBuilder;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**
@@ -37,6 +35,7 @@ import com.lonepulse.zombielink.util.Resolver;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
+@Deprecated //refactor to use the processor chains which are about to be created
 public enum RequestBuilders implements RequestBuilder {
 
 	
@@ -45,14 +44,7 @@ public enum RequestBuilders implements RequestBuilder {
 	 * 
 	 * @since 1.1.0
 	 */
-	BASIC(new BasicRequestBuilder()),
-	
-	/**
-	 * See {@link RestfulRequestBuilder}.
-	 * 
-	 * @since 1.1.0
-	 */
-	RESTFUL(new RestfulRequestBuilder());
+	BASIC(new BasicRequestBuilder());
 	
 	
 	/**
@@ -111,9 +103,7 @@ public enum RequestBuilders implements RequestBuilder {
 		@Override
 		public RequestBuilder resolve(ProxyInvocationConfiguration config) {
 	
-			return config.getRequest().isAnnotationPresent(Rest.class)? 
-						RequestBuilders.RESTFUL.requestBuilder 
-							:RequestBuilders.BASIC.requestBuilder;
+			return RequestBuilders.BASIC.requestBuilder;
 		}
 	};
 }

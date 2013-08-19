@@ -135,7 +135,7 @@ public class MockEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a {@link Rest} request with a subpath.
+	 * <p>Test for a RESTful {@Link Request} with a subpath.
 	 * 
 	 * @since 1.2.4
 	 */
@@ -154,7 +154,7 @@ public class MockEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a {@link Rest} request with a subpath having {@link PathParam}s.
+	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
 	 * 
 	 * @since 1.2.4
 	 */
