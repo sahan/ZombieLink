@@ -47,15 +47,16 @@ package com.lonepulse.zombielink.core.processor;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class ProcessorChain<RESULT, FAILURE extends Throwable> implements Processor<RESULT, FAILURE> {
+public abstract class AbstractProcessorChain<LINK_RESULT, LINK_FAILURE extends Throwable> 
+implements Processor<LINK_RESULT, LINK_FAILURE> {
 
 	
-	private ProcessorChainLink<? extends Processor<RESULT, FAILURE>, RESULT, FAILURE> root;
+	private ProcessorChainLink<LINK_RESULT, LINK_FAILURE> root;
 
 	
 	/**
-	 * <p>Instantiates a new instance of {@link ProcessorChain} and assigns the given wraps the given {@link Processor} 
-	 * which handles the <i>execution</i> for this link in the chain.</p>
+	 * <p>Instantiates a new instance of {@link AbstractProcessorChain} and assigns the given wraps the given 
+	 * {@link Processor} that handles the <i>execution</i> for this link in the chain.</p>
 	 * 
 	 * @param root
 	 * 			the initial {@link ProcessorChainLink} in this chain whose {@link Processor} which may have further 
@@ -66,12 +67,12 @@ public abstract class ProcessorChain<RESULT, FAILURE extends Throwable> implemen
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public ProcessorChain(ProcessorChainLink<? extends Processor<RESULT, FAILURE>, RESULT, FAILURE> root) {
+	public AbstractProcessorChain(ProcessorChainLink<LINK_RESULT, LINK_FAILURE> root) {
 	
 		if(root == null) {
 			
 			StringBuilder errorContext = new StringBuilder("A ")
-			.append(ProcessorChain.class.getName())
+			.append(AbstractProcessorChain.class.getName())
 			.append(" cannot be constructed with a <null> root ")
 			.append(ProcessorChainLink.class.getName());
 			
@@ -88,48 +89,67 @@ public abstract class ProcessorChain<RESULT, FAILURE extends Throwable> implemen
 	 * 
 	 * @param args
 	 * 			the arguments to the root {@link ProcessorChainLink} which will server as the input to the 
-	 * 			first {@link Processor} which produces the initial <i>RESULT</i>
-	 * 
+	 * 			first {@link Processor} which produces the initial <i>RESULT</i>; these are passed along the 
+	 * 			chain for each and every link
 	 * <br><br>
-	 * @return the result of the complete {@link ProcessorChain} execution after been processed by 
+	 * @return the result of the complete {@link AbstractProcessorChain} execution after been processed by 
 	 * 		   {@link #onTerminate(Object, Object...)}
 	 * <br><br>
 	 * @throws ChainExecutionException
-	 * 			if the {@link ProcessorChain} halted due to an unrecoverable failure in one of its 
-	 * 			{@link ProcessorChainLink}s
+	 * 			if the {@link AbstractProcessorChain} halted due to an unrecoverable failure in one of its 
+	 * 			{@link ProcessorChainLink}s; this signals a <b>chain-wide</b> failure; failures of individual 
+	 * 			links may be handled in {@link #onInitiate(ProcessorChainLink, Object...)} and 
+	 * 			{@link #onTraverse(Object, ProcessorChainLink, Object...)}   
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public RESULT run(Object... args) throws ChainExecutionException {
+	public LINK_RESULT run(Object... args) throws ChainExecutionException {
 		
 		try {
+			ProcessorChainLink<LINK_RESULT, LINK_FAILURE> current = root;
 			
-			ProcessorChainLink<? extends Processor<RESULT, FAILURE>, RESULT, FAILURE> current = root;
-			
-			RESULT result = root.getProcessor().run(args);
+			LINK_RESULT result = onInitiate(current, args);
 			
 			while (!current.isTerminalLink()) {
 				
 				current = current.getSuccessor();
-				onTraverse(result, current, args);
+				result = onTraverse(result, current, args);
 			} 
 			
 			onTerminate(result, args);
 			
 			return result;
 		}
-		catch(Throwable t) {
+		catch(Throwable t) { 
 			
 			throw new ChainExecutionException(t);
 		}
 	}
+	
+	/**
+	 * <p>This callback is invoked for the very first {@link ProcessorChainLink} in this chain. This can be used to 
+	 * implement any <i>pre-chain</i> processing and it <b>should execute the root link</b> which produces the first 
+	 * <i>RESULT</i>.</p>
+	 * 
+	 * @param root
+	 * 			the first {@link ProcessorChainLink} which produces the initial <i>RESULT</i>
+	 * <br><br>
+	 * @param args
+	 * 			the arguments to the {@link AbstractProcessorChain} which are passed along to every {@link ProcessorChainLink}
+	 * <br><br>
+	 * @return the <i>RESULT</i> which is produced by executing the first {@link ProcessorChainLink}
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	protected abstract LINK_RESULT onInitiate(
+		ProcessorChainLink<LINK_RESULT, LINK_FAILURE> root, Object... args); 
 
 	/**
 	 * <p>This callback is invoked when the execution of the chain will progress from the current link to the next 
 	 * link; i.e. a {@link ProcessorChainLink} successor is available. All implementations are expected to handle 
-	 * the process of <i>crossing links</i> by using the results of the current link's execution and invoking the 
-	 * successor <b>as they see fit</b>.</p>
+	 * the process of <i>crossing links</i> by using the <i>RESULT</i> of the previous link's execution and invoking 
+	 * the successor <b>as they see fit</b>. The <i>RESULT</i> of the current links execution should be  </p>
 	 * 
 	 * <p><b>Note</b> that failures of <i>recoverable</i> {@link Processor}s should be explicitly handled and recovered 
 	 * from where possible</p>
@@ -146,18 +166,25 @@ public abstract class ProcessorChain<RESULT, FAILURE extends Throwable> implemen
 	 * 
 	 * <p>Although the {@link Processor} wrapped in the {@link ProcessorChainLink} may choose to skip the processing, 
 	 * this decision is limited to the input it receives and it's unaware of the details of the chain in which it resides. 
-	 * Hence this decision can only be made from a context which has a holistic view of the {@link ProcessorChain}.</p>
+	 * Hence this decision can only be made from a context which has a holistic view of the {@link AbstractProcessorChain}.</p>
 	 *
 	 * @param result
-	 *			the result from the execution of the <b>current</b> {@link ProcessorChainLink} which will be passed to 
-	 *			any available successor in the next iteration of {@code onTraverse()} 
+	 *			the result from the execution of the <b>current</b> {@link ProcessorChainLink} which should be passed 
+	 *			to the successor link in this iteration of {@code onTraverse()} 
 	 * <br><br>
 	 * @param successor
-	 * 			the next link in the chain which should be invoked 
+	 * 			the next {@link ProcessorChainLink} which should be executed with the <i>RESULT</i> of the current link 
+	 * 			and the subsequent <i>RESULT</i> of this successor should be returned in turn
+	 * <br><br>
+	 * @param args
+	 * 			the arguments to the {@link AbstractProcessorChain} which are passed along to every {@link ProcessorChainLink}
+	 * <br><br>
+	 * @return the <i>RESULT</i> which was produced by executing the successor {@link ProcessorChainLink}
+	 * <br><br>
 	 * @since 1.2.4
 	 */
-	protected abstract <PROCESSOR extends Processor<RESULT, FAILURE>> void onTraverse(
-		RESULT result, ProcessorChainLink<PROCESSOR, RESULT, FAILURE> successor, Object... args);
+	protected abstract LINK_RESULT onTraverse(
+		LINK_RESULT result, ProcessorChainLink<LINK_RESULT, LINK_FAILURE> successor, Object... args);
 		
 	/**
 	 * <p>This callback is invoked by the last link in this chain. This can be used to implement any <i>post-chain</i> 
@@ -166,7 +193,10 @@ public abstract class ProcessorChain<RESULT, FAILURE extends Throwable> implemen
 	 * @param result
 	 *			the result from the execution of the <b>final</b> {@link ProcessorChainLink}
 	 * <br><br>
+	 * @param args
+	 * 			the arguments to the {@link AbstractProcessorChain} which are passed along to every {@link ProcessorChainLink}
+	 * <br><br>
 	 * @since 1.2.4
 	 */
-	protected abstract void onTerminate(RESULT result, Object... args); 
+	protected abstract void onTerminate(LINK_RESULT result, Object... args); 
 }

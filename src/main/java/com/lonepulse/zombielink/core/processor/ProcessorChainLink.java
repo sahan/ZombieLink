@@ -33,28 +33,48 @@ package com.lonepulse.zombielink.core.processor;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILURE>, RESULT, FAILURE extends Throwable> {
+public final class ProcessorChainLink<RESULT, FAILURE extends Throwable> {
 	
 
-	private final PROCESSOR processor;
+	private final Processor<RESULT, FAILURE> processor;
 	
-	private ProcessorChainLink<PROCESSOR, RESULT, FAILURE> successor;
+	private ProcessorChainLink<RESULT, FAILURE> successor;
 	
 	
 	/**
 	 * <p>Instantiates a new instance of {@link ProcessorChainLink} and wraps the given {@link Processor} 
 	 * which handles the <i>execution</i> for this link in the chain.</p>
 	 * 
+	 * <p><b>Restricted</b>, use {@link #from(Processor)} instead.</p>
+	 * 
 	 * @param processor
 	 * 			the {@link Processor} to be wrapped by this instance of {@link ProcessorChainLink}
 	 * <br><br>
+	 * @since 1.2.4
+	 */
+	private ProcessorChainLink(Processor<RESULT, FAILURE> processor) {
+	
+		this.processor = processor;
+	}
+	
+	/**
+	 * <p>Creates a new instance of {@link ProcessorChainLink} and wraps the given {@link Processor} which handles 
+	 * the <i>execution</i> for this link in the chain.</p>
+	 *
+	 * @param processor
+	 * 			the {@link Processor} to be wrapped by this instance of {@link ProcessorChainLink}
+	 * <br><br>
+	 * @return a new instance of {@link ProcessorChainLink} which wraps the provided {@link Processor} 
+	 * <br><br>
 	 * @throws IllegalStateException
-	 * 			if the given {@link Processor} is {@code null}
+	 * 			if the given {@link Processor} is {@code null}; a {@link ProcessorChainLink} must always enclose 
+	 * 			a {@link Processor} which is invoked when the execution reaches this link in a chain
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public ProcessorChainLink(PROCESSOR processor) {
-	
+	public static final <PROCESSOR extends Processor<RESULT, FAILURE>, RESULT, FAILURE extends Throwable> 
+	ProcessorChainLink<RESULT, FAILURE> from(PROCESSOR processor) {
+		
 		if(processor == null) {
 			
 			StringBuilder errorContext = new StringBuilder("A ")
@@ -65,7 +85,7 @@ public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILUR
 			throw new IllegalStateException(errorContext.toString());
 		}
 		
-		this.processor = processor;
+		return new ProcessorChainLink<RESULT, FAILURE>(processor);
 	}
 	
 	/**
@@ -78,11 +98,13 @@ public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILUR
 	 * @param successor
 	 * 			the {@link ProcessorChainLink} to be designated as the <b>successor</b> to this link
 	 * <br><br>
+	 * @return the {@link Processor} which was provided as the <b>successor</b> to this {@link ProcessorChainLink} 
+	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public final void setSuccessor(ProcessorChainLink<PROCESSOR, RESULT, FAILURE> successor) {
+	public ProcessorChainLink<RESULT, FAILURE> setSuccessor(ProcessorChainLink<RESULT, FAILURE> successor) {
 		
-		this.successor = successor;
+		return (this.successor = successor);
 	}
 	
 	/**
@@ -95,7 +117,7 @@ public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILUR
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public final ProcessorChainLink<PROCESSOR, RESULT, FAILURE> getSuccessor() {
+	public ProcessorChainLink<RESULT, FAILURE> getSuccessor() {
 		
 		return successor;
 	}
@@ -108,7 +130,7 @@ public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILUR
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public final boolean isTerminalLink() {
+	public boolean isTerminalLink() {
 		
 		return successor == null;
 	}
@@ -120,7 +142,7 @@ public final class ProcessorChainLink<PROCESSOR extends Processor<RESULT, FAILUR
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public PROCESSOR getProcessor() {
+	public Processor<RESULT, FAILURE> getProcessor() {
 		
 		return processor;
 	}

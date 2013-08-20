@@ -40,8 +40,8 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <i>targeting criteria</i> for this request processor and the resulting information should be used to <i>build 
  * upon</i> the given {@link HttpRequest}.</p>
  * 
- * <p>It is advised to adhere to <a href="www.w3.org/Protocols/rfc2616/rfc2616.html‎">RFC 2616</a> of <b>HTTP 
- * 1.1</b> when designing an implementation.</p>
+ * <p>It is advised to adhere to <a href="www.w3.org/Protocols/rfc2616/rfc2616.html‎">RFC 2616</a> of <b>HTTP 1.1</b> 
+ * when designing an implementation.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -67,17 +67,18 @@ public abstract class AbstractRequestProcessor implements Processor<Void, Reques
 	 * @param args
 	 * 			a array of <b>length 2</b> with an {@link HttpRequestBase} and a {@link ProxyInvocationConfiguration} 
 	 * 			in that <b>exact order</b> 
-	 * 
+	 * <br><br>
 	 * @return {@code null} for all intents and purposes; implementations should process the original instance of 
 	 * 		   {@link HttpRequestBase} without recreating or reusing a separate instance with similar properties
-	 * 
+	 * <br><br>
 	 * @throws IllegalArgumentException
-	 * 			
-	 * 
+	 * 			if the supplied arguments array is {@code null} or if the number of arguments does not equal 2, 
+	 * 			or if the arguments are not of the expected type 
+	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if {@link #process(HttpRequestBase, ProxyInvocationConfiguration)} failed for the given 
 	 * 			{@link HttpRequestBase} and {@link ProxyInvocationConfiguration}
-	 * 
+	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
@@ -140,15 +141,15 @@ public abstract class AbstractRequestProcessor implements Processor<Void, Reques
 	 * @param httpRequestBase
 	 * 			a concrete implementation of {@link HttpRequestBase}, such as {@link HttpGet} which should 
 	 * 			be used to grow on based on the targeting criteria for this request processor
-	 *
+	 * <br><br>
 	 * @param config
 	 * 			the {@link ProxyInvocationConfiguration} which is used to discover the request's 
 	 * 			{@link RequestMethod} and any annotated metadata along with the invocation arguments  
- 	 *
+ 	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if the processor finds an {@link HttpRequestBase} <i>which it should act upon</i> and yet 
 	 * 			fails to perform the necessary processing 
-	 * 
+	 * <br><br>
 	 * @since 1.2.4
 	 */
 	protected abstract void process(HttpRequestBase httpRequestBase, ProxyInvocationConfiguration config)

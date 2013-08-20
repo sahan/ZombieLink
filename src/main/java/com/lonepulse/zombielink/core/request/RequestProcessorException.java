@@ -37,7 +37,7 @@ import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class RequestProcessorException extends ZombieLinkRuntimeException {
+public class RequestProcessorException extends ZombieLinkRuntimeException {
 
 	
 	private static final long serialVersionUID = -1466493374397626604L;

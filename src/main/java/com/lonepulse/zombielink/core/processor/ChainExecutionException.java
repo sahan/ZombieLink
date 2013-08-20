@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.core.processor;
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a {@link ProcessorChain} halted due to an unrecoverable failure 
+ * <p>This runtime exception is thrown when a {@link AbstractProcessorChain} halted due to an unrecoverable failure 
  * in one of its {@link ProcessorChainLink}s.</p>
  * 
  * @version 1.1.0
