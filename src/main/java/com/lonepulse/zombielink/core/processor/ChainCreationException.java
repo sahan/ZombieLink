@@ -22,8 +22,8 @@ package com.lonepulse.zombielink.core.processor;
 
 
 /**
- * <p>This runtime exception is thrown when a {@link AbstractProcessorChain} halted due to an unrecoverable 
- * failure in one of its {@link ProcessorChainLink}s.</p>
+ * <p>This runtime exception is thrown when a {@link AbstractProcessorChain} failed to be created by 
+ * instantiating the individual {@link ProcessorChainLink}s and linking them.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -31,21 +31,21 @@ package com.lonepulse.zombielink.core.processor;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ChainExecutionException extends ProcessorChainException {
+public class ChainCreationException extends ProcessorChainException {
 	
 	
-	private static final long serialVersionUID = -352259198806492953L;
+	private static final long serialVersionUID = 2867161442144265001L;
 	
 
 	/**
 	 * See {@link ProcessorChainException#ProcessorChainException()}.
 	 */
-	public ChainExecutionException() {}
+	public ChainCreationException() {}
 
 	/**
 	 * See {@link ProcessorChainException#ProcessorChainException(String)}.
 	 */
-	public ChainExecutionException(String detailMessage) {
+	public ChainCreationException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -53,7 +53,7 @@ public class ChainExecutionException extends ProcessorChainException {
 	/**
 	 * See {@link ProcessorChainException#ProcessorChainException(Throwable)}.
 	 */
-	public ChainExecutionException(Throwable throwable) {
+	public ChainCreationException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -61,7 +61,7 @@ public class ChainExecutionException extends ProcessorChainException {
 	/**
 	 * See {@link ProcessorChainException#ProcessorChainException(String, Throwable)}.
 	 */
-	public ChainExecutionException(String detailMessage, Throwable throwable) {
+	public ChainCreationException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

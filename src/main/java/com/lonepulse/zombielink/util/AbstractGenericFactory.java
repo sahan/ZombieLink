@@ -30,18 +30,23 @@ import java.util.Map;
  * 
  * @version 1.1.0
  * <br><br>
+ * @since 1.2.4
+ * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class AbstractGenericFactory<Input, Output> implements GenericFactory<Input, Output> {
+public class AbstractGenericFactory<INPUT, OUTPUT, FAILURE extends Throwable> 
+implements GenericFactory <INPUT, OUTPUT, FAILURE> {
 
 	
 	/**
 	 * <p><b>Unsupported</b>. Override to provide an implementation.</p>
 	 * 
 	 * <p>See {@link GenericFactory#newInstance()}</p>
+	 * 
+	 * @since 1.2.4
 	 */
 	@Override
-	public Output newInstance() {
+	public OUTPUT newInstance() throws FAILURE {
 		
 		StringBuilder builder = new StringBuilder()
 		.append(getClass().getName())
@@ -54,9 +59,11 @@ public class AbstractGenericFactory<Input, Output> implements GenericFactory<Inp
 	 * <p><b>Unsupported</b>. Override to provide an implementation.</p>
 	 * 
 	 * <p>See {@link GenericFactory#newInstance(Map)}</p>
+	 * 
+	 * @since 1.2.4
 	 */
 	@Override
-	public Output newInstance(Map<String, Input> inputMap) {
+	public OUTPUT newInstance(Map<String, INPUT> inputMap) throws FAILURE {
 		
 		StringBuilder builder = new StringBuilder()
 		.append(getClass().getName())
@@ -69,9 +76,11 @@ public class AbstractGenericFactory<Input, Output> implements GenericFactory<Inp
 	 * <p><b>Unsupported</b>. Override to provide an implementation.</p>
 	 * 
 	 * <p>See {@link GenericFactory#newInstance(Object, Object...)}</p>
+	 * 
+	 * @since 1.2.4
 	 */
 	@Override
-	public Output newInstance(Input input, Input... inputs) {
+	public OUTPUT newInstance(INPUT input, INPUT... inputs) throws FAILURE {
 		
 		StringBuilder builder = new StringBuilder()
 		.append(getClass().getName())

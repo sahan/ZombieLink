@@ -24,56 +24,67 @@ import java.util.Map;
 
 
 /**
- * <p>This contract specifies the policy for a generic entity factory.
+ * <p>This contract specifies a generic policy for an entity factory. Its takes the raw materials 
+ * specified by <i>INPUT</i> to manufacture an entity of the type specified by <i>OUTPUT</i> and 
+ * expects a {@link Throwable} of the type specified by <i>FAILURE</i> to be thrown in case of a 
+ * manufacturing error.</p>
  * 
- * @version 1.1.1
+ * @version 1.2.0
+ * <br><br>
+ * @version 1.2.4
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface GenericFactory<Input extends Object, Output extends Object> {
+public interface GenericFactory<INPUT extends Object, OUTPUT extends Object, FAILURE extends Throwable> {
 
 	/**
-	 * <p>Builds a new instance of the output product. 
+	 * <p>Manufactures a new instance of the <i>OUTPUT</i> product using no <i>INPUT</i>. This method 
+	 * could be used to create the entity with its default components and properties. Such details must 
+	 * be clearly documented in the implementation.</p> 
 	 * 			
-	 * @return a <b>new instance</b> of the the product
-	 * 
-	 * @since 1.1.0
+	 * @return a <b>new instance</b> of the <i>OUTPUT</i>
+	 * <br><br>
+	 * @throws the type of <i>FAILURE</i> to expect from a manufacturing error 
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public abstract Output newInstance();
+	public abstract OUTPUT newInstance() throws FAILURE;
 	
 	/**
-	 * <p>Takes a map of inputs (keyed by strings) as raw material and 
-	 * builds the output which is designated as this factory's product.
+	 * <p>Takes a {@link Map} of raw materials (keyed by {@link String}s) as the <i>INPUT</i> and 
+	 * manufactures the <i>OUTPUT</i>. All implementations must check for the <b>existence</b> of 
+	 * the <i>INPUT</i> and validate it before proceeding with the manufacture.</p>
 	 * 
-	 * @param input
-	 * 			the raw material or key from which the product 
-	 * 			is created 
-	 * 
-	 * @param inputs
-	 * 			further raw materials from which the product 
-	 * 			is created
-	 * 			
-	 * @return a <b>new instance</b> of the the product
-	 * 
-	 * @since 1.1.1
+	 * @param inputMap
+	 * 			the <i>INPUT</i> {@link Map} whose entries are used to manufacture the <i>OUTPUT</i>
+	 * <br><br>			
+	 * @return a <b>new instance</b> of the <i>OUTPUT</i>
+	 * <br><br>
+	 * @throws the type of <i>FAILURE</i> to expect from a manufacturing error
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public abstract Output newInstance(Map<String, Input> inputMap);
+	public abstract OUTPUT newInstance(Map<String, INPUT> inputMap) throws FAILURE;
 	
 	/**
-	 * <p>Takes an input as raw material or a key and builds 
-	 * the output which is designated as this factory's product.
+	 * <p>Takes a single <i>INPUT</i> as an essential raw material to manufacture the <i>OUTPUT</i> 
+	 * and produces a new instance of it. It <i>may</i> take additional <i>INPUT</i>s which are 
+	 * required for the manufacturing process. All implementations must check for the <b>existence</b> 
+	 * of the <i>essential INPUT</i> and validate it before proceeding with the manufacture.</p>
 	 * 
 	 * @param input
-	 * 			the raw material or key from which the product 
-	 * 			is created 
+	 * 			an <i>INPUT</i> which is essential to the manufacture of the <i>OUTPUT</i> without 
+	 * 			which the manufacturing process will fail  
 	 * 
 	 * @param inputs
-	 * 			further raw materials from which the product 
-	 * 			is created
-	 * 			
-	 * @return a <b>new instance</b> of the the product
-	 * 
-	 * @since 1.1.0
+	 * 			further <i>INPUT</i>s which can be used in the manufacturing of the <i>OUTPUT</i> 
+	 * 			but are not <i>essential</i> to the process
+	 * <br><br>			
+	 * @return a <b>new instance</b> of the <i>OUTPUT</i>
+	 * <br><br>
+	 * @throws the type of <i>FAILURE</i> to expect from a manufacturing error
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public abstract Output newInstance(Input input, Input... inputs);
+	public abstract OUTPUT newInstance(INPUT input, INPUT... inputs) throws FAILURE;
 }

@@ -27,6 +27,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.util.AbstractGenericFactory;
 import com.lonepulse.zombielink.util.GenericFactory;
 
@@ -37,8 +38,10 @@ import com.lonepulse.zombielink.util.GenericFactory;
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * 
+ * TODO revise HttpContextFactory
  */
-public class HttpContextFactory extends AbstractGenericFactory<Void, HttpContext> {
+public class HttpContextFactory extends AbstractGenericFactory<Void, HttpContext, ZombieLinkRuntimeException> {
 	
 	
 	/**
@@ -48,11 +51,18 @@ public class HttpContextFactory extends AbstractGenericFactory<Void, HttpContext
 	@Override
 	public HttpContext newInstance() {
 		
-		CookieStore cookieStore = new BasicCookieStore();
-		HttpContext httpContext = new BasicHttpContext();
+		try {
 		
-		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-		
-		return httpContext;
+			CookieStore cookieStore = new BasicCookieStore();
+			HttpContext httpContext = new BasicHttpContext();
+			
+			httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+			
+			return httpContext;
+		}
+		catch(Exception e) {
+			
+			throw new ZombieLinkRuntimeException(e);
+		}
 	}
 }

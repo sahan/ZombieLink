@@ -29,6 +29,7 @@ import com.lonepulse.zombielink.core.annotation.FormParam;
 import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.processor.AbstractProcessorChain;
+import com.lonepulse.zombielink.core.processor.ProcessorChainFactory;
 import com.lonepulse.zombielink.core.processor.ProcessorChainLink;
 
 /**
@@ -53,19 +54,6 @@ import com.lonepulse.zombielink.core.processor.ProcessorChainLink;
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public final class RequestProcessorChain extends AbstractProcessorChain<Void, RequestProcessorException> {
-
-
-	private static final ProcessorChainLink<Void, RequestProcessorException> root;
-	
-	static
-	{
-		root = ProcessorChainLink.from(new UriProcessor());
-		
-		root.setSuccessor(ProcessorChainLink.from(new PathParamProcessor()))
-			.setSuccessor(ProcessorChainLink.from(new QueryParamProcessor()))
-			.setSuccessor(ProcessorChainLink.from(new FormParamProcessor()))
-			.setSuccessor(ProcessorChainLink.from(new EntityProcessor()));
-	}
 	
 	
 	/**
@@ -82,9 +70,15 @@ public final class RequestProcessorChain extends AbstractProcessorChain<Void, Re
 	 * <br><br>
 	 * @since 1.2.4
 	 */
+	@SuppressWarnings("unchecked") //safe generic array of Processor<Void, RequestProcessorException> for varargs (see http://tinyurl.com/coc4om)
 	public RequestProcessorChain() {
 		
-		super(root);
+		super(new ProcessorChainFactory<Void, RequestProcessorException>().newInstance(
+				new UriProcessor(), 
+				new PathParamProcessor(), 
+				new QueryParamProcessor(), 
+				new FormParamProcessor(), 
+				new EntityProcessor()));
 	}
 
 	/**
@@ -120,7 +114,7 @@ public final class RequestProcessorChain extends AbstractProcessorChain<Void, Re
 	}
 
 	/**
-	 * <p>No terminals conditions are performed.</p>
+	 * <p>No terminal conditions are performed.</p>
 	 * 
 	 * <p>See {@link AbstractRequestProcessor}.</p>
 	 * 

@@ -20,10 +20,11 @@ package com.lonepulse.zombielink.core.processor;
  * #L%
  */
 
+import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown when a {@link AbstractProcessorChain} halted due to an unrecoverable 
- * failure in one of its {@link ProcessorChainLink}s.</p>
+ * <p>This root {@link RuntimeException} is thrown due to an error in creating or executing an 
+ * implementation of {@link AbstractProcessorChain}.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -31,37 +32,37 @@ package com.lonepulse.zombielink.core.processor;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ChainExecutionException extends ProcessorChainException {
+public class ProcessorChainException extends ZombieLinkRuntimeException {
 	
 	
-	private static final long serialVersionUID = -352259198806492953L;
+	private static final long serialVersionUID = -6017337334495169769L;
 	
 
 	/**
-	 * See {@link ProcessorChainException#ProcessorChainException()}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 */
-	public ChainExecutionException() {}
+	public ProcessorChainException() {}
 
 	/**
-	 * See {@link ProcessorChainException#ProcessorChainException(String)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 */
-	public ChainExecutionException(String detailMessage) {
+	public ProcessorChainException(String detailMessage) {
 		
 		super(detailMessage);
 	}
 
 	/**
-	 * See {@link ProcessorChainException#ProcessorChainException(Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 */
-	public ChainExecutionException(Throwable throwable) {
+	public ProcessorChainException(Throwable throwable) {
 		
 		super(throwable);
 	}
 
 	/**
-	 * See {@link ProcessorChainException#ProcessorChainException(String, Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 */
-	public ChainExecutionException(String detailMessage, Throwable throwable) {
+	public ProcessorChainException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}

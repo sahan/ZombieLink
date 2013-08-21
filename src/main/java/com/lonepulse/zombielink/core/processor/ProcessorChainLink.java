@@ -72,8 +72,8 @@ public final class ProcessorChainLink<RESULT, FAILURE extends Throwable> {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public static final <PROCESSOR extends Processor<RESULT, FAILURE>, RESULT, FAILURE extends Throwable> 
-	ProcessorChainLink<RESULT, FAILURE> from(PROCESSOR processor) {
+	public static final <RESULT, FAILURE extends Throwable> 
+	ProcessorChainLink<RESULT, FAILURE> from(Processor<RESULT, FAILURE> processor) {
 		
 		if(processor == null) {
 			
