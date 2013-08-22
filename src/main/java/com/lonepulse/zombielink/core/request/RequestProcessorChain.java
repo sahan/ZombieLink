@@ -41,6 +41,7 @@ import com.lonepulse.zombielink.core.processor.ProcessorChainLink;
  * 
  * <ol>
  * 	<li>{@link UriProcessor} - builds the complete URI from the root-path and the sub-path</li>
+ * 	<li>{@link HeaderProcessor} - populates all static and dynamic HTTP headers</li>
  *  <li>{@link PathParamProcessor} - populates path parameters placeholders in the URI for any @{@link PathParam}s</li>
  *  <li>{@link QueryParamProcessor} - appends a query-string formulated for any @{@link QueryParam}s</li>
  *  <li>{@link FormParamProcessor} - inserts a form-url-encoded query-string for any @{@link FormParam}s</li>
@@ -62,6 +63,7 @@ public final class RequestProcessorChain extends AbstractProcessorChain<Void, Re
 	 * 
 	 * <ol>
 	 * 	<li>{@link UriProcessor} - builds the complete URI from the root-path and the sub-path</li>
+	 *  <li>{@link HeaderProcessor} - populates all static and dynamic HTTP headers</li>
 	 *  <li>{@link PathParamProcessor} - populates path parameters placeholders in the URI for any @{@link PathParam}s</li>
 	 *  <li>{@link QueryParamProcessor} - appends a query-string formulated for any @{@link QueryParam}s</li>
 	 *  <li>{@link FormParamProcessor} - inserts a form-url-encoded query-string for any @{@link FormParam}s</li>
@@ -75,6 +77,7 @@ public final class RequestProcessorChain extends AbstractProcessorChain<Void, Re
 		
 		super(new ProcessorChainFactory<Void, RequestProcessorException>().newInstance(
 				new UriProcessor(), 
+				new HeaderProcessor(),
 				new PathParamProcessor(), 
 				new QueryParamProcessor(), 
 				new FormParamProcessor(), 

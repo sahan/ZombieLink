@@ -42,6 +42,8 @@ import org.apache.http.entity.StringEntity;
 
 import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.FormParam;
+import com.lonepulse.zombielink.core.annotation.Header;
+import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
@@ -430,5 +432,106 @@ public final class RequestUtils {
 		}
 		
 		return Collections.unmodifiableMap(paramMap);
+	}
+	
+	/**
+	 * <p>Finds all <b>static and dynamic headers</b> in the given {@link ProxyInvocationConfiguration} and 
+	 * returns an unmodifiable {@link List} of {@link Map.Entry} instances with the header <i>name</i> as the 
+	 * key and the runtime argument as the <i>value</i>. <b>Note</b> that this implementation of 
+	 * {@link Map.Entry#setValue(Object)} throws an {@link UnsupportedOperationException}. This list may contain 
+	 * multiple entries with the <i>same name</i> as these headers are meant to be <b>added</b> ant not overwritten 
+	 * for a request.</p>
+	 * 
+	 * <p><i>Static-headers</i> are specified at request-level with @{@link HeaderSet} and <i>dynamic-headers</i> 
+	 * are specified at argument-level with @{@link Header}.</p>
+	 * 
+	 * <br><br>
+	 * @param config
+	 * 			the {@link ProxyInvocationConfiguration} from which all static and dynamic headers will be discovered
+	 * <br><br>
+	 * @return an <b>unmodifiable</b> {@link List} of {@link Map.Entry} instances with the header <i>name</i> as the 
+	 * 		   key and the runtime argument as the <i>value</i>; <b>note</b> that this implementation of 
+	 * 		   {@link Map.Entry#setValue(Object)} throws an {@link UnsupportedOperationException} 
+	 * <br><br>
+	 * @throws IllegalArgumentException
+	 * 			if the supplied {@link ProxyInvocationConfiguration} was {@code null}
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	public static List<Map.Entry<String, Object>> findHeaders(ProxyInvocationConfiguration config) {
+		
+		if(config == null) {
+			
+			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
+		}
+		
+		Method request = config.getRequest();
+		HeaderSet headerSet = request.getAnnotation(HeaderSet.class);
+		
+		List<Map.Entry<String, Object>> headers = new ArrayList<Map.Entry<String, Object>>();
+		
+		if(headerSet != null && headerSet.value() != null && headerSet.value().length > 0) {
+		
+			List<HeaderSet.Header> staticHeaders = Arrays.asList(headerSet.value());
+			
+			for (final HeaderSet.Header staticHeader : staticHeaders) {
+				
+				headers.add(new Map.Entry<String, Object>() {
+
+					@Override
+					public String getKey() {
+						return staticHeader.name();
+					}
+
+					@Override
+					public Object getValue() {
+						return staticHeader.value();
+					}
+
+					@Override
+					public Object setValue(Object value) {
+						throw new UnsupportedOperationException();
+					}
+				});
+			}
+		}
+		
+		Object[] paramValues = config.getRequestArgs();
+		
+		Annotation[][] annotationsForAllParams = request.getParameterAnnotations();
+		
+		for (int i = 0; i < annotationsForAllParams.length; i++) {
+			
+			for (Annotation annotation : annotationsForAllParams[i]) {
+				
+				if(Header.class.isAssignableFrom(annotation.getClass())) {
+					
+					final Header header = (Header)annotation;
+					final Object paramValue = paramValues[i];
+					
+					headers.add(new Map.Entry<String, Object>() {
+
+						@Override
+						public String getKey() {
+							return header.value();
+						}
+
+						@Override
+						public Object getValue() {
+							return paramValue;
+						}
+
+						@Override
+						public Object setValue(Object value) {
+							throw new UnsupportedOperationException();
+						}
+					});
+					
+					break; //only one @Header annotation is expected per endpoint method argument
+				}
+			}
+		}
+		
+		return Collections.unmodifiableList(headers);
 	}
 }

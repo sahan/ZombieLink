@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.request.header;
+package com.lonepulse.zombielink.core.request;
 
 /*
  * #%L
@@ -25,10 +25,12 @@ import java.lang.reflect.Method;
 import com.lonepulse.zombielink.core.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown whenever a failure occurs in processing 
- * headers for an HTTP request.</p>
+ * <p>This runtime exception is thrown due to an unrecoverable error in processing dynamic header values 
+ * for HTTP requests.</p>
  * 
  * @version 1.1.0
+ * <br><br>
+ * @since 1.2.4
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
