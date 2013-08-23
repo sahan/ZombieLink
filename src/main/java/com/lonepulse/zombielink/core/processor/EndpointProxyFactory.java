@@ -31,7 +31,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.processor.executor.RequestExecutors;
 import com.lonepulse.zombielink.core.processor.validator.Validators;
-import com.lonepulse.zombielink.core.request.RequestBuilders;
+import com.lonepulse.zombielink.core.request.RequestMethod;
 import com.lonepulse.zombielink.core.response.parser.ResponseParsers;
 
 /**
@@ -84,8 +84,8 @@ public enum EndpointProxyFactory implements ProxyFactory {
 					.build();
 					
 					//3.Create the request
-					HttpRequestBase httpRequestBase 
-						= RequestBuilders.RESOLVER.resolve(config).build(config);
+					HttpRequestBase httpRequestBase = RequestMethod.TRANSLATOR.translate(config);
+					Processors.REQUEST.run(httpRequestBase, config);
 					
 					//4.Execute the HttpRequestBase either asynchronously or synchronously
 					HttpResponse httpResponse 

@@ -25,6 +25,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 
@@ -97,11 +98,14 @@ class EntityProcessor extends AbstractRequestProcessor {
 		}
 		catch(MissingEntityException mee) { //violates HTTP 1.1 specification, be more verbose 
 			
-			StringBuilder errorContext = new StringBuilder("It is imperative that this request encloses an entity.")
-			.append(" Identify exactly one entity by annotating an argument with @")
-			.append(Entity.class.getSimpleName());
+			if(!(httpRequestBase instanceof HttpPost)) { //allow leeway for POST requests
 			
-			throw new RequestProcessorException(errorContext.toString(), mee);
+				StringBuilder errorContext = new StringBuilder("It is imperative that this request encloses an entity.")
+				.append(" Identify exactly one entity by annotating an argument with @")
+				.append(Entity.class.getSimpleName());
+				
+				throw new RequestProcessorException(errorContext.toString(), mee);
+			}
 		}
 		catch(MultipleEntityException mee) { //violates HTTP 1.1 specification, be more verbose 
 			

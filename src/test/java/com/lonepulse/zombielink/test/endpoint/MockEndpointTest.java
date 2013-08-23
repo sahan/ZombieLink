@@ -55,7 +55,6 @@ import com.lonepulse.zombielink.core.annotation.Bite;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.annotation.Param;
-import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.inject.Zombie;
@@ -123,7 +122,7 @@ public class MockEndpointTest {
 		
 		String subpath = "/subpathwithparams\\?\\S+", body = "hello", 
 			   firstName = "Doctor", lastName = "Who",
-			   url = "/subpathwithparams?lastName=" + lastName + "&firstName=" + firstName;
+			   url = "/subpathwithparams?firstName=" + firstName + "&lastName=" + lastName;
 		
 		stubFor(get(urlMatching(subpath))
 				.willReturn(aResponse()
@@ -133,45 +132,47 @@ public class MockEndpointTest {
 		assertEquals(body, mockEndpoint.subpathWithParams(firstName, lastName));
 		verify(getRequestedFor(urlEqualTo(url)));
 	}
-	
-	/**
-	 * <p>Test for a RESTful {@Link Request} with a subpath.
-	 * 
-	 * @since 1.2.4
-	 */
-	@Test
-	public final void testRestfulSubpath() {
-		
-		String subpath = "/restfulsubpath", body = "hello";
-		
-		stubFor(get(urlEqualTo(subpath))
-				.willReturn(aResponse()
-				.withStatus(200)
-				.withBody(body)));
-		
-		assertEquals(body, mockEndpoint.restfulSubpath());
-		verify(getRequestedFor(urlMatching(subpath)));
-	}
-	
-	/**
-	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
-	 * 
-	 * @since 1.2.4
-	 */
-	@Test
-	public final void testRestfulSubpathWithParams() {
-		
-		String subpath = "/restfulsubpathwithparam/\\S+", body = "hello", 
-			   id = "doctorwho", url = "/restfulsubpathwithparam/" + id;
-		
-		stubFor(get(urlMatching(subpath))
-				.willReturn(aResponse()
-				.withStatus(200)
-				.withBody(body)));
-		
-		assertEquals(body, mockEndpoint.restfulSubpathWithParam(id));
-		verify(getRequestedFor(urlEqualTo(url)));
-	}
+
+//	TODO write fresh tests for RESTful requests	
+//	
+//	/**
+//	 * <p>Test for a RESTful {@Link Request} with a subpath.
+//	 * 
+//	 * @since 1.2.4
+//	 */
+//	@Test
+//	public final void testRestfulSubpath() {
+//		
+//		String subpath = "/restfulsubpath", body = "hello";
+//		
+//		stubFor(get(urlEqualTo(subpath))
+//				.willReturn(aResponse()
+//				.withStatus(200)
+//				.withBody(body)));
+//		
+//		assertEquals(body, mockEndpoint.restfulSubpath());
+//		verify(getRequestedFor(urlMatching(subpath)));
+//	}
+//	
+//	/**
+//	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
+//	 * 
+//	 * @since 1.2.4
+//	 */
+//	@Test
+//	public final void testRestfulSubpathWithParams() {
+//		
+//		String subpath = "/restfulsubpathwithparam/\\S+", body = "hello", 
+//			   id = "doctorwho", url = "/restfulsubpathwithparam/" + id;
+//		
+//		stubFor(get(urlMatching(subpath))
+//				.willReturn(aResponse()
+//				.withStatus(200)
+//				.withBody(body)));
+//		
+//		assertEquals(body, mockEndpoint.restfulSubpathWithParam(id));
+//		verify(getRequestedFor(urlEqualTo(url)));
+//	}
 	
 	/**
 	 * <p>Test for a {@link Request} with a subpath having constant {@link Request.Param}s.
@@ -291,9 +292,9 @@ public class MockEndpointTest {
 				.willReturn(aResponse()
 				.withStatus(200)));
 		
-		String name = "DoctorWho", age = "953", location = "Tardis";
+		String user = "{\"_id\":1, \"name\":\"DoctorWho\", \"age\":953, \"location\":\"Tardis\"}";
 		
-		mockEndpoint.putRequest(name, age, location);
+		mockEndpoint.putRequest(user);
 		
 		List<LoggedRequest> requests = findAll(putRequestedFor(urlMatching(path)));
 		assertFalse(requests == null);
@@ -303,9 +304,7 @@ public class MockEndpointTest {
 		assertTrue(request.getMethod().equals(RequestMethod.PUT));
 		
 		String body = request.getBodyAsString();
-		assertTrue(body.contains("name=" + name));
-		assertTrue(body.contains("age=" + age));
-		assertTrue(body.contains("location=" + location));
+		assertTrue(body.contains(user));
 	}
 	
 	/**

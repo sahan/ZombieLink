@@ -46,8 +46,15 @@ import com.lonepulse.zombielink.core.processor.ProcessorChainLink;
  *  <li>{@link QueryParamProcessor} - appends a query-string formulated for any @{@link QueryParam}s</li>
  *  <li>{@link FormParamProcessor} - inserts a form-url-encoded query-string for any @{@link FormParam}s</li>
  *  <li>{@link EntityProcessor} - inserts the {@link HttpEntity} identified using @{@link Entity}</li>
- * <ol>
- * <br><br>
+ * </ol>
+ * 
+ * <p><b>Note</b> that this processor-chain acts solely on the input arguments to {@link #run(Object...)} and returns 
+ * {@code null} for all intents and purposes.</p>
+ * 
+ * <p><b>Note</b> that a chain-wide failure is <b>NOT recoverable</b>. All failures are of type {@link RequestProcessorException} 
+ * which may be thrown from any arbitrary {@link ProcessorChainLink}. Any changes made on the arguments to the chain 
+ * are <b>NOT rolled back</b>.</p> 
+ * 
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4

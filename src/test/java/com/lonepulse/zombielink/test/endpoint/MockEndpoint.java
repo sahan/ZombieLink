@@ -25,12 +25,14 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Endpoint;
+import com.lonepulse.zombielink.core.annotation.Entity;
+import com.lonepulse.zombielink.core.annotation.FormParam;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
 import com.lonepulse.zombielink.core.annotation.PathParam;
+import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.request.RequestMethod;
@@ -76,31 +78,33 @@ public interface MockEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/subpathwithparams")
-	public String subpathWithParams(@Param("firstName") String firstName, 
-									@Param("lastName") String lastName);
+	public String subpathWithParams(@QueryParam("firstName") String firstName, 
+									@QueryParam("lastName") String lastName);
 	
-	/**
-	 * <p>Sends a RESTful request with a subpath.
-	 * 
-	 * @return a response for the RESTful request with a subpath
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/restfulsubpath")
-	public String restfulSubpath();
-	
-	/**
-	 * <p>Sends a request for a RESTful subpath.
-	 * 
-	 * @param id
-	 * 			the restful path parameter
-	 * 
-	 * @return the response for the RESTful request
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/restfulsubpathwithparam/:id")
-	public String restfulSubpathWithParam(@PathParam("id") String id);
+//	TODO write fresh tests for RESTful requests
+//	
+//	/**
+//	 * <p>Sends a RESTful request with a subpath.
+//	 * 
+//	 * @return a response for the RESTful request with a subpath
+//	 * 
+//	 * @since 1.2.4
+//	 */
+//	@Request(path = "/restfulsubpath")
+//	public String restfulSubpath();
+//	
+//	/**
+//	 * <p>Sends a request for a RESTful subpath.
+//	 * 
+//	 * @param id
+//	 * 			the restful path parameter
+//	 * 
+//	 * @return the response for the RESTful request
+//	 * 
+//	 * @since 1.2.4
+//	 */
+//	@Request(path = "/restfulsubpathwithparam/:id")
+//	public String restfulSubpathWithParam(@PathParam("id") String id);
 	
 	/**
 	 * <p>Sends a request with a set of constant query paramers.
@@ -157,30 +161,22 @@ public interface MockEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/postrequest", method = RequestMethod.POST)
-	public String postRequest(@Param("name") String name, 
-							  @Param("age") String age,
-							  @Param("location") String location);
+	public String postRequest(@FormParam("name") String name, 
+							  @FormParam("age") String age,
+							  @FormParam("location") String location);
 	
 	/**
 	 * <p>A mock request which uses the HTTP method PUT.
 	 * 
-	 * @param name
-	 * 			the first request parameter
-	 * 
-	 * @param age
-	 * 			the second request parameter
-	 * 
-	 * @param location
-	 * 			the third request parameter
+	 * @param user
+	 * 			the JSON string which represents the entity 
 	 * 
 	 * @return the textual content of the {@link HttpResponse} body
 	 * 
 	 * @since 1.2.4
 	 */
 	@Request(path = "/putrequest", method = RequestMethod.PUT)
-	public String putRequest(@Param("name") String name, 
-							 @Param("age") String age,
-							 @Param("location") String location);
+	public String putRequest(@Entity String user);
 	/**
 	 * <p>A mock request which uses the HTTP method DELETE.
 	 * 
