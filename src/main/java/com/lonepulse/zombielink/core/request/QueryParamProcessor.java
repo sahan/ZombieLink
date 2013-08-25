@@ -29,7 +29,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
@@ -61,7 +60,7 @@ class QueryParamProcessor extends AbstractRequestProcessor {
 	/**
 	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with an {@link HttpRequestBase} and creates 
 	 * a <a href="http://en.wikipedia.org/wiki/Query_string">query string</a> using any arguments which were 
-	 * annotated with @{@link Param} and @{@link Request.Param} which is subsequently appended to the URI.</p>
+	 * annotated with @{@link QueryParam} and @{@link Request.Param} which is subsequently appended to the URI.</p>
 	 * 
 	 * <p><b>Note</b> that any constant request parameters which are annotated with @{@link Request.Param} 
 	 * will be treated as <b>name-value</b> pairs to be used in the query string.</p>

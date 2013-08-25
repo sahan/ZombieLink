@@ -21,7 +21,6 @@ package com.lonepulse.zombielink.core.processor;
  */
 
 import com.lonepulse.zombielink.core.annotation.Endpoint;
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.Request;
 
 /**
@@ -38,9 +37,8 @@ interface ProxyFactory {
 	 * which models a communication endpoint and returns a single instance of a 
 	 * dynamically generated proxy for that endpoint interface.</p>
 	 * <br>
-	 * <p>The interface should be annotated with {@link Endpoint} and may 
-	 * contain one or more abstract method declarations which are annotated with 
-	 * {@link Request} (and optionally {@link Param}).</p>
+	 * <p>The interface should be annotated with {@link Endpoint} and may contain 
+	 * one or more abstract method declarations which are annotated with {@link Request}.</p>
 	 * 
 	 * @param typeClass
 	 * 				the {@link Class} of the interface which model an {@link Endpoint}

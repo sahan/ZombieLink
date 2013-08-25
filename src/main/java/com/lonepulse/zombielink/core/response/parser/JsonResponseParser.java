@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
@@ -44,11 +45,11 @@ public class JsonResponseParser extends AbstractResponseParser<Object> {
      * and returns the entity representing the JSON data.
 	 */
 	@Override
-	protected Object processResponse(HttpResponse httpResponse) throws Exception {
+	protected Object processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
 		
 		String jsonString = EntityUtils.toString(httpResponse.getEntity());
 		
-		return new Gson().fromJson(jsonString, TypeToken.get(getRequestReturnType()).getType());
+		return new Gson().fromJson(jsonString, TypeToken.get(config.getRequest().getReturnType()).getType());
 	}
 
 	/**

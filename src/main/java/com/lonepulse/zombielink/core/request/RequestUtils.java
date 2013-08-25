@@ -44,7 +44,6 @@ import com.lonepulse.zombielink.core.annotation.Entity;
 import com.lonepulse.zombielink.core.annotation.FormParam;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
-import com.lonepulse.zombielink.core.annotation.Param;
 import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
@@ -189,53 +188,6 @@ public final class RequestUtils {
 					
 					paramMap.put(((FormParam)annotation).value(), paramValues[i]);
 					break; //only one @FormParam annotation is expected per endpoint method argument
-				}
-			}
-		}
-		
-		return Collections.unmodifiableMap(paramMap);
-	}
-	
-	/**
-	 * <p>Finds all <b>request parameters</b> in the given {@link ProxyInvocationConfiguration}.</p> 
-	 * 
-	 * <p>Request parameters are introduced with @{@link Param} on arguments to an endpoint request method.</p>
-	 *
-	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} from which all {@link Param} annotations applied 
-	 * 			on the endpoint method arguments will be extracted
-	 * 
-	 * @return an <b>unmodifiable</b> {@link Map} in the form {@code Map<name, value>} which aggregates all the 
-	 * 		   param names coupled with the value of the linked method argument
-	 * 
-	 * @throws IllegalArgumentException
-	 * 			if the supplied {@link ProxyInvocationConfiguration} was null 
-	 * 
-	 * @since 1.2.4
-	 */
-	@Deprecated //TODO remove RequestUtils#findRequestParams(cofig) after the deprecation of @Param on API
-	public static Map<String, Object> findRequestParams(ProxyInvocationConfiguration config) {
-		
-		if(config == null) {
-			
-			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
-		}
-		
-		Map<String, Object> paramMap = new LinkedHashMap<String, Object>(); 
-		
-		Method request = config.getRequest();
-		Object[] paramValues = config.getRequestArgs();
-		
-		Annotation[][] annotationsForAllParams = request.getParameterAnnotations();
-		
-		for (int i = 0; i < annotationsForAllParams.length; i++) {
-			
-			for (Annotation annotation : annotationsForAllParams[i]) {
-				
-				if(Param.class.isAssignableFrom(annotation.getClass())) {
-					
-					paramMap.put(((Param)annotation).value(), paramValues[i]);
-					break; //only one @Param annotation is expected per endpoint method argument
 				}
 			}
 		}

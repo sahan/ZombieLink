@@ -28,6 +28,8 @@ import java.io.Serializable;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
  * of object data. 
@@ -45,7 +47,7 @@ class ObjectResponseParser extends AbstractResponseParser<Object> {
 	 * @see AbstractResponseParser#parse(HttpResponse, com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration)
 	 */
 	@Override
-	public Object processResponse(HttpResponse httpResponse) throws Exception {
+	public Object processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
 
 		byte[] responseBytes = EntityUtils.toByteArray(httpResponse.getEntity());
 			

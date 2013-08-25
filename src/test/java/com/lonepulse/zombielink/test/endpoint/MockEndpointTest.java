@@ -26,6 +26,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor
 import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.head;
+import static com.github.tomakehurst.wiremock.client.WireMock.headRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
@@ -54,7 +56,8 @@ import com.lonepulse.zombielink.core.annotation.Asynchronous;
 import com.lonepulse.zombielink.core.annotation.Bite;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
-import com.lonepulse.zombielink.core.annotation.Param;
+import com.lonepulse.zombielink.core.annotation.PathParam;
+import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
 import com.lonepulse.zombielink.core.annotation.Stateful;
 import com.lonepulse.zombielink.core.inject.Zombie;
@@ -113,7 +116,7 @@ public class MockEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a {@link Request} with a subpath having {@link Param}s.
+	 * <p>Test for a {@link Request} with a subpath having {@link QueryParam}s.
 	 * 
 	 * @since 1.2.4
 	 */
@@ -133,46 +136,25 @@ public class MockEndpointTest {
 		verify(getRequestedFor(urlEqualTo(url)));
 	}
 
-//	TODO write fresh tests for RESTful requests	
-//	
-//	/**
-//	 * <p>Test for a RESTful {@Link Request} with a subpath.
-//	 * 
-//	 * @since 1.2.4
-//	 */
-//	@Test
-//	public final void testRestfulSubpath() {
-//		
-//		String subpath = "/restfulsubpath", body = "hello";
-//		
-//		stubFor(get(urlEqualTo(subpath))
-//				.willReturn(aResponse()
-//				.withStatus(200)
-//				.withBody(body)));
-//		
-//		assertEquals(body, mockEndpoint.restfulSubpath());
-//		verify(getRequestedFor(urlMatching(subpath)));
-//	}
-//	
-//	/**
-//	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
-//	 * 
-//	 * @since 1.2.4
-//	 */
-//	@Test
-//	public final void testRestfulSubpathWithParams() {
-//		
-//		String subpath = "/restfulsubpathwithparam/\\S+", body = "hello", 
-//			   id = "doctorwho", url = "/restfulsubpathwithparam/" + id;
-//		
-//		stubFor(get(urlMatching(subpath))
-//				.willReturn(aResponse()
-//				.withStatus(200)
-//				.withBody(body)));
-//		
-//		assertEquals(body, mockEndpoint.restfulSubpathWithParam(id));
-//		verify(getRequestedFor(urlEqualTo(url)));
-//	}
+	/**
+	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testRestfulSubpathWithParams() {
+		
+		String subpath = "/restfulsubpathwithparam/\\S+", body = "hello", 
+			   id = "doctorwho", url = "/restfulsubpathwithparam/" + id;
+		
+		stubFor(get(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(body)));
+		
+		assertEquals(body, mockEndpoint.restfulSubpathWithParam(id));
+		verify(getRequestedFor(urlEqualTo(url)));
+	}
 	
 	/**
 	 * <p>Test for a {@link Request} with a subpath having constant {@link Request.Param}s.
@@ -315,20 +297,14 @@ public class MockEndpointTest {
 	@Test
 	public final void testDeleteMethod() {
 		
-		String path = "/deleterequest";
+		String id = "doctorwho", uri = "/deleterequest/" + id;
 		
-		stubFor(delete(urlEqualTo(path))
+		stubFor(delete(urlMatching(uri))
 				.willReturn(aResponse()
 				.withStatus(200)));
 		
-		mockEndpoint.deleteRequest();
-		
-		List<LoggedRequest> requests = findAll(deleteRequestedFor(urlMatching(path)));
-		assertFalse(requests == null);
-		assertFalse(requests.isEmpty());
-		
-		LoggedRequest request = requests.get(0);
-		assertTrue(request.getMethod().equals(RequestMethod.DELETE));
+		mockEndpoint.deleteRequest(id);
+		verify(deleteRequestedFor(urlEqualTo(uri)));
 	}
 	
 	/**
@@ -341,7 +317,7 @@ public class MockEndpointTest {
 		
 		stubFor(get(urlEqualTo("/requestheader"))
 				.willReturn(aResponse()
-				.withStatus(200)));
+						.withStatus(200)));
 		
 		String header = "mobile";
 		

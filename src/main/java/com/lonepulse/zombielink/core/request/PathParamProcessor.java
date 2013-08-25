@@ -24,6 +24,7 @@ package com.lonepulse.zombielink.core.request;
 import java.net.URI;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -98,7 +99,7 @@ class PathParamProcessor extends AbstractRequestProcessor {
 					throw new RequestProcessorException(new IllegalArgumentException(errorContext.toString()));
 				}
 				
-				path.replaceAll(":" + name, ((CharSequence)value).toString());
+				path = path.replaceAll(Pattern.quote(":" + name), ((CharSequence)value).toString());
 			}
 			
 			httpRequestBase.setURI(URI.create(path));

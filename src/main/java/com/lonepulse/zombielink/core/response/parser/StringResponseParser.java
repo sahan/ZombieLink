@@ -23,6 +23,8 @@ package com.lonepulse.zombielink.core.response.parser;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
+import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
+
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
  * of character data. 
@@ -40,7 +42,7 @@ public class StringResponseParser extends AbstractResponseParser<CharSequence> {
 	 * @see AbstractResponseParser#parse(HttpResponse, com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration)
 	 */
 	@Override
-	public CharSequence processResponse(HttpResponse httpResponse) throws Exception {
+	public CharSequence processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
 
 		String responseString = EntityUtils.toString(httpResponse.getEntity());
 		return responseString.subSequence(0, responseString.length());

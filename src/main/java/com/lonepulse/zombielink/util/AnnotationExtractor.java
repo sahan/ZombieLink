@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.lonepulse.zombielink.core.annotation.Header;
-import com.lonepulse.zombielink.core.annotation.Param;
+import com.lonepulse.zombielink.core.annotation.Request.Param;
 import com.lonepulse.zombielink.core.response.parser.HeaderParamTypeException;
 
 

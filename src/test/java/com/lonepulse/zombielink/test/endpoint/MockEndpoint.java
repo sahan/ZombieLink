@@ -81,30 +81,18 @@ public interface MockEndpoint {
 	public String subpathWithParams(@QueryParam("firstName") String firstName, 
 									@QueryParam("lastName") String lastName);
 	
-//	TODO write fresh tests for RESTful requests
-//	
-//	/**
-//	 * <p>Sends a RESTful request with a subpath.
-//	 * 
-//	 * @return a response for the RESTful request with a subpath
-//	 * 
-//	 * @since 1.2.4
-//	 */
-//	@Request(path = "/restfulsubpath")
-//	public String restfulSubpath();
-//	
-//	/**
-//	 * <p>Sends a request for a RESTful subpath.
-//	 * 
-//	 * @param id
-//	 * 			the restful path parameter
-//	 * 
-//	 * @return the response for the RESTful request
-//	 * 
-//	 * @since 1.2.4
-//	 */
-//	@Request(path = "/restfulsubpathwithparam/:id")
-//	public String restfulSubpathWithParam(@PathParam("id") String id);
+	/**
+	 * <p>Sends a request for a RESTful subpath.
+	 * 
+	 * @param id
+	 * 			the restful path parameter
+	 * 
+	 * @return the response for the RESTful request
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/restfulsubpathwithparam/:id")
+	public String restfulSubpathWithParam(@PathParam("id") String id);
 	
 	/**
 	 * <p>Sends a request with a set of constant query paramers.
@@ -177,15 +165,19 @@ public interface MockEndpoint {
 	 */
 	@Request(path = "/putrequest", method = RequestMethod.PUT)
 	public String putRequest(@Entity String user);
+	
 	/**
 	 * <p>A mock request which uses the HTTP method DELETE.
+	 * 
+	 * @param id
+	 * 			the id of the entity to delete 
 	 * 
 	 * @return the textual content of the {@link HttpResponse} body
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/deleterequest", method = RequestMethod.DELETE)
-	public String deleteRequest();
+	@Request(path = "/deleterequest/:id", method = RequestMethod.DELETE)
+	public String deleteRequest(@PathParam("id") String id);
 	
 	/**
 	 * <p>A mock request which inserts a request header.

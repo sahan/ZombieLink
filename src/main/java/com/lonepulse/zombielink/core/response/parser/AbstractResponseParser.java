@@ -77,42 +77,27 @@ import com.lonepulse.zombielink.util.AnnotationExtractor;
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
-	
 
-	/**
-	 * <p>The {@link Class} of the desired request return type.</p>
-	 * <br><br> 
-	 * @since 1.1.5
-	 */
-	protected Class<? extends Object> requestReturnType = null; 
-	
-	
-	/**
-	 * <p>Accessor for {@link #requestReturnType}.
-	 * 
-	 * @return {@link #requestReturnType}
-	 * <br><br>
-	 * @since 1.1.5
-	 */
-	protected Class<? extends Object> getRequestReturnType() {
 
-		return requestReturnType;
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public T parse(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
 		
-		this.requestReturnType = config.getRequest().getReturnType();
+		Class<?> requestReturnType = config.getRequest().getReturnType();
+		
+		if(requestReturnType.equals(Void.TYPE) || httpResponse.getEntity() == null) {
+			
+			return null; //a response body is not expected
+		}
 		
 		throwIfNotAssignable(requestReturnType);
 		
 		try {
 			
 			processHeaders(httpResponse, config);
-			return processResponse(httpResponse);
+			return processResponse(httpResponse, config);
 		}
 		catch(Exception e) {
 		
@@ -192,6 +177,10 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 * 
 	 * @param httpResponse
 	 * 				the {@link HttpResponse} from which the content is extracted
+	 * 
+	 * @param config
+	 * 				the {@link ProxyInvocationConfiguration} which supplies all information 
+	 * 				regarding the request and it's invocation
      * <br><br>
 	 * @return the entity which is created after parsing the output
 	 * <br><br>
@@ -200,7 +189,8 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 * <br><br>
 	 * @since 1.1.4
 	 */
-	protected abstract T processResponse(HttpResponse httpResponse) throws Exception;
+	protected abstract T processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) 
+	throws Exception;
 	
 	/**
 	 * <p>Allows any {@link ResponseParser} extension to determine the type 
