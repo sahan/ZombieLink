@@ -31,9 +31,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.headRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.options;
+import static com.github.tomakehurst.wiremock.client.WireMock.optionsRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.trace;
+import static com.github.tomakehurst.wiremock.client.WireMock.traceRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
@@ -308,6 +312,84 @@ public class MockEndpointTest {
 	}
 	
 	/**
+	 * <p>Test for the request method HEAD.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testHeadMethod() {
+		
+		String uri = "/headrequest", header = "Proxy-Authenticate", 
+			   headerValue = "Basic";
+		
+		stubFor(head(urlMatching(uri))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withHeader(header, headerValue)));
+		
+		StringBuilder responseHeader = new StringBuilder();
+		
+		mockEndpoint.headRequest(responseHeader);
+		
+		verify(headRequestedFor(urlEqualTo(uri)));
+		
+		String authenticationType = responseHeader.toString();
+		assertTrue(authenticationType != null);
+		assertTrue(authenticationType.equals(headerValue));
+	}
+	
+	/**
+	 * <p>Test for the request method TRACE.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testTraceMethod() {
+		
+		String uri = "/tracerequest", headerVia = "Via", 
+			   headerViaValue = "1.0 example1.com, 1.1 example2.com", 
+			   headerMaxForwards = "Max-Forwards", 
+			   headerMaxForwardsValue = "6";
+		
+		stubFor(trace(urlMatching(uri))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		mockEndpoint.traceRequest();
+		
+		verify(traceRequestedFor(urlEqualTo(uri))
+			   .withHeader(headerVia, matching(headerViaValue))
+			   .withHeader(headerMaxForwards, matching(headerMaxForwardsValue)));
+	}
+	
+	/**
+	 * <p>Test for the request method OPTIONS.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testOptionsMethod() {
+		
+		String uri = "/optionsrequest", header = "Content-Type", 
+			   headerValue = "application/json";
+		
+		stubFor(options(urlMatching(uri))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withHeader(header, headerValue)));
+		
+		StringBuilder responseHeader = new StringBuilder();
+		
+		mockEndpoint.optionsRequest(responseHeader);
+		
+		verify(optionsRequestedFor(urlEqualTo(uri)));
+		
+		String contentType = responseHeader.toString();
+		assertTrue(contentType != null);
+		assertTrue(contentType.equals(headerValue));
+	}
+	
+	/**
 	 * <p>Test for a request {@link Header}.
 	 * 
 	 * @since 1.2.4
@@ -317,7 +399,7 @@ public class MockEndpointTest {
 		
 		stubFor(get(urlEqualTo("/requestheader"))
 				.willReturn(aResponse()
-						.withStatus(200)));
+				.withStatus(200)));
 		
 		String header = "mobile";
 		

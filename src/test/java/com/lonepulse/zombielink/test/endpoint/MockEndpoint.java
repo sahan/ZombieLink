@@ -180,6 +180,38 @@ public interface MockEndpoint {
 	public String deleteRequest(@PathParam("id") String id);
 	
 	/**
+	 * <p>A mock request which uses the HTTP method HEAD.
+	 * 
+	 * @param proxyAuthenticate
+	 * 			retrieves meta-information about any required authentication 
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/headrequest", method = RequestMethod.HEAD)
+	public void headRequest(@Header("Proxy-Authenticate") StringBuilder proxyAuthenticate);
+	
+	/**
+	 * <p>A mock request which uses the HTTP method HEAD.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/tracerequest", method = RequestMethod.TRACE)
+	@HeaderSet({@HeaderSet.Header(name = "Via", value = "1.0 example1.com, 1.1 example2.com"),
+				@HeaderSet.Header(name = "Max-Forwards", value = "6")})
+	public void traceRequest();
+	
+	/**
+	 * <p>A mock request which uses the HTTP method OPTIONS.
+	 * 
+	 * @param contentType
+	 * 			queries the content type for an enclosed entity 
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/optionsrequest", method = RequestMethod.OPTIONS)
+	public void optionsRequest(@Header("Content-Type") StringBuilder contentType);
+	
+	/**
 	 * <p>A mock request which inserts a request header.
 	 * 
 	 * @param userAgent

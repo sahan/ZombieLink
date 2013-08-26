@@ -87,16 +87,16 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 		
 		Class<?> requestReturnType = config.getRequest().getReturnType();
 		
-		if(requestReturnType.equals(Void.TYPE) || httpResponse.getEntity() == null) {
-			
-			return null; //a response body is not expected
-		}
-		
-		throwIfNotAssignable(requestReturnType);
-		
 		try {
 			
 			processHeaders(httpResponse, config);
+			
+			if(requestReturnType.equals(Void.TYPE) || httpResponse.getEntity() == null) {
+				
+				return null; //a response body is not expected
+			}
+			
+			throwIfNotAssignable(requestReturnType);
 			return processResponse(httpResponse, config);
 		}
 		catch(Exception e) {
