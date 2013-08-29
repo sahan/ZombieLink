@@ -21,7 +21,6 @@ package com.lonepulse.zombielink.core.response;
  */
 
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -69,8 +68,8 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 	 * <p>See {@link Processor#run(Object...)}.</p>
 	 *
 	 * @param args
-	 * 			a array of <b>length 2</b> with an {@link HttpResponse} and a {@link ProxyInvocationConfiguration} 
-	 * 			in that <b>exact order</b> 
+	 * 			a array of <b>length 3</b> with an {@link HttpResponse}, a {@link ProxyInvocationConfiguration} and 
+	 * 			the aggregated result-map in that <b>exact order</b> 
 	 * <br><br>
 	 * @return an <i>unmodifiable</i> {@link Map} of results containing the <i>parsed response</i> including any 
 	 * 		   additional content such as the {@link HttpResponse}
@@ -85,18 +84,20 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Override
+	@Override @SuppressWarnings("unchecked") //checked cast from Object to Map<String, Object>
 	public Map<String, Object> run(Object... args) throws ResponseProcessorException {
 
-		if(args == null || args.length != 2) {
+		if(args == null || args.length != 3) {
 			
 			StringBuilder errorContext = new StringBuilder("An ")
 			.append(AbstractResponseProcessor.class.getName())
-			.append(" requires exactly two arguments: the ")
+			.append(" requires exactly three arguments: the ")
 			.append(HttpResponse.class.getName())
-			.append(" which it should process and the ")
+			.append(" which it should process, the ")
 			.append(ProxyInvocationConfiguration.class.getName())
-			.append(" which provides the data and metadata for processing. ");
+			.append(" which provides the data and metadata for processing and a ")
+			.append(Map.class.getName())
+			.append(" of aggregated processor results. ");
 			
 			throw new IllegalArgumentException(errorContext.toString());
 		}
@@ -122,12 +123,38 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 			hasIllegalArguments = true;
 		}
 		
+		Map<String, Object> resultMap = null;
+		
+		if(args[2] == null || !(args[2] instanceof Map)) {
+			
+			accumulatedContext.append("The third argument to should be an instance of type java.util.Map")
+			.append(" which cannot be <null>. ");
+			
+			hasIllegalArguments = true;
+		}
+		else {
+			
+			try {
+		
+				resultMap = (Map<String, Object>)args[2];
+				
+				for (@SuppressWarnings("unused") String key : resultMap.keySet());
+			}
+			catch(ClassCastException cce) {
+				
+				accumulatedContext.append("The third argument should be of type java.util.Map<String, Object>")
+				.append(" and \"ensure\" that all its keys are of type java.lang.String ");
+				
+				hasIllegalArguments = true;
+			}
+		}
+		
 		if(hasIllegalArguments) {
 			
 			throw new IllegalArgumentException(accumulatedContext.toString());
 		}
 		
-		return process((HttpResponse)args[0], (ProxyInvocationConfiguration)args[1], new HashMap<String, Object>());
+		return process((HttpResponse)args[0], (ProxyInvocationConfiguration)args[1], resultMap);
 	}
 	
 	/**

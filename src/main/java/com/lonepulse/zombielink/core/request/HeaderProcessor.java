@@ -64,12 +64,12 @@ class HeaderProcessor extends AbstractRequestProcessor {
 	 * <p>See {@link RequestUtils#findHeaders(ProxyInvocationConfiguration)}.</p>
 	 * 
 	 * @param httpRequestBase
-	 * 			the instace of {@link HttpRequestBase} whose headers are to be populated by reading the metadata 
+	 * 			the instance of {@link HttpRequestBase} whose headers are to be populated by reading the metadata 
 	 * 			available in @{@link HeaderSet} and @{@link Header} annotations 
 	 * <br><br>
 	 * @param config
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to discover any 
-	 * 			@{@link HeaderSet} and @{@link Header} metadata in from its <i>request</i> and <i>args</i> 
+	 * 			@{@link HeaderSet} and @{@link Header} metadata in its <i>request</i> and <i>args</i> 
 	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if the request-header discovery or population failed due to an unrecoverable error

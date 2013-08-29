@@ -107,6 +107,7 @@ implements Processor<LINK_RESULT, LINK_FAILURE> {
 	public LINK_RESULT run(Object... args) throws ChainExecutionException {
 		
 		try {
+			
 			ProcessorChainLink<LINK_RESULT, LINK_FAILURE> current = root;
 			
 			LINK_RESULT result = onInitiate(current, args);
