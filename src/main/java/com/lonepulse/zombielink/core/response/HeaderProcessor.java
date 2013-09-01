@@ -28,11 +28,9 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.request.RequestProcessorException;
-import com.lonepulse.zombielink.core.response.parser.AbstractResponseParser;
 
 /**
- * <p>This is a concrete implementation of {@link ResponseProcessor} which retrives the <i>response-headers</i> 
+ * <p>This is a concrete implementation of {@link ResponseProcessor} which retrieves the <i>response-headers</i> 
  * from an {@link HttpResponse} and exposes them via <b>in-out</b> parameters on the endpoint request request 
  * definition. It targets <b>dynamic response headers</b> which are identified by the @{@link Header} annotation 
  * used on parameters of type {@link StringBuilder}.</p>
@@ -52,11 +50,11 @@ class HeaderProcessor extends AbstractResponseProcessor {
 
 	
 	/**
-	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with the {@link HttpResponse} plus the results-map 
-	 * and retrieves all HTTP response headers which are discovered in the {@link HttpResponse}. These are then 
-	 * injected into their matching {@link StringBuilder} which are identified by @{@link Header} on the endpoint 
-	 * request definition. The HTTP response headers and the in-out parameters are matched using the header name and 
-	 * all parameters with a runtime value of {@code null} will be ignored.</p> 
+	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with the {@link HttpResponse} plus the parsed entity 
+	 * response (if any) and retrieves all HTTP response headers which are discovered in the {@link HttpResponse}. 
+	 * These are then injected into their matching {@link StringBuilder} which are identified by @{@link Header} on 
+	 * the endpoint request definition. The HTTP response headers and the in-out parameters are matched using the header 
+	 * name and all parameters with a runtime value of {@code null} will be ignored.</p> 
 	 * 
 	 * <p>See {@link ResponseUtils#findHeaders(ProxyInvocationConfiguration)}.</p>
 	 * 
@@ -66,15 +64,17 @@ class HeaderProcessor extends AbstractResponseProcessor {
 	 * <br><br>
 	 * @param config
 	 * 			an immutable instance of {@link ProxyInvocationConfiguration} which is used to discover any 
-	 * 			@{@link Header} metadata in its <i>request</i> and <i>args</i> 
+	 * 			@{@link Header} metadata in its <i>request</i> and <i>args</i>
 	 * <br><br>
-	 * @throws RequestProcessorException
+	 * @return the <i>same</i> parsed response entity instance which was supplied as a parameter 
+	 * <br><br>
+	 * @throws ResponseProcessorException
 	 * 			if the response-header retrieval or injection failed due to an unrecoverable error
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	protected Map<String, Object> process(HttpResponse httpResponse, ProxyInvocationConfiguration config, Map<String, Object> results)
+	protected Object process(HttpResponse httpResponse, ProxyInvocationConfiguration config, Object parsedResponse)
 	throws ResponseProcessorException {
 
 		try {
@@ -118,7 +118,7 @@ class HeaderProcessor extends AbstractResponseProcessor {
 				}
 			}
 			
-			return results;
+			return parsedResponse;
 		}
 		catch(Exception e) {
 			

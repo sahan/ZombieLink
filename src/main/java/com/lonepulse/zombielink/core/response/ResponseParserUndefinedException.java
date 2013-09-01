@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response.parser;
+package com.lonepulse.zombielink.core.response;
 
 /*
  * #%L
@@ -27,15 +27,16 @@ import com.lonepulse.zombielink.core.annotation.Parser;
 import com.lonepulse.zombielink.core.annotation.Request;
 
 /**
- * <p>This runtime exception is thrown when a {@link ResponseParser} to be used 
- * for a particular {@link Endpoint}, or {@link Request} thereof, has 
- * not been declared using {@link Parser}.
+ * <p>This runtime exception is thrown when a {@link ResponseParser} to be used for a particular 
+ * {@link Endpoint}, or {@link Request} thereof, has not been declared using {@link Parser}.
  * 
  * @version 1.1.1
  * <br><br>
+ * @since 1.2.4
+ * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ResponseParserUndefinedException extends ResponseParserException {
+class ResponseParserUndefinedException extends ResponseProcessorException {
 
 	
 	private static final long serialVersionUID = -7605261918947538557L;
@@ -46,9 +47,9 @@ class ResponseParserUndefinedException extends ResponseParserException {
 	 */
 	public ResponseParserUndefinedException(Class<?> endpoint, Method method) {
 		
-		this("Cannot parse the response for request " + method.getName() + " on endpoint " + 
-			 endpoint.getName() + ": a " + ResponseParser.class.getName() + " has not been defined via the " + 
-			 Parser.class.getName() + " annotation.");
+		this(new StringBuilder("Reponse parsing failed for request ").append(method.getName())
+			 .append(" on endpoint ").append(endpoint.getName()).append(": a ").append(ResponseParser.class.getName())
+			 .append(" has not been defined via the ").append(Parser.class.getName()).append(" annotation.").toString());
 	}
 
 	/**
@@ -56,12 +57,12 @@ class ResponseParserUndefinedException extends ResponseParserException {
 	 */
 	public ResponseParserUndefinedException() {
 		
-		this("Cannot parse the request response: a " + ResponseParser.class.getName() + 
+		this("Reponse parsing failed for request. A " + ResponseParser.class.getName() + 
 			  " has not been defined via the " + Parser.class.getName() + " annotation.");
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * <p>See {@link ResponseProcessorException#ResponseProcessorException(String)}.
 	 */
 	public ResponseParserUndefinedException(String detailMessage) {
 		
@@ -69,7 +70,7 @@ class ResponseParserUndefinedException extends ResponseParserException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * <p>See {@link ResponseProcessorException#ResponseProcessorException(Throwable)}.
 	 */
 	public ResponseParserUndefinedException(Throwable throwable) {
 		
@@ -77,7 +78,7 @@ class ResponseParserUndefinedException extends ResponseParserException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * <p>See {@link ResponseProcessorException#ResponseProcessorException(String, Throwable)}.
 	 */
 	public ResponseParserUndefinedException(String detailMessage, Throwable throwable) {
 

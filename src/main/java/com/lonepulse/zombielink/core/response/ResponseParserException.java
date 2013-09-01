@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response.parser;
+package com.lonepulse.zombielink.core.response;
 
 /*
  * #%L
@@ -22,30 +22,27 @@ package com.lonepulse.zombielink.core.response.parser;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.core.response.ResponseHandlerException;
-
 /**
- * <p>This runtime exception is thrown whenever there is a failure in parsing 
+ * <p>This runtime exception is thrown dow whenever there is a failure in parsing 
  * the content of an {@link HttpResponse} to the desired entity.
  * 
  * @version 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ResponseParserException extends ResponseHandlerException {
+class ResponseParserException extends ResponseProcessorException {
 
 	
 	private static final long serialVersionUID = 8193182870145739105L;
 
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link ResponseProcessorException#ResponseProcessorException()}.
 	 */
-	public ResponseParserException() {
-	}
+	public ResponseParserException() {}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link ResponseProcessorException#ResponseProcessorException(String)}.
 	 */
 	public ResponseParserException(String detailMessage) {
 		
@@ -53,7 +50,7 @@ class ResponseParserException extends ResponseHandlerException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link ResponseProcessorException#ResponseProcessorException(Throwable)}.
 	 */
 	public ResponseParserException(Throwable throwable) {
 		
@@ -61,7 +58,7 @@ class ResponseParserException extends ResponseHandlerException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link ResponseProcessorException#ResponseProcessorException(String, Throwable)}.
 	 */
 	public ResponseParserException(String detailMessage, Throwable throwable) {
 

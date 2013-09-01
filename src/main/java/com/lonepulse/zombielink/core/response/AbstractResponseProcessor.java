@@ -21,14 +21,11 @@ package com.lonepulse.zombielink.core.response;
  */
 
 
-import java.util.Map;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.core.processor.Processor;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.request.RequestProcessorException;
 
 /**
  * <p>This is an abstract implementation of {@link Processor} which specifies a template for processing the 
@@ -38,7 +35,7 @@ import com.lonepulse.zombielink.core.request.RequestProcessorException;
  * 
  * <p>All implementations must be aware of the {@link ProxyInvocationConfiguration} which can be used to discover 
  * information about the endpoint and the request declaration. This information can be queried based on the 
- * <i>targeting criteria</i> for this reponse processor and the resulting information should be used to <i>parse</i> 
+ * <i>targeting criteria</i> for this response processor and the resulting information should be used to <i>parse</i> 
  * the given {@link HttpResponse}.</p>
  * 
  * <p>It is advised to adhere to <a href="www.w3.org/Protocols/rfc2616/rfc2616.html‎">RFC 2616</a> of <b>HTTP 1.1</b> 
@@ -50,7 +47,7 @@ import com.lonepulse.zombielink.core.request.RequestProcessorException;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class AbstractResponseProcessor implements Processor<Map<String, Object>, ResponseProcessorException> {
+public abstract class AbstractResponseProcessor implements Processor<Object, ResponseProcessorException> {
 
 	
 	/**
@@ -59,45 +56,42 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 	 * implementations that wish to check additional preconditions or those that wish to alter this basic approach 
 	 * should override this method.</p>
 	 * 
-	 * <p><b>Note</b> that this method should return an <i>unmodifiable</i> {@link Map} of results which contains 
-	 * the <i>parsed response</i> and may include additional content such as the {@link HttpResponse} itself. Chains 
-	 * which use processors of this type must clearly document the final result-map with the keys to be used.</p>
+	 * <p><b>Note</b> that this method is expected to return the <i>parsed response entity</i> where an endpoint 
+	 * request definition specifies a return type. This should then be passed along in the processor arguments.</p>
 	 * 
-	 * <p>Delegates to {@link #process(HttpResponse, ProxyInvocationConfiguration)}.</p>
+	 * <p>Delegates to {@link #process(HttpResponse, ProxyInvocationConfiguration, Object)}.</p>
 	 * 
 	 * <p>See {@link Processor#run(Object...)}.</p>
 	 *
 	 * @param args
-	 * 			a array of <b>length 3</b> with an {@link HttpResponse}, a {@link ProxyInvocationConfiguration} and 
-	 * 			the aggregated result-map in that <b>exact order</b> 
+	 * 			a array of <b>length 2 or more</b> with an {@link HttpResponse}, a {@link ProxyInvocationConfiguration} 
+	 * 			and possible the result of the parsed response entity 
 	 * <br><br>
-	 * @return an <i>unmodifiable</i> {@link Map} of results containing the <i>parsed response</i> including any 
-	 * 		   additional content such as the {@link HttpResponse}
+	 * @return the parsed response entity, which may be {@code null} for endpoint request definitions which do not declare 
+	 * 		   a return type or for those which the return type is {@link Void}
 	 * <br><br>
 	 * @throws IllegalArgumentException
-	 * 			if the supplied arguments array is {@code null} or if the number of arguments does not equal 2, 
+	 * 			if the supplied arguments array is {@code null} or if the number of arguments is less that 2, 
 	 * 			or if the arguments are not of the expected type
 	 * <br><br>
 	 * @throws RequestProcessorException
-	 * 			if {@link #process(HttpResponse, ProxyInvocationConfiguration)} failed for the given 
-	 * 			{@link HttpResponse} and {@link ProxyInvocationConfiguration}
+	 * 			if {@link #process(HttpResponse, ProxyInvocationConfiguration, Object)} failed for the given 
+	 * 			{@link HttpResponse}, {@link ProxyInvocationConfiguration} and possible for the parsed response entity
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Override @SuppressWarnings("unchecked") //checked cast from Object to Map<String, Object>
-	public Map<String, Object> run(Object... args) throws ResponseProcessorException {
+	@Override
+	public Object run(Object... args) throws ResponseProcessorException {
 
-		if(args == null || args.length != 3) {
+		if(args == null || args.length < 2) {
 			
 			StringBuilder errorContext = new StringBuilder("An ")
 			.append(AbstractResponseProcessor.class.getName())
-			.append(" requires exactly three arguments: the ")
+			.append(" requires at least two arguments: the ")
 			.append(HttpResponse.class.getName())
-			.append(" which it should process, the ")
+			.append(" which it should process and the ")
 			.append(ProxyInvocationConfiguration.class.getName())
-			.append(" which provides the data and metadata for processing and a ")
-			.append(Map.class.getName())
-			.append(" of aggregated processor results. ");
+			.append(" which provides the data and metadata for processing.");
 			
 			throw new IllegalArgumentException(errorContext.toString());
 		}
@@ -123,38 +117,12 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 			hasIllegalArguments = true;
 		}
 		
-		Map<String, Object> resultMap = null;
-		
-		if(args[2] == null || !(args[2] instanceof Map)) {
-			
-			accumulatedContext.append("The third argument to should be an instance of type java.util.Map")
-			.append(" which cannot be <null>. ");
-			
-			hasIllegalArguments = true;
-		}
-		else {
-			
-			try {
-		
-				resultMap = (Map<String, Object>)args[2];
-				
-				for (@SuppressWarnings("unused") String key : resultMap.keySet());
-			}
-			catch(ClassCastException cce) {
-				
-				accumulatedContext.append("The third argument should be of type java.util.Map<String, Object>")
-				.append(" and \"ensure\" that all its keys are of type java.lang.String ");
-				
-				hasIllegalArguments = true;
-			}
-		}
-		
 		if(hasIllegalArguments) {
 			
 			throw new IllegalArgumentException(accumulatedContext.toString());
 		}
 		
-		return process((HttpResponse)args[0], (ProxyInvocationConfiguration)args[1], resultMap);
+		return process((HttpResponse)args[0], (ProxyInvocationConfiguration)args[1], (args.length > 2)? args[2] :null);
 	}
 	
 	/**
@@ -181,15 +149,15 @@ public abstract class AbstractResponseProcessor implements Processor<Map<String,
 	 * 			the result-map which contains an aggregation of all the results produced by the chain insofar 
 	 * 			and serves as the container for the results produced by this processor
  	 * <br><br>
- 	 * @return the result-map which contains the all the results aggregated over the chain so far - including 
- 	 * 		   the results of the current processor
+ 	 * @return the parsed response entity of the type associated with the endpoint request definition
  	 * <br><br>
 	 * @throws RequestProcessorException
-	 * 			if the processor finds an {@link HttpResponse} <i>which it should act upon</i> and yet 
-	 * 			fails to perform the necessary processing
+	 * 			if the processor finds an {@link HttpResponse} <i>which it should act upon</i> and yet fails 
+	 * 			to perform the necessary processing
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	protected abstract Map<String, Object> process(HttpResponse HttpResponse, ProxyInvocationConfiguration config, Map<String, Object> results)
-	throws ResponseProcessorException;
+	protected abstract Object process(
+		HttpResponse HttpResponse, ProxyInvocationConfiguration config, Object parsedResponse) 
+		throws ResponseProcessorException;
 }

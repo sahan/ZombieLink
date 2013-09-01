@@ -30,7 +30,7 @@ import com.lonepulse.zombielink.core.annotation.FormParam;
 import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.annotation.HeaderSet;
 import com.lonepulse.zombielink.core.annotation.Parser;
-import com.lonepulse.zombielink.core.annotation.Parser.PARSER_TYPE;
+import com.lonepulse.zombielink.core.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.annotation.Request;
@@ -50,7 +50,7 @@ import com.lonepulse.zombielink.core.response.AsyncHandler;
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Stateful
-@Parser(PARSER_TYPE.STRING)
+@Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface MockEndpoint {
 	

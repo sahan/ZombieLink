@@ -20,29 +20,40 @@ package com.lonepulse.zombielink.core.response;
  * #L%
  */
 
-
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.core.response.parser.ResponseParsers;
 
 /**
- * <p>A concrete implementation of {@link ResponseHandler} which handles 
- * {@link HttpResponse}s. 
+ * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
+ * of character data. 
  * 
- * @version 1.1.0
+ * @version 1.1.4
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class BasicResponseHandler implements ResponseHandler {
+public class StringResponseParser extends AbstractResponseParser<CharSequence> {
 
 	/**
-	 * {@inheritDoc}
+	 * <p> Parses the content in the {@link HttpResponse} to any type which is 
+	 * assignable to a {@link CharSequence}.
+	 * 
+	 * @see AbstractResponseParser#parse(HttpResponse, com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration)
 	 */
 	@Override
-	public Object handle(HttpResponse httpResponse, ProxyInvocationConfiguration config)
-	throws ResponseHandlerException {
-		
-		return ResponseParsers.RESOLVER.resolve(config).parse(httpResponse, config);
+	public CharSequence processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
+
+		String responseString = EntityUtils.toString(httpResponse.getEntity());
+		return responseString.subSequence(0, responseString.length());
+	}
+
+	/**
+	 * See {@link AbstractResponseParser#getType()}.
+	 */
+	@Override
+	public Class<CharSequence> getType() {
+
+		return CharSequence.class;
 	}
 }

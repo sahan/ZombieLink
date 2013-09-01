@@ -32,7 +32,7 @@ import com.lonepulse.zombielink.core.annotation.Endpoint;
 import com.lonepulse.zombielink.core.processor.executor.RequestExecutors;
 import com.lonepulse.zombielink.core.processor.validator.Validators;
 import com.lonepulse.zombielink.core.request.RequestMethod;
-import com.lonepulse.zombielink.core.response.parser.ResponseParsers;
+import com.lonepulse.zombielink.core.response.ResponseParsers;
 
 /**
  * <p>This factory is used for creating dynamic proxies for communication 
@@ -85,6 +85,7 @@ public enum EndpointProxyFactory implements ProxyFactory {
 					
 					//3.Create the request
 					HttpRequestBase httpRequestBase = RequestMethod.TRANSLATOR.translate(config);
+					
 					Processors.REQUEST.run(httpRequestBase, config);
 					
 					//4.Execute the HttpRequestBase either asynchronously or synchronously

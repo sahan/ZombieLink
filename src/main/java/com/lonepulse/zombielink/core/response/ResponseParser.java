@@ -20,32 +20,39 @@ package com.lonepulse.zombielink.core.response;
  * #L%
  */
 
-
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
- * <p>Specifies the contract for handling HTTP responses. 
+ * <p>This interface policy of a <i>response parser</i>. i.e. the unit which 
+ * examines the content of a {@link HttpResponse} and parses that content 
+ * into the desired entity.</p>
  * 
- * @version 1.1.0
+ * @version 1.1.4
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface ResponseHandler {
+public interface ResponseParser<T extends Object> {
 
 	/**
-	 * <p>Processes the given {@link HttpResponse} and returns its results 
-	 * for consumption.
+	 * <p>Executes the following steps for parsing in order. 
+	 * <br><br>
+	 * <ol>
+	 * 	 <li>Check type compatibility</li>
+	 *   <li>Process response entity</li>
+	 * </ol>
 	 * 
 	 * @param httpResponse
-	 * 			the {@link HttpResponse} to be processed
-	 * 			
-	 * @return the consumable contents of the response
+	 * 				the {@link HttpResponse} from which the content is extracted
 	 * 
-	 * @throws ResponseHandlerException
-	 * 			if the response handling failed
+	 * @param config
+	 * 				the {@link ProxyInvocationConfiguration} which supplies all information 
+	 * 				regarding the request and it's invocation
+	 * <br><br>
+	 * @return the entity which is created after parsing the output
+	 * <br><br>
+	 * @since 1.1.1
 	 */
-	Object handle(HttpResponse httpResponse, ProxyInvocationConfiguration config) 
-	throws ResponseHandlerException;
+	public T parse(HttpResponse httpResponse, ProxyInvocationConfiguration config);
 }

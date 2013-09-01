@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response.parser;
+package com.lonepulse.zombielink.core.response;
 
 /*
  * #%L
@@ -23,37 +23,41 @@ package com.lonepulse.zombielink.core.response.parser;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows the parsing 
- * of character data. 
+ * of JSON strings into its entity-object counterpart.</p>
  * 
- * @version 1.1.4
+ * <p>This parser uses the <a href="http://code.google.com/p/google-gson/">GSON Library</a> 
+ * for converting JSON strings to their respective entity objects automatically.</p>
+ * 
+ * @version 1.1.2
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class StringResponseParser extends AbstractResponseParser<CharSequence> {
+public class JsonResponseParser extends AbstractResponseParser<Object> {
 
 	/**
-	 * <p> Parses the content in the {@link HttpResponse} to any type which is 
-	 * assignable to a {@link CharSequence}.
-	 * 
-	 * @see AbstractResponseParser#parse(HttpResponse, com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration)
+     * <p> Parses the JSON String in the {@link HttpResponse} via the <b>GSON library</b> 
+     * and returns the entity representing the JSON data.
 	 */
 	@Override
-	public CharSequence processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
-
-		String responseString = EntityUtils.toString(httpResponse.getEntity());
-		return responseString.subSequence(0, responseString.length());
+	protected Object processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) throws Exception {
+		
+		String jsonString = EntityUtils.toString(httpResponse.getEntity());
+		
+		return new Gson().fromJson(jsonString, TypeToken.get(config.getRequest().getReturnType()).getType());
 	}
 
 	/**
-	 * See {@link AbstractResponseParser#getType()}.
+	 * See {@link AbstractResponseParser}.
 	 */
 	@Override
-	public Class<CharSequence> getType() {
-
-		return CharSequence.class;
+	protected Class<Object> getType() {
+		
+		return Object.class;
 	}
 }

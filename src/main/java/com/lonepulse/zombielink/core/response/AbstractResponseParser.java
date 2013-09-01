@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.core.response.parser;
+package com.lonepulse.zombielink.core.response;
 
 /*
  * #%L
@@ -20,18 +20,10 @@ package com.lonepulse.zombielink.core.response.parser;
  * #L%
  */
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.core.annotation.Header;
 import com.lonepulse.zombielink.core.processor.ProxyInvocationConfiguration;
-import com.lonepulse.zombielink.util.AnnotationExtractor;
 
 /**
  * <p>This is an implementation of {@link ResponseParser} which defines and executes the 
@@ -89,13 +81,6 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 		
 		try {
 			
-			processHeaders(httpResponse, config);
-			
-			if(requestReturnType.equals(Void.TYPE) || httpResponse.getEntity() == null) {
-				
-				return null; //a response body is not expected
-			}
-			
 			throwIfNotAssignable(requestReturnType);
 			return processResponse(httpResponse, config);
 		}
@@ -120,54 +105,6 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 		
 		if(!getType().isAssignableFrom(requestReturnType))   
 			throw new ResponseParserNotAssignableException(getType(), requestReturnType);
-	}
-	
-	/**
-	 * <p>Processes the variable headers returned from the {@link HttpResponse} and assigns 
-	 * them back to back request variables so that the caller may gain access to them.</p>
-	 * 
-	 * @param httpResponse
-	 * 			the {@link HttpResponse} which was received after request execution
-	 * 
-	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} which supplies the header param 
-	 * 			annotations
-	 */
-	private void processHeaders(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
-		
-		Object[] requestArgs = config.getRequestArgs();
-		
-		Map<StringBuilder, Header> variableHeaderParams = AnnotationExtractor.extractHeaders(config.getRequest(), requestArgs);
-		Set<Map.Entry<StringBuilder, Header>> variableEntries = variableHeaderParams.entrySet();
-
-		List<org.apache.http.Header> headersList = Arrays.asList(httpResponse.getAllHeaders());
-		Map<String, String> responseHeaders = new HashMap<String, String>();
-		
-		for (org.apache.http.Header header : headersList)
-			responseHeaders.put(header.getName(), header.getValue());
-		
-		for (Map.Entry<StringBuilder, Header> entry : variableEntries) {
-			
-			String responseHeaderValue = responseHeaders.get(entry.getValue().value());
-			
-			for(int i = 0; i < requestArgs.length; i++) {
-				
-				Object object = requestArgs[i];
-						
-				if(object instanceof StringBuilder) {
-
-					StringBuilder arg = ((StringBuilder)object);
-					StringBuilder argBeforeRequest = (StringBuilder)entry.getKey();
-					
-					if(arg.toString().equals(argBeforeRequest.toString()) 
-						&& (responseHeaderValue != null)
-						&& !responseHeaderValue.equals("")) {
-						
-						arg.replace(0, arg.length(), responseHeaderValue);
-					}
-				}
-			}
-		}
 	}
 	
 	/**

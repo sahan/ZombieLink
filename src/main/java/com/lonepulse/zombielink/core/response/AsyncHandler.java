@@ -25,7 +25,6 @@ import java.lang.reflect.Type;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.core.annotation.Parser;
-import com.lonepulse.zombielink.core.response.parser.ResponseParser;
 
 /**
  * <p>This is the <i>strategy</i> for a handler which can be used to 

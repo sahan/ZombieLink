@@ -25,8 +25,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.lonepulse.zombielink.core.response.parser.ResponseParser;
-import com.lonepulse.zombielink.core.response.parser.StringResponseParser;
+import com.lonepulse.zombielink.core.response.ResponseParser;
+import com.lonepulse.zombielink.core.response.StringResponseParser;
 
 /**
  * <p>Identifies the {@link ResponseParser} which is to be used to parse 
@@ -40,14 +40,14 @@ import com.lonepulse.zombielink.core.response.parser.StringResponseParser;
  * <p>At <b>type-level</b> on an endpoint <i>interface</i>; attaches this parser for all requests.</p><br>
  * <code>
  * <pre>@Endpoint(scheme = "https", host = "api.twitter.com/1")<b>
- *&#064;Parser(PARSER_TYPE.STRING)</b><br>public interface TwitterEndpoint {<br>}</b>
+ *&#064;Parser(ParserType.STRING)</b><br>public interface TwitterEndpoint {<br>}</b>
  * </pre>
  * </code>
  * </li>
  * <li>
  * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
  * <code>
- * <pre>@Request("/license.txt")<br><b>@Parser(PARSER_TYPE.STRING)</b>
+ * <pre>@Request("/license.txt")<br><b>@Parser(ParserType.STRING)</b>
  *public abstract String getLicense();</b></b></pre>
  * </code>
  * </li>
@@ -71,7 +71,7 @@ public @interface Parser {
 	 * <br><br> 
 	 * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
 	 */
-	public static enum PARSER_TYPE {
+	public static enum ParserType {
 		
 		/**
 		 * <p>Identifies a response parser which makes the response 
@@ -108,14 +108,14 @@ public @interface Parser {
 	
 	
 	/**
-	 * <p>An instance of the {@link PARSER_TYPE} enum which is used to identify 
+	 * <p>An instance of the {@link ParserType} enum which is used to identify 
 	 * a pre-packaged {@link ResponseParser} available in the library.</p> 
 	 * 
-	 * @return an instance of the {@link PARSER_TYPE}. 
+	 * @return an instance of the {@link ParserType}. 
 	 * <br><br>
 	 * @since 1.1.2
 	 */
-	public PARSER_TYPE value() default PARSER_TYPE.UNDEFINED;
+	public ParserType value() default ParserType.UNDEFINED;
 	
 	/**
 	 * <p>The {@link Class} of the {@link ResponseParser} to be used. Users can 

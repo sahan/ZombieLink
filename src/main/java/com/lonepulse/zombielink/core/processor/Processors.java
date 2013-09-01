@@ -30,7 +30,6 @@ import com.lonepulse.zombielink.core.annotation.PathParam;
 import com.lonepulse.zombielink.core.annotation.QueryParam;
 import com.lonepulse.zombielink.core.request.AbstractRequestProcessor;
 import com.lonepulse.zombielink.core.request.RequestProcessorChain;
-import com.lonepulse.zombielink.core.request.RequestProcessorException;
 
 /**
  * <p>This enum aggregates all <i>thread-safe</i> processor-chains and exposes the services common to each chain and 
@@ -66,7 +65,7 @@ public enum Processors {
 	 * <p><b>Note</b> that this processor-chain acts solely on the input arguments to {@link #run(Object...)} and returns 
 	 * {@code null} for all intents and purposes.</p>
 	 * 
-	 * <p><b>Note</b> that a chain-wide failure is <b>NOT recoverable</b>. All failures are of type {@link RequestProcessorException} 
+	 * <p><b>Note</b> that a chain-wide failure is <b>NOT recoverable</b>. All failures are of type RequestProcessorException 
 	 * which may be thrown from any arbitrary {@link ProcessorChainLink}. Any changes made on the arguments to the chain 
 	 * are <b>NOT rolled back</b>.</p> 
 	 * 
