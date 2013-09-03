@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.lonepulse.zombielink.core.inject.Zombie;
+import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.test.service.MockService;
 
 
@@ -72,7 +72,7 @@ public class ZombieTest {
 	
 
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * with forced private endpoint injections.
 	 */
 	@Test
@@ -82,7 +82,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * with package private endpoints injections.
 	 */
 	@Test
@@ -92,7 +92,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * with protected endpoints injections.
 	 */
 	@Test
@@ -102,7 +102,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * with public endpoints injections.
 	 */
 	@Test
@@ -112,7 +112,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * for injection via the setter of a private endpoint.
 	 */
 	@Test
@@ -122,7 +122,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Object)} 
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
 	 * for injection via the constructor.
 	 */
 	@Test
@@ -132,7 +132,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.core.inject.Zombie#infect(java.lang.Class)}.
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Class)}.
 	 */
 	@Test
 	public final void testInjecteeInstantiation() {

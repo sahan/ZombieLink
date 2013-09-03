@@ -56,16 +56,16 @@ import org.junit.Test;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
-import com.lonepulse.zombielink.core.annotation.Asynchronous;
-import com.lonepulse.zombielink.core.annotation.Bite;
-import com.lonepulse.zombielink.core.annotation.Header;
-import com.lonepulse.zombielink.core.annotation.HeaderSet;
-import com.lonepulse.zombielink.core.annotation.PathParam;
-import com.lonepulse.zombielink.core.annotation.QueryParam;
-import com.lonepulse.zombielink.core.annotation.Request;
-import com.lonepulse.zombielink.core.annotation.Stateful;
-import com.lonepulse.zombielink.core.inject.Zombie;
-import com.lonepulse.zombielink.core.response.AsyncHandler;
+import com.lonepulse.zombielink.annotation.Asynchronous;
+import com.lonepulse.zombielink.annotation.Bite;
+import com.lonepulse.zombielink.annotation.Header;
+import com.lonepulse.zombielink.annotation.HeaderSet;
+import com.lonepulse.zombielink.annotation.PathParam;
+import com.lonepulse.zombielink.annotation.QueryParam;
+import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.annotation.Stateful;
+import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**
  * <p>Performs <b>Unit Testing</b> on the proxy of {@link MockEndpoint}.

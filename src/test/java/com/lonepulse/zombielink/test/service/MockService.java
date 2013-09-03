@@ -21,8 +21,8 @@ package com.lonepulse.zombielink.test.service;
  */
 
 
-import com.lonepulse.zombielink.core.annotation.Bite;
-import com.lonepulse.zombielink.core.inject.Zombie;
+import com.lonepulse.zombielink.annotation.Bite;
+import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.test.endpoint.MockEndpoint;
 
 /**
