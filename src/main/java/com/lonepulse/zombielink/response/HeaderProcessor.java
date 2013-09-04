@@ -79,42 +79,45 @@ class HeaderProcessor extends AbstractResponseProcessor {
 
 		try {
 			
-			List<Map.Entry<String, Object>> headers = ResponseUtils.findHeaders(config);
+			if(httpResponse != null) {
 			
-			String name;
-			StringBuilder value;
-			
-			for (Map.Entry<String, Object> header : headers) {
+				List<Map.Entry<String, Object>> headers = ResponseUtils.findHeaders(config);
 				
-				name = header.getKey();
+				String name;
+				StringBuilder value;
 				
-				if(!(header.getValue() instanceof StringBuilder)) {
+				for (Map.Entry<String, Object> header : headers) {
 					
-					StringBuilder errorContext = new StringBuilder()
-					.append("Dynamic header values can only be of type ")
-					.append(StringBuilder.class.getName())
-					.append(". Please consider providing an instance of StringBuilder for the header <")
-					.append(header.getKey())
-					.append("> and query it after request execution to retrieve the response header-value. ");
+					name = header.getKey();
 					
-					throw new IllegalArgumentException(errorContext.toString());
-				}
-				
-				value = (StringBuilder)header.getValue();
-				
-				if(value == null) {
+					if(!(header.getValue() instanceof StringBuilder)) {
+						
+						StringBuilder errorContext = new StringBuilder()
+						.append("Dynamic header values can only be of type ")
+						.append(StringBuilder.class.getName())
+						.append(". Please consider providing an instance of StringBuilder for the header <")
+						.append(header.getKey())
+						.append("> and query it after request execution to retrieve the response header-value. ");
+						
+						throw new IllegalArgumentException(errorContext.toString());
+					}
 					
-					continue; //skip headers which are omitted for the current invocation
-				}
-				
-				org.apache.http.Header[] responseHeaders = httpResponse.getHeaders(name);
-				
-				if(responseHeaders != null && responseHeaders.length > 0) {
-				
-					String responseHeaderValue = responseHeaders[0].getValue();
-					value.replace(0, value.length(), responseHeaderValue == null? "" :responseHeaderValue);
+					value = (StringBuilder)header.getValue();
 					
-					httpResponse.removeHeader(responseHeaders[0]); //remaining headers (equally named) processed if in-out params available
+					if(value == null) {
+						
+						continue; //skip headers which are omitted for the current invocation
+					}
+					
+					org.apache.http.Header[] responseHeaders = httpResponse.getHeaders(name);
+					
+					if(responseHeaders != null && responseHeaders.length > 0) {
+					
+						String responseHeaderValue = responseHeaders[0].getValue();
+						value.replace(0, value.length(), responseHeaderValue == null? "" :responseHeaderValue);
+						
+						httpResponse.removeHeader(responseHeaders[0]); //remaining headers (equally named) processed if in-out params available
+					}
 				}
 			}
 			

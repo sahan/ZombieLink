@@ -103,8 +103,12 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 */
 	private void throwIfNotAssignable(Class<? extends Object> requestReturnType) {
 		
-		if(!getType().isAssignableFrom(requestReturnType))   
+		if(!void.class.isAssignableFrom(requestReturnType)
+		   && !Void.class.isAssignableFrom(requestReturnType)
+		   && !getType().isAssignableFrom(requestReturnType)) {
+			
 			throw new ResponseParserNotAssignableException(getType(), requestReturnType);
+		}
 	}
 	
 	/**

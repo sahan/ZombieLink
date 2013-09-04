@@ -38,6 +38,8 @@ import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
  * <i>targeting criteria</i> for this response processor and the resulting information should be used to <i>parse</i> 
  * the given {@link HttpResponse}.</p>
  * 
+ * <p><b>Note that all implementations must account for a {@code null} {@link HttpResponse} in the arguments list.</b></p>
+ * 
  * <p>It is advised to adhere to <a href="www.w3.org/Protocols/rfc2616/rfc2616.html‎">RFC 2616</a> of <b>HTTP 1.1</b> 
  * when designing an implementation.</p>
  * 
@@ -98,15 +100,6 @@ public abstract class AbstractResponseProcessor implements Processor<Object, Res
 		
 		StringBuilder accumulatedContext = new StringBuilder();
 		boolean hasIllegalArguments = false;
-		
-		if(args[0] == null || !(args[0] instanceof HttpRequestBase)) {
-			
-			accumulatedContext.append("The first argument should be an instance of ")
-			.append(HttpResponse.class.getName())
-			.append(" which cannot be <null>. ");
-			
-			hasIllegalArguments = true;
-		}
 		
 		if(args[1] == null || !(args[1] instanceof ProxyInvocationConfiguration)) {
 			

@@ -40,9 +40,9 @@ import org.apache.http.util.EntityUtils;
 import com.lonepulse.zombielink.MultiThreadedHttpClient;
 import com.lonepulse.zombielink.annotation.Stateful;
 import com.lonepulse.zombielink.cookie.HttpContextDirectory;
+import com.lonepulse.zombielink.processor.Processors;
 import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.response.AsyncHandler;
-import com.lonepulse.zombielink.response.ResponseHandlers;
 
 /**
  * <p>A concrete implementation of {@link RequestExecutor} which executes 
@@ -184,7 +184,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 						
 						try {
 							
-							Object reponseEntity = ResponseHandlers.BASIC.handle(httpResponse, config);
+							Object reponseEntity = Processors.RESPONSE.run(httpResponse, config);
 							asyncHandler.onSuccess(httpResponse, reponseEntity);
 						}
 						catch (Exception e) {

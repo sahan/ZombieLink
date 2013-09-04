@@ -23,6 +23,7 @@ package com.lonepulse.zombielink.processor;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
@@ -30,6 +31,8 @@ import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.request.AbstractRequestProcessor;
 import com.lonepulse.zombielink.request.RequestProcessorChain;
+import com.lonepulse.zombielink.response.AbstractResponseProcessor;
+import com.lonepulse.zombielink.response.ResponseProcessorChain;
 
 /**
  * <p>This enum aggregates all <i>thread-safe</i> processor-chains and exposes the services common to each chain and 
@@ -73,7 +76,32 @@ public enum Processors {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	REQUEST(new RequestProcessorChain());
+	REQUEST(new RequestProcessorChain()),
+	
+	/**
+	 * <p>This is a concrete implementation of {@link AbstractProcessorChain} which creates a sequentially executed 
+	 * series of {@link AbstractResponseProcessor}s responsible for handling the {@link HttpResponse} which was returned 
+	 * for an successful request invocation.</p>
+	 * 
+	 * <p>This chain consists of the {@link AbstractResponseProcessor}s listed below in the given order:  
+	 * 
+	 * <ol>
+	 * 	<li>{@link HeaderProcessor} - retrieves the response headers and makes them available</li>
+	 * 	<li>{@link EntityProcessor} - parses and returns the content of the response body</li>
+	 * </ol>
+	 * 
+	 * <p><b>Note</b> that this processor-chain <b>may or may not</b> return the parsed response entity depending 
+	 * on the availability of response content.</p>
+	 * 
+	 * <p><b>Note</b> that a chain-wide failure is <b>NOT recoverable</b>. All failures are of type ResponseProcessorException 
+	 * which may be thrown from any arbitrary {@link ProcessorChainLink}. Any changes made on the arguments to the chain 
+	 * are <b>NOT rolled back</b>.</p> 
+	 * 
+	 * @version 1.1.0
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	RESPONSE(new ResponseProcessorChain());
 	
 	
 	

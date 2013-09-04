@@ -32,7 +32,6 @@ import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.processor.executor.RequestExecutors;
 import com.lonepulse.zombielink.processor.validator.Validators;
 import com.lonepulse.zombielink.request.RequestMethod;
-import com.lonepulse.zombielink.response.ResponseParsers;
 
 /**
  * <p>This factory is used for creating dynamic proxies for communication 
@@ -95,7 +94,7 @@ public enum EndpointProxyFactory implements ProxyFactory {
 					if(httpResponse == null) return null; //request is asynchronous 
 						
 					//5.Parse the received HttpResponse and return the entity
-					return ResponseParsers.RESOLVER.resolve(config).parse(httpResponse, config);
+					return Processors.RESPONSE.run(httpResponse, config);
 				}
 			}));
 			

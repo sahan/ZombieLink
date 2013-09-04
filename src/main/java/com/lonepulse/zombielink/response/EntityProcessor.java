@@ -72,43 +72,46 @@ class EntityProcessor extends AbstractResponseProcessor {
 	throws ResponseProcessorException {
 
 		try {
+
+			if(httpResponse != null) {
+				
+				Method request = config.getRequest();
+				
+				if(!request.getReturnType().equals(Void.class) && !(httpResponse.getEntity() == null)) {
+					
+					Class<?> endpoint = config.getEndpointClass();
 			
-			Method request = config.getRequest();
-			
-			if(!request.getReturnType().equals(Void.class) && !(httpResponse.getEntity() == null)) {
-				
-				Class<?> endpoint = config.getEndpointClass();
-		
-				Parser parser = null;
-				
-				if(request.isAnnotationPresent(Parser.class)) {
+					Parser parser = null;
 					
-					parser = request.getAnnotation(Parser.class);
-				}
-				else if(endpoint.isAnnotationPresent(Parser.class)) {
+					if(request.isAnnotationPresent(Parser.class)) {
+						
+						parser = request.getAnnotation(Parser.class);
+					}
+					else if(endpoint.isAnnotationPresent(Parser.class)) {
+						
+						parser = endpoint.getAnnotation(Parser.class);
+					}
+					else {
+						
+						throw new ResponseParserUndefinedException(endpoint, request);
+					}
 					
-					parser = endpoint.getAnnotation(Parser.class);
-				}
-				else {
+					ResponseParser<?> responseParser = null;
 					
-					throw new ResponseParserUndefinedException(endpoint, request);
-				}
+					if(parser.value() == ParserType.UNDEFINED) {
+						
+						responseParser = ResponseParser.class.cast(parser.type().newInstance());
+					}
+					else {
 				
-				ResponseParser<?> responseParser = null;
-				
-				if(parser.value() == ParserType.UNDEFINED) {
+						responseParser = ResponseParsers.RESOLVER.resolve(parser.value());
+					}
 					
-					responseParser = ResponseParser.class.cast(parser.type().newInstance());
+					return responseParser.parse(httpResponse, config);
 				}
-				else {
-			
-					responseParser = ResponseParsers.RESOLVER.resolve(parser.value());
-				}
-				
-				return responseParser.parse(httpResponse, config);
 			}
 			
-			return null;
+			return parsedResponse;
 		}
 		catch(Exception e) {
 			

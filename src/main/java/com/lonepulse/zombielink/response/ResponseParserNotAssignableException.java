@@ -42,8 +42,8 @@ class ResponseParserNotAssignableException extends ResponseParserException {
 	 */
 	public ResponseParserNotAssignableException(Class<?> parserReturnType, Class<?> requestReturnType) {
 		
-		this("Cannot assign the parser's response of type " + parserReturnType.getName() + 
-			  " to an instance of the request return type " + requestReturnType.getName());
+		this(new StringBuilder("Cannot assign the parser's response of type ").append(parserReturnType.getName())
+			 .append(" to an instance of the request return type ").append(requestReturnType.getName()).toString());
 	}
 	
 	/**
