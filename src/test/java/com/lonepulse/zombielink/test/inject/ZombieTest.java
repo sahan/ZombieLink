@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.test.core.inject;
+package com.lonepulse.zombielink.test.inject;
 
 /*
  * #%L
@@ -26,7 +26,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.lonepulse.zombielink.inject.Zombie;
-import com.lonepulse.zombielink.test.service.MockService;
 
 
 /**
