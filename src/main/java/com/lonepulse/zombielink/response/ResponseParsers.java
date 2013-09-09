@@ -44,18 +44,18 @@ public enum ResponseParsers implements ResponseParser<Object> {
 	STRING(new StringResponseParser()),
 	
 	/**
-	 * See {@link ObjectResponseParser}.
-	 * 
-	 * @since 1.1.0
-	 */
-	OBJECT(new ObjectResponseParser()),
-	
-	/**
 	 * See {@link JsonResponseParser}.
 	 * 
 	 * @since 1.1.0
 	 */
-	JSON(new JsonResponseParser());
+	JSON(new JsonResponseParser()),
+	
+	/**
+	 * See {@link XmlResponseParser}.
+	 * 
+	 * @since 1.2.4
+	 */
+	XML(new XmlResponseParser());
 	
 
 	/**
@@ -117,9 +117,9 @@ public enum ResponseParsers implements ResponseParser<Object> {
 				case JSON:
 					return ResponseParsers.JSON.responseParser;
 						
-				case OBJECT:
-					return ResponseParsers.OBJECT.responseParser;
-						
+				case XML:
+					return ResponseParsers.XML.responseParser;
+					
 				case STRING: case UNDEFINED: default:
 					return ResponseParsers.STRING.responseParser;
 			}

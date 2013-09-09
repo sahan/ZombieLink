@@ -74,32 +74,30 @@ public @interface Parser {
 	public static enum ParserType {
 		
 		/**
-		 * <p>Identifies a response parser which makes the response 
-		 * available as a string content..</p>
+		 * <p>Identifies a response parser which makes the response available as its 
+		 * raw string content.</p>
 		 * 
 		 * @since 1.1.1
 		 */
 		STRING,
 		
 		/**
-		 * <p>Identifies a response parser which parses JSON 
-		 * serialized objects.</p>
+		 * <p>Identifies a response parser which deserializes JSON content into models.</p>
 		 * 
 		 * @since 1.1.1
 		 */
 		JSON,
 		
 		/**
-		 * <p>Identifies a response parser which deserializes binary 
-		 * serialized objects.</p>
+		 * <p>Identifies a response parser which deserializes XML content into models.</p>
 		 * 
-		 * @since 1.1.1
+		 * @since 1.2.4
 		 */
-		OBJECT,
+		XML,
 		
 		/**
-		 * <p>The default value which indicates that the {@link Class} 
-		 * set in the {@link Parser#value()} property should be used.</p>
+		 * <p>The default value which indicates that the {@link Class} set in the 
+		 * {@link Parser#value()} property should be used.</p>
 		 * 
 		 * @since 1.1.1
 		 */

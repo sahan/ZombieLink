@@ -55,4 +55,15 @@ public interface ParserEndpoint {
 	@Request(path = "/json")
 	@Parser(ParserType.JSON) 
 	public User parseJson();
+	
+	/**
+	 * <p>A mock request which receives an XML response that is parsed to it model.
+	 * 
+	 * @return the parsed response entity
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/xml")
+	@Parser(ParserType.XML) 
+	public User parseXml();
 }

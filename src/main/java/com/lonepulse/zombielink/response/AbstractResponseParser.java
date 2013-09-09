@@ -70,12 +70,29 @@ import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
  */
 public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 
-
+	
+	private Class<T> parserType;
+	
+	
+	/**
+	 * <p>Initializes a new {@link AbstractResponseParser} with the given {@link Class} which 
+	 * represents the output of this parser.
+	 *
+	 * @param parserType
+	 * 			the {@link Class} type of the entity which is produced by this parser
+	 *
+	 * @since 1.2.4
+	 */
+	protected AbstractResponseParser(Class<T> parserType) {
+		
+		this.parserType = parserType;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public T parse(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
+	public final T parse(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
 		
 		Class<?> requestReturnType = config.getRequest().getReturnType();
 		
@@ -110,6 +127,19 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 			throw new ResponseParserNotAssignableException(getType(), requestReturnType);
 		}
 	}
+
+	/**
+	 * <p>Allows any {@link ResponseParser} extension to determine the type 
+	 * {@link Class} of the instantiated {@link ResponseParser}.</p>
+	 * 
+	 * @return the type {@link Class} of the instantiated {@link ResponseParser}
+	 * <br><br>
+	 * @since 1.1.4
+	 */
+	protected final Class<T> getType() {
+		
+		return this.parserType;
+	}
 	
 	/**
 	 * <p>Takes in the {@link HttpResponse} returned from the request execution 
@@ -132,14 +162,4 @@ public abstract class AbstractResponseParser<T> implements ResponseParser<T> {
 	 */
 	protected abstract T processResponse(HttpResponse httpResponse, ProxyInvocationConfiguration config) 
 	throws Exception;
-	
-	/**
-	 * <p>Allows any {@link ResponseParser} extension to determine the type 
-	 * {@link Class} of the instantiated {@link ResponseParser}.</p>
-	 * 
-	 * @return the type {@link Class} of the instantiated {@link ResponseParser}
-	 * <br><br>
-	 * @since 1.1.4
-	 */
-	protected abstract Class<T> getType();
 }

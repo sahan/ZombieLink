@@ -29,6 +29,11 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -90,6 +95,41 @@ public class ParserEndpointTest {
 		User parsedUser = parserEndpoint.parseJson();
 		
 		verify(getRequestedFor(urlMatching("/json")));
+		
+		assertEquals(user.getId(), parsedUser.getId());
+		assertEquals(user.getFirstName(), parsedUser.getFirstName());
+		assertEquals(user.getLastName(), parsedUser.getLastName());
+		assertEquals(user.getAge(), parsedUser.getAge());
+		assertEquals(user.isImmortal(), parsedUser.isImmortal());
+	}
+	
+	/**
+	 * <p>Test for {@link ResponseParsers#XML}.
+	 * 
+	 * @throws Exception
+	 * 			if the test terminated with an error
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testParseXml() throws Exception {
+		
+		User user = new User(1, "Shiro", "Wretched-Egg", 17, true);
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
+		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		jaxbMarshaller.marshal(user, baos);
+		
+		stubFor(get(urlEqualTo("/xml"))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(baos.toString())));
+		
+		User parsedUser = parserEndpoint.parseXml();
+		
+		verify(getRequestedFor(urlMatching("/xml")));
 		
 		assertEquals(user.getId(), parsedUser.getId());
 		assertEquals(user.getFirstName(), parsedUser.getFirstName());

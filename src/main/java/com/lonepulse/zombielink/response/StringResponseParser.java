@@ -35,6 +35,18 @@ import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
  */
 public class StringResponseParser extends AbstractResponseParser<CharSequence> {
 
+	
+	/**
+	 * <p>Creates a new instance of {@link StringResponseParser} and register the type 
+	 * {@link CharSequence} as the entity which results from its <i>parse</i> operation.
+	 *
+	 * @since 1.2.4
+	 */
+	public StringResponseParser() {
+	
+		super(CharSequence.class);
+	}
+	
 	/**
 	 * <p> Parses the content in the {@link HttpResponse} to any type which is 
 	 * assignable to a {@link CharSequence}.
@@ -46,14 +58,5 @@ public class StringResponseParser extends AbstractResponseParser<CharSequence> {
 
 		String responseString = EntityUtils.toString(httpResponse.getEntity());
 		return responseString.subSequence(0, responseString.length());
-	}
-
-	/**
-	 * See {@link AbstractResponseParser#getType()}.
-	 */
-	@Override
-	public Class<CharSequence> getType() {
-
-		return CharSequence.class;
 	}
 }

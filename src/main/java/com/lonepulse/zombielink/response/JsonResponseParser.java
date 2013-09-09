@@ -40,6 +40,18 @@ import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
  */
 public class JsonResponseParser extends AbstractResponseParser<Object> {
 
+	
+	/**
+	 * <p>Creates a new instance of {@link JsonResponseParser} and register the generic 
+	 * type {@link Object} as the entity which results from its <i>parse</i> operation.
+	 *
+	 * @since 1.2.4
+	 */
+	public JsonResponseParser() {
+		
+		super(Object.class);
+	}
+	
 	/**
      * <p> Parses the JSON String in the {@link HttpResponse} via the <b>GSON library</b> 
      * and returns the entity representing the JSON data.
@@ -50,14 +62,5 @@ public class JsonResponseParser extends AbstractResponseParser<Object> {
 		String jsonString = EntityUtils.toString(httpResponse.getEntity());
 		
 		return new Gson().fromJson(jsonString, TypeToken.get(config.getRequest().getReturnType()).getType());
-	}
-
-	/**
-	 * See {@link AbstractResponseParser}.
-	 */
-	@Override
-	protected Class<Object> getType() {
-		
-		return Object.class;
 	}
 }
