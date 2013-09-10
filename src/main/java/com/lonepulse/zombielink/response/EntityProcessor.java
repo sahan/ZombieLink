@@ -49,10 +49,11 @@ class EntityProcessor extends AbstractResponseProcessor {
 	
 	/**
 	 * <p>Accepts the {@link ProxyInvocationConfiguration} along with the {@link HttpResponse} plus the results-map 
-	 * and retrieves the {@link HttpEntity} form the response. This is then fed all HTTP response headers which are discovered in the {@link HttpResponse}. These are then 
-	 * injected into their matching {@link StringBuilder} which are identified by @{@link Header} on the endpoint 
-	 * request definition. The HTTP response headers and the in-out parameters are matched using the header name and 
-	 * all parameters with a runtime value of {@code null} will be ignored.</p> 
+	 * and retrieves the {@link HttpEntity} form the response. This is then fed all HTTP response headers which 
+	 * are discovered in the {@link HttpResponse}. These are then injected into their matching {@link StringBuilder} 
+	 * which are identified by @{@link Header} on the endpoint request definition. The HTTP response headers and the 
+	 * in-out parameters are matched using the header name and all parameters with a runtime value of {@code null} 
+	 * will be ignored.</p> 
 	 * 
 	 * @param httpResponse
 	 * 			the instance of {@link HttpResponse} whose headers are to be retrieves and injected in the in-out 
