@@ -38,7 +38,7 @@ import com.lonepulse.zombielink.inject.Zombie;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class MockService {
+public class BasicMockService {
 	
 	
 	/** 
@@ -79,13 +79,13 @@ public class MockService {
 	private MockEndpoint forcedPrivateMockEndpoint;
 	
 	
-	public MockService() {}
+	public BasicMockService() {}
 	
 	/**
 	 * <p>Facilitates constructor injection. 
 	 */
 	@Bite
-	public MockService(MockEndpoint icndbEndpoint) {
+	public BasicMockService(MockEndpoint icndbEndpoint) {
 		
 		this.constructedMockEndpoint = icndbEndpoint;
 	}

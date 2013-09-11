@@ -69,7 +69,7 @@ class RequestValidator implements Validator<Void> {
 			throw new IllegalArgumentException("The ProxyInvocationConfiguration cannot be <null>. ");
 		}
 		
-		if(config.getEndpointClass() == null) {
+		if(config.getRequest() == null) {
 			
 			throw new IllegalArgumentException("The ProxyInvocationConfiguration's <request> property cannot be <null>. ");
 		}
@@ -78,9 +78,9 @@ class RequestValidator implements Validator<Void> {
 		
 		try {
 			
-			Request commonRequest = request.getAnnotation(Request.class);
+			Request requestAnnotation = request.getAnnotation(Request.class);
 			
-			if(commonRequest == null) {
+			if(requestAnnotation == null) {
 				
 				throw new MissingRequestAnnotationException();
 			}

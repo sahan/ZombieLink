@@ -29,7 +29,7 @@ import com.lonepulse.zombielink.inject.Zombie;
 
 
 /**
- * <p>Performs <b>Unit Testing</b> on the {@link Zombie}.
+ * <p>Performs <b>Unit Testing</b> on the {@link Zombie} and its injection capabilities.
  * 
  * @category test
  * <br><br>
@@ -41,107 +41,82 @@ public class ZombieTest {
 	
 
 	/**
-	 * <p>A typical {@link MockService} instance.
+	 * <p>An instance of {@link BasicMockService} whose endpoint dependencies are satisfied 
+	 * by injection.
 	 */
-	private static MockService mockService;
+	private static BasicMockService propertyInjectedService;
 	
 	/**
-	 * <p>An {@link MockService} instance instantiated via the {@link Zombie}. 
+	 * <p>An instance of {@link BasicMockService} which is instantiated by injecting all of 
+	 * its endpoint dependencies. 
 	 */
-	private static MockService mockServiceInstantiated;
+	private static BasicMockService constructorInjectedService;
 	
 	
 	/**
-	 * <p>Sets up the test case by performing endpoint injection on 
-	 * {@link #mockService} and {@link #mockServiceInstantiated}.
+	 * <p>An instance of {@link FallbackMockService} which is intended to be instantiated with 
+	 * all dependences satisfied and yet falls back to injection on an instance created using 
+	 * the default constructor. 
+	 */
+	private static FallbackMockService fallbackInjectedService;
+	
+	
+	/**
+	 * <p>Sets up the test case by performing endpoint injection on {@link #propertyInjectedService} 
+	 * and {@link #constructorInjectedService}.
 	 * 
-	 * @throws java.lang.Exception
-	 * 			if the setup failed
+	 * @throws Exception
+	 * 			if test terminated with an error 
 	 */
 	@BeforeClass
 	public static void setUp() throws Exception {
 
 		//perform property and setter injection
-		mockService = new MockService();
-		Zombie.infect(mockService);
+		propertyInjectedService = new BasicMockService();
+		Zombie.infect(propertyInjectedService);
 		
 		//perform constructor injection
-		mockServiceInstantiated = Zombie.infect(MockService.class);
-	}
-	
-
-	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * with forced private endpoint injections.
-	 */
-	@Test
-	public final void testForcedPrivateEndpointInjection() {
+		constructorInjectedService = Zombie.infect(BasicMockService.class);
 		
-		assertNotNull(mockService.getForcedPrivateMockEndpoint());
+		//attempt constructor injection knowing that it will fail
+		fallbackInjectedService = Zombie.infect(FallbackMockService.class);
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * with package private endpoints injections.
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(Object)}.
 	 */
 	@Test
-	public final void testDefaultEndpointInjection() {
+	public final void testPropertyInjection() {
 		
-		assertNotNull(mockService.getDefaultMockEndpoint());
-	}
-	
-	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * with protected endpoints injections.
-	 */
-	@Test
-	public final void testProtectedEndpointInjection() {
-		
-		assertNotNull(mockService.getProtectedMockEndpoint());
-	}
-	
-	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * with public endpoints injections.
-	 */
-	@Test
-	public final void testPublicEndpointInjection() {
-		
-		assertNotNull(mockService.getPublicMockEndpoint());
-	}
-	
-	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * for injection via the setter of a private endpoint.
-	 */
-	@Test
-	public final void testMutatorInjection() {
-		
-		assertNotNull(mockService.getPrivateMockEndpoint());
-	}
-	
-	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Object)} 
-	 * for injection via the constructor.
-	 */
-	@Test
-	public final void testConstructorInjection() {
-		
-		assertNotNull(mockService.getConstructedMockEndpoint());
+		assertNotNull(propertyInjectedService.getConstructedMockEndpoint());
+		assertNotNull(propertyInjectedService.getDefaultMockEndpoint());
+		assertNotNull(propertyInjectedService.getForcedPrivateMockEndpoint());
+		assertNotNull(propertyInjectedService.getPrivateMockEndpoint());
+		assertNotNull(propertyInjectedService.getProtectedMockEndpoint());
+		assertNotNull(propertyInjectedService.getPublicMockEndpoint());
 	}
 	
 	/**
 	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Class)}.
 	 */
 	@Test
-	public final void testInjecteeInstantiation() {
+	public final void testConstructorInstantiation() {
 		
-		assertNotNull(mockServiceInstantiated);
-		assertNotNull(mockServiceInstantiated.getConstructedMockEndpoint());
-		assertNotNull(mockServiceInstantiated.getDefaultMockEndpoint());
-		assertNotNull(mockServiceInstantiated.getForcedPrivateMockEndpoint());
-		assertNotNull(mockServiceInstantiated.getPrivateMockEndpoint());
-		assertNotNull(mockServiceInstantiated.getProtectedMockEndpoint());
-		assertNotNull(mockServiceInstantiated.getPublicMockEndpoint());
+		assertNotNull(constructorInjectedService);
+		assertNotNull(constructorInjectedService.getConstructedMockEndpoint());
+		assertNotNull(constructorInjectedService.getDefaultMockEndpoint());
+		assertNotNull(constructorInjectedService.getForcedPrivateMockEndpoint());
+		assertNotNull(constructorInjectedService.getPrivateMockEndpoint());
+		assertNotNull(constructorInjectedService.getProtectedMockEndpoint());
+		assertNotNull(constructorInjectedService.getPublicMockEndpoint());
+	}
+	
+	/**
+	 * Test method for fallback from constructor to property injection.
+	 */
+	@Test
+	public final void testFallbackInjection() {
+		
+		assertNotNull(fallbackInjectedService.getMockEndpoint());
 	}
 }

@@ -63,7 +63,6 @@ public enum EndpointProxyFactory implements ProxyFactory {
 			final ProxyInvocationConfiguration.Builder builder = new  ProxyInvocationConfiguration.Builder()
 			.setEndpointClass(endpointClass);
 			
-			//1.Validate the endpoint interface and create the URI
 			final URI uri = (URI) Validators.ENDPOINT.validate(builder.build());
 			
 			T endpointProxy = endpointClass.cast(Proxy.newProxyInstance(endpointClass.getClassLoader(), 
@@ -73,7 +72,6 @@ public enum EndpointProxyFactory implements ProxyFactory {
 				@Override
 				public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 					
-					//2.Continue to construct the ProxyInvocationConfiguration
 					ProxyInvocationConfiguration config = builder
 					.setEndpointClass(endpointClass)
 					.setUri(uri)
@@ -82,19 +80,13 @@ public enum EndpointProxyFactory implements ProxyFactory {
 					.setRequestArgs(args)
 					.build();
 					
-					//3.Create the request
-					HttpRequestBase httpRequestBase = RequestMethod.TRANSLATOR.translate(config);
+					Validators.REQUEST.validate(config);
+					HttpRequestBase request = RequestMethod.TRANSLATOR.translate(config);
+					Processors.REQUEST.run(request, config);
 					
-					Processors.REQUEST.run(httpRequestBase, config);
+					HttpResponse response = RequestExecutors.RESOLVER.resolve(config).execute(request, config);
 					
-					//4.Execute the HttpRequestBase either asynchronously or synchronously
-					HttpResponse httpResponse 
-						= RequestExecutors.RESOLVER.resolve(config).execute(httpRequestBase, config);
-
-					if(httpResponse == null) return null; //request is asynchronous 
-						
-					//5.Parse the received HttpResponse and return the entity
-					return Processors.RESPONSE.run(httpResponse, config);
+					return (response == null)? null :Processors.RESPONSE.run(response, config);
 				}
 			}));
 			

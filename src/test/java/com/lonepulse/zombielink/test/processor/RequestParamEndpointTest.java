@@ -30,6 +30,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,10 +51,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.test.model.User;
 
 /**
  * <p>Performs <b>Unit Testing</b> on the proxy of {@link RequestParamEndpoint}.
@@ -184,7 +188,7 @@ public class RequestParamEndpointTest {
 		String subpath = "/fileentity";
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File file = new File(classLoader.getResource("file.txt").toURI());
+		File file = new File(classLoader.getResource("LICENSE.txt").toURI());
 		FileEntity fe = new FileEntity(file);
 		
 		stubFor(put(urlEqualTo(subpath))
@@ -208,8 +212,8 @@ public class RequestParamEndpointTest {
 		String subpath = "/basichttpentity";
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream("file.txt");
-		InputStream parallelInputStream = classLoader.getResourceAsStream("file.txt");
+		InputStream inputStream = classLoader.getResourceAsStream("LICENSE.txt");
+		InputStream parallelInputStream = classLoader.getResourceAsStream("LICENSE.txt");
 		BasicHttpEntity bhe = new BasicHttpEntity();
 		bhe.setContent(parallelInputStream);
 		
@@ -256,7 +260,7 @@ public class RequestParamEndpointTest {
 	public final void testSerializableEntity() throws ParseException, IOException {
 		
 		String subpath = "/serializableentity";
-		Serializable entity = new char[] {'r', 'y', 'u', 'k'};
+		User entity = new User(1L, "Eren", "Yeager", 15, false);
 		SerializableEntity se = new SerializableEntity(entity, true);
 		
 		stubFor(put(urlEqualTo(subpath))
@@ -268,5 +272,62 @@ public class RequestParamEndpointTest {
 		verify(putRequestedFor(urlEqualTo(subpath)));
 		verify(putRequestedFor(urlEqualTo(subpath))
 			   .withRequestBody(equalTo(EntityUtils.toString(se))));
+	}
+
+	/**
+	 * <p>Test for a non-POST entity-enclosing request without a supplied entity.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testMissingEntity() {
+		
+		try {
+			
+			requestEndpoint.missingEntity();
+			fail("Expected an exception upon request invocation.");
+		}
+		catch(ZombieLinkRuntimeException zlre) {
+			
+			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
+		}
+	}
+	
+	/**
+	 * <p>Test for a multiple entities in an entity-enclosing request.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testMultipleEntity() {
+		
+		try {
+			
+			requestEndpoint.multipleEntity("entity1", "entity2");
+			fail("Expected an exception upon request invocation.");
+		}
+		catch(ZombieLinkRuntimeException zlre) {
+			
+			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
+		}
+	}
+	
+	/**
+	 * <p>Test for an unresolvable entity in an entity-enclosing request.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testResolutionFailedEntity() throws IOException {
+		
+		try {
+			
+			requestEndpoint.resolutionFailedEntity(new Object());
+			fail("Expected an exception upon request invocation.");
+		}
+		catch(ZombieLinkRuntimeException zlre) {
+			
+			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
+		}
 	}
 }

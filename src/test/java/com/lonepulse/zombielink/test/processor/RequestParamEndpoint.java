@@ -39,6 +39,7 @@ import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Stateful;
 import com.lonepulse.zombielink.request.RequestMethod;
+import com.lonepulse.zombielink.test.model.User;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method definitions 
@@ -147,10 +148,48 @@ public interface RequestParamEndpoint {
 	 * an instance of {@link SerializableEntity}.
 	 * 
 	 * @param entity
-	 * 			the {@link String} to be converted to a {@link StringEntity}
+	 * 			the {@link Serializable} instance of {@link User} to be converted 
+	 * 			to a {@link SerializableEntity}
 	 * 
 	 * @since 1.2.4
 	 */
 	@Request(path = "/serializableentity", method = RequestMethod.PUT)
-	public void serializableEntity(@Entity Serializable entity);
+	public void serializableEntity(@Entity User entity);
+	
+	/**
+	 * <p>Sends a PUT request without an entity. This should generate an exception 
+	 * which signifies a violation of the HTTP 1.1 specification.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/missingentity", method = RequestMethod.PUT)
+	public void missingEntity();
+	
+	/**
+	 * <p>Sends a PUT request with multiple entities. This should generate an exception 
+	 * which signifies a violation of the HTTP 1.1 specification.
+	 * 
+	 * @param entity1
+	 * 			the first entity which is designated to be sent
+	 * 
+	 * @param entity2
+	 * 			the second entity which is designated to be sent
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/multipleentity", method = RequestMethod.PUT)
+	public void multipleEntity(@Entity String entity1, @Entity String entity2);
+	
+	/**
+	 * <p>Sends a PUT request with an argument which cannot be resolved to an entity. 
+	 * This should generate an exception which signifies a violation of the HTTP 1.1 
+	 * specification.
+	 * 
+	 * @param unresolvableEntity
+	 * 			an generic object which cannot be resolved to an entity 
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/resolutionfailedentity", method = RequestMethod.PUT)
+	public void resolutionFailedEntity(@Entity Object unresolvableEntity);
 }

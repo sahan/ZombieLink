@@ -1,5 +1,7 @@
 package com.lonepulse.zombielink.processor.validator;
 
+import java.lang.reflect.Method;
+
 import com.lonepulse.zombielink.annotation.Request;
 
 /*
@@ -44,9 +46,20 @@ class MissingRequestAnnotationException extends RequestValidationFailedException
 	 * 
 	 * @since 1.2.4
 	 */
+	public MissingRequestAnnotationException(Method request) {
+		
+		this(new StringBuilder("The endpoint method definition <").append(request.getName())
+			 .append("> is missing an @").append(Request.class.getName()).append(" annotation. ").toString());
+	}
+	
+	/**
+	 * <p>Displays a detailed description along with the stacktrace.
+	 * 
+	 * @since 1.2.4
+	 */
 	public MissingRequestAnnotationException() {
 		
-		this(new StringBuilder("An endpoint method definition requires an @")
+		this(new StringBuilder("All endpoint method definitions require an @")
 			 .append(Request.class.getName()).append(" annotation. ").toString());
 	}
 
@@ -67,11 +80,10 @@ class MissingRequestAnnotationException extends RequestValidationFailedException
 	}
 
 	/**
-	 * <p>Displays a detailed description along with the root cause.
+	 * See {@link RequestValidationFailedException#RequestValidationFailedException(String, Throwable)}.
 	 */
 	public MissingRequestAnnotationException(String detailMessage, Throwable rootCause) {
 
-		super(new StringBuilder("An endpoint method definition requires an @")
-		 	  .append(Request.class.getName()).append(" annotation. ").toString(), rootCause);
+		super(detailMessage, rootCause);
 	}
 }

@@ -22,10 +22,16 @@ package com.lonepulse.zombielink.test.processor;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.http.HttpResponse;
 import org.junit.Before;
@@ -72,29 +78,49 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests asynchronous request execution with {@link Asynchronous} and {@link AsyncHandler}. 
-	 * 
+	 * <p>Tests asynchronous request execution with {@link Asynchronous} and {@link AsyncHandler}.
+	 *  
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testAsync() {
+	public final void testAsync() throws InterruptedException {
 		
 		String subpath = "/async", body = "hello";
 		
-		stubFor(get(urlMatching(subpath))
+		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
 				.withBody(body)));
+
+		final Object[] content = new Object[2];
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
 		
 		String result = asyncEndpoint.async(new AsyncHandler<String>() {
 			
 			@Override
 			public void onSuccess(HttpResponse httpResponse, String body) {
-			
-				assertTrue(body != null);
-				assertTrue(body.equals("body"));
+
+				lock.lock();
+				
+				content[0] = httpResponse;
+				content[1] = body;
+				
+				condition.signal();
+				lock.unlock();
 			}
 		});
+
+		lock.lock();
+		condition.await();
+		lock.unlock();
+
+		verify(getRequestedFor(urlEqualTo("/async")));
+		
+		assertTrue(content[0] != null);
+		assertTrue(content[1] != null);
+		assertTrue(content[1].equals("hello"));
 		
 		assertNull(result);
 	}
