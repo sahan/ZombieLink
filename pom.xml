@@ -217,6 +217,17 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.5.2</version>
 				<configuration>
+				    <instrumentation>
+			            <ignores>
+			              <ignore>com.lonepulse.zombielink.annotation.*</ignore>
+			              <ignore>com.lonepulse.zombielink.util.*</ignore>
+			            </ignores>
+			            <excludes>
+							<exclude>com/lonepulse/zombielink/**/*Exception.class</exclude>
+							<exclude>com/lonepulse/zombielink/**/**/*Exception.class</exclude>
+							<exclude>com/lonepulse/zombielink/util/AbstractGenericFactory.class</exclude>
+						</excludes>
+				    </instrumentation>
 					<format>xml</format>
 				</configuration>
 			</plugin>
