@@ -2,7 +2,8 @@
 
 > **ZombieLink** /zŏm'bē'lĭngk/ <em>noun.</em> **1** A lightweight HTTP facade 
 which simplifies network communication. **2** An endpoint proxy generator for web services. 
-[![Build Status](https://travis-ci.org/sahan/ZombieLink.png?branch=master)](https://travis-ci.org/sahan/ZombieLink) 
+[![Build Status](https://travis-ci.org/sahan/ZombieLink.png?branch=master)](https://travis-ci.org/sahan/ZombieLink)
+[![Coverage Status](https://coveralls.io/repos/sahan/ZombieLink/badge.png?branch=master)](https://coveralls.io/r/sahan/ZombieLink?branch=master) 
 [![Stories in Ready](https://badge.waffle.io/sahan/ZombieLink.png)](http://waffle.io/sahan/ZombieLink)
 
 <br/>
