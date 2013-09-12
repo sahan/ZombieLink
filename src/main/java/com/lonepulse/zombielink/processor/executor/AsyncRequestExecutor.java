@@ -21,7 +21,6 @@ package com.lonepulse.zombielink.processor.executor;
  */
 
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,7 +30,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
@@ -139,16 +137,6 @@ class AsyncRequestExecutor implements RequestExecutor {
 						
 						httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
 					}
-				} 
-				catch (ClientProtocolException cpe) {
-
-					log.error(errorContext + "Protocol cannot be resolved.", cpe);
-					return;
-				} 
-				catch (IOException ioe) {
-
-					log.error(errorContext + "IO failure.", ioe);
-					return;
 				} 
 				catch (Exception e) {
 					

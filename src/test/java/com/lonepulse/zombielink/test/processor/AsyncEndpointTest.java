@@ -29,6 +29,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -78,14 +79,23 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests asynchronous request execution with {@link Asynchronous} and {@link AsyncHandler}.
+	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * {@link AsyncHandler#onSuccess(HttpResponse, Object)}.
 	 *  
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testAsync() throws InterruptedException {
+	public final void testAsyncSuccess() throws InterruptedException {
 		
-		String subpath = "/async", body = "hello";
+		successScenario();
+	}
+	
+	/**
+	 * <p>See {@link #testAsyncSuccess()}. 
+	 */
+	private void successScenario() throws InterruptedException {
+		
+		String subpath = "/asyncsuccess", body = "hello";
 		
 		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
@@ -97,15 +107,15 @@ public class AsyncEndpointTest {
 		final Lock lock = new ReentrantLock();
 		final Condition condition = lock.newCondition();
 		
-		String result = asyncEndpoint.async(new AsyncHandler<String>() {
+		String result = asyncEndpoint.asyncSuccess(new AsyncHandler<String>() {
 			
 			@Override
-			public void onSuccess(HttpResponse httpResponse, String body) {
+			public void onSuccess(HttpResponse httpResponse, String parsedContent) {
 
 				lock.lock();
 				
 				content[0] = httpResponse;
-				content[1] = body;
+				content[1] = parsedContent;
 				
 				condition.signal();
 				lock.unlock();
@@ -116,12 +126,175 @@ public class AsyncEndpointTest {
 		condition.await();
 		lock.unlock();
 
-		verify(getRequestedFor(urlEqualTo("/async")));
+		verify(getRequestedFor(urlEqualTo(subpath)));
 		
 		assertTrue(content[0] != null);
 		assertTrue(content[1] != null);
-		assertTrue(content[1].equals("hello"));
+		assertTrue(content[1].equals(body));
 		
 		assertNull(result);
+	}
+	
+	/**
+	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * {@link AsyncHandler#onFailure(HttpResponse)}.
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncFailure() throws InterruptedException {
+		
+		String subpath = "/asyncfailure", body = "hello";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(403)
+				.withBody(body)));
+		
+		final Object[] content = new Object[1];
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
+		
+		asyncEndpoint.asyncFailure(new AsyncHandler<String>() {
+			
+			@Override
+			public void onSuccess(HttpResponse httpResponse, String e) {}
+			
+			@Override
+			public void onFailure(HttpResponse httpResponse) {
+			
+				lock.lock();
+				
+				content[0] = httpResponse;
+				condition.signal();
+				
+				lock.unlock();
+			}
+		});
+		
+		lock.lock();
+		condition.await();
+		lock.unlock();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		assertTrue(content[0] != null);
+	}
+	
+	/**
+	 * <p>Tests an asynchronous request execution with @{@link Asynchronous} which does 
+	 * not expect the response to be handled. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncNoHandling() throws InterruptedException {
+		
+		String subpath = "/asyncnohandling", body = "hello";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(body)));
+		
+		asyncEndpoint.asyncNoHandling();
+		
+		TimeUnit.SECONDS.sleep(2);
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+	}
+	
+	/**
+	 * <p>Tests a successful asynchronous request where the implementation of the 
+	 * {@link AsyncHandler#onSuccess(HttpResponse, Object)} callback throws an exception. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncSuccessCallbackError() throws InterruptedException {
+		
+		String subpath = "/successcallbackerror";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
+		
+		asyncEndpoint.asyncSuccessCallbackError(new AsyncHandler<String>() {
+
+			@Override
+			public void onSuccess(HttpResponse httpResponse, String e) {
+
+				try {
+				
+					throw new IllegalStateException();
+				}
+				finally {
+					
+					lock.lock();
+					condition.signal();
+					lock.unlock();
+				}
+			}
+		});
+
+		lock.lock();
+		condition.await();
+		lock.unlock();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		successScenario(); //verify that the asynchronous request executor has survived the exception
+	}
+	
+	/**
+	 * <p>Tests a failed asynchronous request where the implementation of the 
+	 * {@link AsyncHandler#onFailure(HttpResponse)} callback throws an exception. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncFailureCallbackError() throws InterruptedException {
+		
+		String subpath = "/failurecallbackerror";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(404)));
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
+		
+		asyncEndpoint.asyncFailureCallbackError(new AsyncHandler<String>() {
+			
+			@Override
+			public void onSuccess(HttpResponse httpResponse, String e) {}
+			
+			@Override
+			public void onFailure(HttpResponse httpResponse) {
+				
+				try {
+					
+					throw new IllegalStateException();
+				}
+				finally {
+					
+					lock.lock();
+					condition.signal();
+					lock.unlock();
+				}
+			}
+		});
+		
+		lock.lock();
+		condition.await();
+		lock.unlock();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		successScenario(); //verify that the asynchronous request executor has survived the exception
 	}
 }

@@ -41,10 +41,15 @@ public abstract class AsyncHandler<E extends Object> {
 
 	
 	/**
-	 * <p>Callback method to handle the a <i>successful request execution</i>.
+	 * <p>Callback method to handle the a <i>successful request execution</i>.</p>
 	 * 
 	 * <p>Generic {@code E} is used to identify the {@link Type} of the response 
-	 * which is returned via the designated {@link ResponseParser}.
+	 * which is returned via the designated {@link ResponseParser}.</p>
+	 * 
+	 * <p><b>Note</b> that any <i>runtime exceptions</i> are handled <b>silently</b> 
+	 * and logged, while <i>check exceptions</i> are not promoted to be thrown. It's 
+	 * advised to secure all code within a try-catch and respond to any exception 
+	 * (recoverable or otherwise).</p> 
 	 *  
 	 * @param httpResponse
 	 * 			the original instance {@link HttpResponse} returned as a result of 
@@ -59,13 +64,18 @@ public abstract class AsyncHandler<E extends Object> {
 	public abstract void onSuccess(HttpResponse httpResponse, E e);
 
 	/**
-	 * <p>Callback method to handle a <i>failed request execution</i>.
+	 * <p>Callback method to handle a <i>failed request execution</i>.</p>
 	 * 
 	 * <p>Generic {@code E} is used to identify the {@link Type} of the response 
-	 * which is returned via the designated {@link ResponseParser}. 
+	 * which is returned via the designated {@link ResponseParser}.</p>
 	 *  
 	 * <p>Note that the default implementation does absolutely nothing. A minimal 
-	 * usage would be to override this method and log the HTTP status code.
+	 * usage would be to override this method and log the HTTP status code.</p>
+	 * 
+	 * <p><b>Note</b> that any <i>runtime exceptions</i> are handled <b>silently</b> 
+	 * and logged, while <i>check exceptions</i> are not promoted to be thrown. It's 
+	 * advised to secure all code within a try-catch and respond to any exception 
+	 * (recoverable or otherwise).</p>
 	 * 
 	 * @param httpResponse
 	 * 			the original instance {@link HttpResponse} returned as a result of 

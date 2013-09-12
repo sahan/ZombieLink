@@ -30,8 +30,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,12 +44,13 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.SerializableEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
@@ -74,6 +73,9 @@ public class RequestParamEndpointTest {
 	
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
+	
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Bite
 	private RequestParamEndpoint requestEndpoint;
@@ -279,18 +281,13 @@ public class RequestParamEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test
-	public final void testMissingEntity() {
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testMissingEntity() throws ClassNotFoundException {
 		
-		try {
-			
-			requestEndpoint.missingEntity();
-			fail("Expected an exception upon request invocation.");
-		}
-		catch(ZombieLinkRuntimeException zlre) {
-			
-			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
-		}
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		requestEndpoint.missingEntity();
 	}
 	
 	/**
@@ -298,18 +295,13 @@ public class RequestParamEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test
-	public final void testMultipleEntity() {
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testMultipleEntity() throws ClassNotFoundException {
 		
-		try {
-			
-			requestEndpoint.multipleEntity("entity1", "entity2");
-			fail("Expected an exception upon request invocation.");
-		}
-		catch(ZombieLinkRuntimeException zlre) {
-			
-			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
-		}
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		requestEndpoint.multipleEntity("entity1", "entity2");
 	}
 	
 	/**
@@ -317,17 +309,12 @@ public class RequestParamEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test
-	public final void testResolutionFailedEntity() throws IOException {
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testResolutionFailedEntity() throws IOException, ClassNotFoundException {
 		
-		try {
-			
-			requestEndpoint.resolutionFailedEntity(new Object());
-			fail("Expected an exception upon request invocation.");
-		}
-		catch(ZombieLinkRuntimeException zlre) {
-			
-			assertTrue(zlre.getCause().getClass().getSimpleName().equals("RequestProcessorException"));
-		}
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		requestEndpoint.resolutionFailedEntity(new Object());
 	}
 }

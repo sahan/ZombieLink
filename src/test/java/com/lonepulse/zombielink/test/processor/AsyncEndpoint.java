@@ -26,7 +26,6 @@ import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Stateful;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**
@@ -40,21 +39,67 @@ import com.lonepulse.zombielink.response.AsyncHandler;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Stateful
+@Asynchronous
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface AsyncEndpoint {
 	
 	/**
-	 * <p>Sends a request asynchronously using {@link Asynchronous} and {@link AsyncHandler}. 
+	 * <p>Sends a request asynchronously using @{@link Asynchronous} and {@link AsyncHandler}. 
 	 * 
 	 * @param asyncHandler
-	 * 			the {@link AsyncHandler} which handles the results of the asynchronous request execution
+	 * 			the {@link AsyncHandler} which handles the results of the asynchronous request
 	 * 
-	 * @return a response for the asynchronous request
+	 * @return {@code null}, since the request is processed asynchronously
 	 * 
 	 * @since 1.2.4
 	 */
-	@Asynchronous @Request(path = "/async")
-	public String async(AsyncHandler<String> asyncHandler);
+	@Request(path = "/asyncsuccess")
+	public String asyncSuccess(AsyncHandler<String> asyncHandler);
+	
+	/**
+	 * <p>Sends a request asynchronously using @{@link Asynchronous} and {@link AsyncHandler} 
+	 * which returns response code that signifies a failure. This should invoke 
+	 * {@link AsyncHandler#onFailure(org.apache.http.HttpResponse)} on the provided callback. 
+	 * 
+	 * @param asyncHandler
+	 * 			the {@link AsyncHandler} which handles the results of the asynchronous request
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/asyncfailure")
+	public void asyncFailure(AsyncHandler<String> asyncHandler);
+	
+	/**
+	 * <p>Sends a request asynchronously using @{@link Asynchronous} but does not expect the 
+	 * response to be handled using an {@link AsyncHandler}.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/asyncnohandling")
+	public void asyncNoHandling();
+	
+	/**
+	 * <p>Processes a successful execution, but the user provided implementation of the callback 
+	 * {@link AsyncHandler#onSuccess(org.apache.http.HttpResponse, Object)} throws an exception.
+	 * 
+	 * @param asyncHandler
+	 * 			the {@link AsyncHandler} which is expected to throw an exception in <i>onSuccess</i>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/successcallbackerror")
+	public void asyncSuccessCallbackError(AsyncHandler<String> asyncHandler);
+	
+	/**
+	 * <p>Processes a failed execution, but the user provided implementation of the callback 
+	 * {@link AsyncHandler#onFailure(org.apache.http.HttpResponse) throws an exception.
+	 * 
+	 * @param asyncHandler
+	 * 			the {@link AsyncHandler} which is expected to throw an exception in <i>onFailure</i>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/failurecallbackerror")
+	public void asyncFailureCallbackError(AsyncHandler<String> asyncHandler);
 }
