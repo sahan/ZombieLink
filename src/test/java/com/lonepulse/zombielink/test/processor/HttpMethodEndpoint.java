@@ -32,7 +32,6 @@ import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Stateful;
 import com.lonepulse.zombielink.request.RequestMethod;
 
 /**
@@ -47,7 +46,6 @@ import com.lonepulse.zombielink.request.RequestMethod;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Stateful
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface HttpMethodEndpoint {

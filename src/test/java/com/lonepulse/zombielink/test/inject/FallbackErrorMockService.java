@@ -22,32 +22,36 @@ package com.lonepulse.zombielink.test.inject;
 
 
 import com.lonepulse.zombielink.annotation.Bite;
+import com.lonepulse.zombielink.inject.Zombie;
 
 /**
  * <p>Emulates a service on which constructor injection should be performed. It depends on an instance of 
  * {@link MockEndpoint} which is annotated with @{@link Bite}. However no constructor is exposed for injection. 
- * This service should be used to test the scenario of falling back to property injection when constructor 
- * injection fails.</p>
+ * Injection falls back to property injection, however no injectable property is discovered. This service should 
+ * be tested for an exceptional condition which <b>returns null</b> using {@link Zombie#infect(Class)}.</p>
  * 
  * @category test
- * <br><br> 
+ * <br><br>
  * @version 1.1.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class FallbackMockService {
+public class FallbackErrorMockService {
 	
 	/** 
-	 * <p>A private instance of {@link MockEndpoint} which is to be injected.
+	 * <p>A private instance of {@link MockEndpoint} which is to be injected but is missing a @{@link Bite} annotation.
 	 */
-	@Bite
 	private MockEndpoint mockEndpoint;
 	
+	
 	/**
-	 * <p>Prevents constructor injection by not declaring a constructor argument of type {@link MockEndpoint}. 
+	 * <p>Prevents constructor injection by not declaring a constructor argument of type {@link MockEndpoint}.
+	 * 
+	 * @param nonEndpointArg
+	 * 			represents a constructor argument which is not of type {@link MockEndpoint}
 	 */
 	@Bite
-	public FallbackMockService() {}
+	public FallbackErrorMockService(Void nonEndpointArg) {}
 	
 	
 	/**

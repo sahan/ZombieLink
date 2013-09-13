@@ -29,11 +29,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
@@ -57,6 +60,9 @@ public class HeaderEndpointTest {
 	
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
+	
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Bite
 	private HeaderEndpoint headerEndpoint;
@@ -101,6 +107,27 @@ public class HeaderEndpointTest {
 	}
 	
 	/**
+	 * <p>Test for {@link HeaderEndpoint#responseHeaderTypeError(Short)}.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testResponseHeaderTypeError() throws ClassNotFoundException {
+		
+		String subpath = "/responseheadertypeerror";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody("hello")));
+		
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		assertNull(headerEndpoint.responseHeaderTypeError(Short.valueOf((short)60)));
+	}
+	
+	/**
 	 * <p>Test for a request {@link Header}.
 	 * 
 	 * @since 1.2.4
@@ -118,6 +145,27 @@ public class HeaderEndpointTest {
 		
 		verify(getRequestedFor(urlMatching("/requestheader"))
 				.withHeader("User-Agent", matching(header)));
+	}
+	
+	/**
+	 * <p>Test for {@link HeaderEndpoint#requestHeaderTypeError(int)}.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testRequestHeaderTypeError() throws ClassNotFoundException {
+		
+		String subpath = "/requestheadertypeerror";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody("hello")));
+		
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		assertNull(headerEndpoint.requestHeaderTypeError(512));
 	}
 	
 	/**

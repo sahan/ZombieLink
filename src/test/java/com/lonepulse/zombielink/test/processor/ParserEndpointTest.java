@@ -25,9 +25,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayOutputStream;
 
@@ -37,6 +37,7 @@ import javax.xml.bind.Marshaller;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
@@ -61,6 +62,9 @@ public class ParserEndpointTest {
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
 	
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
+	
 	@Bite
 	private ParserEndpoint parserEndpoint;
 	
@@ -78,6 +82,30 @@ public class ParserEndpointTest {
 	}
 	
 	/**
+	 * <p>Test for {@link ParserEndpoint#responseError()}
+	 *
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable> 
+	public final void testResponseError() throws ClassNotFoundException {
+
+		String subpath = "/responseerror", body = "forbidden";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(403)
+				.withBody(body)));
+		
+		expectedException.expect((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.processor.executor.RequestExecutionException"));
+		
+		String parsedContent = parserEndpoint.responseError();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		assertNull(parsedContent);
+	}
+	
+	/**
 	 * <p>Test for {@link ResponseParsers#JSON}.
 	 * 
 	 * @since 1.2.4
@@ -85,16 +113,18 @@ public class ParserEndpointTest {
 	@Test
 	public final void testParseJson() {
 		
+		String subpath = "/json";
+		
 		User user = new User(1, "Tenzen", "Yakushiji", 300, true);
 		
-		stubFor(get(urlEqualTo("/json"))
+		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
 				.withBody(user.toString())));
 		
 		User parsedUser = parserEndpoint.parseJson();
 		
-		verify(getRequestedFor(urlMatching("/json")));
+		verify(getRequestedFor(urlEqualTo(subpath)));
 		
 		assertEquals(user.getId(), parsedUser.getId());
 		assertEquals(user.getFirstName(), parsedUser.getFirstName());
@@ -114,6 +144,8 @@ public class ParserEndpointTest {
 	@Test
 	public final void testParseXml() throws Exception {
 		
+		String subpath = "/xml";
+		
 		User user = new User(1, "Shiro", "Wretched-Egg", 17, true);
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
@@ -122,14 +154,14 @@ public class ParserEndpointTest {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		jaxbMarshaller.marshal(user, baos);
 		
-		stubFor(get(urlEqualTo("/xml"))
+		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
 				.withBody(baos.toString())));
 		
 		User parsedUser = parserEndpoint.parseXml();
 		
-		verify(getRequestedFor(urlMatching("/xml")));
+		verify(getRequestedFor(urlEqualTo(subpath)));
 		
 		assertEquals(user.getId(), parsedUser.getId());
 		assertEquals(user.getFirstName(), parsedUser.getFirstName());

@@ -26,7 +26,6 @@ import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
  * <p>An interface which represents a dummy endpoint with request definition using mock paths.
@@ -39,7 +38,6 @@ import com.lonepulse.zombielink.annotation.Stateful;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Stateful
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface PathEndpoint {
@@ -55,7 +53,7 @@ public interface PathEndpoint {
 	public String subpath();
 	
 	/**
-	 * <p>Sends a request for a RESTful subpath.
+	 * <p>Sends a request for a RESTful subpath with a path parameter.
 	 * 
 	 * @param id
 	 * 			the restful path parameter
@@ -66,4 +64,18 @@ public interface PathEndpoint {
 	 */
 	@Request(path = "/restfulsubpathwithparam/:id")
 	public String restfulSubpathWithParam(@PathParam("id") String id);
+	
+	/**
+	 * <p>Sends a request for a RESTful subpath with a path parameter 
+	 * of an illegal type.
+	 * 
+	 * @param id
+	 * 			the restful path parameter of the illegal type {@link Long}
+	 * 
+	 * @return the parsed response content, which in this case should not be available
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/restfulsubpathwithillegalparamtype/:id")
+	public String restfulSubpathWithIllegalParamType(@PathParam("id") Long id);
 }

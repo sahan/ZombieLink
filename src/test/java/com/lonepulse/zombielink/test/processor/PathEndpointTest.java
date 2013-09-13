@@ -28,10 +28,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
@@ -55,6 +58,9 @@ public class PathEndpointTest {
 	
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
+	
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Bite
 	private PathEndpoint pathEndpoint;
@@ -109,5 +115,26 @@ public class PathEndpointTest {
 		
 		assertEquals(body, pathEndpoint.restfulSubpathWithParam(id));
 		verify(getRequestedFor(urlEqualTo(url)));
+	}
+	
+	/**
+	 * <p>Test for {@link PathEndpoint#restfulSubpathWithIllegalParamType(Long)}.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testRestfulSubpathWithIllegalParamType() throws ClassNotFoundException {
+		
+		String subpath = "/restfulsubpathwithillegalparamtype/\\S+", body = "hello";
+		
+		stubFor(get(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(body)));
+		
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		assertNull(pathEndpoint.restfulSubpathWithIllegalParamType(1L));
 	}
 }

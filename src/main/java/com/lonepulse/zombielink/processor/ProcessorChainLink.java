@@ -104,6 +104,15 @@ public final class ProcessorChainLink<RESULT, FAILURE extends Throwable> {
 	 */
 	public ProcessorChainLink<RESULT, FAILURE> setSuccessor(ProcessorChainLink<RESULT, FAILURE> successor) {
 		
+		if(successor == null) {
+			
+			StringBuilder errorContext = new StringBuilder("The ")
+			.append(ProcessorChainLink.class.getName())
+			.append(" which is designated to be the successor cannot be <null>");
+			
+			throw new IllegalStateException(errorContext.toString());
+		}
+		
 		return (this.successor = successor);
 	}
 	

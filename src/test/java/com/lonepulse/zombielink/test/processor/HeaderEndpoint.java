@@ -29,7 +29,6 @@ import com.lonepulse.zombielink.annotation.HeaderSet;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
  * <p>An interface which represents a dummy endpoint with mock endpoint method definitions 
@@ -43,7 +42,6 @@ import com.lonepulse.zombielink.annotation.Stateful;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Stateful
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface HeaderEndpoint {
@@ -52,15 +50,29 @@ public interface HeaderEndpoint {
 	 * <p>Retrieves a response header from a request using {@link Header}.
 	 * 
 	 * @param server
-	 * 			the {@link StringBuilder} which is annotated with {@code @Header} to 
-	 * 			treat it as an in-out variable for retrieving the response header
+	 * 			the {@link StringBuilder} which is annotated with {@code @Header} 
+	 * 			to treat it as an in-out variable for retrieving the response header
 	 * 
 	 * @return a response whose header was retrieved 
 	 * 
 	 * @since 1.2.4
 	 */
 	@Request(path = "/responseheader")
-	public String responseHeader(@Header("Server") StringBuilder server); 
+	public String responseHeader(@Header("Server") StringBuilder server);
+	
+	/**
+	 * <p>A mock request which retrieves a header using an illegal type. This invocation 
+	 * should be unsuccessful and should result in an error. 
+	 * 
+	 * @param retryAfter
+	 * 			a response header of an illegal type {@link Short}
+	 * 
+	 * @return the parsed response content, which in this case should not be available
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/responseheadertypeerror")
+	public String responseHeaderTypeError(@Header("Retry-After") Short retryAfter);
 	
 	/**
 	 * <p>A mock request which inserts a request header.
@@ -74,6 +86,20 @@ public interface HeaderEndpoint {
 	 */
 	@Request(path = "/requestheader")
 	public String requestHeader(@Header("User-Agent") StringBuilder userAgent);
+	
+	/**
+	 * <p>A mock request which inserts a header that of an illegal type. This invocation 
+	 * should be unsuccessful and should result in an error. 
+	 * 
+	 * @param contentLength
+	 * 			a variable header of the illegal type {@code int} 
+	 * 
+	 * @return the parsed response content, which in this case should not be available
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/requestheadertypeerror")
+	public String requestHeaderTypeError(@Header("Content-Length") int contentLength);
 	
 	/**
 	 * <p>A mock request which inserts a constant set of headers.

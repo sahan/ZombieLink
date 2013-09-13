@@ -26,6 +26,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.lonepulse.zombielink.processor.ChainCreationException;
+import com.lonepulse.zombielink.processor.Processor;
+import com.lonepulse.zombielink.processor.ProcessorChainFactory;
+import com.lonepulse.zombielink.processor.ProcessorChainLink;
 import com.lonepulse.zombielink.processor.Processors;
 import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
@@ -91,7 +95,7 @@ public class ProcessorInvocationTest {
 	public final void testResponseArgumentCount() {
 		
 		expectedException.expectCause(Is.isA(IllegalArgumentException.class));
-		Processors.REQUEST.run(new Object());
+		Processors.RESPONSE.run(new Object());
 	}
 	
 	/**
@@ -103,6 +107,38 @@ public class ProcessorInvocationTest {
 	public final void testResponseArgumentProxyConfigType() {
 		
 		expectedException.expectCause(Is.isA(IllegalArgumentException.class));
-		Processors.REQUEST.run(new HttpGet(), new Object());
+		Processors.RESPONSE.run(new HttpGet(), new Object());
+	}
+	
+	/**
+	 * <p>Tests processor-chain construction using a {@link ProcessorChainFactory} by supplying 
+	 * a {@code null} {@link ProcessorChainLink} root. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //an intentional array of NULLs
+	public final void testProcessorChainFactoryRoot() {
+		
+		expectedException.expect(IllegalArgumentException.class);
+		new ProcessorChainFactory<Void, Throwable>().newInstance(null, null, null);
+	}
+	
+	/**
+	 * <p><p>Tests processor-chain construction using a {@link ProcessorChainFactory} by supplying 
+	 * a {@code null} {@link ProcessorChainLink} successor. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //an intentional array of NULLs
+	public final void testProcessorChainFactorySuccessor() {
+		
+		expectedException.expect(ChainCreationException.class);
+		new ProcessorChainFactory<Void, Throwable>().newInstance(new Processor<Void, Throwable>() {
+			
+			@Override
+			public Void run(Object... args) throws Throwable { 
+				return null; 
+			}
+		}, null, null);
 	}
 }

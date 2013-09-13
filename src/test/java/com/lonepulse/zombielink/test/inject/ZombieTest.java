@@ -21,6 +21,7 @@ package com.lonepulse.zombielink.test.inject;
  */
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -118,5 +119,14 @@ public class ZombieTest {
 	public final void testFallbackInjection() {
 		
 		assertNotNull(fallbackInjectedService.getMockEndpoint());
+	}
+	
+	/**
+	 * Test method for a fallback error from constructor to property injection.
+	 */
+	@Test
+	public final void testFallbackErrorInjection() {
+		
+		assertNull(Zombie.infect(FallbackErrorMockService.class));
 	}
 }
