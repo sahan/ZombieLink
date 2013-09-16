@@ -88,35 +88,25 @@ class HeaderProcessor extends AbstractResponseProcessor {
 				
 				for (Map.Entry<String, Object> header : headers) {
 					
-					name = header.getKey();
-					
-					if(!(header.getValue() instanceof StringBuilder)) {
+					if(header.getValue() instanceof StringBuilder) {
 						
-						StringBuilder errorContext = new StringBuilder()
-						.append("Dynamic header values can only be of type ")
-						.append(StringBuilder.class.getName())
-						.append(". Please consider providing an instance of StringBuilder for the header <")
-						.append(header.getKey())
-						.append("> and query it after request execution to retrieve the response header-value. ");
+						name = header.getKey();
+						value = (StringBuilder)header.getValue();
 						
-						throw new IllegalArgumentException(errorContext.toString());
-					}
-					
-					value = (StringBuilder)header.getValue();
-					
-					if(value == null) {
+						if(value == null || value.equals("")) {
+							
+							continue; //skip headers which are omitted for the current invocation
+						}
 						
-						continue; //skip headers which are omitted for the current invocation
-					}
-					
-					org.apache.http.Header[] responseHeaders = httpResponse.getHeaders(name);
-					
-					if(responseHeaders != null && responseHeaders.length > 0) {
-					
-						String responseHeaderValue = responseHeaders[0].getValue();
-						value.replace(0, value.length(), responseHeaderValue == null? "" :responseHeaderValue);
+						org.apache.http.Header[] responseHeaders = httpResponse.getHeaders(name);
 						
-						httpResponse.removeHeader(responseHeaders[0]); //remaining headers (equally named) processed if in-out params available
+						if(responseHeaders != null && responseHeaders.length > 0) {
+						
+							String responseHeaderValue = responseHeaders[0].getValue();
+							value.replace(0, value.length(), responseHeaderValue == null? "" :responseHeaderValue);
+							
+							httpResponse.removeHeader(responseHeaders[0]); //remaining headers (equally named) processed if in-out params available
+						}
 					}
 				}
 			}

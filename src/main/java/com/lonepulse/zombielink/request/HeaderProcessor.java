@@ -99,11 +99,13 @@ class HeaderProcessor extends AbstractRequestProcessor {
 				if(!(value instanceof CharSequence)) {
 					
 					StringBuilder errorContext = new StringBuilder()
-					.append("Dynamic header values can only be of type ")
+					.append("Header values can only be of type ")
 					.append(CharSequence.class.getName())
 					.append(". Please consider using an implementation of CharSequence for the header <")
 					.append(header.getKey())
-					.append("> and providing a meaningful toString() implementation for the header-value. ");
+					.append("> and providing a meaningful toString() implementation for the header-value. ")
+					.append("Furthermore, response headers should be of the specialized type ")
+					.append(StringBuilder.class.getName());
 					
 					throw new IllegalArgumentException(errorContext.toString());
 				}

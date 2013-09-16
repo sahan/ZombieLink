@@ -69,7 +69,7 @@ public class HeaderEndpointTest {
 	
 	
 	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #headerEndpoint}.
+	 * <p>Sets up the test case by performing endpoint injection on {@link #headerEndpoint}.</p>
 	 * 
 	 * @throws java.lang.Exception
 	 * 			if the test case setup or endpoint injection failed
@@ -81,7 +81,67 @@ public class HeaderEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests response header retrieval with {@link Header}. 
+	 * <p>Test for a request {@link Header}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testRequestHeader() {
+		
+		String subpath = "/requestheader", header = "mobile";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		headerEndpoint.requestHeader(header);
+		
+		verify(getRequestedFor(urlMatching(subpath))
+			   .withHeader("User-Agent", matching(header)));
+	}
+	
+	/**
+	 * <p>Test for {@link HeaderEndpoint#requestHeader(String)} with a <i>skipped header</i>.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testRequestHeaderSkip() {
+		
+		String subpath = "/requestheaderskip";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody("hello")));
+		
+		headerEndpoint.requestHeaderSkip(null);
+		verify(getRequestedFor(urlMatching(subpath)));
+	}
+	
+	/**
+	 * <p>Test for {@link HeaderEndpoint#requestHeaderTypeError(int)}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
+	public final void testRequestHeaderTypeError() throws ClassNotFoundException {
+		
+		String subpath = "/requestheadertypeerror";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody("hello")));
+		
+		expectedException.expectCause(Is.isA((Class<Throwable>)
+			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		
+		assertNull(headerEndpoint.requestHeaderTypeError(512));
+	}
+
+	/**
+	 * <p>Tests response header retrieval with {@link Header}.</p> 
 	 * 
 	 * @since 1.2.4
 	 */
@@ -107,82 +167,44 @@ public class HeaderEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link HeaderEndpoint#responseHeaderTypeError(Short)}.
-	 * 
-	 * @since 1.2.4
-	 */
-	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
-	public final void testResponseHeaderTypeError() throws ClassNotFoundException {
-		
-		String subpath = "/responseheadertypeerror";
-		
-		stubFor(get(urlEqualTo(subpath))
-				.willReturn(aResponse()
-				.withStatus(200)
-				.withBody("hello")));
-		
-		expectedException.expectCause(Is.isA((Class<Throwable>)
-			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
-		
-		assertNull(headerEndpoint.responseHeaderTypeError(Short.valueOf((short)60)));
-	}
-	
-	/**
-	 * <p>Test for a request {@link Header}.
+	 * <p>Test for {@link HeaderEndpoint#requestHeader(String)} with a <i>skipped header</i>.</p>
 	 * 
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testRequestHeader() {
+	public final void testResponseHeaderSkip() {
 		
-		stubFor(get(urlEqualTo("/requestheader"))
-				.willReturn(aResponse()
-				.withStatus(200)));
+		String subpath = "/responseheaderskip", body = "hello",
+			   headerValue = "Wed, 01 Jan 2014 10:00:00 GMT";
 		
-		String header = "mobile";
-		
-		headerEndpoint.requestHeader(new StringBuilder(header));
-		
-		verify(getRequestedFor(urlMatching("/requestheader"))
-				.withHeader("User-Agent", matching(header)));
-	}
-	
-	/**
-	 * <p>Test for {@link HeaderEndpoint#requestHeaderTypeError(int)}.
-	 * 
-	 * @since 1.2.4
-	 */
-	@Test @SuppressWarnings("unchecked") //safe cast to Class<Throwable>
-	public final void testRequestHeaderTypeError() throws ClassNotFoundException {
-		
-		String subpath = "/requestheadertypeerror";
-		
-		stubFor(get(urlEqualTo(subpath))
+		stubFor(get(urlMatching(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
-				.withBody("hello")));
+				.withBody(body)));
 		
-		expectedException.expectCause(Is.isA((Class<Throwable>)
-			Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
+		assertEquals(headerEndpoint.responseHeaderSkip(headerValue), body);
 		
-		assertNull(headerEndpoint.requestHeaderTypeError(512));
+		verify(getRequestedFor(urlMatching(subpath))
+			   .withHeader("Expires", matching(headerValue)));
 	}
 	
 	/**
-	 * <p>Test for {@link HeaderSet} and {@link HeaderSet.Header}.
+	 * <p>Test for {@link HeaderSet} and {@link HeaderSet.Header}.</p>
 	 * 
 	 * @since 1.2.4
 	 */
 	@Test
 	public final void testHeaderSet() {
 		
-		stubFor(get(urlEqualTo("/headerset"))
+		String subpath = "/headerset";
+		
+		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)));
 		
 		headerEndpoint.headerSet();
 		
-		verify(getRequestedFor(urlMatching("/headerset"))
+		verify(getRequestedFor(urlMatching(subpath))
 				.withHeader("Accept", matching("application/json"))
 				.withHeader("Accept-Charset", matching("utf-8")));
 	}
