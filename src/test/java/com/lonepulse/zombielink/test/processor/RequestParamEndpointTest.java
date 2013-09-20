@@ -204,14 +204,14 @@ public class RequestParamEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a {@link Request} with a {@link File} entity.
+	 * <p>Test for a {@link Request} with a <b>buffered</b> entity.
 	 * 
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testBasicHttpEntity() throws ParseException, IOException {
+	public final void testBufferedHttpEntity() throws ParseException, IOException {
 		
-		String subpath = "/basichttpentity";
+		String subpath = "/bufferedhttpentity";
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream inputStream = classLoader.getResourceAsStream("LICENSE.txt");
@@ -223,9 +223,8 @@ public class RequestParamEndpointTest {
 				.willReturn(aResponse()
 				.withStatus(200)));
 		
-		requestEndpoint.basicHttpEntity(inputStream);
+		requestEndpoint.bufferedHttpEntity(inputStream);
 		
-		verify(putRequestedFor(urlEqualTo(subpath)));
 		verify(putRequestedFor(urlEqualTo(subpath))
 			   .withRequestBody(equalTo(EntityUtils.toString(bhe))));
 	}
