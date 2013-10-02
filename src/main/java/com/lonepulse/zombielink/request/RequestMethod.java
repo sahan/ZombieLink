@@ -31,8 +31,8 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**
@@ -44,6 +44,8 @@ import com.lonepulse.zombielink.util.Resolver;
  * @since 1.1.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * 
+ * TODO separate public API from resolution and translation (prefer com.lonepulse.zombielink.annotation.Request.RequestMethod)
  */
 public enum RequestMethod {
 

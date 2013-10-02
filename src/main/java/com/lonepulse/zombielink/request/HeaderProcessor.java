@@ -26,9 +26,9 @@ import java.util.Map;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.HeaderSet;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This is a concrete implementation of {@link RequestProcessor} which populates the <i>request-headers</i> 

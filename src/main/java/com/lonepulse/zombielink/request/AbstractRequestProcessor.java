@@ -26,8 +26,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.processor.Processor;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This is an abstract implementation of {@link Processor} which specifies a template for processing the 
@@ -49,7 +49,7 @@ import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class AbstractRequestProcessor implements Processor<Void, RequestProcessorException> {
+abstract class AbstractRequestProcessor implements Processor<Void, RequestProcessorException> {
 
 	
 	/**

@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.response;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 
 /**
  * <p>This interface policy of a <i>response parser</i>. i.e. the unit which 

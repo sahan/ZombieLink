@@ -20,8 +20,8 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Entity;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This runtime exception is thrown when an @{@link Entity} annotation failed to be discovered on the 

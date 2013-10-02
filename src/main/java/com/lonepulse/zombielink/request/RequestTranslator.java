@@ -24,7 +24,7 @@ package com.lonepulse.zombielink.request;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 
 /**
  * <p>This contract defines the services for a strategy which creates the {@link HttpRequest} base 

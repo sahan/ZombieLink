@@ -22,8 +22,8 @@ package com.lonepulse.zombielink.request;
 
 import org.apache.http.HttpRequest;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This runtime exception is thrown due to an unrecoverable error which occurred when 

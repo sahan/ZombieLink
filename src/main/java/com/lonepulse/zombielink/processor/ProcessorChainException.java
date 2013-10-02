@@ -32,7 +32,7 @@ import com.lonepulse.zombielink.ZombieLinkRuntimeException;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ProcessorChainException extends ZombieLinkRuntimeException {
+class ProcessorChainException extends ZombieLinkRuntimeException {
 	
 	
 	private static final long serialVersionUID = -6017337334495169769L;

@@ -26,8 +26,8 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This is a concrete implementation of {@link ResponseProcessor} which retrieves the <i>response-headers</i> 

@@ -29,9 +29,7 @@ import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
-import com.lonepulse.zombielink.request.AbstractRequestProcessor;
 import com.lonepulse.zombielink.request.RequestProcessorChain;
-import com.lonepulse.zombielink.response.AbstractResponseProcessor;
 import com.lonepulse.zombielink.response.ResponseProcessorChain;
 
 /**
@@ -51,10 +49,10 @@ public enum Processors {
 	
 	/**
 	 * <p>This is a concrete implementation of {@link AbstractProcessorChain} which creates a sequentially executed 
-	 * series of {@link AbstractRequestProcessor}s responsible for building the {@link HttpRequest} for a request 
+	 * series of <b>request processors</b> responsible for building the {@link HttpRequest} for a request 
 	 * invocation.</p>
 	 * 
-	 * <p>This chain consists of the {@link AbstractRequestProcessor}s listed below in the given order:  
+	 * <p>This chain consists of the <b>request processors</b> listed below in the given order:  
 	 * 
 	 * <ol>
 	 * 	<li>{@link UriProcessor} - builds the complete URI from the root-path and the sub-path</li>
@@ -80,10 +78,10 @@ public enum Processors {
 	
 	/**
 	 * <p>This is a concrete implementation of {@link AbstractProcessorChain} which creates a sequentially executed 
-	 * series of {@link AbstractResponseProcessor}s responsible for handling the {@link HttpResponse} which was returned 
+	 * series of <b>response processors</b> responsible for handling the {@link HttpResponse} which was returned 
 	 * for an successful request invocation.</p>
 	 * 
-	 * <p>This chain consists of the {@link AbstractResponseProcessor}s listed below in the given order:  
+	 * <p>This chain consists of the <b>response processors</b> listed below in the given order:  
 	 * 
 	 * <ol>
 	 * 	<li>{@link HeaderProcessor} - retrieves the response headers and makes them available</li>

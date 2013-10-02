@@ -24,8 +24,8 @@ import java.util.Arrays;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 
 /**
  * <p>This runtime exception is thrown when an HTTP {@link RequestProcessor} fails to execute successfully 

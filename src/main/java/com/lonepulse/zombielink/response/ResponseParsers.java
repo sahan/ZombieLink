@@ -23,8 +23,8 @@ package com.lonepulse.zombielink.response;
 
 import org.apache.http.HttpResponse;
 
+import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
-import com.lonepulse.zombielink.processor.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**
