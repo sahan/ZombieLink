@@ -1,11 +1,12 @@
 /**
- * <p>Contains the <i>core</i> contracts and implementations which common to all modules.
+ * <p>Contains the set of classes which allows an endpoint interface 
+ * implementation to be <i>injected</i> into a service.</p>
  * 
  * @since 1.1.1
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L

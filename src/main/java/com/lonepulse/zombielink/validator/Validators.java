@@ -21,8 +21,8 @@ package com.lonepulse.zombielink.validator;
  */
 
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.executor.RequestExecutor;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>Exposes all available {@link Validator}s and delegates communication. 

@@ -35,8 +35,8 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Stateful;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.processor.Processors;
 import com.lonepulse.zombielink.response.AsyncHandler;
 

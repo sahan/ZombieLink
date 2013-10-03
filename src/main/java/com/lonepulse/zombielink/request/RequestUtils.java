@@ -41,7 +41,6 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.SerializableEntity;
 import org.apache.http.entity.StringEntity;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.Header;
@@ -49,6 +48,7 @@ import com.lonepulse.zombielink.annotation.HeaderSet;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>This utility class offers some common operations which are used in building requests - most commonly 

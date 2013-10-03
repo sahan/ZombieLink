@@ -26,7 +26,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.processor.Processor;
 
 /**

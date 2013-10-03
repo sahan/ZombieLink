@@ -21,7 +21,6 @@ package com.lonepulse.zombielink.inject;
  */
 
 
-import com.lonepulse.zombielink.Zombie;
 import com.lonepulse.zombielink.annotation.Bite;
 
 /**

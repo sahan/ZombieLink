@@ -26,10 +26,10 @@ import java.lang.reflect.Method;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>This is a concrete implementation of {@link ResponseProcessor} which retrieves the {@link HttpEntity} 

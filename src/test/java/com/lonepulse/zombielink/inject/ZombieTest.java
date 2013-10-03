@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.lonepulse.zombielink.Zombie;
 
 
 /**
@@ -84,7 +83,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.Zombie#infect(Object)}.
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(Object)}.
 	 */
 	@Test
 	public final void testPropertyInjection() {
@@ -98,7 +97,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.Zombie#infect(java.lang.Class)}.
+	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(java.lang.Class)}.
 	 */
 	@Test
 	public final void testConstructorInstantiation() {

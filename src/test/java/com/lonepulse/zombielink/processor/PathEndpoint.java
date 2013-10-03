@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.processor;
 
 /*
  * #%L
@@ -24,12 +24,11 @@ package com.lonepulse.zombielink;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
+import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.model.User;
 
 /**
- * <p>An interface which represents a dummy endpoint with request method definitions 
- * that use various pre-fabricated and custom response parsers.
+ * <p>An interface which represents a dummy endpoint with request definition using mock paths.
  * 
  * @category test
  * <br><br> 
@@ -41,38 +40,42 @@ import com.lonepulse.zombielink.model.User;
  */
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
-public interface ParserEndpoint {
+public interface PathEndpoint {
 	
 	/**
-	 * <p>A mock request which receives a response with a code that signals a failure. 
-	 * Expects a domain specific exception to be thrown rather than the parsed result.  
-	 *
+	 * <p>Sends a request with a subpath.
+	 * 
+	 * @return a response for the request with a subpath
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/subpath")
+	public String subpath();
+	
+	/**
+	 * <p>Sends a request for a RESTful subpath with a path parameter.
+	 * 
+	 * @param id
+	 * 			the restful path parameter
+	 * 
+	 * @return the response for the RESTful request
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/restfulsubpathwithparam/:id")
+	public String restfulSubpathWithParam(@PathParam("id") String id);
+	
+	/**
+	 * <p>Sends a request for a RESTful subpath with a path parameter 
+	 * of an illegal type.
+	 * 
+	 * @param id
+	 * 			the restful path parameter of the illegal type {@link Long}
+	 * 
 	 * @return the parsed response content, which in this case should not be available
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/responseerror")
-	public String responseError();
-	
-	/**
-	 * <p>A mock request which receives a JSON response that is parsed to it model.
-	 * 
-	 * @return the parsed response entity
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/json")
-	@Parser(ParserType.JSON) 
-	public User parseJson();
-	
-	/**
-	 * <p>A mock request which receives an XML response that is parsed to it model.
-	 * 
-	 * @return the parsed response entity
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/xml")
-	@Parser(ParserType.XML) 
-	public User parseXml();
+	@Request(path = "/restfulsubpathwithillegalparamtype/:id")
+	public String restfulSubpathWithIllegalParamType(@PathParam("id") Long id);
 }

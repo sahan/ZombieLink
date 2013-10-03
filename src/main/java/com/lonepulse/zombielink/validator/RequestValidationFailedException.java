@@ -1,6 +1,6 @@
 package com.lonepulse.zombielink.validator;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 
 /*

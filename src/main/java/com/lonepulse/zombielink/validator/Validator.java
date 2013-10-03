@@ -23,8 +23,8 @@ package com.lonepulse.zombielink.validator;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.executor.HttpClientContract;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>Specifies the contract for validating endpoints and their 

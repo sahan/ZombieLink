@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.processor;
 
 /*
  * #%L
@@ -40,9 +40,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.lonepulse.zombielink.Zombie;
 import com.lonepulse.zombielink.annotation.Asynchronous;
 import com.lonepulse.zombielink.annotation.Bite;
+import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**

@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L
@@ -26,8 +26,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.validator.Validators;
 
 /**

@@ -23,8 +23,8 @@ package com.lonepulse.zombielink.validator;
 
 import java.lang.reflect.Method;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>A concrete implementation of {@link RequestValidator} which validates a request definition 

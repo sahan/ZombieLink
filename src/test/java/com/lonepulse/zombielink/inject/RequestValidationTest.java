@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L
@@ -26,11 +26,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.lonepulse.zombielink.EndpointProxyFactory;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.inject.EndpointProxyFactory;
 
 /**
  * <p>Performs unit testing for <b>request validation</b>.

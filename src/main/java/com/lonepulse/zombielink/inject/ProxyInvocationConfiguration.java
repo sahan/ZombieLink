@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L
@@ -22,8 +22,6 @@ package com.lonepulse.zombielink;
 
 import java.lang.reflect.Method;
 import java.net.URI;
-
-import com.lonepulse.zombielink.annotation.Endpoint;
 
 /**
  * <p>This is a wrapper class which encompasses the <i>configuration</i> of a 
@@ -119,7 +117,7 @@ public final class ProxyInvocationConfiguration {
 	
 	
 	/**
-	 * <p>The {@link Class} of the interface which model an {@link Endpoint}.
+	 * <p>The {@link Class} of the interface which model an endpoint.
 	 */
 	private final Class<? extends Object> endpointClass;
 	

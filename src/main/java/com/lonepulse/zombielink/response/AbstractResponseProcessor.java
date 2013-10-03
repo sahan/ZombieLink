@@ -24,7 +24,7 @@ package com.lonepulse.zombielink.response;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.processor.Processor;
 
 /**

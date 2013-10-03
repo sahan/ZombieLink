@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L
@@ -21,6 +21,8 @@ package com.lonepulse.zombielink;
  */
 
 import java.lang.reflect.Field;
+
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 
 
 /**

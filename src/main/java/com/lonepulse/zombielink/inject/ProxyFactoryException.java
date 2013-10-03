@@ -1,4 +1,6 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.inject;
+
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 
 /*
  * #%L

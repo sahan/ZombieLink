@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.PathParam;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>This is a concrete implementation of {@link RequestProcessor} which discovers <i>path parameters</i> 

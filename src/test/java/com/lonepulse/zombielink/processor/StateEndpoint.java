@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.processor;
 
 /*
  * #%L
@@ -21,14 +21,18 @@ package com.lonepulse.zombielink;
  */
 
 
+import org.apache.http.HttpResponse;
+
 import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
-import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
- * <p>An interface which represents a dummy endpoint with request definition using mock paths.
+ * <p>An interface which represents a dummy endpoint with request method definitions 
+ * which use cookies.
  * 
  * @category test
  * <br><br> 
@@ -38,44 +42,21 @@ import com.lonepulse.zombielink.annotation.Request;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
+@Stateful
 @Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
-public interface PathEndpoint {
+public interface StateEndpoint {
 	
 	/**
-	 * <p>Sends a request with a subpath.
+	 * <p>A mock request which initiates a stateful connection.
 	 * 
-	 * @return a response for the request with a subpath
+	 * @param cookieHeader
+	 * 			a response header which the server sets with a cookie
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/subpath")
-	public String subpath();
-	
-	/**
-	 * <p>Sends a request for a RESTful subpath with a path parameter.
-	 * 
-	 * @param id
-	 * 			the restful path parameter
-	 * 
-	 * @return the response for the RESTful request
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/restfulsubpathwithparam/:id")
-	public String restfulSubpathWithParam(@PathParam("id") String id);
-	
-	/**
-	 * <p>Sends a request for a RESTful subpath with a path parameter 
-	 * of an illegal type.
-	 * 
-	 * @param id
-	 * 			the restful path parameter of the illegal type {@link Long}
-	 * 
-	 * @return the parsed response content, which in this case should not be available
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/restfulsubpathwithillegalparamtype/:id")
-	public String restfulSubpathWithIllegalParamType(@PathParam("id") Long id);
+	@Request(path = "/stateful")
+	public String stateful(@Header("Set-Cookie") StringBuilder cookieHeader);
 }

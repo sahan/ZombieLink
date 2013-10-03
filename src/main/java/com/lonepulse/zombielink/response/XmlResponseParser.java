@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>This is an extension of {@link AbstractResponseParser} which allows an <b>XML response entity</b> 

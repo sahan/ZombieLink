@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink;
+package com.lonepulse.zombielink.processor;
 
 /*
  * #%L
@@ -51,10 +51,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.lonepulse.zombielink.Zombie;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
 
 /**

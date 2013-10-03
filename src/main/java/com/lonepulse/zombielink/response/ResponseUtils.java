@@ -28,8 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.lonepulse.zombielink.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.annotation.Header;
+import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
  * <p>This utility class offers some common operations which are used in parsing responses using the information 
