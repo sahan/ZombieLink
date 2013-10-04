@@ -26,17 +26,87 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
+
 import com.lonepulse.zombielink.annotation.Bite;
+import com.lonepulse.zombielink.annotation.Endpoint;
 
 /**
- * <p>Injects instance variables with the appropriate endpoint proxy. This hides 
- * the use of the {@link EndpointProxyFactory} and allows for a easy code integration.
- * 
- * @version 1.1.2
+ * <p>An animated corpse which spreads the {@link Endpoint} infection via a {@link Bite}. Used for <b>injecting</b> 
+ * concrete implementations of endpoint interface definitions. Place an @{@link Bite} annotation on all instance 
+ * properties which are endpoints and invoke {@link Zombie#infect(Object)} or {@link Zombie#infect(Class)}.</p> 
+ *  
+ * @version 1.2.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.1.1
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public final class Zombie {
+	
+	/**
+	 * <p>The <b>default configuration</b> which is used for endpoint request execution. The configured properties 
+	 * pertain to the <a href="http://hc.apache.org">Apache HTTP Components</a> library which provides the foundation 
+	 * for network communication.</p>
+	 * 
+	 * <p>Configurations can be revised for each {@link Endpoint} using <b>@Configuration</b> by specifying the 
+	 * {@link Class} of a {@link Configuration} extension. Simply override the required template methods and provide 
+	 * a <b>new instance</b> of the desired property. For example, override {@link Configuration#httpClient()} to 
+	 * return a custom {@link HttpClient} which might be configured with alternative {@link Scheme}s, timeouts ..etc.</p>
+	 * 
+	 * <p>For more information on configuring your own instance of {@link HttpClient} refer the 
+	 * <a href="http://hc.apache.org/httpcomponents-client-4.2.x/tutorial/html/index.html">Apache HC Tutorial</a>.</p>
+	 * 
+	 * <p><b>Note</b> that all extensions must expose a default non-parameterized constructor.</p>
+	 *  
+	 * @version 1.1.0
+	 * <br><br>
+	 * @since 1.2.4
+	 * <br><br>
+	 * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+	 */
+	public static abstract class Configuration {
+		
+		
+		/**
+		 * <p>The <i>out-of-the-box</i> configuration for an instance of {@link HttpClient} which will be used for 
+		 * executing all endpoint requests.</p> 
+		 * 
+		 * <p>It registers two {@link Scheme}s:</p>
+		 * 
+		 * <ol>
+		 * 	<li><b>HTTP</b> on port <b>80</b> using sockets from {@link PlainSocketFactory#getSocketFactory}</li>
+		 * 	<li><b>HTTPS</b> on port <b>443</b> using sockets from {@link SSLSocketFactory#getSocketFactory}</li>
+		 * </ol>
+		 * 
+		 * <p>It uses a {@link PoolingClientConnectionManager} with the maximum number of client connections 
+		 * per route set to <b>4</b> and the total set to <b>128</b>.</p>
+		 *
+		 * @return the instance of {@link HttpClient} which will be used for request execution
+		 * <br><br>
+		 * @since 1.2.4
+		 * <br><br>
+		 * @see <a href="http://hc.apache.org/httpcomponents-client-4.2.x/tutorial/html/index.html">Apache HC Tutorial</a>
+		 */
+		public HttpClient httpClient() {
+			
+			SchemeRegistry schemeRegistry = new SchemeRegistry();
+			schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+			schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+			
+			PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
+			pccm.setMaxTotal(128);
+			pccm.setDefaultMaxPerRoute(4);
+			
+			return new DefaultHttpClient(pccm);
+		}
+	}
 	
 	
 	/**

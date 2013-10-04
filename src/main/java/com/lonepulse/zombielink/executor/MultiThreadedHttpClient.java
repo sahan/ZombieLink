@@ -26,13 +26,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
+
+import com.lonepulse.zombielink.inject.Zombie;
 
 /**
  * <p>A concrete implementation of {@link HttpClient} which provides network 
@@ -75,20 +73,12 @@ enum MultiThreadedHttpClient implements HttpClientContract {
 	 */
 	private MultiThreadedHttpClient() {
 		
-		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-		schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
-		
-		PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
-		pccm.setMaxTotal(256); //Max. number of client connections pooled
-		pccm.setDefaultMaxPerRoute(24); //Max connections per route
-		
-		this.httpClient = new DefaultHttpClient(pccm);
+		this.httpClient = new Zombie.Configuration(){}.httpClient();
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			
 			@Override
-			public void run() { //HttpClient considered to be "out of scope" only on VM exit
+			public void run() {
 				
 				httpClient.getConnectionManager().shutdown();
 			}
