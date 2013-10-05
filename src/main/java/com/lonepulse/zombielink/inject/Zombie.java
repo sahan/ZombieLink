@@ -36,6 +36,7 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.executor.HttpClientDirectory;
 
 /**
  * <p>An animated corpse which spreads the {@link Endpoint} infection via a {@link Bite}. Used for <b>injecting</b> 
@@ -171,9 +172,7 @@ public final class Zombie {
 				if(field.isAnnotationPresent(Bite.class)) {
 					
 					endpointInterface = field.getType();
-					
-					Object proxyInstance = EndpointDirectory.INSTANCE.put(endpointInterface,
-										   		EndpointProxyFactory.INSTANCE.create(endpointInterface));
+					Object proxyInstance = Zombie.createAndRegisterProxy(endpointInterface);
 					
 					try { //1.Simple Property Injection 
 						
@@ -262,10 +261,8 @@ public final class Zombie {
 					try {
 
 						endpointInterface = constructorParameters[0];
-						
-						Object proxyInstance = EndpointDirectory.INSTANCE.put(endpointInterface, 
-													EndpointProxyFactory.INSTANCE.create(endpointInterface));
-
+						Object proxyInstance = Zombie.createAndRegisterProxy(endpointInterface);
+								
 						T instance = injectee.cast(constructor.newInstance(proxyInstance));
 						
 						Zombie.infect(instance); //constructor injection complete; now perform property injection 
@@ -316,5 +313,26 @@ public final class Zombie {
 			
 			return null;
 		}
+	}
+	
+	private static Object createAndRegisterProxy(Class<?> endpointClass) throws InstantiationException, IllegalAccessException {
+		
+		Object proxyInstance = EndpointProxyFactory.INSTANCE.create(endpointClass); 
+				
+		EndpointDirectory.INSTANCE.put(endpointClass, proxyInstance);
+
+		if(endpointClass.isAnnotationPresent(com.lonepulse.zombielink.annotation.Configuration.class)) {
+			
+			HttpClient httpClient = endpointClass.getAnnotation(
+				com.lonepulse.zombielink.annotation.Configuration.class).value().newInstance().httpClient();
+			
+			HttpClientDirectory.INSTANCE.put(endpointClass, httpClient);
+		}
+		else {
+			
+			HttpClientDirectory.INSTANCE.put(endpointClass, HttpClientDirectory.DEFAULT);
+		}
+		
+		return proxyInstance;
 	}
 }

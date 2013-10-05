@@ -56,11 +56,11 @@ class BasicRequestExecutor implements RequestExecutor {
 			if(endpointClass.isAnnotationPresent(Stateful.class)) {
 				
 				HttpContext httpContext = HttpContextDirectory.INSTANCE.get(endpointClass);
-				httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase, httpContext);
+				httpResponse = HttpClientDirectory.INSTANCE.get(endpointClass).execute(httpRequestBase, httpContext);
 			}
 			else {
 				
-				httpResponse = MultiThreadedHttpClient.INSTANCE.executeRequest(httpRequestBase);
+				httpResponse = HttpClientDirectory.INSTANCE.get(endpointClass).execute(httpRequestBase);
 			}
 			
 			int statusCode = httpResponse.getStatusLine().getStatusCode();

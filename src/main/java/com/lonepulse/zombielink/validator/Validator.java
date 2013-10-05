@@ -21,9 +21,9 @@ package com.lonepulse.zombielink.validator;
  */
 
 
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.executor.HttpClientContract;
 import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 
 /**
@@ -38,7 +38,7 @@ public interface Validator<Result extends Object> {
 
 	/**
 	 * <p>Executes the given {@link HttpRequestBase} using a 
-	 * suitable {@link HttpClientContract} implementation.
+	 * suitable {@link HttpClient} implementation.
 	 * 
 	 * @param config
 	 * 			the {@link ProxyInvocationConfiguration} which 
