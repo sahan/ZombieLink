@@ -29,14 +29,13 @@ import java.util.logging.Logger;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.executor.HttpClientDirectory;
+import com.lonepulse.zombielink.executor.ConfigurationFailedException;
+import com.lonepulse.zombielink.executor.RequestExecutors;
 
 /**
  * <p>An animated corpse which spreads the {@link Endpoint} infection via a {@link Bite}. Used for <b>injecting</b> 
@@ -75,6 +74,9 @@ public final class Zombie {
 	public static abstract class Configuration {
 		
 		
+		private static final Configuration DEFAULT = RequestExecutors.CONFIGURATION.getDefault();
+		
+		
 		/**
 		 * <p>The <i>out-of-the-box</i> configuration for an instance of {@link HttpClient} which will be used for 
 		 * executing all endpoint requests.</p> 
@@ -91,21 +93,16 @@ public final class Zombie {
 		 *
 		 * @return the instance of {@link HttpClient} which will be used for request execution
 		 * <br><br>
+		 * @throws ConfigurationFailedException
+		 * 			if the default configuration for the {@link HttpClient} failed to be instantiated
+		 * <br><br>
 		 * @since 1.2.4
 		 * <br><br>
 		 * @see <a href="http://hc.apache.org/httpcomponents-client-4.2.x/tutorial/html/index.html">Apache HC Tutorial</a>
 		 */
 		public HttpClient httpClient() {
 			
-			SchemeRegistry schemeRegistry = new SchemeRegistry();
-			schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-			schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
-			
-			PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
-			pccm.setMaxTotal(128);
-			pccm.setDefaultMaxPerRoute(4);
-			
-			return new DefaultHttpClient(pccm);
+			return DEFAULT.httpClient();
 		}
 	}
 	
@@ -268,7 +265,6 @@ public final class Zombie {
 						Zombie.infect(instance); //constructor injection complete; now perform property injection 
 						
 						return instance;
-						
 					} 
 					catch (Exception e) {
 						
@@ -318,20 +314,9 @@ public final class Zombie {
 	private static Object createAndRegisterProxy(Class<?> endpointClass) throws InstantiationException, IllegalAccessException {
 		
 		Object proxyInstance = EndpointProxyFactory.INSTANCE.create(endpointClass); 
-				
 		EndpointDirectory.INSTANCE.put(endpointClass, proxyInstance);
-
-		if(endpointClass.isAnnotationPresent(com.lonepulse.zombielink.annotation.Configuration.class)) {
-			
-			HttpClient httpClient = endpointClass.getAnnotation(
-				com.lonepulse.zombielink.annotation.Configuration.class).value().newInstance().httpClient();
-			
-			HttpClientDirectory.INSTANCE.put(endpointClass, httpClient);
-		}
-		else {
-			
-			HttpClientDirectory.INSTANCE.put(endpointClass, HttpClientDirectory.DEFAULT);
-		}
+		
+		RequestExecutors.CONFIGURATION.register(endpointClass);
 		
 		return proxyInstance;
 	}
