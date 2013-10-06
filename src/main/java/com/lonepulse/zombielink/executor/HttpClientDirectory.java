@@ -38,7 +38,7 @@ import com.lonepulse.zombielink.util.Directory;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
+enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	
 	/**
 	 * <p>The instance of {@link HttpClientDirectory} which caches {@link HttpClient}s that are uniquely configured 
