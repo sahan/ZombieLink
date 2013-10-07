@@ -101,31 +101,28 @@ final class ConfigurationService implements ConfigurationManager {
 	@Override
 	public Configuration register(Class<?> endpointClass) {
 		
-		synchronized(ConfigurationManager.class) {
-		
-			try {
+		try {
+			
+			if(endpointClass.isAnnotationPresent(com.lonepulse.zombielink.annotation.Configuration.class)) {
 				
-				if(endpointClass.isAnnotationPresent(com.lonepulse.zombielink.annotation.Configuration.class)) {
-					
-					Configuration configuration = endpointClass.getAnnotation(
-						com.lonepulse.zombielink.annotation.Configuration.class).value().newInstance();
-					
-					HttpClient httpClient = configuration.httpClient();
-					HttpClientDirectory.INSTANCE.put(endpointClass, httpClient); //currently the only configurable property
-					
-					return configuration;
-				}
-				else {
-					
-					HttpClientDirectory.INSTANCE.put(endpointClass, HttpClientDirectory.DEFAULT);
-					
-					return new Configuration(){};
-				}
-			}
-			catch(Exception e) {
+				Configuration configuration = endpointClass.getAnnotation(
+					com.lonepulse.zombielink.annotation.Configuration.class).value().newInstance();
 				
-				throw new ConfigurationFailedException(endpointClass, e);
+				HttpClient httpClient = configuration.httpClient();
+				HttpClientDirectory.INSTANCE.put(endpointClass, httpClient); //currently the only configurable property
+				
+				return configuration;
 			}
+			else {
+				
+				HttpClientDirectory.INSTANCE.put(endpointClass, HttpClientDirectory.DEFAULT);
+				
+				return new Configuration(){};
+			}
+		}
+		catch(Exception e) {
+			
+			throw new ConfigurationFailedException(endpointClass, e);
 		}
 	}
 }

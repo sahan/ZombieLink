@@ -20,8 +20,8 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.http.client.HttpClient;
 
@@ -49,9 +49,9 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	INSTANCE;
 	
 	
-	private static Map<String, HttpClient> DIRECTORY  = new ConcurrentHashMap<String, HttpClient>();
+	private static Map<String, HttpClient> DIRECTORY  = new HashMap<String, HttpClient>();
 	
-	private static Map<String, String> ENDPOINT_CONFIGS = new ConcurrentHashMap<String, String>();
+	private static Map<String, String> ENDPOINT_CONFIGS = new HashMap<String, String>();
 	
 	/**
 	 * <p>The default configuration for an {@link HttpClient} which will be used to executing endpoint requests if 
@@ -95,7 +95,7 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpClient put(Class<?> endpointClass, HttpClient httpClient) {
+	public synchronized HttpClient put(Class<?> endpointClass, HttpClient httpClient) {
 		
 		String configClassName = HttpClientDirectory.getConfigClassName(endpointClass);
 		String endpointClassName = endpointClass.getName();
@@ -129,16 +129,12 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpClient post(Class<?> endpointClass, HttpClient httpClient) {
+	public synchronized HttpClient post(Class<?> endpointClass, HttpClient httpClient) {
 		
 		String configClassName = HttpClientDirectory.getConfigClassName(endpointClass);
 		
 		ENDPOINT_CONFIGS.put(endpointClass.getName(), configClassName);
-		
-		if(!DIRECTORY.containsKey(configClassName)) {
-			
-			DIRECTORY.put(configClassName, httpClient);
-		}
+		DIRECTORY.put(configClassName, httpClient);
 		
 		return get(endpointClass);
 	}
@@ -156,28 +152,38 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpClient get(Class<?> endpointClass) {
+	public synchronized HttpClient get(Class<?> endpointClass) {
 		
 		HttpClient httpClient = DIRECTORY.get(ENDPOINT_CONFIGS.get(endpointClass.getName()));
 		return httpClient == null? DEFAULT :httpClient;
 	}
 
 	/**
-	 * <p>Removes the {@link HttpClient} which was added under the given endpoint {@link Class}.</p>
+	 * <p>Removes the {@link HttpClient} which was added under the given endpoint {@link Class} after 
+	 * its connection manager has been shutdown.</p>
 	 * 
 	 * <p><b>Note</b> that this may affect other endpoints which share this {@link HttpClient}.</p>
 	 * 
 	 * @param endpointClass
 	 * 			the {@link Class} of the endpoint whose entry is to be removed from this directory
 	 * <br><br>
-	 * @return the {@link HttpClient} (if any) which existed under the given endpoint {@link Class}
+	 * @return the {@link HttpClient} which existed under the given endpoint {@link Class}, else {@code null} 
+	 * 		   if not {@link HttpClient} existed or if the shutdown operation on the client failed
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpClient delete(Class<?> endpointClass) {
+	public synchronized HttpClient delete(Class<?> endpointClass) {
 		
-		return DIRECTORY.remove(ENDPOINT_CONFIGS.remove(endpointClass.getName()));
+		String key = ENDPOINT_CONFIGS.remove(endpointClass.getName());
+		HttpClient httpClient = DIRECTORY.get(key);
+		
+		if(httpClient != null) {
+			
+			httpClient.getConnectionManager().shutdown();
+		}
+		
+		return DIRECTORY.remove(key);
 	}
 	
 	private static String getConfigClassName(Class<?> endpointClass) {
