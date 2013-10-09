@@ -22,8 +22,6 @@ package com.lonepulse.zombielink.processor;
 
 
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
 
@@ -38,7 +36,6 @@ import com.lonepulse.zombielink.annotation.Request;
  * <br><br> 
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface PathEndpoint {
 	

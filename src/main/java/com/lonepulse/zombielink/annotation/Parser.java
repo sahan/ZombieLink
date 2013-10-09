@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.lonepulse.zombielink.response.ResponseParser;
-import com.lonepulse.zombielink.response.StringResponseParser;
+import com.lonepulse.zombielink.response.RawResponseParser;
 
 /**
  * <p>Identifies the {@link ResponseParser} which is to be used to parse 
@@ -79,7 +79,7 @@ public @interface Parser {
 		 * 
 		 * @since 1.1.1
 		 */
-		STRING,
+		RAW,
 		
 		/**
 		 * <p>Identifies a response parser which deserializes JSON content into models.</p>
@@ -120,7 +120,7 @@ public @interface Parser {
 	 * create their own response parsers by extending {@link ResponseParser} and 
 	 * use them in this context.</p>
 	 * 
-	 * <p>By default, a {@link StringResponseParser} is used.</p>
+	 * <p>By default, a {@link RawResponseParser} is used.</p>
 	 * 
 	 * <code>
      * <pre>@Request("/license.txt")<br><b>@Parser(type = CustomParser.class)</b>
@@ -131,5 +131,5 @@ public @interface Parser {
 	 * <br><br>
 	 * @since 1.1.1
 	 */
-	public Class<? extends ResponseParser<?>> type() default StringResponseParser.class;
+	public Class<? extends ResponseParser<?>> type() default RawResponseParser.class;
 }

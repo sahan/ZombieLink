@@ -41,7 +41,7 @@ public enum ResponseParsers implements ResponseParser<Object> {
 	 * 
 	 * @since 1.1.0
 	 */
-	STRING(new StringResponseParser()),
+	RAW(new RawResponseParser()),
 	
 	/**
 	 * See {@link JsonResponseParser}.
@@ -120,8 +120,8 @@ public enum ResponseParsers implements ResponseParser<Object> {
 				case XML:
 					return ResponseParsers.XML.responseParser;
 					
-				case STRING: case UNDEFINED: default:
-					return ResponseParsers.STRING.responseParser;
+				case RAW: case UNDEFINED: default:
+					return ResponseParsers.RAW.responseParser;
 			}
 		}
 	};

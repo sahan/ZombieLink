@@ -23,8 +23,6 @@ package com.lonepulse.zombielink.processor;
 
 import com.lonepulse.zombielink.annotation.Asynchronous;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
@@ -40,7 +38,6 @@ import com.lonepulse.zombielink.response.AsyncHandler;
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Asynchronous
-@Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface AsyncEndpoint {
 	

@@ -70,8 +70,8 @@ public final class ResponseProcessorChain extends AbstractProcessorChain<Object,
 	public ResponseProcessorChain() {
 		
 		super(new ProcessorChainFactory<Object, ResponseProcessorException>().newInstance(
-				new HeaderProcessor(), 
-				new EntityProcessor()));
+			  new HeaderProcessor(), 
+			  new EntityProcessor()));
 	}
 
 	/**

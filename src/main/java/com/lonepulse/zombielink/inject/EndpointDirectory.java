@@ -21,7 +21,7 @@ package com.lonepulse.zombielink.inject;
  */
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 import com.lonepulse.zombielink.util.Directory;
 
@@ -30,7 +30,7 @@ import com.lonepulse.zombielink.util.Directory;
  * 
  * @version 1.2.0
  * <br><br>
- * @sincve 1.1.1
+ * @since 1.1.1
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -45,7 +45,7 @@ enum EndpointDirectory implements Directory<Class<?>, Object> {
 	INSTANCE;
 
 	
-	private static Map<String, Object> ENDPOINTS = new ConcurrentHashMap<String, Object>();
+	private static Map<String, Object> ENDPOINTS = new HashMap<String, Object>();
 	
 	
 	/**

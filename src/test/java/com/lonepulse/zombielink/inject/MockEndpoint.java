@@ -22,8 +22,6 @@ package com.lonepulse.zombielink.inject;
 
 
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
@@ -38,6 +36,5 @@ import com.lonepulse.zombielink.annotation.Stateful;
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Stateful
-@Parser(ParserType.STRING)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface MockEndpoint {}

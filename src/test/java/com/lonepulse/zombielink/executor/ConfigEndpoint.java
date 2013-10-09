@@ -23,8 +23,6 @@ package com.lonepulse.zombielink.executor;
 
 import com.lonepulse.zombielink.annotation.Configuration;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.Zombie;
 
@@ -39,7 +37,6 @@ import com.lonepulse.zombielink.inject.Zombie;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Parser(ParserType.STRING)
 @Configuration(ZombieConfig.class)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface ConfigEndpoint {

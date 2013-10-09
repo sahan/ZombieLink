@@ -34,7 +34,7 @@ import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 /**
  * <p>A concrete implementation of {@link RequestExecutor} which executes {@link HttpRequest}s. 
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */

@@ -47,7 +47,7 @@ import com.lonepulse.zombielink.response.AsyncHandler;
  * <p>The thread pool is managed by {@link MultiThreadedHttpClient} using 
  * a {@link PoolingClientConnectionManager}.</p>
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */

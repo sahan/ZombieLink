@@ -27,10 +27,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.inject.EndpointProxyFactory;
 
 /**
  * <p>Performs unit testing for <b>request validation</b>.
@@ -49,7 +46,6 @@ public class RequestValidationTest {
 	 * <p>Represents an endpoint definition with a missing @{@link Request} annotation on 
 	 * one of its request definitions.
 	 */
-	@Parser(ParserType.STRING)
 	@Endpoint(host = "0.0.0.0", port = "8080")
 	private interface MissingRequestAnnotationEndpoint {
 		
