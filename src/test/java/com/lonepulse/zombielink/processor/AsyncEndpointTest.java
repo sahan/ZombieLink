@@ -43,6 +43,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Asynchronous;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.model.User;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**
@@ -183,6 +184,54 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
+	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * {@link AsyncHandler#onError(Exception)}.
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncError() throws InterruptedException {
+		
+		String subpath = "/asyncerror", body = "non-JSON-content";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(body)));
+		
+		final Object[] content = new Object[1];
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
+		
+		asyncEndpoint.asyncError(new AsyncHandler<User>() {
+			
+			@Override
+			public void onSuccess(HttpResponse httpResponse, User user) {}
+			
+			@Override
+			public void onError(Exception error) {
+				
+				lock.lock();
+				
+				content[0] = error;
+				condition.signal();
+				
+				lock.unlock();
+			}
+		});
+		
+		lock.lock();
+		condition.await();
+		lock.unlock();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		assertTrue(content[0] != null);
+		assertTrue(content[0] instanceof Exception);
+	}
+	
+	/**
 	 * <p>Tests an asynchronous request execution with @{@link Asynchronous} which does 
 	 * not expect the response to be handled. 
 	 *  
@@ -275,6 +324,55 @@ public class AsyncEndpointTest {
 			
 			@Override
 			public void onFailure(HttpResponse httpResponse) {
+				
+				try {
+					
+					throw new IllegalStateException();
+				}
+				finally {
+					
+					lock.lock();
+					condition.signal();
+					lock.unlock();
+				}
+			}
+		});
+		
+		lock.lock();
+		condition.await();
+		lock.unlock();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		successScenario(); //verify that the asynchronous request executor has survived the exception
+	}
+	
+	/**
+	 * <p>Tests an erroneous asynchronous request where the implementation of the 
+	 * {@link AsyncHandler#onError(Exception)} callback throws an exception. 
+	 *  
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testAsyncErrorCallbackError() throws InterruptedException {
+		
+		String subpath = "/errorcallbackerror", body = "non-JSON-content";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(body)));
+		
+		final Lock lock = new ReentrantLock();
+		final Condition condition = lock.newCondition();
+		
+		asyncEndpoint.asyncErrorCallbackError(new AsyncHandler<User>() {
+			
+			@Override
+			public void onSuccess(HttpResponse httpResponse, User user) {}
+			
+			@Override
+			public void onError(Exception error) {
 				
 				try {
 					

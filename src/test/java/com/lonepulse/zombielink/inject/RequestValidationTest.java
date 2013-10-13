@@ -54,7 +54,7 @@ public class RequestValidationTest {
 	
 	/**
 	 * <p>The {@link Class} of a package-private exception which is thrown due to a missing 
-	 * @{@link {@link Request}} annotation on an endpoint request definition. 
+	 * {@link Request} annotation on an endpoint request definition. 
 	 */
 	private Class<Throwable> missingRequestAnnotationException;
 	

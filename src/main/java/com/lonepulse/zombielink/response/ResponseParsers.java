@@ -37,7 +37,7 @@ import com.lonepulse.zombielink.util.Resolver;
 public enum ResponseParsers implements ResponseParser<Object> {
 
 	/**
-	 * See {@link StringResponseParser}.
+	 * See {@link RawResponseParser}.
 	 * 
 	 * @since 1.1.0
 	 */

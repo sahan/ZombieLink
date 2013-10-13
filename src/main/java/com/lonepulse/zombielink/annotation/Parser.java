@@ -25,8 +25,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.lonepulse.zombielink.response.ResponseParser;
 import com.lonepulse.zombielink.response.RawResponseParser;
+import com.lonepulse.zombielink.response.ResponseParser;
 
 /**
  * <p>Identifies the {@link ResponseParser} which is to be used to parse 
@@ -40,14 +40,14 @@ import com.lonepulse.zombielink.response.RawResponseParser;
  * <p>At <b>type-level</b> on an endpoint <i>interface</i>; attaches this parser for all requests.</p><br>
  * <code>
  * <pre>@Endpoint(scheme = "https", host = "api.twitter.com/1")<b>
- *&#064;Parser(ParserType.STRING)</b><br>public interface TwitterEndpoint {<br>}</b>
+ *&#064;Parser(ParserType.RAW)</b><br>public interface TwitterEndpoint {<br>}</b>
  * </pre>
  * </code>
  * </li>
  * <li>
  * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
  * <code>
- * <pre>@Request("/license.txt")<br><b>@Parser(ParserType.STRING)</b>
+ * <pre>@Request("/license.txt")<br><b>@Parser(ParserType.RAW)</b>
  *public abstract String getLicense();</b></b></pre>
  * </code>
  * </li>
@@ -120,7 +120,7 @@ public @interface Parser {
 	 * create their own response parsers by extending {@link ResponseParser} and 
 	 * use them in this context.</p>
 	 * 
-	 * <p>By default, a {@link RawResponseParser} is used.</p>
+	 * <p>By default, a <b>raw response parser</b> is used.</p>
 	 * 
 	 * <code>
      * <pre>@Request("/license.txt")<br><b>@Parser(type = CustomParser.class)</b>
