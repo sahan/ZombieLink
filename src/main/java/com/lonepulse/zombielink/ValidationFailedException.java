@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.validator;
+package com.lonepulse.zombielink;
 
 /*
  * #%L
@@ -20,31 +20,29 @@ package com.lonepulse.zombielink.validator;
  * #L%
  */
 
-import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 
 /**
- * <p>This runtime exception is thrown whenever a {@link Validator} fails 
- * on an endpoint or an endpoint method. 
- * an HTTP request.</p>
+ * <p>This runtime exception signals a <b>generic</b> validation failure when using {@link Validator}s.</p>
  * 
  * @version 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.2.4
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ValidationFailedException extends ZombieLinkRuntimeException {
+public class ValidationFailedException extends ZombieLinkRuntimeException {
 
 
 	private static final long serialVersionUID = 4063102218823910819L;
 
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 */
-	public ValidationFailedException() {
-	}
+	public ValidationFailedException() {}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 */
 	public ValidationFailedException(String detailMessage) {
 		
@@ -52,7 +50,7 @@ class ValidationFailedException extends ZombieLinkRuntimeException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 */
 	public ValidationFailedException(Throwable throwable) {
 		
@@ -60,7 +58,7 @@ class ValidationFailedException extends ZombieLinkRuntimeException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 */
 	public ValidationFailedException(String detailMessage, Throwable throwable) {
 

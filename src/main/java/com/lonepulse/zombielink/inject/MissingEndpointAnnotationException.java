@@ -1,4 +1,6 @@
-package com.lonepulse.zombielink.validator;
+package com.lonepulse.zombielink.inject;
+
+import com.lonepulse.zombielink.annotation.Endpoint;
 
 /*
  * #%L
@@ -22,12 +24,14 @@ package com.lonepulse.zombielink.validator;
 
 
 /**
- * <p>This runtime exception is thrown when a required annotation is missing from 
- * the designated endpoint interface.</p>
+ * <p>This runtime exception is thrown when the @{@link Endpoint} annotation is missing on an 
+ * endpoint definition.</p>
  * 
  * @version 1.1.1
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.2.4
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 class MissingEndpointAnnotationException extends EndpointValidationFailedException {
 
@@ -36,22 +40,34 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 
 	
 	/**
-	 * <p>Displays a detailed description along with the stacktrace. 
+	 * <p>Displays a detailed description with information about the endpoint definition and the missing 
+	 * annotation, along with the stacktrace.</p>
+	 * 
+	 * @param endpoint
+	 * 			the {@link Class} of the endpoint definition interface
+	 * 
+	 * @param missingAnnotation
+	 * 			the required annotation which was not found on the endpoint definition
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public MissingEndpointAnnotationException(Class<?> endpointInterface, Class<?> missingAnnotation) {
+	public MissingEndpointAnnotationException(Class<?> endpoint, Class<?> missingAnnotation) {
 		
-		this("Missing annotation " + missingAnnotation.getName() + " on endpoint " + 
-			  endpointInterface.getName());
+		this(new StringBuilder("Missing annotation ").append(missingAnnotation.getName())
+			 .append( " on endpoint ").append(endpoint == null? "<null>" :endpoint.getName()).toString());
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public MissingEndpointAnnotationException() {
-	}
+	public MissingEndpointAnnotationException() {}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public MissingEndpointAnnotationException(String detailMessage) {
 		
@@ -60,6 +76,8 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public MissingEndpointAnnotationException(Throwable throwable) {
 		
@@ -68,6 +86,8 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public MissingEndpointAnnotationException(String detailMessage, Throwable throwable) {
 

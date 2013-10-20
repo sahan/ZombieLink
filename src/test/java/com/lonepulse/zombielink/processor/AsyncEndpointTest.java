@@ -51,7 +51,7 @@ import com.lonepulse.zombielink.response.AsyncHandler;
  * 
  * @category test
  * <br><br>
- * @version 1.1.1
+ * @version 1.2.0
  * <br><br>
  * @since 1.2.4
  * <br><br>

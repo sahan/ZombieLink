@@ -26,7 +26,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
 import com.lonepulse.zombielink.processor.Processor;
 import com.lonepulse.zombielink.processor.ProcessorChainFactory;
 import com.lonepulse.zombielink.processor.ProcessorChainLink;
@@ -70,7 +69,7 @@ public class ProcessorInvocationTest {
 	public final void testRequestArgumentRequestBaseType() {
 		
 		expectedException.expectCause(Is.isA(IllegalArgumentException.class));
-		Processors.REQUEST.run(new Object(), new ProxyInvocationConfiguration.Builder().build());
+		Processors.REQUEST.run(new Object(), InvocationContext.newBuilder().build());
 	}
 	
 	/**

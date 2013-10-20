@@ -24,7 +24,7 @@ package com.lonepulse.zombielink.response;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
-import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.util.Resolver;
 
 /**
@@ -80,7 +80,7 @@ public enum ResponseParsers implements ResponseParser<Object> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object parse(HttpResponse httpResponse, ProxyInvocationConfiguration config) {
+	public Object parse(HttpResponse httpResponse, InvocationContext config) {
 		
 		return this.responseParser.parse(httpResponse, config);
 	}

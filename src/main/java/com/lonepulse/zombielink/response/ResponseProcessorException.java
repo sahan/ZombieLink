@@ -25,11 +25,11 @@ import java.util.Arrays;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
  * <p>This runtime exception is thrown when an HTTP {@link ResponseProcessor} fails to execute successfully 
- * for a given {@link HttpResponse} and {@link ProxyInvocationConfiguration}.
+ * for a given {@link HttpResponse} and {@link InvocationContext}.
  * 
  * @version 1.1.0
  * <br><br>
@@ -50,21 +50,19 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	 * 			the {@link Class} of the {@link ResponseProcessor} implementation which failed
 	 * 
 	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} which caused the {@link ResponseProcessor} to fail
+	 * 			the {@link InvocationContext} which caused the {@link ResponseProcessor} to fail
 	 * 
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	public ResponseProcessorException(Class<?> responseProcessorClass, 
-									  ProxyInvocationConfiguration config) {
+									  InvocationContext config) {
 	
 		this(new StringBuilder(responseProcessorClass.getName())
 			 .append(" failed to process the response for the request [")
 			 .append(config.getRequest().getName())
-			 .append("] on [")
-			 .append(config.getUri().toASCIIString())
 			 .append("] with arguments ")
-			 .append(Arrays.toString(config.getRequestArgs())).toString());
+			 .append(Arrays.toString(config.getArguments().toArray())).toString());
 	}
 	
 	/**
@@ -74,7 +72,7 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	 * 			the {@link Class} of the {@link ResponseProcessor} implementation which failed
 	 * 
 	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} which caused the {@link ResponseProcessor} to fail
+	 * 			the {@link InvocationContext} which caused the {@link ResponseProcessor} to fail
 	 * 
 	 * @param rootCause
 	 * 			the parent exception which caused the {@link RequestProcessor} to fail
@@ -82,16 +80,14 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	 * @since 1.2.4
 	 */
 	public ResponseProcessorException(Class<?> responseProcessorClass, 
-									  ProxyInvocationConfiguration config, 
+									  InvocationContext config, 
 									  Throwable rootCause) {
 		
 		this(new StringBuilder(responseProcessorClass.getName())
 			 .append(" failed to process the response for the request [")
 			 .append(config.getRequest().getName())
-			 .append("] on [")
-			 .append(config.getUri().toASCIIString())
 			 .append("] with arguments ")
-			 .append(Arrays.toString(config.getRequestArgs())).toString(), rootCause);
+			 .append(Arrays.toString(config.getArguments().toArray())).toString(), rootCause);
 	}
 	
 	/**

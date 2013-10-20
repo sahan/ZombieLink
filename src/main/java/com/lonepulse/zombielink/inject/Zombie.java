@@ -329,11 +329,7 @@ public final class Zombie {
 	
 	private static Object createAndRegisterProxy(Class<?> endpointClass) throws InstantiationException, IllegalAccessException {
 		
-		Object proxyInstance = EndpointProxyFactory.INSTANCE.create(endpointClass); 
-		EndpointDirectory.INSTANCE.put(endpointClass, proxyInstance);
-		
 		RequestExecutors.CONFIGURATION.register(endpointClass);
-		
-		return proxyInstance;
+		return EndpointProxyFactory.INSTANCE.create(endpointClass); 
 	}
 }

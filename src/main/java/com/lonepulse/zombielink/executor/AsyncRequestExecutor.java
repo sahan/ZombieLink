@@ -36,7 +36,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.lonepulse.zombielink.annotation.Stateful;
-import com.lonepulse.zombielink.inject.ProxyInvocationConfiguration;
+import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.processor.Processors;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
@@ -102,13 +102,13 @@ class AsyncRequestExecutor implements RequestExecutor {
 	 * 			the {@link HttpRequestBase} to be executed
 	 * 
 	 * @param config
-	 * 			the {@link ProxyInvocationConfiguration} associated with 
+	 * 			the {@link InvocationContext} associated with 
 	 * 			the current request
 	 * 
 	 * @since 1.1.0
 	 */
 	@Override
-	public HttpResponse execute(final HttpRequestBase httpRequestBase, final ProxyInvocationConfiguration config)
+	public HttpResponse execute(final HttpRequestBase httpRequestBase, final InvocationContext config)
 	throws RequestExecutionException {
 
 		ASYNC_EXECUTOR_SERVICE.execute(new Runnable() {
@@ -121,7 +121,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 				
 				try {
 					
-					Object[] requestArgs = config.getRequestArgs();
+					List<Object> requestArgs = config.getArguments();
 					
 					if(requestArgs != null) {
 					
@@ -135,7 +135,7 @@ class AsyncRequestExecutor implements RequestExecutor {
 						}
 					}
 					
-					Class<?> endpointClass = config.getEndpointClass();
+					Class<?> endpointClass = config.getEndpoint();
 					HttpResponse httpResponse;
 					
 					if(endpointClass.isAnnotationPresent(Stateful.class)) {

@@ -1,5 +1,4 @@
-package com.lonepulse.zombielink.validator;
-
+package com.lonepulse.zombielink.inject;
 
 /*
  * #%L
@@ -21,14 +20,18 @@ package com.lonepulse.zombielink.validator;
  * #L%
  */
 
+import com.lonepulse.zombielink.ValidationFailedException;
+
 
 /**
- * <p>This runtime exception is thrown whenever an {@link EndpointValidator} 
- * fails to validate an endpoint.
+ * <p>This runtime exception is thrown whenever an {@link EndpointValidator} fails to validate an 
+ * endpoint definition against a set of predefined rules.</p>
  * 
  * @version 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.2.4
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 class EndpointValidationFailedException extends ValidationFailedException {
 
@@ -37,21 +40,34 @@ class EndpointValidationFailedException extends ValidationFailedException {
 
 	
 	/**
-	 * <p>Displays a detailed description along with the stacktrace. 
+	 * <p>Displays a detailed description using information about the endpoint definition, along with 
+	 * the stacktrace.</p>
+	 * 
+	 * @param endpoint
+	 * 			the {@link Class} of the endpoint definition
+	 * 
+	 * @param rootCause
+	 * 			the root {@link Throwable} cause which resulted in this failure
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public EndpointValidationFailedException(Class<?> endpoint, Throwable rootCause) {
 		
-		this("Failed to validate endpoint " + endpoint.getName(), rootCause);
+		this(new StringBuilder("Failed to validate endpoint ")
+			 .append( endpoint == null? "<null>" :endpoint.getName()).toString(), rootCause);
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
-	public EndpointValidationFailedException() {
-	}
+	public EndpointValidationFailedException() {}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public EndpointValidationFailedException(String detailMessage) {
 		
@@ -60,6 +76,8 @@ class EndpointValidationFailedException extends ValidationFailedException {
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public EndpointValidationFailedException(Throwable throwable) {
 		
@@ -68,6 +86,8 @@ class EndpointValidationFailedException extends ValidationFailedException {
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public EndpointValidationFailedException(String detailMessage, Throwable throwable) {
 
