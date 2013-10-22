@@ -58,14 +58,14 @@ class EndpointValidationFailedException extends ValidationFailedException {
 	}
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link ValidationFailedException#ValidationFailedException()}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	public EndpointValidationFailedException() {}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link ValidationFailedException#ValidationFailedException(String)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
@@ -75,7 +75,7 @@ class EndpointValidationFailedException extends ValidationFailedException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link ValidationFailedException#ValidationFailedException(Throwable)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
@@ -85,7 +85,7 @@ class EndpointValidationFailedException extends ValidationFailedException {
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link ValidationFailedException#ValidationFailedException(String, Throwable)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */

@@ -1,16 +1,5 @@
 package com.lonepulse.zombielink.inject;
 
-import static com.lonepulse.zombielink.util.Assert.assertNotNull;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lonepulse.zombielink.ValidationFailedException;
-import com.lonepulse.zombielink.Validator;
-import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Request;
-
 /*
  * #%L
  * ZombieLink
@@ -30,6 +19,17 @@ import com.lonepulse.zombielink.annotation.Request;
  * limitations under the License.
  * #L%
  */
+
+import static com.lonepulse.zombielink.util.Assert.assertNotNull;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.lonepulse.zombielink.ValidationFailedException;
+import com.lonepulse.zombielink.Validator;
+import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.annotation.Request;
 
 
 /**

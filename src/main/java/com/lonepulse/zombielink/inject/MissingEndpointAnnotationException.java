@@ -58,14 +58,14 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 	}
 	
 	/**
-	 * See {@link RuntimeException#RuntimeException()}.
+	 * See {@link EndpointValidationFailedException#EndpointValidationFailedException()}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	public MissingEndpointAnnotationException() {}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * See {@link EndpointValidationFailedException#EndpointValidationFailedException(String)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
@@ -75,7 +75,7 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * See {@link EndpointValidationFailedException#EndpointValidationFailedException(Throwable)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
@@ -85,7 +85,7 @@ class MissingEndpointAnnotationException extends EndpointValidationFailedExcepti
 	}
 
 	/**
-	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * See {@link EndpointValidationFailedException#EndpointValidationFailedException(String, Throwable)}.
 	 * <br><br>
 	 * @since 1.2.4
 	 */
