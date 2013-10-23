@@ -39,7 +39,6 @@ import com.lonepulse.zombielink.executor.ConfigurationFailedException;
 import com.lonepulse.zombielink.executor.RequestExecutors;
 import com.lonepulse.zombielink.util.Fields;
 
-
 /**
  * <p>An animated corpse which spreads the {@link Endpoint} infection via a {@link Bite}. Used for <b>injecting</b> 
  * concrete implementations of endpoint interface definitions. Place an @{@link Bite} annotation on all instance 

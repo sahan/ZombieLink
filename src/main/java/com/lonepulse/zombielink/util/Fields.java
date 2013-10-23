@@ -47,7 +47,28 @@ import java.util.Set;
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public final class Fields {
-
+	
+	
+	private static interface Criterion {
+		
+		boolean evaluate(Field field);
+	}
+	
+	private List<Field> evaluate(Criterion criterion) {
+		
+		List<Field> filteredFields = new ArrayList<Field>();
+		
+		for (Field field : fields) {
+			
+			if(criterion.evaluate(field)) {
+				
+				filteredFields.add(field);
+			}
+		}
+		
+		return filteredFields;
+	}
+	
 	
 	private Collection<Field> fields = null;
 	
@@ -111,21 +132,18 @@ public final class Fields {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public Fields annotatedWith(Class<? extends Annotation> annotation) {
+	public Fields annotatedWith(final Class<? extends Annotation> annotation) {
 		
 		assertNotNull(annotation, Class.class);
 		
-		List<Field> filteredFields = new ArrayList<Field>();
-		
-		for (Field field : fields) {
-			
-			if(field.isAnnotationPresent(annotation)) {
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
 				
-				filteredFields.add(field);
+				return field.isAnnotationPresent(annotation);
 			}
-		}
-		
-		return new Fields(filteredFields);
+		}));
 	}
 	
 	/**
@@ -139,34 +157,29 @@ public final class Fields {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public Fields annotatedWithAll(Class<? extends Annotation>... annotations) {
+	public Fields annotatedWithAll(final Class<? extends Annotation>... annotations) {
 		
 		assertNotNull(annotations, Class[].class);
 		
-		List<Field> filteredFields = new ArrayList<Field>();
-		
-		boolean hasAllAnnotations;
-		
-		for (Field field : fields) {
-			
-			hasAllAnnotations = true;
-			
-			for (Class<? extends Annotation> annotation : annotations) {
-			
-				if(!field.isAnnotationPresent(annotation)) {
-					
-					hasAllAnnotations = false;
-					break;
-				}
-			}
-			
-			if(hasAllAnnotations) {
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
 				
-				filteredFields.add(field);
+				boolean hasAllAnnotations = true;
+				
+				for (Class<? extends Annotation> annotation : annotations) {
+				
+					if(!field.isAnnotationPresent(annotation)) {
+						
+						hasAllAnnotations = false;
+						break;
+					}
+				}
+				
+				return hasAllAnnotations;
 			}
-		}
-		
-		return new Fields(filteredFields);
+		}));
 	}
 	
 	/**
@@ -180,25 +193,26 @@ public final class Fields {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public Fields annotatedWithAny(Class<? extends Annotation>... annotations) {
+	public Fields annotatedWithAny(final Class<? extends Annotation>... annotations) {
 		
 		assertNotNull(annotations, Class[].class);
 		
-		List<Field> filteredFields = new ArrayList<Field>();
-		
-		for (Field field : fields) {
-			
-			for (Class<? extends Annotation> annotation : annotations) {
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
 				
-				if(field.isAnnotationPresent(annotation)) {
+				for (Class<? extends Annotation> annotation : annotations) {
 					
-					filteredFields.add(field);
-					break;
+					if(field.isAnnotationPresent(annotation)) {
+						
+						return true;
+					}
 				}
+				
+				return false;
 			}
-		}
-		
-		return new Fields(filteredFields);
+		}));
 	}
 	
 	/**
@@ -212,21 +226,18 @@ public final class Fields {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public Fields nameEquals(String fieldName) {
+	public Fields named(final String fieldName) {
 		
 		assertNotEmpty(fieldName);
 		
-		List<Field> filteredFields = new ArrayList<Field>();
-		
-		for (Field field : fields) {
-			
-			if(field.getName().equals(fieldName)) {
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
 				
-				filteredFields.add(field);
+				return field.getName().equals(fieldName);
 			}
-		}
-		
-		return new Fields(filteredFields);
+		}));
 	}
 	
 	/**
@@ -240,21 +251,68 @@ public final class Fields {
 	 * 
 	 * @since 1.2.4
 	 */
-	public Fields nameEqualsIgnoreCase(String fieldName) {
+	public Fields strictlyNamed(final String fieldName) {
 		
 		assertNotEmpty(fieldName);
 		
-		List<Field> filteredFields = new ArrayList<Field>();
-		
-		for (Field field : fields) {
-			
-			if(field.getName().equalsIgnoreCase(fieldName)) {
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
 				
-				filteredFields.add(field);
+				return field.getName().equalsIgnoreCase(fieldName);
 			}
-		}
+		}));
+	}
+	
+	/**
+	 * <p>Filters the {@link Field}s whose type <b>can be assigned</b> to the given type and 
+	 * returns a new instance of {@link Fields} that wrap the filtered collection.</p> 
+	 *
+	 * @param type
+	 * 			the {@link Class} type of the {@link Field}s to be filtered 
+	 * <br><br>
+	 * @return a <b>new instance</b> of {@link Fields} which wraps the filtered {@link Field}s
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	public Fields ofType(final Class<?> type) {
 		
-		return new Fields(filteredFields);
+		assertNotEmpty(type);
+		
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
+				
+				return type.isAssignableFrom(field.getType());
+			}
+		}));
+	}
+	
+	/**
+	 * <p>Filters the {@link Field}s whose type <b>equals</b> the given type and returns a new 
+	 * instance of {@link Fields} that wrap the filtered collection.</p> 
+	 *
+	 * @param type
+	 * 			the {@link Class} type of the {@link Field}s to be filtered 
+	 * <br><br>
+	 * @return a <b>new instance</b> of {@link Fields} which wraps the filtered {@link Field}s
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	public Fields strictlyOfType(final Class<?> type) {
+		
+		assertNotEmpty(type);
+		
+		return new Fields(evaluate(new Criterion() {
+
+			@Override
+			public boolean evaluate(Field field) {
+				
+				return field.getType().equals(type);
+			}
+		}));
 	}
 	
 	/**
@@ -369,5 +427,5 @@ public final class Fields {
 	public List<Field> list() {
 		
 		return new ArrayList<Field>(fields);
-	}
+	} 
 }
