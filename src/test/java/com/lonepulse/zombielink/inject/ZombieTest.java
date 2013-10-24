@@ -41,15 +41,15 @@ import org.junit.Test;
 public class ZombieTest {
 	
 
-	/**
-	 * <p>An instance of {@link BasicMockService} whose endpoint dependencies are satisfied 
-	 * by injection.
-	 */
-	private static BasicMockService propertyInjectedService;
+	private static BasicMockService mockService;
+	
+	private static BasicMockService service1;
+	private static BasicMockService service2;
+	private static BasicMockService service3;
 	
 	
 	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #propertyInjectedService} 
+	 * <p>Sets up the test case by performing endpoint injection on {@link #mockService} 
 	 * and {@link #constructorInjectedService}.
 	 * 
 	 * @throws Exception
@@ -57,23 +57,41 @@ public class ZombieTest {
 	 */
 	@BeforeClass
 	public static void setUp() throws Exception {
+		
+		mockService = new BasicMockService();
 
-		//perform field and setter injection
-		propertyInjectedService = new BasicMockService();
-		Zombie.infect(propertyInjectedService);
+		Zombie.infect(mockService);
+		
+		service1 = new BasicMockService();
+		service2 = new BasicMockService();
+		service3 = new BasicMockService();
+		
+		Zombie.infect(service1, service2, service3);
 	}
 	
 	/**
-	 * Test method for {@link com.lonepulse.zombielink.inject.Zombie#infect(Object)}.
+	 * Test method for single injection using {@link Zombie#infect(Object, Object...)}
 	 */
 	@Test
 	public final void testPropertyInjection() {
 		
-		assertNotNull(propertyInjectedService.getConstructedMockEndpoint());
-		assertNotNull(propertyInjectedService.getDefaultMockEndpoint());
-		assertNotNull(propertyInjectedService.getForcedPrivateMockEndpoint());
-		assertNotNull(propertyInjectedService.getPrivateMockEndpoint());
-		assertNotNull(propertyInjectedService.getProtectedMockEndpoint());
-		assertNotNull(propertyInjectedService.getPublicMockEndpoint());
+		assertNotNull(mockService.getConstructedMockEndpoint());
+		assertNotNull(mockService.getDefaultMockEndpoint());
+		assertNotNull(mockService.getForcedPrivateMockEndpoint());
+		assertNotNull(mockService.getPrivateMockEndpoint());
+		assertNotNull(mockService.getProtectedMockEndpoint());
+		assertNotNull(mockService.getPublicMockEndpoint());
+	}
+	
+	/**
+	 * Test method for multiple injections using {@link Zombie#infect(Object, Object...)}
+	 */
+	@Test
+	public final void testMultipleInjection() {
+		
+		assertNotNull(service1.getPrivateMockEndpoint());
+		assertNotNull(service2.getPrivateMockEndpoint());
+		assertNotNull(service3.getPrivateMockEndpoint());
 	}
 }
+	
