@@ -84,19 +84,29 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.4</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.11</version>
+			<groupId>org.simpleframework</groupId>
+			<artifactId>simple-xml</artifactId>
+			<version>2.7.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
 			<artifactId>wiremock</artifactId>
 			<version>1.33</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -216,17 +226,17 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.5.2</version>
 				<configuration>
-				    <instrumentation>
-			            <ignores>
-			              <ignore>com.lonepulse.zombielink.annotation.*</ignore>
-			              <ignore>com.lonepulse.zombielink.util.*</ignore>
-			            </ignores>
-			            <excludes>
+					<instrumentation>
+						<ignores>
+							<ignore>com.lonepulse.zombielink.annotation.*</ignore>
+							<ignore>com.lonepulse.zombielink.util.*</ignore>
+						</ignores>
+						<excludes>
 							<exclude>com/lonepulse/zombielink/**/*Exception.class</exclude>
 							<exclude>com/lonepulse/zombielink/**/**/*Exception.class</exclude>
 							<exclude>com/lonepulse/zombielink/util/AbstractGenericFactory.class</exclude>
 						</excludes>
-				    </instrumentation>
+					</instrumentation>
 					<format>xml</format>
 				</configuration>
 			</plugin>
