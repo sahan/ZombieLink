@@ -61,7 +61,7 @@ final class XmlResponseParser extends AbstractResponseParser<Object> {
 	.append("Scala SBT:\n")
 	.append("libraryDependencies += \"org.simpleframework\" % \"simple-xml\" % \"2.7.1\"\n\n")
 	.append("Gradle:\n")
-	.append("compile compile 'org.simpleframework:simple-xml:2.7.1'\n\n")
+	.append("compile 'org.simpleframework:simple-xml:2.7.1'\n\n")
 	.append("...or grab the JAR from ")
 	.append("http://simple.sourceforge.net/download.php \n\n").toString();
 	
