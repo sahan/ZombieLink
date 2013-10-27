@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.annotation.Parser;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public abstract class AsyncHandler<RESPONSE extends Object> {
+public abstract class AsyncHandler<RESPONSE> {
 
 	/**
 	 * <p>Use this callback to handle a <i>successful request execution</i>.</p>
