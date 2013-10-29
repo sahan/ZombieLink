@@ -32,7 +32,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.executor.RequestExecutors;
 import com.lonepulse.zombielink.processor.Processors;
-import com.lonepulse.zombielink.request.RequestMethod;
 
 /**
  * <p>This is a concrete implementation of {@link Invocation} which models a command for a request invocation 
@@ -60,7 +59,7 @@ class ProxyInvocation implements Invocation {
 	 * 	<li>{@link #handleResponse(HttpResponse, InvocationContext)} - transforms the response to a consumable</li>
 	 * </ol>
 	 * 
-	 * @version 1.1.0
+	 * @version 1.2.0
 	 * <br><br>
 	 * @since 1.2.4
 	 * <br><br>
@@ -110,9 +109,7 @@ class ProxyInvocation implements Invocation {
 		 */
 		protected HttpRequestBase buildRequest(InvocationContext context) {
 			
-			HttpRequestBase request = RequestMethod.TRANSLATOR.translate(context); 
-			Processors.REQUEST.run(request, context);
-			return request;
+			return (HttpRequestBase) Processors.REQUEST.run(context);
 		}
 		
 		/**

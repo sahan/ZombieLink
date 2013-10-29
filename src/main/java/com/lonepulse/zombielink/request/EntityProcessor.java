@@ -37,9 +37,9 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * entity for an {@link HttpEntityEnclosingRequest} into the body of the request.</p>
  * 
  * <p>It identifies an @{@link Entity} annotation on a parameter of an endpoint interface method and inserts 
- * the value as a form entity in the resulting {@link HttpEntityEnclosingRequest}.
+ * the value as a form entity in the resulting {@link HttpEntityEnclosingRequest}.</p>
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * <br><br>
  * @since 1.2.4
  * <br><br>
@@ -50,7 +50,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	
 	/**
 	 * <p>Accepts the {@link InvocationContext} of an {@link HttpEntityEnclosingRequest} and inserts 
-	 * any <i>the</i> request parameter which was annotated with @{@link Entity} into its body.</p>
+	 * <b>the</b> request parameter which is annotated with @{@link Entity} into its body.</p>
 	 * 
 	 * <p><b>Note</b> that it makes no sense to scope multiple entities within the same entity enclosing request 
 	 * (HTTP/1.1 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">RFC-2616</a>). This processor 
@@ -74,6 +74,8 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * @param config
 	 * 			an immutable instance of {@link InvocationContext} which is used to retrieve the entity
 	 * <br><br>
+ 	 * @return the same instance of {@link HttpRequestBase} which was given for processing entities 
+	 * <br><br>
 	 * @throws RequestProcessorException
 	 * 			if an {@link HttpEntityEnclosingRequestBase} was discovered and yet the entity failed to be resolved 
 	 * 			and inserted into the request body
@@ -81,7 +83,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected void process(HttpRequestBase httpRequestBase, InvocationContext config) 
+	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext config) 
 	throws RequestProcessorException {
 
 		try {
@@ -131,5 +133,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 			
 			throw new RequestProcessorException(getClass(), config, e);
 		}
+		
+		return httpRequestBase;
 	}
 }

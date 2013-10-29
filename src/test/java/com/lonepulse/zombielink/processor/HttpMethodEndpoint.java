@@ -30,7 +30,7 @@ import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.HeaderSet;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.request.RequestMethod;
+import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method definitions which 

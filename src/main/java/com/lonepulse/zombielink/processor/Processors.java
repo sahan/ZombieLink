@@ -24,11 +24,13 @@ package com.lonepulse.zombielink.processor;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
+import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.request.RequestProcessorChain;
 import com.lonepulse.zombielink.response.ResponseProcessorChain;
 
@@ -63,14 +65,14 @@ public enum Processors {
 	 *  <li>{@link EntityProcessor} - inserts the {@link HttpEntity} identified using @{@link Entity}</li>
 	 * </ol>
 	 * 
-	 * <p><b>Note</b> that this processor-chain acts solely on the input arguments to {@link #run(Object...)} and returns 
-	 * {@code null} for all intents and purposes.</p>
+	 * <p><b>Note</b> that this processor-chain requires a single {@link InvocationContext} to be {@link #run(Object...)}} 
+	 * and returns the {@link HttpRequestBase} which was processed through the entire chain.</p>
 	 * 
 	 * <p><b>Note</b> that a chain-wide failure is <b>NOT recoverable</b>. All failures are of type RequestProcessorException 
 	 * which may be thrown from any arbitrary {@link ProcessorChainLink}. Any changes made on the arguments to the chain 
 	 * are <b>NOT rolled back</b>.</p> 
 	 * 
-	 * @version 1.1.0
+	 * @version 1.2.0
 	 * <br><br>
 	 * @since 1.2.4
 	 */

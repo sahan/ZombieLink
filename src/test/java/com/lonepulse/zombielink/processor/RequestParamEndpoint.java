@@ -35,8 +35,8 @@ import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.model.User;
-import com.lonepulse.zombielink.request.RequestMethod;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method definitions 

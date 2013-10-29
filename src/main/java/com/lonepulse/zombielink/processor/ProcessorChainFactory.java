@@ -21,6 +21,8 @@ package com.lonepulse.zombielink.processor;
  */
 
 
+import static com.lonepulse.zombielink.util.Assert.assertNotNull;
+
 import com.lonepulse.zombielink.util.AbstractGenericFactory;
 
 /**
@@ -71,16 +73,11 @@ extends AbstractGenericFactory <Processor<RESULT, FAILURE>, ProcessorChainLink<R
 	public ProcessorChainLink<RESULT, FAILURE> newInstance(
 		Processor<RESULT, FAILURE> root, Processor<RESULT, FAILURE>... successors) throws ChainCreationException {
 		
-		if(root == null) {
-		
-			StringBuilder errorContext = new StringBuilder("The root ")
-			.append(Processor.class.getName())
-			.append(" cannot be <null>. This is used to construct the first ")
-			.append(ProcessorChainLink.class.getName())
-			.append(" in the processor-chain. ");
-			
-			throw new IllegalArgumentException(errorContext.toString());
-		}
+		assertNotNull(root, new StringBuilder("The root ")
+		.append(Processor.class.getName())
+		.append(" cannot be <null>. This is used to construct the first ")
+		.append(ProcessorChainLink.class.getName())
+		.append(" in the processor-chain. ").toString());
 		
 		try {
 		
