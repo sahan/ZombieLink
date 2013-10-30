@@ -41,6 +41,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.response.AbstractResponseParser;
 import com.lonepulse.zombielink.response.ResponseParsers;
 
 /**
@@ -183,5 +184,33 @@ public class ParserEndpointTest {
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 		assertEquals(body, responseContent);
+	}
+	
+	/**
+	 * <p>Test for custom {@link AbstractResponseParser}s.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testParseCustom() {
+		
+		String subpath = "/custom", redacted = "<redacted>";
+		
+		User user = new User(1, "Felix", "Walken", 28, false);
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)
+				.withBody(user.toString())));
+		
+		User parsedUser = parserEndpoint.parseCustom();
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		
+		assertEquals(user.getId(), parsedUser.getId());
+		assertEquals(redacted, parsedUser.getFirstName());
+		assertEquals(redacted, parsedUser.getLastName());
+		assertEquals(user.getAge(), parsedUser.getAge());
+		assertEquals(user.isImmortal(), parsedUser.isImmortal());
 	}
 }

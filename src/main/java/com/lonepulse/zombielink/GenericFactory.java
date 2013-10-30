@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.util;
+package com.lonepulse.zombielink;
 
 import java.util.Map;
 

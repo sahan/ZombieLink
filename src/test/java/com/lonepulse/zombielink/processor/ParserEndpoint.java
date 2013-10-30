@@ -21,11 +21,17 @@ package com.lonepulse.zombielink.processor;
  */
 
 
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+
+import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Parser;
 import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.response.AbstractResponseParser;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method definitions 
@@ -86,4 +92,38 @@ public interface ParserEndpoint {
 	 */
 	@Request(path = "/raw")
 	String raw();
+	
+	
+	static final class RedactParser extends AbstractResponseParser<User> {
+		
+		
+		public RedactParser() {
+			
+			super(User.class);
+		}
+
+		@Override
+		protected User processResponse(HttpResponse httpResponse, InvocationContext context) 
+		throws Exception {
+
+			String json = EntityUtils.toString(httpResponse.getEntity());
+			
+			User user = new Gson().fromJson(json, User.class);
+			user.setFirstName("<redacted>");
+			user.setLastName("<redacted>");
+			
+			return user;
+		}
+	}
+	
+	/**
+	 * <p>A mock request with a response which should be parsed by a custom parser.</p>
+	 * 
+	 * @return the parsed response entity
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/custom")
+	@Parser(type = RedactParser.class) 
+	User parseCustom();
 }

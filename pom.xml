@@ -227,14 +227,11 @@
 				<version>2.5.2</version>
 				<configuration>
 					<instrumentation>
-						<ignores>
-							<ignore>com.lonepulse.zombielink.annotation.*</ignore>
-							<ignore>com.lonepulse.zombielink.util.*</ignore>
-						</ignores>
 						<excludes>
+							<exclude>com/lonepulse/zombielink/*.class</exclude>
 							<exclude>com/lonepulse/zombielink/**/*Exception.class</exclude>
-							<exclude>com/lonepulse/zombielink/**/**/*Exception.class</exclude>
-							<exclude>com/lonepulse/zombielink/util/AbstractGenericFactory.class</exclude>
+							<exclude>com/lonepulse/zombielink/util/*.class</exclude>
+							<exclude>com/lonepulse/zombielink/annotation/*.class</exclude>
 						</excludes>
 					</instrumentation>
 					<format>xml</format>

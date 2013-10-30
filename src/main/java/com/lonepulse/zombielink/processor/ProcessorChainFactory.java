@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.processor;
 
 import static com.lonepulse.zombielink.util.Assert.assertNotNull;
 
-import com.lonepulse.zombielink.util.AbstractGenericFactory;
+import com.lonepulse.zombielink.AbstractGenericFactory;
 
 /**
  * <p>This is a concrete implementation of {@link AbstractGenericFactory} which creates a <b>processor-chain</b> 

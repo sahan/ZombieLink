@@ -27,9 +27,9 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import com.lonepulse.zombielink.AbstractGenericFactory;
+import com.lonepulse.zombielink.GenericFactory;
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.util.AbstractGenericFactory;
-import com.lonepulse.zombielink.util.GenericFactory;
 
 /**
  * <p>Follows the {@link GenericFactory} policy to create local {@link HttpContext}s 
