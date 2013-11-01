@@ -109,13 +109,13 @@ final class ConfigurationService implements ConfigurationManager {
 					com.lonepulse.zombielink.annotation.Configuration.class).value().newInstance();
 				
 				HttpClient httpClient = configuration.httpClient();
-				HttpClientRegistry.INSTANCE.bind(endpointClass, httpClient); //currently the only configurable property
+				HttpClientDirectory.INSTANCE.bind(endpointClass, httpClient); //currently the only configurable property
 				
 				return configuration;
 			}
 			else {
 				
-				HttpClientRegistry.INSTANCE.bind(endpointClass, HttpClientRegistry.DEFAULT);
+				HttpClientDirectory.INSTANCE.bind(endpointClass, HttpClientDirectory.DEFAULT);
 				
 				return new Configuration(){};
 			}

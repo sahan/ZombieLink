@@ -27,7 +27,7 @@ import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.annotation.HeaderSet;
+import com.lonepulse.zombielink.annotation.Headers;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
@@ -111,8 +111,8 @@ public interface HttpMethodEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/tracerequest", method = RequestMethod.TRACE)
-	@HeaderSet({@HeaderSet.Header(name = "Via", value = "1.0 example1.com, 1.1 example2.com"),
-				@HeaderSet.Header(name = "Max-Forwards", value = "6")})
+	@Headers({@Headers.Header(name = "Via", value = "1.0 example1.com, 1.1 example2.com"),
+				@Headers.Header(name = "Max-Forwards", value = "6")})
 	public void traceRequest();
 	
 	/**

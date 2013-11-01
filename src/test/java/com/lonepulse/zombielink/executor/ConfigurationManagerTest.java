@@ -70,7 +70,7 @@ public class ConfigurationManagerTest {
 	public final void testDefaultClient() {
 		
 		configurationManager.register(MockEndpoint.class);
-		assertTrue(HttpClientRegistry.INSTANCE.lookup(MockEndpoint.class) == HttpClientRegistry.DEFAULT);
+		assertTrue(HttpClientDirectory.INSTANCE.lookup(MockEndpoint.class) == HttpClientDirectory.DEFAULT);
 	}
 	
 	/**
@@ -83,10 +83,10 @@ public class ConfigurationManagerTest {
 		
 		configurationManager.register(ConfigEndpoint.class);
 		
-		HttpClient httpClient = HttpClientRegistry.INSTANCE.lookup(ConfigEndpoint.class);
+		HttpClient httpClient = HttpClientDirectory.INSTANCE.lookup(ConfigEndpoint.class);
 		assertEquals(2 * 1000, httpClient.getParams().getIntParameter(HttpConnectionParams.SO_TIMEOUT, 0));
 		
 		configurationManager.register(ConfigEndpoint.class);
-		assertTrue(HttpClientRegistry.INSTANCE.lookup(ConfigEndpoint.class) == httpClient);
+		assertTrue(HttpClientDirectory.INSTANCE.lookup(ConfigEndpoint.class) == httpClient);
 	}
 }

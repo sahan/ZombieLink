@@ -25,7 +25,7 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.annotation.HeaderSet;
+import com.lonepulse.zombielink.annotation.Headers;
 import com.lonepulse.zombielink.annotation.Request;
 
 /**
@@ -121,7 +121,7 @@ public interface HeaderEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/headerset")
-	@HeaderSet({@HeaderSet.Header(name = "Accept", value = "application/json"),
-				@HeaderSet.Header(name = "Accept-Charset", value = "utf-8")})
+	@Headers({@Headers.Header(name = "Accept", value = "application/json"),
+			  @Headers.Header(name = "Accept-Charset", value = "utf-8")})
 	public String headerSet();
 }

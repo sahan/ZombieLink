@@ -23,7 +23,16 @@ package com.lonepulse.zombielink.executor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+
+import com.lonepulse.zombielink.AbstractGenericFactory;
+import com.lonepulse.zombielink.Directory;
+import com.lonepulse.zombielink.GenericFactory;
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 
 /**
  * <p>A registry of {@link HttpContext}s which maintain endpoint <i>state</i>.</p>
@@ -34,10 +43,10 @@ import org.apache.http.protocol.HttpContext;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-enum HttpContextRegistry {
+enum HttpContextDirectory implements Directory<Class<?>, HttpContext> {
 	
 	/**
-	 * <p>The instance of {@link HttpContextRegistry} which exposes the {@link HttpContext} which 
+	 * <p>The instance of {@link HttpContextDirectory} which exposes the {@link HttpContext} which 
 	 * can be bound and looked up using their endpoints.</p>
 	 * 
 	 * @since 1.2.4
@@ -45,9 +54,29 @@ enum HttpContextRegistry {
 	INSTANCE;
 
 	
-	private static Map<String, HttpContext> CONTEXTS = new HashMap<String, HttpContext>();
+	private static final GenericFactory<Void, HttpContext, ZombieLinkRuntimeException> 
+	CONTEXT_FACTORY = new AbstractGenericFactory<Void, HttpContext, ZombieLinkRuntimeException>() {
+		
+		@Override
+		public HttpContext newInstance() throws ZombieLinkRuntimeException {
+			
+			try {
+				
+				CookieStore cookieStore = new BasicCookieStore();
+				HttpContext httpContext = new BasicHttpContext();
+				
+				httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+				
+				return httpContext;
+			}
+			catch(Exception e) {
+				
+				throw new ZombieLinkRuntimeException(e);
+			}
+		}
+	};
 	
-	private final HttpContextFactory httpContextFactory = new HttpContextFactory();
+	private static final Map<String, HttpContext> CONTEXTS = new HashMap<String, HttpContext>();
 	
 	
 	/**
@@ -65,6 +94,7 @@ enum HttpContextRegistry {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
+	@Override
 	public synchronized HttpContext bind(Class<?> endpoint, HttpContext httpContext) {
 		
 		String name = endpoint.getName();
@@ -88,11 +118,12 @@ enum HttpContextRegistry {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
+	@Override
 	public synchronized HttpContext lookup(Class<?> endpoint) {
 		
 		HttpContext httpContext = CONTEXTS.get(endpoint.getName());
 		
 		return (httpContext == null)? 
-				bind(endpoint, httpContextFactory.newInstance()) :httpContext;
+				bind(endpoint, CONTEXT_FACTORY.newInstance()) :httpContext;
 	}
 }

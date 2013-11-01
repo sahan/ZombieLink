@@ -61,10 +61,10 @@ class BasicRequestExecutor implements RequestExecutor {
 	
 	/**
 	 * <p>Performs the actual request execution with the {@link HttpClient} to be used for the endpoint 
-	 * (fetched using the {@link HttpClientRegistry}). See {@link HttpClient#execute(HttpUriRequest)}</p>
+	 * (fetched using the {@link HttpClientDirectory}). See {@link HttpClient#execute(HttpUriRequest)}</p>
 	 * 
 	 * <p>If the endpoint is annotated with @{@link Stateful}, the relevant {@link HttpContext} from the 
-	 * {@link HttpContextRegistry} is used. See {@link HttpClient#execute(HttpUriRequest, HttpContext)}</p>
+	 * {@link HttpContextDirectory} is used. See {@link HttpClient#execute(HttpUriRequest, HttpContext)}</p>
 	 *
 	 * @param request
 	 * 			the {@link HttpRequestBase} to be executed using the endpoint's {@link HttpClient}
@@ -82,10 +82,10 @@ class BasicRequestExecutor implements RequestExecutor {
 		
 			Class<?> endpoint = context.getEndpoint();
 			
-			HttpClient httpClient = HttpClientRegistry.INSTANCE.lookup(endpoint);
+			HttpClient httpClient = HttpClientDirectory.INSTANCE.lookup(endpoint);
 			
 			return endpoint.isAnnotationPresent(Stateful.class)? 
-					httpClient.execute(request, HttpContextRegistry.INSTANCE.lookup(endpoint)) 
+					httpClient.execute(request, HttpContextDirectory.INSTANCE.lookup(endpoint)) 
 					:httpClient.execute(request);
 		}
 		catch(Exception e) {

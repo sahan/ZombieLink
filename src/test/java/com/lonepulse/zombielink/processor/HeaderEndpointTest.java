@@ -41,7 +41,7 @@ import org.junit.rules.ExpectedException;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.annotation.HeaderSet;
+import com.lonepulse.zombielink.annotation.Headers;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
@@ -189,7 +189,7 @@ public class HeaderEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link HeaderSet} and {@link HeaderSet.Header}.</p>
+	 * <p>Test for {@link Headers} and {@link Headers.Header}.</p>
 	 * 
 	 * @since 1.2.4
 	 */

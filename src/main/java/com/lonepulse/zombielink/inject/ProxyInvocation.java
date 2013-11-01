@@ -39,7 +39,7 @@ import com.lonepulse.zombielink.processor.Processors;
  * direct the invocation as defined on an {@link ProxyInvocation.Template}. Instances of {@link ProxyInvocation} 
  * may be used for deferred request execution using a queuing strategy, reuse via caching, etc.</p>
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * <br><br>
  * @since 1.2.4
  * <br><br>

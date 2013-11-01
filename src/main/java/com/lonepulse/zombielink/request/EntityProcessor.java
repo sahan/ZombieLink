@@ -21,6 +21,9 @@ package com.lonepulse.zombielink.request;
  */
 
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpHeaders;
@@ -31,6 +34,7 @@ import org.apache.http.entity.ContentType;
 
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.util.Metadata;
 
 /**
  * <p>This is a concrete implementation of {@link RequestProcessor} which resolves and inserts the enclosing 
@@ -63,7 +67,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * </ul>
 	 * 
 	 * <p>Parameter types are resolved to their {@link HttpEntity} as specified in 
-	 * {@link RequestUtils#resolveHttpEntity(Object)}.</p>
+	 * {@link RequestUtils#resolveEntity(Object)}.</p>
 	 * 
 	 * <p>See {@link RequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
 	 *
@@ -71,7 +75,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * 			an instance of {@link HttpEntityEnclosingRequestBase} which allows the inclusion of an 
 	 * 			{@link HttpEntity} in its body
 	 * <br><br>
-	 * @param config
+	 * @param context
 	 * 			an immutable instance of {@link InvocationContext} which is used to retrieve the entity
 	 * <br><br>
  	 * @return the same instance of {@link HttpRequestBase} which was given for processing entities 
@@ -83,14 +87,26 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext config) 
+	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext context) 
 	throws RequestProcessorException {
 
 		try {
 
 			if(httpRequestBase instanceof HttpEntityEnclosingRequestBase) {
 				
-				HttpEntity httpEntity = RequestUtils.findAndResolveEntity(config);
+				List<Entry<Entity, Object>> entities = Metadata.onParams(Entity.class, context);
+				
+				if(entities.isEmpty()) {
+					
+					throw new MissingEntityException(context);
+				}
+				
+				if(entities.size() > 1) {
+					
+					throw new MultipleEntityException(context);
+				}
+				
+				HttpEntity httpEntity = RequestUtils.resolveEntity(entities.get(0).getValue());
 				
 				((HttpEntityEnclosingRequestBase)httpRequestBase).setHeader(
 					HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());
@@ -131,7 +147,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 		}
 		catch(Exception e) {
 			
-			throw new RequestProcessorException(getClass(), config, e);
+			throw new RequestProcessorException(getClass(), context, e);
 		}
 		
 		return httpRequestBase;
