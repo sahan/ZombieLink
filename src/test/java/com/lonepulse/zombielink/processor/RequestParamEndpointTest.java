@@ -24,6 +24,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
@@ -36,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URISyntaxException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.http.ParseException;
 import org.apache.http.entity.BasicHttpEntity;
@@ -53,6 +57,7 @@ import org.junit.rules.ExpectedException;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.QueryParam;
+import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
@@ -113,9 +118,63 @@ public class RequestParamEndpointTest {
 		
 		verify(getRequestedFor(urlEqualTo(url)));
 	}
+	
+	/**
+	 * <p>Test for a {@link Request} with a subpath having batch {@link QueryParams}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testQueryParamsBatch() {
+		
+		String subpath = "/queryparamsbatch\\?\\S+",
+			   fnKey = "firstName", lnKey = "lastName",
+			   firstName = "Bucky", lastName = "Barnes",
+			   url = "/queryparamsbatch?" + fnKey + "=" + firstName + "&" + lnKey + "=" + lastName;
+		
+		Map<String, String> params = new LinkedHashMap<String, String>();
+		params.put(fnKey, firstName); 
+		params.put(lnKey, lastName); 
+		
+		stubFor(get(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		requestEndpoint.queryParamsBatch(params);
+		
+		verify(getRequestedFor(urlEqualTo(url)));
+	}
+	
+	/**
+	 * <p>Test for a {@link Request} with a subpath having batch {@link QueryParams}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testFormParamsBatch() {
+		
+		String subpath = "/formparamsbatch",
+			   fnKey = "firstName", lnKey = "lastName",
+			   firstName = "Franklin", lastName = "Richards",
+			   body = fnKey + "=" + firstName + "&" + lnKey + "=" + lastName;
+		
+		Map<String, String> params = new LinkedHashMap<String, String>();
+		params.put(fnKey, firstName); 
+		params.put(lnKey, lastName); 
+		
+		stubFor(post(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withBody(body)
+				.withStatus(200)));
+		
+		requestEndpoint.formParamsBatch(params);
+		
+		verify(postRequestedFor(urlEqualTo(subpath))
+			  .withRequestBody(equalTo(body)));
+	}
 
 	/**
-	 * <p>Test for a {@link Request} with a subpath having constant {@link Request.Param}s.
+	 * <p>Test for a {@link Request} with a subpath having constant query parameters.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -133,6 +192,29 @@ public class RequestParamEndpointTest {
 		requestEndpoint.constantQueryParams();
 		
 		verify(getRequestedFor(urlEqualTo(url)));
+	}
+	
+	/**
+	 * <p>Test for a {@link Request} with a subpath having constant form parameters.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testConstantFormParams() {
+		
+		String subpath = "/constantformparams", 
+			   firstName = "Beta-Ray", lastName = "Bill",
+			   body = "firstName=" + firstName + "&lastName=" + lastName;
+		
+		stubFor(post(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withBody(body)
+				.withStatus(200)));
+		
+		requestEndpoint.constantFormParams();
+		
+		verify(postRequestedFor(urlEqualTo(subpath))
+			  .withRequestBody(equalTo(body)));
 	}
 	
 	/**

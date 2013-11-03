@@ -24,6 +24,7 @@ package com.lonepulse.zombielink.processor;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Map;
 
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
@@ -33,7 +34,10 @@ import org.apache.http.entity.StringEntity;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
+import com.lonepulse.zombielink.annotation.FormParams;
+import com.lonepulse.zombielink.annotation.Param;
 import com.lonepulse.zombielink.annotation.QueryParam;
+import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.model.User;
@@ -69,15 +73,47 @@ public interface RequestParamEndpoint {
 							  @QueryParam("lastName") String lastName);
 	
 	/**
-	 * <p>Sends a request with a set of constant query paramers.
+	 * <p>Sends a request with a set of query parameters provided as a batch.</p>
+	 * 
+	 * @param params
+	 * 			the map of basic name and value pairs 
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/constantqueryparams", 
-			 params = {@Request.Param(name = "firstName", value = "Doctor"), 
-					   @Request.Param(name = "lastName", value = "Who")})
+	@Request(path = "/queryparamsbatch")
+	public String queryParamsBatch(@QueryParams Map<String, String> params);
+	
+	/**
+	 * <p>Sends a request with a set of form parameters provided as a batch.</p>
+	 * 
+	 * @param params
+	 * 			the map of basic name and value pairs 
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsbatch", method = RequestMethod.POST)
+	public String formParamsBatch(@FormParams Map<String, String> params);
+	
+	/**
+	 * <p>Sends a request with a set of constant query parameters.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/constantqueryparams")
+	@QueryParams({@Param(name = "firstName", value = "Doctor"),
+				  @Param(name = "lastName", value = "Who")})
 	public String constantQueryParams();
-
+	
+	/**
+	 * <p>Sends a request with a set of constant form parameters.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/constantformparams", method = RequestMethod.POST)
+	@FormParams({@Param(name = "firstName", value = "Beta-Ray"),
+				 @Param(name = "lastName", value = "Bill")})
+	public String constantFormParams();
+	
 	/**
 	 * <p>Sends a request with a {@code byte[]} which should be resolved to an 
 	 * instance of {@link ByteArrayEntity}.

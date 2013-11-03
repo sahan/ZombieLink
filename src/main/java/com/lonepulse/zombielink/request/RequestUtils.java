@@ -49,7 +49,10 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.SerializableEntity;
 import org.apache.http.entity.StringEntity;
 
+import com.lonepulse.zombielink.annotation.FormParams;
 import com.lonepulse.zombielink.annotation.Headers;
+import com.lonepulse.zombielink.annotation.Param;
+import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.inject.InvocationContext;
@@ -70,7 +73,6 @@ final class RequestUtils {
 	
 	
 	private RequestUtils() {}
-	
 	
 	/**
 	 * <p>Discovers which concrete implementation of {@link HttpEntity} is suitable for wrapping the given object. 
@@ -160,32 +162,56 @@ final class RequestUtils {
 	 
 	/**
 	 * <p>Finds all <b><i>constant</i> request parameters</b> in the given {@link InvocationContext}.</p> 
-	 * <p>Constant request parameters are introduced with @{@link Request.Param} at <b>request level</b> using 
-	 * the @{@link Request} annotation.</p>
+	 * <p>Constant request parameters are introduced with @{@link Param} at <b>request level</b> using 
+	 * the @{@link QueryParams} annotation.</p>
 	 *
-	 * @param config
-	 * 			the {@link InvocationContext} from which all {@link Request.Param} annotations applied 
+	 * @param context
+	 * 			the {@link InvocationContext} from which all {@link QueryParams} annotations applied 
 	 * 			on the endpoint method will be extracted
 	 * <br><br>
-	 * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Request.Param} annotations 
-	 * 	   	   found on the {@link Request} annotation 
+	 * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Param} annotations 
+	 * 	   	   found on the {@link QueryParams} annotation
 	 * <br><br>
 	 * @throws IllegalArgumentException
 	 * 			if the supplied {@link InvocationContext} was {@code null}
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	 static List<Request.Param> findStaticRequestParams(InvocationContext config) {
+	 static List<Param> findStaticQueryParams(InvocationContext context) {
 		
-		if(config == null) {
-			
-			new IllegalArgumentException("The supplied Proxy Invocation Configuration cannot be <null>.");
-		}
+		Method request = assertNotNull(context).getRequest();
 		
-		Method request = config.getRequest();
-		Request.Param[] requestParams = request.getAnnotation(Request.class).params();
+		QueryParams queryParams = request.getAnnotation(QueryParams.class);
 		
-		return Collections.unmodifiableList(Arrays.asList(requestParams));
+		return Collections.unmodifiableList(queryParams != null? 
+				Arrays.asList(queryParams.value()) : new ArrayList<Param>());
+	 }
+	 
+	 /**
+	  * <p>Finds all <b><i>constant</i> form parameters</b> in the given {@link InvocationContext}.</p> 
+	  * <p>Constant form parameters are introduced with @{@link Param} at <b>request level</b> using 
+	  * the @{@link FormParams} annotation.</p>
+	  *
+	  * @param context
+	  * 			the {@link InvocationContext} from which all {@link FormParams} annotations applied 
+	  * 			on the endpoint method will be extracted
+	  * <br><br>
+	  * @return an <b>unmodifiable</b> {@link List} which aggregates all the @{@link Param} annotations 
+	  * 	   	   found on the {@link FormParams} annotation
+	  * <br><br>
+	  * @throws IllegalArgumentException
+	  * 			if the supplied {@link InvocationContext} was {@code null}
+	  * <br><br>
+	  * @since 1.2.4
+	  */
+	 static List<Param> findStaticFormParams(InvocationContext context) {
+		 
+		 Method request = assertNotNull(context).getRequest();
+		 
+		 FormParams formParams = request.getAnnotation(FormParams.class);
+		 
+		 return Collections.unmodifiableList(formParams != null? 
+				 Arrays.asList(formParams.value()) : new ArrayList<Param>());
 	 }
 	
 	/**
