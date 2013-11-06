@@ -131,10 +131,20 @@ class FormParamProcessor extends AbstractRequestProcessor {
 					nameValuePairs.add(new BasicNameValuePair(name, String.valueOf(value)));
 				}
 				
-				//add batch name and value pairs
+				//add batch name and value pairs (along with any static params)
 				List<Entry<FormParams, Object>> queryParamMaps = Metadata.onParams(FormParams.class, context); //batch N&V pairs
 				
 				for (Entry<FormParams, Object> entry : queryParamMaps) {
+					
+					Param[] constantParams = entry.getKey().value();
+					
+					if(constantParams != null && constantParams.length > 0) {
+					
+						for (Param param : constantParams) {
+							
+							nameValuePairs.add(new BasicNameValuePair(param.name(), param.value()));
+						}
+					}
 					
 					Object map = entry.getValue();
 					

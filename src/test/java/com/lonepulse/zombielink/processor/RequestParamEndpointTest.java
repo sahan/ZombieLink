@@ -329,7 +329,6 @@ public class RequestParamEndpointTest {
 		
 		requestEndpoint.stringEntity(entity);
 		
-		verify(putRequestedFor(urlEqualTo(subpath)));
 		verify(putRequestedFor(urlEqualTo(subpath))
 			   .withRequestBody(equalTo(EntityUtils.toString(se))));
 	}
@@ -352,7 +351,6 @@ public class RequestParamEndpointTest {
 		
 		requestEndpoint.serializableEntity(entity);
 		
-		verify(putRequestedFor(urlEqualTo(subpath)));
 		verify(putRequestedFor(urlEqualTo(subpath))
 			   .withRequestBody(equalTo(EntityUtils.toString(se))));
 	}

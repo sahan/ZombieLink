@@ -121,10 +121,20 @@ class QueryParamProcessor extends AbstractRequestProcessor {
 				uriBuilder.setParameter(name, ((CharSequence)value).toString());
 			}
 			
-			//add batch name and value pairs
+			//add batch name and value pairs (along with any static params)
 			List<Entry<QueryParams, Object>> queryParamMaps = Metadata.onParams(QueryParams.class, context);
 			
 			for (Entry<QueryParams, Object> entry : queryParamMaps) {
+				
+				Param[] constantParams = entry.getKey().value();
+				
+				if(constantParams != null && constantParams.length > 0) {
+				
+					for (Param param : constantParams) {
+						
+						uriBuilder.setParameter(param.name(), param.value());
+					}
+				}
 				
 				Object map = entry.getValue();
 				
