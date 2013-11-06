@@ -31,7 +31,7 @@ import org.apache.http.util.EntityUtils;
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
- * <p>This is an extension of {@link AbstractResponseParser} which parses b>JSON response content</b> 
+ * <p>This is an extension of {@link AbstractDeserializer} which parses b>JSON response content</b> 
  * to an instance of the model specified on the endpoint definition.</p>
  * 
  * <p><b>Note</b> that this parser requires the <a href="http://code.google.com/p/google-gson">GSON</a> 
@@ -44,14 +44,14 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-final class JsonResponseParser extends AbstractResponseParser<Object> {
+final class JsonResponseParser extends AbstractDeserializer<Object> {
 	
 	
 	private static final Logger LOGGER = Logger.getLogger(JsonResponseParser.class.getName());
 	
 	private static final String ERROR_CONTEXT_UNAVAILABLE = new StringBuilder()
 	.append("\n\nGSON (gson-2.2.4.jar) was not detected on the classpath. ")
-	.append("To enable JSON response parsing with @Parser(ParserType.JSON) ")
+	.append("To enable JSON response parsing with @Deserializer(ContentType.JSON) ")
 	.append("add the following dependency to your build configuration.\n\n")
 	.append("Maven:\n")
 	.append("<dependency>\n")
@@ -67,7 +67,7 @@ final class JsonResponseParser extends AbstractResponseParser<Object> {
 	.append("http://code.google.com/p/google-gson/downloads/list \n\n").toString();
 	
 	private static final String ERROR_CONTEXT_INCOMPATIBLE = new StringBuilder()
-	.append("\n\nFailed to initialize JsonResponseParser; use of @Parser(ParserType.JSON) is disabled.\n")
+	.append("\n\nFailed to initialize JsonResponseParser; use of @Deserializer(ContentType.JSON) is disabled.\n")
 	.append("Please make sure that you are using version 2.2.4 of GSON.\n\n").toString();
 	
 	
@@ -124,7 +124,7 @@ final class JsonResponseParser extends AbstractResponseParser<Object> {
      * <p>Parses the JSON String in the {@link HttpResponse} using <b>GSON</b> and returns the entity modeled 
      * by the JSON data.</p>
      * 
-     * <p>See {@link AbstractResponseParser#processResponse(HttpResponse, InvocationContext)}.
+     * <p>See {@link AbstractDeserializer#deserialize(HttpResponse, InvocationContext)}.
      * 
 	 * @param httpResponse
 	 * 				the {@link HttpResponse} which contains the JSON content to be parsed to a model
@@ -145,7 +145,7 @@ final class JsonResponseParser extends AbstractResponseParser<Object> {
 	 * @since 1.1.0
 	 */
 	@Override
-	protected Object processResponse(HttpResponse httpResponse, InvocationContext context) throws Exception {
+	protected Object deserialize(HttpResponse httpResponse, InvocationContext context) throws Exception {
 		
 		if(unavailable || incompatible) {
 			

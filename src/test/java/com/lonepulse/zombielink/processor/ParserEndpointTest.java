@@ -41,8 +41,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
-import com.lonepulse.zombielink.response.AbstractResponseParser;
-import com.lonepulse.zombielink.response.ResponseParsers;
+import com.lonepulse.zombielink.response.AbstractDeserializer;
+import com.lonepulse.zombielink.response.Deserializers;
 
 /**
  * <p>Performs <b>Unit Testing</b> on the proxy of {@link ParserEndpoint}.
@@ -105,7 +105,7 @@ public class ParserEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link ResponseParsers#JSON}.
+	 * <p>Test for {@link Deserializers#JSON}.
 	 * 
 	 * @since 1.2.4
 	 */
@@ -133,7 +133,7 @@ public class ParserEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link ResponseParsers#XML}.
+	 * <p>Test for {@link Deserializers#XML}.
 	 * 
 	 * @throws Exception
 	 * 			if the test terminated with an error
@@ -187,7 +187,7 @@ public class ParserEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for custom {@link AbstractResponseParser}s.
+	 * <p>Test for custom {@link AbstractDeserializer}s.
 	 * 
 	 * @since 1.2.4
 	 */

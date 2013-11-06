@@ -21,10 +21,10 @@ package com.lonepulse.zombielink.processor;
  */
 
 
+import com.lonepulse.zombielink.ContentType;
 import com.lonepulse.zombielink.annotation.Asynchronous;
+import com.lonepulse.zombielink.annotation.Deserializer;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Parser;
-import com.lonepulse.zombielink.annotation.Parser.ParserType;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.model.User;
 import com.lonepulse.zombielink.response.AsyncHandler;
@@ -83,7 +83,7 @@ public interface AsyncEndpoint {
 	 * 
 	 * @since 1.3.4
 	 */
-	@Parser(ParserType.JSON)
+	@Deserializer(ContentType.JSON)
 	@Request(path = "/asyncerror")
 	public void asyncError(AsyncHandler<User> asyncHandler);
 	
@@ -129,7 +129,7 @@ public interface AsyncEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Parser(ParserType.JSON)
+	@Deserializer(ContentType.JSON)
 	@Request(path = "/errorcallbackerror")
 	public void asyncErrorCallbackError(AsyncHandler<User> asyncHandler);
 }

@@ -20,12 +20,12 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
-import com.lonepulse.zombielink.annotation.Parser;
+import com.lonepulse.zombielink.annotation.Deserializer;
 import com.lonepulse.zombielink.annotation.Request;
 
 /**
  * <p>This runtime exception is thrown when the return type of a {@link Request} method 
- * cannot be assigned to the designated {@link Parser}'s return type. 
+ * cannot be assigned to the designated {@link Deserializer}'s return type. 
  * 
  * @version 1.1.1
  * <br><br>

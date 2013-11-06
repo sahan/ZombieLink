@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.response;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.annotation.Parser;
+import com.lonepulse.zombielink.annotation.Deserializer;
 
 /**
  * <p>To be used with <b>asynchronous request execution</b> for retrieving the parsed response content or 
@@ -53,7 +53,7 @@ public abstract class AsyncHandler<RESPONSE> {
 	 * 			the {@link HttpResponse} which was returned for a successful request execution
 	 * <br><br>
 	 * @param response
-	 * 			the response content parsed as specified by @{@link Parser}
+	 * 			the response content parsed as specified by @{@link Deserializer}
 	 * <br><br>
 	 * @since 1.1.0
 	 */
