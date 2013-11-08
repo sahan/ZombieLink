@@ -21,10 +21,10 @@ package com.lonepulse.zombielink.processor;
  */
 
 
-import com.lonepulse.zombielink.ContentType;
 import com.lonepulse.zombielink.annotation.Asynchronous;
 import com.lonepulse.zombielink.annotation.Deserializer;
 import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.annotation.Entity.ContentType;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.model.User;
 import com.lonepulse.zombielink.response.AsyncHandler;
@@ -75,7 +75,7 @@ public interface AsyncEndpoint {
 	 * whose execution is expected to fail with an exception and hence handled by the callback 
 	 * {@link AsyncHandler#onError(Exception)}.</p>
 	 * 
-	 * <p>The error is caused by the parser which attempts to parse the response content which 
+	 * <p>The error is caused by the deserializer which attempts to parse the response content which 
 	 * is not of type JSON into the {@link User} model.</p> 
 	 * 
 	 * @param asyncHandler

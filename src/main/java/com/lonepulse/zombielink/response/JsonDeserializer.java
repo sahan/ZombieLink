@@ -34,8 +34,8 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <p>This is an extension of {@link AbstractDeserializer} which parses b>JSON response content</b> 
  * to an instance of the model specified on the endpoint definition.</p>
  * 
- * <p><b>Note</b> that this parser requires the <a href="http://code.google.com/p/google-gson">GSON</a> 
- * library to be available on the classpath to be active. If GSON is not detected, this parser will 
+ * <p><b>Note</b> that this deserializer requires the <a href="http://code.google.com/p/google-gson">GSON</a> 
+ * library to be available on the classpath to be active. If GSON is not detected, this deserializer will 
  * be disabled and any attempt to use it will result in an {@link IllegalStateException}.</p>
  * 
  * @version 1.2.0
@@ -44,14 +44,14 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-final class JsonResponseParser extends AbstractDeserializer<Object> {
+final class JsonDeserializer extends AbstractDeserializer<Object> {
 	
 	
-	private static final Logger LOGGER = Logger.getLogger(JsonResponseParser.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(JsonDeserializer.class.getName());
 	
 	private static final String ERROR_CONTEXT_UNAVAILABLE = new StringBuilder()
 	.append("\n\nGSON (gson-2.2.4.jar) was not detected on the classpath. ")
-	.append("To enable JSON response parsing with @Deserializer(ContentType.JSON) ")
+	.append("To enable JSON deserialization with @Deserializer(ContentType.JSON) ")
 	.append("add the following dependency to your build configuration.\n\n")
 	.append("Maven:\n")
 	.append("<dependency>\n")
@@ -67,7 +67,7 @@ final class JsonResponseParser extends AbstractDeserializer<Object> {
 	.append("http://code.google.com/p/google-gson/downloads/list \n\n").toString();
 	
 	private static final String ERROR_CONTEXT_INCOMPATIBLE = new StringBuilder()
-	.append("\n\nFailed to initialize JsonResponseParser; use of @Deserializer(ContentType.JSON) is disabled.\n")
+	.append("\n\nFailed to initialize JsonDeserializer; use of @Deserializer(ContentType.JSON) is disabled.\n")
 	.append("Please make sure that you are using version 2.2.4 of GSON.\n\n").toString();
 	
 	
@@ -110,12 +110,12 @@ final class JsonResponseParser extends AbstractDeserializer<Object> {
 	
 	
 	/**
-	 * <p>Creates a new instance of {@link JsonResponseParser} and register the generic type {@link Object} 
+	 * <p>Creates a new instance of {@link JsonDeserializer} and register the generic type {@link Object} 
 	 * as the entity which results from its <i>parse</i> operation.</p>
 	 *
 	 * @since 1.1.0
 	 */
-	public JsonResponseParser() {
+	public JsonDeserializer() {
 		
 		super(Object.class);
 	}
@@ -127,20 +127,20 @@ final class JsonResponseParser extends AbstractDeserializer<Object> {
      * <p>See {@link AbstractDeserializer#deserialize(HttpResponse, InvocationContext)}.
      * 
 	 * @param httpResponse
-	 * 				the {@link HttpResponse} which contains the JSON content to be parsed to a model
+	 * 				the {@link HttpResponse} which contains the JSON content to be deserialized to a model
 	 * <br><br>
 	 * @param context
 	 * 				the {@link InvocationContext} which is used to discover further information regarding 
 	 * 				the proxy invocation
      * <br><br>
-	 * @return the model which was parsed from the JSON response content
+	 * @return the model which was deserialized from the JSON response content
 	 * <br><br>
 	 * @throws IllegalStateException 
 	 * 				if the <b>GSON library</b> was not found on the classpath or if an incompatible version 
 	 * 				of the library is being used
 	 * <br><br>
 	 * @throws Exception 
-	 * 				if the JSON content failed to be parsed to the specified model
+	 * 				if the JSON content failed to be deserialized to the specified model
 	 * <br><br>
 	 * @since 1.1.0
 	 */

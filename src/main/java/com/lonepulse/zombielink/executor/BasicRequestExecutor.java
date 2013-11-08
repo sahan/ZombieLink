@@ -43,20 +43,20 @@ import com.lonepulse.zombielink.inject.InvocationContext;
 class BasicRequestExecutor implements RequestExecutor {
 	
 	
-	private final ExecutionHandler responseHandler;
+	private final ExecutionHandler executionHandler;
 	
 	
 	/**
 	 * <p>Creates a new instance of {@link BasicRequestExecutor} using the given {@link ExecutionHandler}.</p>
 	 *
-	 * @param responseHandler
+	 * @param executionHandler
 	 * 			the instance of {@link ExecutionHandler} which will be invoked during request execution
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	BasicRequestExecutor(ExecutionHandler responseHandler) {
+	BasicRequestExecutor(ExecutionHandler executionHandler) {
 		
-		this.responseHandler = responseHandler;
+		this.executionHandler = executionHandler;
 	}
 	
 	/**
@@ -134,17 +134,19 @@ class BasicRequestExecutor implements RequestExecutor {
 	public HttpResponse execute(HttpRequestBase request, InvocationContext context) 
 	throws RequestExecutionException {
 		
+		HttpResponse response = null;
+		
 		try {
 			
-			HttpResponse response = fetchResponse(request, context);
+			response = fetchResponse(request, context);
 			
 			if(isSuccessful(response)) {
 				
-				responseHandler.onSuccess(response, context);
+				executionHandler.onSuccess(response, context);
 			}
 			else {
 				
-				responseHandler.onFailure(response, context);
+				executionHandler.onFailure(response, context);
 			}
 			
 			return response;
@@ -152,8 +154,8 @@ class BasicRequestExecutor implements RequestExecutor {
 		catch (Exception error) {
 			
 			try {
-			
-				responseHandler.onError(context, error);
+				
+				executionHandler.onError(context, error);
 			}
 			catch(Exception e) {
 				

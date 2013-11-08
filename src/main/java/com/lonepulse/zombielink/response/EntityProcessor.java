@@ -27,9 +27,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.ContentType;
 import com.lonepulse.zombielink.annotation.Asynchronous;
 import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Entity.ContentType;
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.inject.InvocationContext;
 
@@ -37,8 +37,8 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <p>This is a concrete implementation of {@link ResponseProcessor} which retrieves the {@link HttpEntity} 
  * of an {@link HttpResponse} and parses it using the defined {@link ContentType}. {@link ContentType}s are defined 
  * using @{@link Deserializer} either at the endpoint level or at the request level. All endpoint request declarations 
- * which defined a return type should be associated with a response parser. Custom response parsers may be used 
- * by extending {@link AbstractDeserializer} and defining its type on {@link Deserializer#type()}.</p>
+ * which defined a return type should be associated with a deserializer. Custom deserializers may be used by extending 
+ * {@link AbstractDeserializer} and defining its type on {@link Deserializer#type()}.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -71,54 +71,50 @@ class EntityProcessor extends AbstractResponseProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected Object process(HttpResponse httpResponse, InvocationContext config, Object parsedResponse)
+	protected Object process(HttpResponse httpResponse, InvocationContext config, Object deserializedResponse)
 	throws ResponseProcessorException {
 
-		HttpEntity httpEntity = httpResponse != null? httpResponse.getEntity() :null;
+		HttpEntity entity = httpResponse != null? httpResponse.getEntity() :null;
 		
-		if(httpEntity != null) {
+		if(entity != null) {
+			
+			boolean responseExpected = false;
+			boolean handleAsync = false;
 			
 			try {
 				
 				Method request = config.getRequest();
 				Class<?> responseType = request.getReturnType();
 				
-				boolean handleAsync = (config.getEndpoint().isAnnotationPresent(Asynchronous.class) 
-									   || request.isAnnotationPresent(Asynchronous.class));
+				handleAsync = (config.getEndpoint().isAnnotationPresent(Asynchronous.class) 
+							   || request.isAnnotationPresent(Asynchronous.class));
 				
-				boolean responseExpected = !responseType.equals(void.class) && !responseType.equals(Void.class); 
+				responseExpected = !(responseType.equals(void.class) || responseType.equals(Void.class)); 
 				
 				if(handleAsync || responseExpected) {
 					
 					Class<?> endpoint = config.getEndpoint();
-					AbstractDeserializer<?> responseParser = null;
+					AbstractDeserializer<?> deserializer = null;
 			
-					Deserializer parser = null;
+					Deserializer metadata = (metadata = 
+						request.getAnnotation(Deserializer.class)) == null? 
+							endpoint.getAnnotation(Deserializer.class) :metadata;
 					
-					if(request.isAnnotationPresent(Deserializer.class)) {
+					if(metadata != null) {
 						
-						parser = request.getAnnotation(Deserializer.class);
-					}
-					else if(endpoint.isAnnotationPresent(Deserializer.class)) {
-						
-						parser = endpoint.getAnnotation(Deserializer.class);
+						deserializer = (metadata.value() == ContentType.UNDEFINED)? 
+							Deserializers.resolve(metadata.type()) :Deserializers.resolve(metadata.value()); 
 					}
 					else if(handleAsync || CharSequence.class.isAssignableFrom(responseType)) {
 						
-						responseParser = Deserializers.resolve(ContentType.PLAIN); 
+						deserializer = Deserializers.resolve(ContentType.PLAIN);     
 					}
 					else {
 						
-						throw new ResponseParserUndefinedException(endpoint, request);
+						throw new DeserializerUndefinedException(endpoint, request);
 					}
 					
-					if(parser != null) {
-						
-						responseParser = (parser.value() == ContentType.UNDEFINED)? 
-							Deserializers.resolve(parser.type()) :Deserializers.resolve(parser.value()); 
-					}
-					
-					return responseParser.run(httpResponse, config);
+					return deserializer.run(httpResponse, config);
 				}
 			}
 			catch(Exception e) {
@@ -128,10 +124,13 @@ class EntityProcessor extends AbstractResponseProcessor {
 			}
 			finally {
 				
-				EntityUtils.consumeQuietly(httpEntity);
+				if(!(handleAsync || responseExpected)) { //i.e. a deserializer was not used
+					
+					EntityUtils.consumeQuietly(entity);
+				}
 			}
 		}
 		
-		return parsedResponse;
+		return deserializedResponse;
 	}
 }

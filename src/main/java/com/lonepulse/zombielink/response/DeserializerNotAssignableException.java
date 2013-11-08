@@ -31,7 +31,7 @@ import com.lonepulse.zombielink.annotation.Request;
  * <br><br>
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ResponseParserNotAssignableException extends ResponseParserException {
+class DeserializerNotAssignableException extends DeserializerException {
 
 
 	private static final long serialVersionUID = -2526887708389941964L;
@@ -40,22 +40,22 @@ class ResponseParserNotAssignableException extends ResponseParserException {
 	/**
 	 * <p>Displays a detailed description along with the stacktrace.
 	 */
-	public ResponseParserNotAssignableException(Class<?> parserReturnType, Class<?> requestReturnType) {
+	public DeserializerNotAssignableException(Class<?> deserializerReturnType, Class<?> requestReturnType) {
 		
-		this(new StringBuilder("Cannot assign the parser's response of type ").append(parserReturnType.getName())
+		this(new StringBuilder("Cannot assign the deserializer's response of type ").append(deserializerReturnType.getName())
 			 .append(" to an instance of the request return type ").append(requestReturnType.getName()).toString());
 	}
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
 	 */
-	public ResponseParserNotAssignableException() {
+	public DeserializerNotAssignableException() {
 	}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
 	 */
-	public ResponseParserNotAssignableException(String detailMessage) {
+	public DeserializerNotAssignableException(String detailMessage) {
 		
 		super(detailMessage);
 	}
@@ -63,7 +63,7 @@ class ResponseParserNotAssignableException extends ResponseParserException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
 	 */
-	public ResponseParserNotAssignableException(Throwable throwable) {
+	public DeserializerNotAssignableException(Throwable throwable) {
 		
 		super(throwable);
 	}
@@ -71,7 +71,7 @@ class ResponseParserNotAssignableException extends ResponseParserException {
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
 	 */
-	public ResponseParserNotAssignableException(String detailMessage, Throwable throwable) {
+	public DeserializerNotAssignableException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
 	}
