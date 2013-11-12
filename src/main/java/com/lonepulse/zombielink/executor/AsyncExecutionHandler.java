@@ -90,9 +90,9 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 	@Override
 	public void onSuccess(HttpResponse response, InvocationContext context) {
 		
-		AsyncHandler<Object> asyncHandler = getAsyncHandler(context);
-		
 		Object reponseEntity = Processors.RESPONSE.run(response, context); //process, regardless of an AsyncHandler definition
+		
+		AsyncHandler<Object> asyncHandler = getAsyncHandler(context);
 		
 		if(asyncHandler != null) {
 			
@@ -137,6 +137,8 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 				LOGGER.error("Callback \"onFailure\" aborted with an exception.", e);
 			}
 		}
+		
+		Processors.RESPONSE.run(response, context); //process, regardless of a failed response
 	}
 
 	/**

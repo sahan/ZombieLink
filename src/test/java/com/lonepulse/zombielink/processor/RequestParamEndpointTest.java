@@ -43,6 +43,7 @@ import java.util.Map;
 
 import org.apache.http.ParseException;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.SerializableEntity;
@@ -308,7 +309,7 @@ public class RequestParamEndpointTest {
 		requestEndpoint.bufferedHttpEntity(inputStream);
 		
 		verify(putRequestedFor(urlEqualTo(subpath))
-			   .withRequestBody(equalTo(EntityUtils.toString(bhe))));
+			   .withRequestBody(equalTo(EntityUtils.toString(new BufferedHttpEntity(bhe)))));
 	}
 	
 	/**

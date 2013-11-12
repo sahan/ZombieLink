@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
+import static com.lonepulse.zombielink.util.Is.successful;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -95,23 +96,6 @@ class BasicRequestExecutor implements RequestExecutor {
 	}
 	
 	/**
-	 * <p>Determines whether the {@link HttpResponse} signifies a successful request execution or not.</p>
-	 *
-	 * @param response
-	 * 			the {@link HttpResponse} whose success status is to be determined
-	 * <br><br>
-	 * @return {@code true} if the {@link HttpResponse} signifies a successful request execution 
-	 * <br><br>
-	 * @since 1.2.4
-	 */
-	protected boolean isSuccessful(HttpResponse response) {
-		
-		int status = response.getStatusLine().getStatusCode();
-		return status > 199 && status < 300;
-	}
-	
-	
-	/**
 	 * <p>Executes an {@link HttpRequestBase} using the endpoint's {@link HttpClient} and handles the 
 	 * resulting {@link HttpResponse} using this executor's {@link ExecutionHandler}.</p>
 	 * 
@@ -134,13 +118,11 @@ class BasicRequestExecutor implements RequestExecutor {
 	public HttpResponse execute(HttpRequestBase request, InvocationContext context) 
 	throws RequestExecutionException {
 		
-		HttpResponse response = null;
-		
 		try {
 			
-			response = fetchResponse(request, context);
+			HttpResponse response = fetchResponse(request, context);
 			
-			if(isSuccessful(response)) {
+			if(successful(response)) {
 				
 				executionHandler.onSuccess(response, context);
 			}

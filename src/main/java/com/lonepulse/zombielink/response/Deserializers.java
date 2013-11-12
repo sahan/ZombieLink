@@ -117,7 +117,7 @@ public enum Deserializers implements Deserializer<Object> {
 	 * @return the implementation of {@link AbstractDeserializer} for the given {@link Class}
 	 * <br><br>
 	 * @throws DeserializerInstantiationException
-	 * 			if a custom response deserializer failed to be instantiated using its <b>default constructor</b> 
+	 * 			if a custom deserializer failed to be instantiated using its <b>default constructor</b> 
 	 * <br><br>
 	 * @since 1.2.4
 	 */

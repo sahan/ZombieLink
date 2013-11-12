@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
+import static com.lonepulse.zombielink.util.Is.successful;
 
 import java.lang.reflect.Method;
 
@@ -65,6 +66,8 @@ class EntityProcessor extends AbstractResponseProcessor {
 	 * 			an immutable instance of {@link InvocationContext} which is used to discover any 
 	 * 			@{@link Header} metadata in its <i>request</i> and <i>args</i> 
 	 * <br><br>
+	 * @return the deserialized response entity which conforms to the expected type
+	 * <br><br> 
 	 * @throws ResponseProcessorException
 	 * 			if the response-header retrieval or injection failed due to an unrecoverable error
 	 * <br><br>
@@ -78,43 +81,43 @@ class EntityProcessor extends AbstractResponseProcessor {
 		
 		if(entity != null) {
 			
-			boolean responseExpected = false;
-			boolean handleAsync = false;
+			Method request = config.getRequest();
+			Class<?> responseType = request.getReturnType();
 			
 			try {
 				
-				Method request = config.getRequest();
-				Class<?> responseType = request.getReturnType();
+				if(successful(httpResponse)) {
 				
-				handleAsync = (config.getEndpoint().isAnnotationPresent(Asynchronous.class) 
-							   || request.isAnnotationPresent(Asynchronous.class));
+					boolean handleAsync = (config.getEndpoint().isAnnotationPresent(Asynchronous.class) 
+								   || request.isAnnotationPresent(Asynchronous.class));
+					
+					boolean responseExpected = !(responseType.equals(void.class) || responseType.equals(Void.class)); 
+					
+					if(handleAsync || responseExpected) {
+						
+						Class<?> endpoint = config.getEndpoint();
+						AbstractDeserializer<?> deserializer = null;
 				
-				responseExpected = !(responseType.equals(void.class) || responseType.equals(Void.class)); 
-				
-				if(handleAsync || responseExpected) {
-					
-					Class<?> endpoint = config.getEndpoint();
-					AbstractDeserializer<?> deserializer = null;
-			
-					Deserializer metadata = (metadata = 
-						request.getAnnotation(Deserializer.class)) == null? 
-							endpoint.getAnnotation(Deserializer.class) :metadata;
-					
-					if(metadata != null) {
+						Deserializer metadata = (metadata = 
+							request.getAnnotation(Deserializer.class)) == null? 
+								endpoint.getAnnotation(Deserializer.class) :metadata;
 						
-						deserializer = (metadata.value() == ContentType.UNDEFINED)? 
-							Deserializers.resolve(metadata.type()) :Deserializers.resolve(metadata.value()); 
-					}
-					else if(handleAsync || CharSequence.class.isAssignableFrom(responseType)) {
+						if(metadata != null) {
+							
+							deserializer = (metadata.value() == ContentType.UNDEFINED)? 
+								Deserializers.resolve(metadata.type()) :Deserializers.resolve(metadata.value()); 
+						}
+						else if(handleAsync || CharSequence.class.isAssignableFrom(responseType)) {
+							
+							deserializer = Deserializers.resolve(ContentType.PLAIN);     
+						}
+						else {
+							
+							throw new DeserializerUndefinedException(endpoint, request);
+						}
 						
-						deserializer = Deserializers.resolve(ContentType.PLAIN);     
+						return deserializer.run(httpResponse, config);
 					}
-					else {
-						
-						throw new DeserializerUndefinedException(endpoint, request);
-					}
-					
-					return deserializer.run(httpResponse, config);
 				}
 			}
 			catch(Exception e) {
@@ -124,8 +127,9 @@ class EntityProcessor extends AbstractResponseProcessor {
 			}
 			finally {
 				
-				if(!(handleAsync || responseExpected)) { //i.e. a deserializer was not used
-					
+				if(!(HttpResponse.class.isAssignableFrom(responseType) ||
+					 HttpEntity.class.isAssignableFrom(responseType))) {
+				
 					EntityUtils.consumeQuietly(entity);
 				}
 			}

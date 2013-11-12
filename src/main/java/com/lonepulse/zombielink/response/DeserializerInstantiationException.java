@@ -38,7 +38,7 @@ class DeserializerInstantiationException extends DeserializerException {
 	
 
 	/**
-	 * <p>Displays a detailed error message with the {@link Class} of the response deserializer type 
+	 * <p>Displays a detailed error message with the {@link Class} of the deserializer type 
 	 * which failed to be instantiated.</p>
 	 * 
 	 * @param deserializerType
@@ -48,13 +48,13 @@ class DeserializerInstantiationException extends DeserializerException {
 	 */
 	public DeserializerInstantiationException(Class<? extends Deserializer<?>> deserializerType) {
 		
-		super(new StringBuilder("The response deserializer of type ").append(deserializerType.getName())
+		super(new StringBuilder("The deserializer of type ").append(deserializerType.getName())
 			  .append(" failed to be instantiated using its default constructor. Please ensure that an")
 			  .append(" accessible default constructor is available. ").toString());
 	}
 	
 	/**
-	 * <p>Displays a detailed error message with the {@link Class} of the response deserializer type 
+	 * <p>Displays a detailed error message with the {@link Class} of the deserializer type 
 	 * which failed to be instantiated.</p>
 	 * 
 	 * @param deserializerType
@@ -67,7 +67,7 @@ class DeserializerInstantiationException extends DeserializerException {
 	 */
 	public DeserializerInstantiationException(Class<? extends Deserializer<?>> deserializerType, Throwable rootCause) {
 		
-		super(new StringBuilder("The response deserializer of type ").append(deserializerType.getName())
+		super(new StringBuilder("The deserializer of type ").append(deserializerType.getName())
 			  .append(" failed to be instantiated using its default constructor. Please ensure that an")
 			  .append(" accessible default constructor is available. ").toString(), rootCause);
 	}

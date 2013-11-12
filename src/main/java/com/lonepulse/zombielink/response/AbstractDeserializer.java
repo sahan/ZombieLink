@@ -20,15 +20,13 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
  * <p>This is an implementation of {@link Deserializer} which defines and executes the 
- * steps in <i>deserializing</i>.</p>
+ * steps in <i>deserialization</i>.</p>
  * 
  * <p>User defined {@link Deserializer}s must extend this class and override the 
  * {@link AbstractDeserializer#processResponse(HttpResponse)} and {@link AbstractDeserializer#getType()} 
@@ -107,15 +105,6 @@ public abstract class AbstractDeserializer<T> implements Deserializer<T> {
 		catch(Exception e) {
 		
 			throw new DeserializerException(e);
-		}
-		finally {
-			
-			HttpEntity entity = null;
-			
-			if((entity = httpResponse.getEntity()) != null) {
-				
-				EntityUtils.consumeQuietly(entity);
-			}
 		}
 	}
 	
