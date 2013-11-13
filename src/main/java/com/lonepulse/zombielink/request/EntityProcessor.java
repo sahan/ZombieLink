@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
-
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -32,8 +31,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 
+import sun.misc.RequestProcessor;
+
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.util.Entities;
+import com.lonepulse.zombielink.util.EntityResolutionFailedException;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**
@@ -106,7 +109,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 					throw new MultipleEntityException(context);
 				}
 				
-				HttpEntity httpEntity = RequestUtils.resolveEntity(entities.get(0).getValue());
+				HttpEntity httpEntity = Entities.resolve(entities.get(0).getValue());
 				
 				((HttpEntityEnclosingRequestBase)httpRequestBase).setHeader(
 					HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());

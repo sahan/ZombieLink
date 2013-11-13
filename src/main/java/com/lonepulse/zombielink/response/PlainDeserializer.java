@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
@@ -56,7 +57,7 @@ public class PlainDeserializer extends AbstractDeserializer<CharSequence> {
 	@Override
 	public CharSequence deserialize(HttpResponse httpResponse, InvocationContext config) throws Exception {
 
-		String responseString = EntityUtils.toString(httpResponse.getEntity());
-		return responseString.subSequence(0, responseString.length());
+		HttpEntity entity = httpResponse.getEntity();
+		return entity == null? "" :EntityUtils.toString(entity);
 	}
 }

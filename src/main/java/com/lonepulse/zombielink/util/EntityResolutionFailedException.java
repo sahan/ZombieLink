@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.request;
+package com.lonepulse.zombielink.util;
 
 /*
  * #%L
@@ -22,9 +22,11 @@ package com.lonepulse.zombielink.request;
 
 import org.apache.http.HttpEntity;
 
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
+
 /**
  * <p>This runtime exception is thrown when a specific {@link HttpEntity} implementation failed 
- * to be resolved for a generic object. 
+ * to be resolved for a generic object.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -32,7 +34,7 @@ import org.apache.http.HttpEntity;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class EntityResolutionFailedException extends RequestProcessorException {
+public class EntityResolutionFailedException extends ZombieLinkRuntimeException {
 
 	
 	private static final long serialVersionUID = 905599478471679754L;
@@ -42,13 +44,26 @@ class EntityResolutionFailedException extends RequestProcessorException {
 	 * <p>Displays a detailed description along with the stacktrace.</p>
 	 * 
 	 * @param genericEntity
-	 * 			the generic object whose specific {@link HttpEntity} failed to be resolved
+	 * 			the generic object which failed to be translated to an {@link HttpEntity}
 	 * 
 	 * @since 1.2.4
 	 */
 	public EntityResolutionFailedException(Object genericEntity) {
 	
 		this("Failed to resolve the org.apache.http.HttpEntity for type " + genericEntity.getClass().getName());
+	}
+	
+	/**
+	 * <p>Displays a detailed description along with the stacktrace.</p>
+	 * 
+	 * @param genericType
+	 * 			the {@link Class} type which failed to be translated to an {@link HttpEntity}
+	 * 
+	 * @since 1.2.4
+	 */
+	public EntityResolutionFailedException(Class<?> genericType) {
+		
+		this("Failed to resolve the org.apache.http.HttpEntity for type " + genericType.getName());
 	}
 	
 	/**
@@ -64,18 +79,18 @@ class EntityResolutionFailedException extends RequestProcessorException {
 	 */
 	public EntityResolutionFailedException(Object genericEntity, Throwable rootCause) {
 		
-		this("Failed to resolve the org.apache.http.HttpEntity for type " 
-				+ genericEntity.getClass().getName(), rootCause);
+		this("Failed to resolve the org.apache.http.HttpEntity for type " + 
+			  genericEntity.getClass().getName(), rootCause);
 	}
 	
 	/**
-	 * See {@link RequestProcessorException#RequestProcessorException()}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 */
 	public EntityResolutionFailedException() {
 	}
 
 	/**
-	 * See {@link RequestProcessorException#RequestProcessorException(String)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 */
 	public EntityResolutionFailedException(String detailMessage) {
 		
@@ -83,7 +98,7 @@ class EntityResolutionFailedException extends RequestProcessorException {
 	}
 
 	/**
-	 * See {@link RequestProcessorException#RequestProcessorException(Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 */
 	public EntityResolutionFailedException(Throwable throwable) {
 		
@@ -91,7 +106,7 @@ class EntityResolutionFailedException extends RequestProcessorException {
 	}
 
 	/**
-	 * See {@link RequestProcessorException#RequestProcessorException(String, Throwable)}.
+	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 */
 	public EntityResolutionFailedException(String detailMessage, Throwable throwable) {
 
