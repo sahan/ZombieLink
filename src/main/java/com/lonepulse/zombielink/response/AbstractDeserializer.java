@@ -31,6 +31,8 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * all {@link Deserializer}s. To create a custom {@link Deserializer} extend this class and override 
  * {@link #deserialize(HttpResponse, InvocationContext)}.</p> 
  * 
+ * <p><b>Note</b> that all implementations are expected to be <b>stateless</b>.</p>
+ * 
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
@@ -94,27 +96,6 @@ public abstract class AbstractDeserializer<OUTPUT> implements Deserializer<OUTPU
 	}
 	
 	/**
-
-	 * 
-	 * <p><b>Note</b> that all <i>output</i>s are translated to a corresponding {@link HttpEntity} for 
-	 * enclosure within an {@link HttpRequest}. Therefore, all output instances should comply to a type 
-	 * specified at {@link Entities#resolve(Object)}.</p> 
-	 * 
-	 * @param input
-	 * 			the <i>input</i> model to be serialized to a transmittable format
-	 * 
-	 * @param context
-	 * 			the {@link InvocationContext} which supplies information on the proxy invocation
-     * <br><br>
-	 * @return the serialized <i>output</i> which will be translated to an {@link HttpEntity}   
-	 * <br><br>
-	 * @throws Exception 
-	 * 			any errors which might occur during serialization are caught, wrapped in an instance of 
-	 * 			{@link SerializerException} (cause preserved) and allowed to bubble up
-	 * <br><br>
-	 * @since 1.2.4
-	 */
-	/**
 	 * <p>Takes an {@link HttpResponse} which resulted from a successful request execution and deserializes 
 	 * its content to an instance of the output type.</p>
 	 * 
@@ -126,7 +107,7 @@ public abstract class AbstractDeserializer<OUTPUT> implements Deserializer<OUTPU
 	 * @param httpResponse
 	 * 				the {@link HttpResponse} of a successful request execution
 	 * <br><br>
-	 * @param config
+	 * @param context
 	 * 				the {@link InvocationContext} which supplies all information 
 	 * 				regarding the request and it's invocation
      * <br><br>
@@ -137,6 +118,6 @@ public abstract class AbstractDeserializer<OUTPUT> implements Deserializer<OUTPU
 	 * <br><br>
 	 * @since 1.1.4
 	 */
-	protected abstract OUTPUT deserialize(HttpResponse httpResponse, InvocationContext config) 
+	protected abstract OUTPUT deserialize(HttpResponse httpResponse, InvocationContext context) 
 	throws Exception;
 }

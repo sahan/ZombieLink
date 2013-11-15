@@ -20,6 +20,8 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
+import static com.lonepulse.zombielink.annotation.Entity.ContentType.UNDEFINED;
+
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -31,16 +33,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 
-import sun.misc.RequestProcessor;
-
 import com.lonepulse.zombielink.annotation.Entity;
+import com.lonepulse.zombielink.annotation.Serializer;
 import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.util.Entities;
 import com.lonepulse.zombielink.util.EntityResolutionFailedException;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**
- * <p>This is a concrete implementation of {@link RequestProcessor} which resolves and inserts the enclosing 
+ * <p>This is a concrete implementation of {@link AbstractRequestProcessor} which resolves and inserts the enclosing 
  * entity for an {@link HttpEntityEnclosingRequest} into the body of the request.</p>
  * 
  * <p>It identifies an @{@link Entity} annotation on a parameter of an endpoint interface method and inserts 
@@ -70,9 +71,10 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * </ul>
 	 * 
 	 * <p>Parameter types are resolved to their {@link HttpEntity} as specified in 
-	 * {@link RequestUtils#resolveEntity(Object)}.</p>
+	 * {@link Entities#resolve(Object)}. If an attached @{@link Serializer} is discovered, the entity 
+	 * will first be serialized using the specified serializer before translation to an {@link HttpEntity}.</p>
 	 * 
-	 * <p>See {@link RequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
+	 * <p>See {@link AbstractRequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
 	 *
 	 * @param httpRequestBase
 	 * 			an instance of {@link HttpEntityEnclosingRequestBase} which allows the inclusion of an 
@@ -89,7 +91,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Override
+	@Override @SuppressWarnings("unchecked") //welcomes a ClassCastException on misuse of @Serializer(Custom.class)
 	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext context) 
 	throws RequestProcessorException {
 
@@ -109,7 +111,22 @@ class EntityProcessor extends AbstractRequestProcessor {
 					throw new MultipleEntityException(context);
 				}
 				
-				HttpEntity httpEntity = Entities.resolve(entities.get(0).getValue());
+				Object entity = entities.get(0).getValue();
+				
+				Serializer metadata = (metadata = 
+					context.getRequest().getAnnotation(Serializer.class)) == null? 
+						context.getEndpoint().getAnnotation(Serializer.class) :metadata;
+				
+				if(metadata != null) {
+					
+					@SuppressWarnings("rawtypes") //no restrictions on custom serializer types with @Serializer
+					AbstractSerializer serializer = (metadata.value() == UNDEFINED)? 
+						Serializers.resolve(metadata.type()) :Serializers.resolve(metadata.value());
+						
+					entity = serializer.run(entity, context);
+				}
+				
+				HttpEntity httpEntity = Entities.resolve(entity);
 				
 				((HttpEntityEnclosingRequestBase)httpRequestBase).setHeader(
 					HttpHeaders.CONTENT_TYPE, ContentType.getOrDefault(httpEntity).getMimeType());

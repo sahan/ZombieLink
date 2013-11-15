@@ -1,19 +1,5 @@
 package com.lonepulse.zombielink.util;
 
-import static com.lonepulse.zombielink.util.Assert.assertNotNull;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Serializable;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.SerializableEntity;
-import org.apache.http.entity.StringEntity;
-
 /*
  * #%L
  * ZombieLink
@@ -34,6 +20,20 @@ import org.apache.http.entity.StringEntity;
  * #L%
  */
 
+import static com.lonepulse.zombielink.util.Assert.assertNotNull;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.SerializableEntity;
+import org.apache.http.entity.StringEntity;
+
 /**
  * <p>A collection of utility services for translating and managing {@link HttpEntity} instances.</p>
  * 
@@ -46,7 +46,7 @@ import org.apache.http.entity.StringEntity;
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public final class Entities {
-	
+
 
 	 /**
 	  * <p>Discovers which concrete implementation of {@link HttpEntity} is suitable for wrapping the given object. 
@@ -55,7 +55,7 @@ public final class Entities {
 	  * <ol>
 	  * 	<li>org.apache.http.{@link HttpEntity} --&gt; returned as-is.</li> 
 	  * 	<li>{@code byte[]}, {@link Byte}[] --&gt; {@link ByteArrayEntity}</li> 
-	  *  <li>java.io.{@link File} --&gt; {@link FileEntity}</li>
+	  *  	<li>java.io.{@link File} --&gt; {@link FileEntity}</li>
 	  * 	<li>java.io.{@link InputStream} --&gt; {@link BufferedHttpEntity}</li>
 	  * 	<li>{@link CharSequence} --&gt; {@link StringEntity}</li>
 	  * 	<li>java.io.{@link Serializable} --&gt; {@link SerializableEntity} (with an internal buffer)</li>

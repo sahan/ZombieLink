@@ -26,15 +26,15 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <p>This contract defines the policy of a <b>serializer</b> which is responsible for translating 
  * a model into a content-type suitable for network transmission.</p>  
  * 
- * <p><b>Note</b> that, ideally, the serialized content should capture all information on the model.</p> 
- * 
+ * <p><b>Note</b> that, ideally, the serialized content should capture all information on the model.</p>
+ *  
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface Serializer<INPUT, OUTPUT> {
+public interface Serializer<INPUT extends Object, OUTPUT> {
 
 	/**
 	 * <p>Serializes the given model by performing the following steps. 
