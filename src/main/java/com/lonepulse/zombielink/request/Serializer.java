@@ -34,7 +34,7 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public interface Serializer<INPUT extends Object, OUTPUT> {
+public interface Serializer<INPUT, OUTPUT> {
 
 	/**
 	 * <p>Serializes the given model by performing the following steps. 

@@ -43,7 +43,7 @@ public enum Serializers implements Serializer<Object, Object> {
 	 * 
 	 * @since 1.2.4
 	 */
-	RAW(new PlainSerializer()),
+	PLAIN(new PlainSerializer()),
 	
 	/**
 	 * See {@link JsonSerializer}.
@@ -83,16 +83,16 @@ public enum Serializers implements Serializer<Object, Object> {
 	/**
 	 * <p>Retrieves the {@link AbstractSerializer} which is identified by the given {@link ContentType}.</p>
 	 * 
-	 * @param config
+	 * @param contentType
 	 * 			the {@link ContentType} whose implementation of {@link AbstractSerializer} is retrieved
 	 * 
 	 * @return the implementation of {@link AbstractSerializer} which serves the given {@link ContentType}
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public static final AbstractSerializer<?,?> resolve(ContentType serializerType) {
+	public static final AbstractSerializer<?,?> resolve(ContentType contentType) {
 		
-		switch (serializerType) {
+		switch (contentType) {
 		
 			case JSON:
 				return Serializers.JSON.serializer;
@@ -101,7 +101,7 @@ public enum Serializers implements Serializer<Object, Object> {
 				return Serializers.XML.serializer;
 				
 			case PLAIN: case UNDEFINED: default:
-				return Serializers.RAW.serializer;
+				return Serializers.PLAIN.serializer;
 		}
 	}
 	
