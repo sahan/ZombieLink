@@ -32,12 +32,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.annotation.Asynchronous;
+import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
  * <p>This is an extension of {@link BasicRequestExecutor} which is responsible for executing <b>asynchronous 
- * requests</b> identified by the @{@link Asynchronous} annotation placed on the endpoint or request method.</p>
+ * requests</b> identified by the @{@link Async} annotation placed on the endpoint or request method.</p>
  * 
  * @version 1.1.0
  * <br><br>

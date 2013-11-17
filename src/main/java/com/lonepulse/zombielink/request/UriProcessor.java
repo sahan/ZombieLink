@@ -25,9 +25,12 @@ import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 
+import sun.misc.RequestProcessor;
+
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.util.Metadata;
 
 /**
  * <p>This is a concrete implementation of {@link RequestProcessor} which extracts the root path of an 
@@ -61,7 +64,7 @@ class UriProcessor extends AbstractRequestProcessor {
 	 * 			the {@link HttpRequestBase} whose URI will be initialized to the complete URI formualted using 
 	 * 			the endpoint's root path and the request's subpath
 	 * <br><br>
-	 * @param config
+	 * @param context
 	 * 			an immutable instance of {@link InvocationContext} which has its Sendpoint and request 
 	 * 			properties correctly populated  
 	 * <br><br>
@@ -74,12 +77,12 @@ class UriProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext config) 
+	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext context) 
 	throws RequestProcessorException {
 
 		try {
 			
-			Endpoint endpoint = config.getEndpoint().getAnnotation(Endpoint.class);
+			Endpoint endpoint = context.getEndpoint().getAnnotation(Endpoint.class);
 			String value = endpoint.value();
 			String host = (value == null || value.isEmpty())? endpoint.host() :value;
 			
@@ -87,10 +90,9 @@ class UriProcessor extends AbstractRequestProcessor {
 			String port = endpoint.port();
 			String path = endpoint.path();
 			
-			Request request = config.getRequest().getAnnotation(Request.class);
-			
 			URIBuilder uriBuilder = new URIBuilder();
-			uriBuilder.setScheme(scheme).setHost(host).setPath(path + request.path());
+			
+			uriBuilder.setScheme(scheme).setHost(host).setPath(path + Metadata.findPath(context.getRequest()));
 			
 			if(!port.equals("")) {
 				
@@ -103,7 +105,7 @@ class UriProcessor extends AbstractRequestProcessor {
 		}
 		catch(Exception e) {
 			
-			throw new RequestProcessorException(getClass(), config, e);
+			throw new RequestProcessorException(getClass(), context, e);
 		}
 	}
 }

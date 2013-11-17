@@ -28,7 +28,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.annotation.Asynchronous;
+import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.annotation.Deserializer;
 import com.lonepulse.zombielink.annotation.Entity.ContentType;
 import com.lonepulse.zombielink.annotation.Header;
@@ -87,11 +87,21 @@ class EntityProcessor extends AbstractResponseProcessor {
 			try {
 				
 				if(successful(httpResponse)) {
-				
-					boolean handleAsync = (config.getEndpoint().isAnnotationPresent(Asynchronous.class) 
-								   || request.isAnnotationPresent(Asynchronous.class));
 					
-					boolean responseExpected = !(responseType.equals(void.class) || responseType.equals(Void.class)); 
+					if(HttpResponse.class.isAssignableFrom(responseType)) {
+						
+						return httpResponse;
+					}
+					
+					if(HttpEntity.class.isAssignableFrom(responseType)) {
+						
+						return httpResponse.getEntity();
+					}
+				
+					boolean responseExpected = !(responseType.equals(void.class) || responseType.equals(Void.class));
+					
+					boolean handleAsync = (config.getEndpoint().isAnnotationPresent(Async.class) 
+										   || request.isAnnotationPresent(Async.class));
 					
 					if(handleAsync || responseExpected) {
 						

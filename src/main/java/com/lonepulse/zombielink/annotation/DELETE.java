@@ -25,33 +25,43 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.lonepulse.zombielink.annotation.Request.RequestMethod;
+
 /**
- * <p>Identifies requests which should be executed <b>asynchronously</b>.</p>
+ * <p>This annotation identifies an <b>HTTP DELETE</b> request.</p>
  * 
+ * <p>See <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">section 9</a> 
+ * of the HTTP/1.1 specification.</p> 
+ * <br><br>
+ * <p>
  * <b>Usage:</b>
  * <br>
  * <br>
- * <ol>
- * <li>
- * <p>At <b>type-level</b> on an endpoint <i>interface</i>; marks all requests as asynchronous.<br>
+ * <p>
  * <code>
- * <pre>@Endpoint<br><b>@Asynchronous</b><br>public interface TwitterEndpoint {<br>}</pre>
+ * <pre>@DELETE("/users/{id}")</b>
+ *public abstract void deleteUser(@PathParam("id") String id);
+ * </pre>
  * </code>
- * </li>
- *  
- * <li>
- * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
- * <code>
- * <pre>@Asynchronous<br><b>@Request</b><br>public Set&lt;Mention&gt; getMentions();</pre>
- * </code>
- * </li>
- * </ol>
  * </p>
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.2.4
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Asynchronous {}
+@Request(method = RequestMethod.DELETE)
+public @interface DELETE {
+	
+	/**
+	 * <p>The sub-path (if any) which should be appended to the root path defined on the endpoint.</p> 
+	 * 
+	 * @return the path which extends from the root path defined on the endpoint
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	public String value() default "";
+}

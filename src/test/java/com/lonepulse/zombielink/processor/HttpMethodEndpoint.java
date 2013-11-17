@@ -23,14 +23,18 @@ package com.lonepulse.zombielink.processor;
 
 import org.apache.http.HttpResponse;
 
+import com.lonepulse.zombielink.annotation.DELETE;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
+import com.lonepulse.zombielink.annotation.HEAD;
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.Headers;
+import com.lonepulse.zombielink.annotation.OPTIONS;
+import com.lonepulse.zombielink.annotation.POST;
+import com.lonepulse.zombielink.annotation.PUT;
 import com.lonepulse.zombielink.annotation.PathParam;
-import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Request.RequestMethod;
+import com.lonepulse.zombielink.annotation.TRACE;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method definitions which 
@@ -63,7 +67,7 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/postrequest", method = RequestMethod.POST)
+	@POST("/postrequest")
 	public String postRequest(@FormParam("name") String name, 
 							  @FormParam("age") String age,
 							  @FormParam("location") String location);
@@ -78,7 +82,7 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/putrequest", method = RequestMethod.PUT)
+	@PUT("/putrequest")
 	public String putRequest(@Entity String user);
 	
 	/**
@@ -91,7 +95,7 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/deleterequest/{id}", method = RequestMethod.DELETE)
+	@DELETE("/deleterequest/{id}")
 	public String deleteRequest(@PathParam("id") String id);
 	
 	/**
@@ -102,7 +106,7 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/headrequest", method = RequestMethod.HEAD)
+	@HEAD("/headrequest")
 	public void headRequest(@Header("Proxy-Authenticate") StringBuilder proxyAuthenticate);
 	
 	/**
@@ -110,7 +114,7 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/tracerequest", method = RequestMethod.TRACE)
+	@TRACE("/tracerequest")
 	@Headers({@Headers.Header(name = "Via", value = "1.0 example1.com, 1.1 example2.com"),
 				@Headers.Header(name = "Max-Forwards", value = "6")})
 	public void traceRequest();
@@ -123,6 +127,6 @@ public interface HttpMethodEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/optionsrequest", method = RequestMethod.OPTIONS)
+	@OPTIONS("/optionsrequest")
 	public void optionsRequest(@Header("Content-Type") StringBuilder contentType);
 }

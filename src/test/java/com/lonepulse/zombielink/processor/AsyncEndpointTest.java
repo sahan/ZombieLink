@@ -40,7 +40,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.lonepulse.zombielink.annotation.Asynchronous;
+import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
@@ -80,7 +80,7 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * <p>Tests asynchronous request execution with @{@link Async} and 
 	 * {@link AsyncHandler#onSuccess(HttpResponse, Object)}.
 	 *  
 	 * @since 1.2.4
@@ -137,7 +137,7 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * <p>Tests asynchronous request execution with @{@link Async} and 
 	 * {@link AsyncHandler#onFailure(HttpResponse)}.
 	 *  
 	 * @since 1.2.4
@@ -184,7 +184,7 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests asynchronous request execution with @{@link Asynchronous} and 
+	 * <p>Tests asynchronous request execution with @{@link Async} and 
 	 * {@link AsyncHandler#onError(Exception)}.
 	 *  
 	 * @since 1.2.4
@@ -232,7 +232,7 @@ public class AsyncEndpointTest {
 	}
 	
 	/**
-	 * <p>Tests an asynchronous request execution with @{@link Asynchronous} which does 
+	 * <p>Tests an asynchronous request execution with @{@link Async} which does 
 	 * not expect the response to be handled. 
 	 *  
 	 * @since 1.2.4

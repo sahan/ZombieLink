@@ -29,7 +29,7 @@ import java.util.List;
 import com.lonepulse.zombielink.ValidationFailedException;
 import com.lonepulse.zombielink.Validator;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.util.Metadata;
 
 
 /**
@@ -108,7 +108,7 @@ final class Validators {
 				
 				for (Method requestDefinition : requestDefinitions) {
 					
-					if(!requestDefinition.isAnnotationPresent(Request.class)) {
+					if(Metadata.findMethod(requestDefinition) == null) {
 						
 						strayRequests.add(requestDefinition);
 					}

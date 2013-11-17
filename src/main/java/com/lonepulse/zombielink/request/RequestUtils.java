@@ -42,9 +42,9 @@ import com.lonepulse.zombielink.annotation.FormParams;
 import com.lonepulse.zombielink.annotation.Headers;
 import com.lonepulse.zombielink.annotation.Param;
 import com.lonepulse.zombielink.annotation.QueryParams;
-import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.util.Metadata;
 
 /**
  * <p>This utility class offers some common operations which are used in building requests - most commonly 
@@ -189,7 +189,7 @@ final class RequestUtils {
 	 */
 	static final HttpRequestBase translateRequestMethod(InvocationContext context) {
 		
-		RequestMethod requestMethod = context.getRequest().getAnnotation(Request.class).method();
+		RequestMethod requestMethod = Metadata.findMethod(context.getRequest());
 		
 		switch (requestMethod) {
 		
