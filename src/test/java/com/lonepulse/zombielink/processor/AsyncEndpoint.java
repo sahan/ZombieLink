@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 
 import com.lonepulse.zombielink.annotation.Async;

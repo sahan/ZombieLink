@@ -21,6 +21,7 @@ package com.lonepulse.zombielink.request;
  */
 
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.UNDEFINED;
+import static com.lonepulse.zombielink.util.Is.detached;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -117,7 +118,7 @@ class EntityProcessor extends AbstractRequestProcessor {
 					context.getRequest().getAnnotation(Serializer.class)) == null? 
 						context.getEndpoint().getAnnotation(Serializer.class) :metadata;
 				
-				if(metadata != null) {
+				if(metadata != null && !detached(context, Serializer.class)) {
 					
 					@SuppressWarnings("rawtypes") //no restrictions on custom serializer types with @Serializer
 					AbstractSerializer serializer = (metadata.value() == UNDEFINED)? 

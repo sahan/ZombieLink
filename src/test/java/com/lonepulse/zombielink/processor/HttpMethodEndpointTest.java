@@ -31,6 +31,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.options;
 import static com.github.tomakehurst.wiremock.client.WireMock.optionsRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
@@ -88,6 +90,31 @@ public class HttpMethodEndpointTest {
 	}
 	
 	/**
+	 * <p>Test for the request method GET.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testGetMethod() {
+		
+		String name = "James-Howlett", age = "116", location = "X-Mansion";
+		String path = "/getrequest?name=" + name + "&age=" + age + "&location=" + location;
+		
+		stubFor(get(urlEqualTo(path))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		httpMethodEndpoint.getRequest(name, age, location);
+		
+		List<LoggedRequest> requests = findAll(getRequestedFor(urlEqualTo(path)));
+		assertFalse(requests == null);
+		assertFalse(requests.isEmpty());
+		
+		LoggedRequest request = requests.get(0);
+		assertTrue(request.getMethod().equals(RequestMethod.GET));
+	}
+	
+	/**
 	 * <p>Test for the request method POST.
 	 * 
 	 * @since 1.2.4
@@ -97,7 +124,9 @@ public class HttpMethodEndpointTest {
 		
 		String path = "/postrequest";
 		
-		stubFor(post(urlEqualTo(path)).willReturn(aResponse().withStatus(200)));
+		stubFor(post(urlEqualTo(path))
+				.willReturn(aResponse()
+				.withStatus(200)));
 		
 		String name = "DoctorWho", age = "953", location = "Tardis";
 		

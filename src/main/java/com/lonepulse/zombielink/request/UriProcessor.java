@@ -25,15 +25,13 @@ import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 
-import sun.misc.RequestProcessor;
-
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**
- * <p>This is a concrete implementation of {@link RequestProcessor} which extracts the root path of an 
+ * <p>This is a concrete implementation of {@link AbstractRequestProcessor} which extracts the root path of an 
  * endpoint, appends the subpath of the request and creates the complete URI for the proxy invocation. 
  * Requests and their subpaths are identified using the annotation @{@link Request}.</p>
  * 
@@ -58,7 +56,7 @@ class UriProcessor extends AbstractRequestProcessor {
 	 * <p>Any processors which extract information from the <i>complete</i> request URI or those which seek 
 	 * to manipulate the URI should use this processor as a prerequisite.</p>
 	 * 
-	 * <p>See {@link RequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
+	 * <p>See {@link AbstractRequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
 	 * 
 	 * @param httpRequestBase
 	 * 			the {@link HttpRequestBase} whose URI will be initialized to the complete URI formualted using 
@@ -91,7 +89,6 @@ class UriProcessor extends AbstractRequestProcessor {
 			String path = endpoint.path();
 			
 			URIBuilder uriBuilder = new URIBuilder();
-			
 			uriBuilder.setScheme(scheme).setHost(host).setPath(path + Metadata.findPath(context.getRequest()));
 			
 			if(!port.equals("")) {

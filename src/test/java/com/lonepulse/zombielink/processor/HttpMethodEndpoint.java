@@ -27,6 +27,7 @@ import com.lonepulse.zombielink.annotation.DELETE;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
+import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.annotation.HEAD;
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.Headers;
@@ -34,6 +35,7 @@ import com.lonepulse.zombielink.annotation.OPTIONS;
 import com.lonepulse.zombielink.annotation.POST;
 import com.lonepulse.zombielink.annotation.PUT;
 import com.lonepulse.zombielink.annotation.PathParam;
+import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.TRACE;
 
 /**
@@ -50,6 +52,27 @@ import com.lonepulse.zombielink.annotation.TRACE;
  */
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface HttpMethodEndpoint {
+	
+	/**
+	 * <p>A mock request which uses the HTTP method GET.
+	 * 
+	 * @param name
+	 * 			the first request parameter
+	 * 
+	 * @param age
+	 * 			the second request parameter
+	 * 
+	 * @param location
+	 * 			the third request parameter
+	 * 
+	 * @return the textual content of the {@link HttpResponse} body
+	 * 
+	 * @since 1.2.4
+	 */
+	@GET("/getrequest")
+	public String getRequest(@QueryParam("name") String name, 
+							 @QueryParam("age") String age,
+							 @QueryParam("location") String location);
 	
 	/**
 	 * <p>A mock request which uses the HTTP method POST.
@@ -69,8 +92,8 @@ public interface HttpMethodEndpoint {
 	 */
 	@POST("/postrequest")
 	public String postRequest(@FormParam("name") String name, 
-							  @FormParam("age") String age,
-							  @FormParam("location") String location);
+			@FormParam("age") String age,
+			@FormParam("location") String location);
 	
 	/**
 	 * <p>A mock request which uses the HTTP method PUT.
