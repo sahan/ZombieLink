@@ -24,6 +24,7 @@ import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 
 import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.model.User;
@@ -131,4 +132,15 @@ public interface AsyncEndpoint {
 	@Deserializer(JSON)
 	@Request(path = "/errorcallbackerror")
 	public void asyncErrorCallbackError(AsyncHandler<User> asyncHandler);
+	
+	/**
+	 * <p>Sends a request <b>synchronously</b> by detaching the inherited @{@link Async} annotation.</p> 
+	 * 
+	 * @return the response string which indicated a synchronous request
+	 * 
+	 * @since 1.2.4
+	 */
+	@Detach(Async.class) 
+	@Request(path = "/asyncdetached")
+	public String asyncDetached();
 }

@@ -24,7 +24,7 @@ package com.lonepulse.zombielink.model;
 import java.io.Serializable;
 
 /**
- * <p>A mock entity which is used to test the response deserializers and the response processor chain.</p>
+ * <p>A mock entity which is used to test the deserializers and the response processor chain.</p>
  * 
  * <p><b>Note</b> that {@link #toString()} produces the JSON representation of this entity.</p> 
  * 
@@ -125,18 +125,15 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
+		
 		StringBuilder builder = new StringBuilder();
-		builder.append("{ \"id\":");
-		builder.append(id);
-		builder.append(", \"firstName\":\"");
-		builder.append(firstName);
-		builder.append("\", \"lastName\":\"");
-		builder.append(lastName);
-		builder.append("\", \"age\":");
-		builder.append(age);
-		builder.append(", \"immortal\":");
-		builder.append(immortal);
-		builder.append(" }");
+		
+		builder.append("User [id=").append(id)
+			   .append(", firstName=").append(firstName)
+			   .append(", lastName=").append(lastName)
+			   .append(", age=").append(age)
+			   .append(", immortal=").append(immortal).append("]");
+		
 		return builder.toString();
 	}
 }

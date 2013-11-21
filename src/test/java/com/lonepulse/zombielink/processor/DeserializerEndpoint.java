@@ -30,6 +30,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.inject.InvocationContext;
@@ -48,6 +49,7 @@ import com.lonepulse.zombielink.response.AbstractDeserializer;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
+@Deserializer(JSON)
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface DeserializerEndpoint {
 	
@@ -70,7 +72,6 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Deserializer(JSON)
 	@Request(path = "/json")
 	User parseJson();
 	
@@ -93,6 +94,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
+	@Deserializer(PLAIN)
 	@Request(path = "/raw")
 	String raw();
 	
@@ -129,4 +131,15 @@ public interface DeserializerEndpoint {
 	@Request(path = "/custom")
 	@Deserializer(type = Redactor.class) 
 	User parseCustom();
+	
+	/**
+	 * <p>Sends a request which detaches the inherited deserializer defined on the endpoint.</p>
+	 *
+	 * @return the response which should not be processed by a deserializer
+	 *
+	 * @since 1.2.4
+	 */
+	@Detach(Deserializer.class)
+	@Request(path = "/detach")
+	String detachDeserializer();
 }

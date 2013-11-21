@@ -28,6 +28,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 
@@ -38,6 +39,7 @@ import org.junit.rules.ExpectedException;
 import org.simpleframework.xml.core.Persister;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
@@ -119,7 +121,7 @@ public class DeserializerEndpointTest {
 		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
-				.withBody(user.toString())));
+				.withBody(new Gson().toJson(user))));
 		
 		User deserializedUser = deserializerEndpoint.parseJson();
 		
@@ -201,7 +203,7 @@ public class DeserializerEndpointTest {
 		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
 				.withStatus(200)
-				.withBody(user.toString())));
+				.withBody(new Gson().toJson(user))));
 		
 		User deserializedUser = deserializerEndpoint.parseCustom();
 		
@@ -212,5 +214,35 @@ public class DeserializerEndpointTest {
 		assertEquals(redacted, deserializedUser.getLastName());
 		assertEquals(user.getAge(), deserializedUser.getAge());
 		assertEquals(user.isImmortal(), deserializedUser.isImmortal());
+	}
+	
+	/**
+	 * <p>Test for detachment of the inherited deserializer.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Test  
+	public final void testDetachDeserializer() {
+
+		User user = new User(1, "Riza", "Hawkeye", 29, false);
+		String subpath = "/detach", body = new Gson().toJson(user);
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withBody(body)));
+		
+		String responseContent = "";
+		
+		try {
+			
+			responseContent = deserializerEndpoint.detachDeserializer();
+		}
+		catch(Exception e) {
+			
+			fail("JSON deserialization was attempted.");
+		}
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+		assertEquals(body, responseContent);
 	}
 }
