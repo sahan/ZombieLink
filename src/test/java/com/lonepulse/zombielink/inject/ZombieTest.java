@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * <p>Performs <b>Unit Testing</b> on the {@link Zombie} and its injection capabilities.
+ * <p>Performs <b>Unit Testing</b> on the {@link Zombie} and its infection capabilities.
  * 
  * @category test
  * <br><br>
@@ -47,14 +47,9 @@ public class ZombieTest {
 	private static BasicMockService service2;
 	private static BasicMockService service3;
 	
+	private static SubMockService subMockService;
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #mockService} 
-	 * and {@link #constructorInjectedService}.
-	 * 
-	 * @throws Exception
-	 * 			if test terminated with an error 
-	 */
+
 	@BeforeClass
 	public static void setUp() throws Exception {
 		
@@ -67,6 +62,8 @@ public class ZombieTest {
 		service3 = new BasicMockService();
 		
 		Zombie.infect(service1, service2, service3);
+		
+		subMockService = new SubMockService();
 	}
 	
 	/**
@@ -75,12 +72,12 @@ public class ZombieTest {
 	@Test
 	public final void testPropertyInjection() {
 		
-		assertNotNull(mockService.getConstructedMockEndpoint());
 		assertNotNull(mockService.getDefaultMockEndpoint());
 		assertNotNull(mockService.getForcedPrivateMockEndpoint());
 		assertNotNull(mockService.getPrivateMockEndpoint());
 		assertNotNull(mockService.getProtectedMockEndpoint());
 		assertNotNull(mockService.getPublicMockEndpoint());
+		assertNotNull(BasicMockService.getStaticMockEndpoint());
 	}
 	
 	/**
@@ -93,5 +90,24 @@ public class ZombieTest {
 		assertNotNull(service2.getPrivateMockEndpoint());
 		assertNotNull(service3.getPrivateMockEndpoint());
 	}
-}
 	
+	/**
+	 * Test method for endpoint injection on an object hierarchy.
+	 */
+	@Test
+	public final void testHierarchicalInjection() {
+		
+		assertNotNull(subMockService.getSubEndpoint());
+		assertNotNull(subMockService.getSuperEndpoint());
+	}
+	
+	/**
+	 * Test method for endpoint injection on an enum.
+	 */
+	@Test
+	public final void testEnumInjection() {
+		
+		assertNotNull(EnumMockService.INSTANCE.getEndpoint());
+		assertNotNull(EnumMockService.getStaticEndpoint());
+	}
+}
