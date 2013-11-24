@@ -50,6 +50,7 @@ import com.lonepulse.zombielink.processor.ProcessorChainLink;
  *  <li>{@link QueryParamProcessor} - appends a query-string formulated for any @{@link QueryParam}s</li>
  *  <li>{@link FormParamProcessor} - inserts a form-url-encoded query-string for any @{@link FormParam}s</li>
  *  <li>{@link EntityProcessor} - inserts the {@link HttpEntity} identified using @{@link Entity}</li>
+ *  <li>{@link InterceptionProcessor} - runs hooks for custom request processing just before execution</li>
  * </ol>
  * 
  * <p><b>Note</b> that this processor-chain requires a single {@link InvocationContext} to be {@link #run(Object...)}} 
@@ -79,6 +80,7 @@ public final class RequestProcessorChain extends AbstractProcessorChain<HttpRequ
 	 *  <li>{@link QueryParamProcessor} - appends a query-string formulated for any @{@link QueryParam}s</li>
 	 *  <li>{@link FormParamProcessor} - inserts a form-url-encoded query-string for any @{@link FormParam}s</li>
 	 *  <li>{@link EntityProcessor} - inserts the {@link HttpEntity} identified using @{@link Entity}</li>
+	 *  <li>{@link InterceptionProcessor} - runs hooks for custom request processing just before execution</li>
 	 * <ol>
 	 * <br><br>
 	 * @since 1.2.4
@@ -92,7 +94,8 @@ public final class RequestProcessorChain extends AbstractProcessorChain<HttpRequ
 			  new PathParamProcessor(), 
 			  new QueryParamProcessor(), 
 			  new FormParamProcessor(), 
-			  new EntityProcessor()));
+			  new EntityProcessor(),
+			  new InterceptionProcessor()));
 	}
 
 	/**
