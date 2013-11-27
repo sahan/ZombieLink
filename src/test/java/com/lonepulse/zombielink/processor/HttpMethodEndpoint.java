@@ -92,8 +92,8 @@ public interface HttpMethodEndpoint {
 	 */
 	@POST("/postrequest")
 	public String postRequest(@FormParam("name") String name, 
-			@FormParam("age") String age,
-			@FormParam("location") String location);
+							  @FormParam("age") String age,
+							  @FormParam("location") String location);	
 	
 	/**
 	 * <p>A mock request which uses the HTTP method PUT.
@@ -139,7 +139,7 @@ public interface HttpMethodEndpoint {
 	 */
 	@TRACE("/tracerequest")
 	@Headers({@Headers.Header(name = "Via", value = "1.0 example1.com, 1.1 example2.com"),
-				@Headers.Header(name = "Max-Forwards", value = "6")})
+			  @Headers.Header(name = "Max-Forwards", value = "6")})
 	public void traceRequest();
 	
 	/**

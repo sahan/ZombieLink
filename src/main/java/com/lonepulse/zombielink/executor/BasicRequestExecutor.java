@@ -135,13 +135,16 @@ class BasicRequestExecutor implements RequestExecutor {
 		}
 		catch (Exception error) {
 			
-			try {
+			if(!(error instanceof RequestFailedException)) {
 				
-				executionHandler.onError(context, error);
-			}
-			catch(Exception e) {
-				
-				throw RequestExecutionException.wrap(context.getRequest(), context.getEndpoint(), e);
+				try {
+					
+					executionHandler.onError(context, error);
+				}
+				catch(Exception e) {
+					
+					throw RequestExecutionException.wrap(context.getRequest(), context.getEndpoint(), e);
+				}
 			}
 			
 			throw RequestExecutionException.wrap(context.getRequest(), context.getEndpoint(), error);

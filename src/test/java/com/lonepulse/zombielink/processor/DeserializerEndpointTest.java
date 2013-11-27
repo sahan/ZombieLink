@@ -123,7 +123,7 @@ public class DeserializerEndpointTest {
 				.withStatus(200)
 				.withBody(new Gson().toJson(user))));
 		
-		User deserializedUser = deserializerEndpoint.parseJson();
+		User deserializedUser = deserializerEndpoint.deserializeJson();
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 		
@@ -157,7 +157,7 @@ public class DeserializerEndpointTest {
 				.withStatus(200)
 				.withBody(baos.toString())));
 		
-		User deserializedUser = deserializerEndpoint.parseXml();
+		User deserializedUser = deserializerEndpoint.deserializeXml();
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 		
@@ -205,7 +205,7 @@ public class DeserializerEndpointTest {
 				.withStatus(200)
 				.withBody(new Gson().toJson(user))));
 		
-		User deserializedUser = deserializerEndpoint.parseCustom();
+		User deserializedUser = deserializerEndpoint.deserializeCustom();
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 		

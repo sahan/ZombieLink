@@ -75,7 +75,7 @@ class RequestExecutionException extends ZombieLinkRuntimeException {
 	 * @param rootCause
 	 * 			the parent cause which resulted in the request execution failure 
 	 * <br><br>
-	 * @since 1.1.0
+	 * @since 1.2.4
 	 */
 	public RequestExecutionException(Method request, Class<?> endpoint, Throwable rootCause) {
 		
@@ -86,10 +86,20 @@ class RequestExecutionException extends ZombieLinkRuntimeException {
 	/**
 	 * <p>See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.</p>
 	 * <br><br>
-	 * @since 1.1.0
+	 * @since 1.2.4
 	 */
 	public RequestExecutionException(String detailMessage, Throwable throwable) {
 
 		super(detailMessage, throwable);
+	}
+	
+	/**
+	 * <p>See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.</p>
+	 * <br><br>
+	 * @since 1.2.4
+	 */
+	public RequestExecutionException(String detailMessage) {
+		
+		super(detailMessage);
 	}
 }

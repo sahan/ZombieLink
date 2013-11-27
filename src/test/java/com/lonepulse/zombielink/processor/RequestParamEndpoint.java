@@ -20,6 +20,8 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
+import static com.lonepulse.zombielink.annotation.Request.RequestMethod.POST;
+import static com.lonepulse.zombielink.annotation.Request.RequestMethod.PUT;
 
 import java.io.File;
 import java.io.InputStream;
@@ -35,12 +37,12 @@ import org.apache.http.entity.StringEntity;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
+import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.FormParams;
 import com.lonepulse.zombielink.annotation.Param;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.model.User;
 
 /**
@@ -70,8 +72,45 @@ public interface RequestParamEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/queryparams")
-	public String queryParams(@QueryParam("firstName") String firstName, 
-							  @QueryParam("lastName") String lastName);
+	public void queryParams(@QueryParam("firstName") String firstName, 
+							@QueryParam("lastName") String lastName);
+	
+	/**
+	 * <p>Sends a request with the given form parameters.
+	 * 
+	 * @param firstName
+	 * 			the first form param
+	 * 
+	 * @param lastName
+	 * 			the second form param
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparams", method = POST)
+	public void formParams(@FormParam("firstName") String firstName, 
+						   @FormParam("lastName") String lastName);
+	
+	/**
+	 * <p>Sends a request with an illegal query parameter.</p>
+	 * 
+	 * @param user
+	 * 			an illegal query parameter of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/queryparamsfail")
+	public void queryParamsFail(@QueryParam("user") User user);
+	
+	/**
+	 * <p>Sends a request with an illegal form parameter.</p>
+	 * 
+	 * @param user
+	 * 			an illegal form parameter of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsfail", method = POST)
+	public void formParamsFail(@FormParam("user") User user);
 	
 	/**
 	 * <p>Sends a request with a set of query parameters provided as a batch.</p>
@@ -82,7 +121,62 @@ public interface RequestParamEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/queryparamsbatch")
-	public String queryParamsBatch(@QueryParams Map<String, String> params);
+	public void queryParamsBatch(@QueryParams Map<String, String> params);
+	
+	/**
+	 * <p>Sends a request with a set of form parameters provided as a batch.</p>
+	 * 
+	 * @param params
+	 * 			the map of basic name and value pairs 
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsbatch", method = POST)
+	public void formParamsBatch(@FormParams Map<String, String> params);
+	
+	/**
+	 * <p>Sends a request with an illegal query parameter batch type.</p>
+	 * 
+	 * @param params
+	 * 			an illegal batch query parameter of type {@link List}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/queryparamsbatchtypefail")
+	public void queryParamsBatchTypeFail(@QueryParams List<String> params);
+	
+	/**
+	 * <p>Sends a request with an illegal form parameter batch type.</p>
+	 * 
+	 * @param params
+	 * 			an illegal batch form parameter of type {@link List}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsbatchtypefail", method = POST)
+	public void formParamsBatchTypeFail(@FormParams List<String> params);
+	
+	/**
+	 * <p>Sends a request with an illegal batch query param element.</p>
+	 * 
+	 * @param params
+	 * 			an illegal query parameter element of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/queryparamsbatchelementfail")
+	public void queryParamsBatchElementFail(@QueryParams Map<String, User> params);
+	
+	/**
+	 * <p>Sends a request with an illegal batch form param element.</p>
+	 * 
+	 * @param params
+	 * 			an illegal form parameter element of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsbatchelementfail", method = POST)
+	public void formParamsBatchElementFail(@FormParams Map<String, User> params);
 	
 	/**
 	 * <p>Sends a request with a multivalued query parameter.</p>
@@ -93,18 +187,7 @@ public interface RequestParamEndpoint {
 	 * @since 1.2.4
 	 */
 	@Request(path = "/queryparamsmultivalued")
-	public String queryParamsMultivalued(@QueryParams Map<String, List<String>> params);
-	
-	/**
-	 * <p>Sends a request with a set of form parameters provided as a batch.</p>
-	 * 
-	 * @param params
-	 * 			the map of basic name and value pairs 
-	 * 
-	 * @since 1.2.4
-	 */
-	@Request(path = "/formparamsbatch", method = RequestMethod.POST)
-	public String formParamsBatch(@FormParams Map<String, String> params);
+	public void queryParamsMultivalued(@QueryParams Map<String, List<String>> params);
 	
 	/**
 	 * <p>Sends a request with a multivalued form parameter.</p>
@@ -114,8 +197,30 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/formparamsmultivalued", method = RequestMethod.POST)
-	public String formParamsMultivalued(@FormParams Map<String, List<String>> params);
+	@Request(path = "/formparamsmultivalued", method = POST)
+	public void formParamsMultivalued(@FormParams Map<String, List<String>> params);
+	
+	/**
+	 * <p>Sends a request with an illegal multivalued query parameter.</p>
+	 * 
+	 * @param params
+	 * 			the map with an illegal multivalued query parameter of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/queryparamsmultivaluedfail")
+	public void queryParamsMultivaluedFail(@QueryParams Map<String, List<User>> params);
+	
+	/**
+	 * <p>Sends a request with an illegal multivalued form parameter.</p>
+	 * 
+	 * @param params
+	 * 			the map with an illegal multivalued form parameter of type {@link User}
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/formparamsmultivaluedfail", method = POST)
+	public void formParamsMultivaluedFail(@FormParams Map<String, List<User>> params);
 	
 	/**
 	 * <p>Sends a request with a set of constant query parameters.
@@ -125,17 +230,17 @@ public interface RequestParamEndpoint {
 	@Request(path = "/constantqueryparams")
 	@QueryParams({@Param(name = "firstName", value = "Doctor"),
 				  @Param(name = "lastName", value = "Who")})
-	public String constantQueryParams();
+	public void constantQueryParams();
 	
 	/**
 	 * <p>Sends a request with a set of constant form parameters.</p>
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/constantformparams", method = RequestMethod.POST)
+	@Request(path = "/constantformparams", method = POST)
 	@FormParams({@Param(name = "firstName", value = "Beta-Ray"),
 				 @Param(name = "lastName", value = "Bill")})
-	public String constantFormParams();
+	public void constantFormParams();
 	
 	/**
 	 * <p>Sends a request with a {@code byte[]} which should be resolved to an 
@@ -146,7 +251,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/primitivebytearrayentity", method = RequestMethod.PUT)
+	@Request(path = "/primitivebytearrayentity", method = PUT)
 	public void primitiveByteArrayEntity(@Entity byte[] entity);
 	
 	/**
@@ -158,7 +263,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/wrapperbytearrayentity", method = RequestMethod.PUT)
+	@Request(path = "/wrapperbytearrayentity", method = PUT)
 	public void wrapperByteArrayEntity(@Entity Byte[] entity);
 	
 	/**
@@ -170,7 +275,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/fileentity", method = RequestMethod.PUT)
+	@Request(path = "/fileentity", method = PUT)
 	public void fileEntity(@Entity File entity);
 	
 	/**
@@ -182,7 +287,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/bufferedhttpentity", method = RequestMethod.PUT)
+	@Request(path = "/bufferedhttpentity", method = PUT)
 	public void bufferedHttpEntity(@Entity InputStream entity);
 	
 	/**
@@ -194,7 +299,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/stringentity", method = RequestMethod.PUT)
+	@Request(path = "/stringentity", method = PUT)
 	public void stringEntity(@Entity String entity);
 	
 	/**
@@ -207,7 +312,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/serializableentity", method = RequestMethod.PUT)
+	@Request(path = "/serializableentity", method = PUT)
 	public void serializableEntity(@Entity User entity);
 	
 	/**
@@ -216,7 +321,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/missingentity", method = RequestMethod.PUT)
+	@Request(path = "/missingentity", method = PUT)
 	public void missingEntity();
 	
 	/**
@@ -231,7 +336,7 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/multipleentity", method = RequestMethod.PUT)
+	@Request(path = "/multipleentity", method = PUT)
 	public void multipleEntity(@Entity String entity1, @Entity String entity2);
 	
 	/**
@@ -244,6 +349,6 @@ public interface RequestParamEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/resolutionfailedentity", method = RequestMethod.PUT)
+	@Request(path = "/resolutionfailedentity", method = PUT)
 	public void resolutionFailedEntity(@Entity Object unresolvableEntity);
 }
