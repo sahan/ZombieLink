@@ -278,7 +278,7 @@ public class RequestParamEndpointTest {
 		expectedException.expectCause(Is.isA((Class<Throwable>)
 				Class.forName("com.lonepulse.zombielink.request.RequestProcessorException")));
 		
-		requestEndpoint.queryParamsBatchTypeFail(new ArrayList<String>());
+		requestEndpoint.formParamsBatchTypeFail(new ArrayList<String>());
 	}
 	
 	/**
@@ -465,6 +465,31 @@ public class RequestParamEndpointTest {
 	}
 	
 	/**
+	 * <p>Test for a {@link Request} having constant inline {@link QueryParams}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testInlineConstantQueryParams() {
+		
+		String subpath = "/inlineconstantqueryparams\\?\\S+",
+			   key1 = "class", value1 = "omega",
+			   key2 = "name", value2 = "Legion",
+			   url = "/inlineconstantqueryparams?" + key1 + "=" + value1 + "&" + key2 + "=" + value2;
+		
+		Map<String, String> params = new LinkedHashMap<String, String>();
+		params.put(key2, value2); 
+		
+		stubFor(get(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		requestEndpoint.inlineConstantQueryParams(params);
+		
+		verify(getRequestedFor(urlEqualTo(url)));
+	}
+	
+	/**
 	 * <p>Test for a {@link Request} having constant form parameters.</p>
 	 * 
 	 * @since 1.2.4
@@ -485,6 +510,32 @@ public class RequestParamEndpointTest {
 		
 		verify(postRequestedFor(urlEqualTo(subpath))
 			  .withRequestBody(equalTo(body)));
+	}
+	
+	/**
+	 * <p>Test for a {@link Request} having constant inline {@link FormParams}.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testInlineConstantFormParams() {
+		
+		String subpath = "/inlineconstantformparams",
+			   key1 = "class", value1 = "omega",
+			   key2 = "name", value2 = "Chamber",
+			   body = key1 + "=" + value1 + "&" + key2 + "=" + value2;
+		
+		Map<String, String> params = new LinkedHashMap<String, String>();
+		params.put(key2, value2); 
+		
+		stubFor(post(urlMatching(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		requestEndpoint.inlineConstantFormParams(params);
+		
+		verify(postRequestedFor(urlEqualTo(subpath))
+			   .withRequestBody(equalTo(body)));
 	}
 	
 	/**

@@ -36,7 +36,6 @@ import java.io.IOException;
 
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -83,30 +82,7 @@ public class ResponseEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testFailure() {
-		
-		String subpath = "/failure";
-		
-		stubFor(get(urlEqualTo(subpath))
-				.willReturn(aResponse()
-				.withBody("jabberwocky")
-				.withStatus(404)));
-		
-		expectedException.expect(Is.isA(RequestFailedException.class));
-		
-		String response = responseEndpoint.failure();
-		
-		verify(getRequestedFor(urlEqualTo(subpath)));
-		assertNull(response);
-	}
-	
-	/**
-	 * <p>Test for response failures.</p>
-	 * 
-	 * @since 1.2.4
-	 */
-	@Test
-	public final void testFailureContext() throws ParseException, IOException {
+	public final void testFailure() throws ParseException, IOException {
 		
 		String subpath = "/failure", content = "jabberwocky";
 		

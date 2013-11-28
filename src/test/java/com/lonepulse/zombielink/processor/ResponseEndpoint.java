@@ -23,7 +23,6 @@ package com.lonepulse.zombielink.processor;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
  * <p>A dummy endpoint with request method definitions to test generic response handling.</p>
@@ -36,7 +35,6 @@ import com.lonepulse.zombielink.annotation.Stateful;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Stateful
 @Endpoint(host = "0.0.0.0", port = "8080")
 public interface ResponseEndpoint {
 	

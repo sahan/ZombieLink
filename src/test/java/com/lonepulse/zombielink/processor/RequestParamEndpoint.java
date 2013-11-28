@@ -233,6 +233,15 @@ public interface RequestParamEndpoint {
 	public void constantQueryParams();
 	
 	/**
+	 * <p>Sends a request with a set of constant query parameters defined inline.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/inlineconstantqueryparams")
+	public void inlineConstantQueryParams(
+		@QueryParams({@Param(name = "class", value = "omega")}) Map<String, String> params);
+	
+	/**
 	 * <p>Sends a request with a set of constant form parameters.</p>
 	 * 
 	 * @since 1.2.4
@@ -241,6 +250,15 @@ public interface RequestParamEndpoint {
 	@FormParams({@Param(name = "firstName", value = "Beta-Ray"),
 				 @Param(name = "lastName", value = "Bill")})
 	public void constantFormParams();
+	
+	/**
+	 * <p>Sends a request with a set of constant form parameters defined inline.</p>
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/inlineconstantformparams", method = POST)
+	public void inlineConstantFormParams(
+		@FormParams({@Param(name = "class", value = "omega")}) Map<String, String> params);
 	
 	/**
 	 * <p>Sends a request with a {@code byte[]} which should be resolved to an 
