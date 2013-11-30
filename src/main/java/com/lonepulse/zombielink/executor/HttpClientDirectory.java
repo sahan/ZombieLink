@@ -22,6 +22,8 @@ package com.lonepulse.zombielink.executor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.http.client.HttpClient;
 
@@ -81,7 +83,11 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 							
 							httpClient.getConnectionManager().shutdown();
 						}
-						catch(Exception e) {}
+						catch(Exception e) {
+							
+							Logger.getLogger(HttpClientDirectory.class.getName()).log(
+								Level.WARNING, "Failed to shutdown the connection manager for an HTTP client.", e);
+						}
 					}
 				}
 			}

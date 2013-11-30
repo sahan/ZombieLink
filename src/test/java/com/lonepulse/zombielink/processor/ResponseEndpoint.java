@@ -21,8 +21,12 @@ package com.lonepulse.zombielink.processor;
  */
 
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.model.User;
 
 /**
  * <p>A dummy endpoint with request method definitions to test generic response handling.</p>
@@ -61,4 +65,23 @@ public interface ResponseEndpoint {
 	 */
 	@Request(path = "/resetcontent")
 	public String resetContent();
+	
+	/**
+	 * <p>A mock request expects the raw {@link HttpResponse}.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Request(path = "/rawresponse")
+	public HttpResponse rawResponse();
+	
+	/**
+	 * <p>A mock request expects the raw {@link HttpEntity}.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Request(path = "/rawentity")
+	public HttpEntity rawEntity();
+	
+	@Request(path = "/nodeserializer")
+	public User noDeserializer();
 }

@@ -30,12 +30,10 @@ import java.util.Map;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
-import sun.misc.RequestProcessor;
-
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
- * <p>This is a concrete implementation of {@link RequestProcessor} which executes any {@link Interceptor}s 
+ * <p>This is a concrete implementation of {@link AbstractRequestProcessor} which executes any {@link Interceptor}s 
  * that fall within the current invocation scope.</p>
  * 
  * <p>{@link Interceptor}s may be attached to a proxy invocation using an {@code @Interceptor} annotation 
@@ -63,7 +61,7 @@ class InterceptionProcessor extends AbstractRequestProcessor {
 	 * <p>Accepts the {@link InvocationContext} and executes any {@link Interceptor}s which fall within the 
 	 * scope of the current proxy invocation by passing in the provided {@link HttpRequestBase}.</p> 
 	 * 
-	 * <p>See {@link RequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
+	 * <p>See {@link AbstractRequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
 	 * 
 	 * @param request
 	 * 			the {@link HttpRequestBase} which will be processed by all discovered {@link Interceptor}s  
@@ -80,7 +78,7 @@ class InterceptionProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected HttpRequestBase process(HttpRequestBase request, InvocationContext context) throws RequestProcessorException {
+	protected HttpRequestBase process(HttpRequestBase request, InvocationContext context) {
 
 		try {
 			

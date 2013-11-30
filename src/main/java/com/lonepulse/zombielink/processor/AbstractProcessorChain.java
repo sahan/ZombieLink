@@ -104,7 +104,7 @@ implements Processor<LINK_RESULT, LINK_FAILURE> {
 	 * @since 1.2.4
 	 */
 	@Override
-	public LINK_RESULT run(Object... args) throws ChainExecutionException {
+	public LINK_RESULT run(Object... args) {
 		
 		try {
 			
@@ -122,9 +122,9 @@ implements Processor<LINK_RESULT, LINK_FAILURE> {
 			
 			return result;
 		}
-		catch(Throwable t) { 
+		catch(Exception e) { 
 			
-			throw new ChainExecutionException(t);
+			throw new ChainExecutionException(e);
 		}
 	}
 	

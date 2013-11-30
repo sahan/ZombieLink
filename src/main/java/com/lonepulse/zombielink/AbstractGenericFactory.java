@@ -20,7 +20,6 @@ package com.lonepulse.zombielink;
  * #L%
  */
 
-
 import java.util.Map;
 
 /**
@@ -36,7 +35,7 @@ import java.util.Map;
  */
 public class AbstractGenericFactory<INPUT, OUTPUT, FAILURE extends Throwable> 
 implements GenericFactory <INPUT, OUTPUT, FAILURE> {
-
+	
 	
 	/**
 	 * <p><b>Unsupported</b>. Override to provide an implementation.</p>

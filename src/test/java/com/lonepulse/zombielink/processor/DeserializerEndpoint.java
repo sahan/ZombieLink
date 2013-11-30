@@ -142,4 +142,57 @@ public interface DeserializerEndpoint {
 	@Detach(Deserializer.class)
 	@Request(path = "/detach")
 	String detachDeserializer();
+	
+	
+	static final class UninstantiableDeserializer extends AbstractDeserializer<String> {
+		
+		public UninstantiableDeserializer(String illegalParam) { //illegal parameterized constructor
+			
+			super(String.class);
+		}
+		
+		@Override
+		protected String deserialize(HttpResponse response, InvocationContext context) throws Exception {
+			
+			return "deserialized";
+		}
+	}
+	
+	/**
+	 * <p>A mock request which uses a custom deserializer that cannot be instantiated.</p>
+	 * 
+	 * @return mock content which will never be available due to a deserialization failure
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/uninstantiabledeserializer")
+	@Deserializer(type = UninstantiableDeserializer.class)
+	String uninstantiableDeserializer();
+	
+	
+	static final class IllegalDeserializer extends AbstractDeserializer<Object> {
+		
+		public IllegalDeserializer(String param) {
+			
+			super(Object.class); //illegal type
+		}
+		
+		@Override
+		protected String deserialize(HttpResponse response, InvocationContext context) throws Exception {
+			
+			return "deserialized";
+		}
+	}
+	
+	/**
+	 * <p>A mock request which uses a custom deserializer that cannot be instantiated.</p>
+	 * 
+	 * @param user
+	 * 			the model which should be serialized using a custom serializer
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/illegaldeserializer")
+	@Deserializer(type = IllegalDeserializer.class)
+	User illegalDeserializer();
 }

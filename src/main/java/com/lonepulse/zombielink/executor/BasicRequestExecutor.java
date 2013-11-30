@@ -109,14 +109,13 @@ class BasicRequestExecutor implements RequestExecutor {
 	 * @param context
 	 * 			the {@link InvocationContext} used to discover information about the proxy invocation
 	 * <br><br>
-	 * @throws RequestExecutionException
-	 * 			if the HTTP request execution failed
+	 * @throws RequestFailedException
+	 * 			if the HTTP request responded with a failure status code or if request execution failed
 	 * <br><br>
 	 * @since 1.1.0
 	 */
 	@Override
-	public HttpResponse execute(HttpRequestBase request, InvocationContext context) 
-	throws RequestExecutionException {
+	public HttpResponse execute(HttpRequestBase request, InvocationContext context) {
 		
 		try {
 			
@@ -124,7 +123,7 @@ class BasicRequestExecutor implements RequestExecutor {
 			
 			if(successful(response)) {
 				
-				executionHandler.onSuccess(response, context);
+				executionHandler.onSuccess(response, context);	
 			}
 			else {
 				

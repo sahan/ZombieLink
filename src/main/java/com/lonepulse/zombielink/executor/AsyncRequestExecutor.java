@@ -117,13 +117,13 @@ class AsyncRequestExecutor extends BasicRequestExecutor {
 	 * 			the {@link InvocationContext} used to discover information about the proxy invocation
 	 * <br><br>
 	 * @throws RequestExecutionException
-	 * 			if the HTTP request execution failed
+	 * 			if request execution failed or if the request responded with a failure status code and the 
+	 * 			subsequent handling via any callback yielded an error
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public HttpResponse execute(final HttpRequestBase httpRequestBase, final InvocationContext context)
-	throws RequestExecutionException {
+	public HttpResponse execute(final HttpRequestBase httpRequestBase, final InvocationContext context) {
 		
 		ASYNC_EXECUTOR_SERVICE.execute(new Runnable() {
 

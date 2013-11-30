@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lonepulse.zombielink.ValidationFailedException;
 import com.lonepulse.zombielink.Validator;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.util.Metadata;
@@ -76,7 +75,7 @@ final class Validators {
 		
 		
 		@Override
-		public void validate(Class<?> endpointDefinition) throws ValidationFailedException {
+		public void validate(Class<?> endpointDefinition) {
 
 			assertNotNull(endpointDefinition);
 			

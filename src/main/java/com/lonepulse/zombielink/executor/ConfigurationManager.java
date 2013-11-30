@@ -66,5 +66,5 @@ public interface ConfigurationManager {
 	 * <br><br>
 	 * @since 1.2.3
 	 */
-	Configuration register(Class<?> endpointClass) throws ConfigurationFailedException;
+	Configuration register(Class<?> endpointClass);
 }

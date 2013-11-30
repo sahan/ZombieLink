@@ -53,7 +53,7 @@ public final class InvocationContext {
 	 * <br><br>
 	 * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
 	 */
-	static interface Builder {
+	 interface Builder {
 		
 		/**
 		 * <p>Sets the endpoint interface definition whose request was invoked via the associated proxy.</p>
@@ -168,7 +168,7 @@ public final class InvocationContext {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	static final Builder newBuilder() {
+	static Builder newBuilder() {
 		
 		return new InvocationContextBuilder();
 	}

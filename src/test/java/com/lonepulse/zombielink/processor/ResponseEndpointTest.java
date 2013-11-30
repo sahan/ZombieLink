@@ -34,17 +34,21 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.google.gson.Gson;
+import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.executor.RequestFailedException;
 import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.model.User;
 
 /**
  * <p>Performs <b>Unit Testing</b> on the proxy of {@link ResponseEndpoint}.
@@ -62,9 +66,6 @@ public class ResponseEndpointTest {
 	
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule();
-	
-	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
 	
 	@Bite
 	private ResponseEndpoint responseEndpoint;
@@ -145,6 +146,80 @@ public class ResponseEndpointTest {
 		String response = responseEndpoint.resetContent();
 		
 		assertNull(response);
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+	}
+
+	/**
+	 * <p>Test for a request which expects the raw {@link HttpResponse}.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testRawResponse() {
+		
+		String subpath = "/rawresponse";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withBody("Welcome to the Republic of Genosha")
+				.withStatus(200)));
+		
+		Object response = responseEndpoint.rawResponse();
+		
+		assertNotNull(response);
+		assertTrue(response instanceof HttpResponse);
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+	}
+	
+	/**
+	 * <p>Test for a request which expects the raw {@link HttpEntity}.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testRawEntity() {
+		
+		String subpath = "/rawentity";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withBody("Hulk, make me a sandwich")
+				.withStatus(200)));
+		
+		Object response = responseEndpoint.rawEntity();
+		
+		assertNotNull(response);
+		assertTrue(response instanceof HttpEntity);
+		
+		verify(getRequestedFor(urlEqualTo(subpath)));
+	}
+	
+	/**
+	 * <p>Test for a request which expects the raw {@link HttpEntity}.</p>
+	 *
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testNoDeserializer() throws ClassNotFoundException {
+		
+		String subpath = "/nodeserializer";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withBody(new Gson().toJson(new User(1, "Cain", "Marko", 37, false)))
+				.withStatus(200)));
+
+		try {
+		
+			responseEndpoint.noDeserializer();
+			fail("Request succeeded in the absence of a deserializer.");
+		}
+		catch(ZombieLinkRuntimeException e) {
+			
+			assertEquals("DeserializerUndefinedException", e.getCause().getClass().getSimpleName());
+		}
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 	}

@@ -76,7 +76,7 @@ public final class Zombie {
 	 * <br><br>
 	 * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
 	 */
-	public static abstract class Configuration {
+	public abstract static class Configuration {
 		
 		
 		private static final Configuration DEFAULT = RequestExecutors.CONFIGURATION.getDefault();

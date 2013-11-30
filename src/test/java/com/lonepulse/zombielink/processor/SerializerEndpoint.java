@@ -92,7 +92,6 @@ public interface SerializerEndpoint {
 	
 	static final class Redactor extends AbstractSerializer<User, String> {
 		
-		
 		public Redactor() {
 			
 			super(String.class);
@@ -110,7 +109,7 @@ public interface SerializerEndpoint {
 	}
 	
 	/**
-	 * <p>A mock request with a modle which should be serialized using a custom serializer.</p>
+	 * <p>A mock request with a model which should be serialized using a custom serializer.</p>
 	 * 
 	 * @param user
 	 * 			the model which should be serialized using a custom serializer
@@ -132,4 +131,58 @@ public interface SerializerEndpoint {
 	@Detach(Serializer.class)
 	@Request(path = "/detach", method = PUT)
 	void detachSerializer(@Entity User user);
+	
+	
+	static final class UninstantiableSerializer extends AbstractSerializer<String, String> {
+		
+		public UninstantiableSerializer(String illegalParam) { //illegal parameterized constructor
+			
+			super(String.class);
+		}
+		
+		@Override
+		protected String serialize(String entity, InvocationContext context) throws Exception {
+			
+			return entity;
+		}
+	}
+	
+	/**
+	 * <p>A mock request which uses a custom serializer that cannot be instantiated.</p>
+	 * 
+	 * @param user
+	 * 			the model which should be serialized using a custom serializer
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/uninstantiableserializer", method = PUT)
+	@Serializer(type = UninstantiableSerializer.class)
+	String uninstantiableSerializer(@Entity String entity);
+	
+	
+	static final class IllegalSerializer extends AbstractSerializer<String, Object> {
+		
+		public IllegalSerializer(String param) {
+			
+			super(Object.class); //illegal type
+		}
+		
+		@Override
+		protected String serialize(String entity, InvocationContext context) throws Exception {
+			
+			return entity;
+		}
+	}
+	
+	/**
+	 * <p>A mock request which uses a custom serializer that cannot be instantiated.</p>
+	 * 
+	 * @param user
+	 * 			the model which should be serialized using a custom serializer
+	 * 
+	 * @since 1.2.4
+	 */
+	@Request(path = "/illegalSerializerserializer", method = PUT)
+	@Serializer(type = IllegalSerializer.class)
+	String illegalSerializer(@Entity String entity);
 }

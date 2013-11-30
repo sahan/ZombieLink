@@ -22,7 +22,6 @@ import java.util.Map;
  * #L%
  */
 
-
 /**
  * <p>This contract specifies a generic policy for a factory. Its takes the raw materials specified by 
  * <i>INPUT</i> to manufacture an object of the type <i>OUTPUT</i> and expects a {@link Throwable} of 
@@ -52,7 +51,7 @@ public interface GenericFactory<INPUT extends Object, OUTPUT extends Object, FAI
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public abstract OUTPUT newInstance() throws FAILURE;
+	OUTPUT newInstance() throws FAILURE;
 	
 	/**
 	 * <p>Takes a {@link Map} of raw materials (keyed by {@link String}s) as the <i>INPUT</i> and 
@@ -68,7 +67,7 @@ public interface GenericFactory<INPUT extends Object, OUTPUT extends Object, FAI
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public abstract OUTPUT newInstance(Map<String, INPUT> inputMap) throws FAILURE;
+	OUTPUT newInstance(Map<String, INPUT> inputMap) throws FAILURE;
 	
 	/**
 	 * <p>Takes a single <i>INPUT</i> as an essential raw material to manufacture the <i>OUTPUT</i> 
@@ -90,5 +89,5 @@ public interface GenericFactory<INPUT extends Object, OUTPUT extends Object, FAI
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public abstract OUTPUT newInstance(INPUT input, INPUT... inputs) throws FAILURE;
+	OUTPUT newInstance(INPUT input, INPUT... inputs) throws FAILURE;
 }

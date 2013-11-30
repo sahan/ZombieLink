@@ -48,6 +48,5 @@ public interface RequestExecutor {
 	 * @throws RequestExecutionException
 	 * 			if the HTTP request execution failed
 	 */
-	HttpResponse execute(HttpRequestBase httpRequestBase, InvocationContext config) 
-	throws RequestExecutionException;
+	HttpResponse execute(HttpRequestBase httpRequestBase, InvocationContext config);
 }

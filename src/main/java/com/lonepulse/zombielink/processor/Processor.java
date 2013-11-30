@@ -59,5 +59,5 @@ public interface Processor<RESULT, FAILURE extends Throwable> {
 	 * 
 	 * @since 1.2.4
 	 */
-	public RESULT run(Object... args) throws FAILURE;
+	RESULT run(Object... args) throws FAILURE;
 }

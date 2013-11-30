@@ -45,7 +45,7 @@ import com.lonepulse.zombielink.processor.Processors;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-class ProxyInvocation implements Invocation {
+final class ProxyInvocation implements Invocation {
 
 	
 	/**
@@ -65,7 +65,7 @@ class ProxyInvocation implements Invocation {
 	 * <br><br>
 	 * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
 	 */
-	static abstract class Template {
+	abstract static class Template {
 		
 		
 		private final Class<?> endpoint;
@@ -177,7 +177,7 @@ class ProxyInvocation implements Invocation {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public static final ProxyInvocation newInstance(
+	public static ProxyInvocation newInstance(
 		ProxyInvocation.Template template, Object proxy, Method method, Object[] args) {
 		
 		InvocationContext context = InvocationContext.newBuilder()
