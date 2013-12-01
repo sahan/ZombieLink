@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 import org.apache.http.client.HttpClient;
 
 import com.lonepulse.zombielink.Directory;
-import com.lonepulse.zombielink.annotation.Configuration;
+import com.lonepulse.zombielink.annotation.Config;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
@@ -113,8 +113,8 @@ enum HttpClientDirectory implements Directory<Class<?>, HttpClient> {
 	@Override
 	public synchronized HttpClient bind(Class<?> endpoint, HttpClient httpClient) {
 		
-		String configClassName = endpoint.isAnnotationPresent(Configuration.class)?
-			endpoint.getAnnotation(Configuration.class).value().getName() :Zombie.Configuration.class.getName();
+		String configClassName = endpoint.isAnnotationPresent(Config.class)?
+			endpoint.getAnnotation(Config.class).value().getName() :Zombie.Configuration.class.getName();
 			
 		String endpointClassName = endpoint.getName();
 			

@@ -65,22 +65,15 @@ class AsyncRequestExecutor extends BasicRequestExecutor {
 				
 				try {
 					
-					if(!ASYNC_EXECUTOR_SERVICE.awaitTermination(60, TimeUnit.SECONDS)) {
+					if(!ASYNC_EXECUTOR_SERVICE.awaitTermination(15, TimeUnit.SECONDS)) {
 						
 						List<Runnable> pendingRequests = ASYNC_EXECUTOR_SERVICE.shutdownNow();
 						LOG.info(pendingRequests.size() + " asynchronous requests aborted.");
-						
-						if(!ASYNC_EXECUTOR_SERVICE.awaitTermination(10, TimeUnit.SECONDS)) {
-							
-							LOG.error("Failed to shutdown the cached thread pool for asynchronous requests.");
-						}
 					}
 				}
 				catch (InterruptedException ie) {
-
-					List<Runnable> pendingRequests = ASYNC_EXECUTOR_SERVICE.shutdownNow();
-					LOG.info(pendingRequests.size() + " asynchronous requests aborted.");
 					
+					LOG.error("Failed to shutdown the cached thread pool for asynchronous requests.");
 					Thread.currentThread().interrupt();
 				}
 			}
@@ -115,6 +108,8 @@ class AsyncRequestExecutor extends BasicRequestExecutor {
 	 * <br><br>
 	 * @param context
 	 * 			the {@link InvocationContext} used to discover information about the proxy invocation
+	 * <br><br>
+	 * @return {@code null} for all intent and purposes and returns control immediately
 	 * <br><br>
 	 * @throws RequestExecutionException
 	 * 			if request execution failed or if the request responded with a failure status code and the 

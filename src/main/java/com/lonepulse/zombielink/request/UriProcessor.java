@@ -80,19 +80,20 @@ class UriProcessor extends AbstractRequestProcessor {
 		try {
 			
 			Endpoint endpoint = context.getEndpoint().getAnnotation(Endpoint.class);
-			String value = endpoint.value();
-			String host = (value == null || value.isEmpty())? endpoint.host() :value;
 			
 			String scheme = endpoint.scheme();
-			String port = endpoint.port();
+			String value = endpoint.value();
+			String host = (value == null || value.isEmpty())? endpoint.host() :value;
+			int port = endpoint.port();
 			String path = endpoint.path();
 			
-			URIBuilder uriBuilder = new URIBuilder();
-			uriBuilder.setScheme(scheme).setHost(host).setPath(path + Metadata.findPath(context.getRequest()));
+			URIBuilder uriBuilder = new URIBuilder()
+			.setScheme(scheme).setHost(host)
+			.setPath(path + Metadata.findPath(context.getRequest()));
 			
-			if(!port.equals("")) {
-				
-				uriBuilder.setPort(Integer.parseInt(port));
+			if(port >= 0) {
+			
+				uriBuilder.setPort(port);
 			}
 			
 			httpRequestBase.setURI(uriBuilder.build());

@@ -91,7 +91,7 @@ public @interface Endpoint {
 	 * <br><br>
 	 * @since 1.1.2
 	 */
-	String port() default "";
+	int port() default -1;
 
 	/**
 	 * <p>The path hierarchy of the <b>URI</b> on which the resource is located. 

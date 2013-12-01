@@ -36,5 +36,5 @@ import com.lonepulse.zombielink.annotation.Stateful;
  * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Stateful
-@Endpoint(host = "0.0.0.0", port = "8080")
+@Endpoint(host = "0.0.0.0", port = 8080)
 public interface MockEndpoint {}

@@ -48,7 +48,7 @@ import com.lonepulse.zombielink.processor.InterceptorEndpoint.EndpointIntercepto
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Interceptor(EndpointInterceptor.class)
-@Endpoint(host = "0.0.0.0", port = "8080")
+@Endpoint(host = "0.0.0.0", port = 8080)
 public interface InterceptorEndpoint {
 	
 	

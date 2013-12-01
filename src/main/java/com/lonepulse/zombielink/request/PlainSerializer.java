@@ -58,13 +58,10 @@ public class PlainSerializer extends AbstractSerializer<Object, String> {
 	 * @return the {@link String} which represents the provided input model, else an empty string if the 
 	 * 		   provided input was {@code null}
 	 * <br><br>
-	 * @throws Exception 
-	 * 			if serialization failed due to an error
-	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public String serialize(Object input, InvocationContext context) throws Exception {
+	public String serialize(Object input, InvocationContext context) {
 
 		return input == null? "" :String.valueOf(input);
 	}

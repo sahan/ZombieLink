@@ -128,26 +128,36 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 	 * 		   given {@link HttpResponse} did not contain an {@link HttpEntity}
 	 * <br><br>
 	 * @throws IllegalStateException 
-	 * 				if the <b>Simple-XML library</b> was not found on the classpath or if an incompatible version 
-	 * 				of the library is being used
+	 * 				if the <b>Simple-XML library</b> was not found on the classpath or if an incompatible 
+	 * 				version of the library is being used
 	 * <br><br>
-	 * @throws Exception 
-	 * 				if the XML content failed to be deserialized to the specified model
+	 * @throws DeserializerException
+	 * 			if XML deserialization failed for the given entity using the Simple-XML library 
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	protected Object deserialize(HttpResponse httpResponse, InvocationContext context) 
-	throws Exception {
+	protected Object deserialize(HttpResponse httpResponse, InvocationContext context) {
 		
 		if(unavailable || incompatible) {
 			
 			throw new IllegalStateException(unavailable? ERROR_CONTEXT_UNAVAILABLE :ERROR_CONTEXT_INCOMPATIBLE);
 		}
 		
-		HttpEntity entity = httpResponse.getEntity();
-		
-		return entity == null? null :Persister_read.invoke(persister, 
-				context.getRequest().getReturnType(), EntityUtils.toString(entity));
+		try {
+			
+			HttpEntity entity = httpResponse.getEntity();
+			
+			return entity == null? null :Persister_read.invoke(persister, 
+					context.getRequest().getReturnType(), EntityUtils.toString(entity));
+		} 
+		catch(Exception e) {
+			
+			throw new DeserializerException(new StringBuilder("XML deserialization failed for request <")
+			.append(context.getRequest().getName())
+			.append("> on endpoint <")
+			.append(context.getEndpoint().getName())
+			.append(">").toString(), e);
+		}
 	}
 }

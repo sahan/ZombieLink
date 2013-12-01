@@ -44,25 +44,25 @@ public interface ConfigurationManager {
 	 * <p>Creates a new instance of the <i>out-of-the-box</i> configuration which will be used by default for 
 	 * executing all endpoint requests.</p>
 	 *
-	 * @return the default {@link Configuration} used for all endpoints
+	 * @return the default {@link Config} used for all endpoints
 	 * <br><br> 
 	 * @since 1.2.4
 	 */
 	Configuration getDefault();
 	
 	/**
-	 * <p>Takes the {@link Class} of an endpoint interface and registers the associated {@link Configuration}. This 
-	 * may be a custom configuration which is specified using the <b>@Configuration</b> annotation or the default 
-	 * configuration if the annotation is not found. In either case, the {@link Configuration} will be instantiated, 
+	 * <p>Takes the {@link Class} of an endpoint interface and registers the associated {@link Config}. This 
+	 * may be a custom configuration which is specified using the <b>@Config</b> annotation or the default 
+	 * configuration if the annotation is not found. In either case, the {@link Config} will be instantiated, 
 	 * registered and returned.</p>
 	 *
 	 * @param endpointClass
-	 * 			the {@link Class} of the endpoint definition interface whose {@link Configuration} is to be registered
+	 * 			the {@link Class} of the endpoint definition interface whose {@link Config} is to be registered
 	 * <br><br>
-	 * @return a <b>new instance</b> of the {@link Configuration} which was instantiated and registered
+	 * @return a <b>new instance</b> of the {@link Config} which was instantiated and registered
 	 * <br><br>
 	 * @throws ConfigurationFailedException
-	 * 			if the associated {@link Configuration} failed to be instantiated or registered
+	 * 			if the associated {@link Config} failed to be instantiated or registered
 	 * <br><br>
 	 * @since 1.2.3
 	 */

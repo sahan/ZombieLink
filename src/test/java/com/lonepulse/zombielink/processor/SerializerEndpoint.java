@@ -49,7 +49,7 @@ import com.lonepulse.zombielink.request.AbstractSerializer;
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Serializer(JSON) 
-@Endpoint(host = "0.0.0.0", port = "8080")
+@Endpoint(host = "0.0.0.0", port = 8080)
 public interface SerializerEndpoint {
 	
 	
@@ -98,8 +98,7 @@ public interface SerializerEndpoint {
 		}
 
 		@Override
-		protected String serialize(User user, InvocationContext context) 
-		throws Exception {
+		protected String serialize(User user, InvocationContext context) {
 
 			user.setFirstName("<redacted>");
 			user.setLastName("<redacted>");
@@ -141,7 +140,7 @@ public interface SerializerEndpoint {
 		}
 		
 		@Override
-		protected String serialize(String entity, InvocationContext context) throws Exception {
+		protected String serialize(String entity, InvocationContext context) {
 			
 			return entity;
 		}
@@ -168,7 +167,7 @@ public interface SerializerEndpoint {
 		}
 		
 		@Override
-		protected String serialize(String entity, InvocationContext context) throws Exception {
+		protected String serialize(String entity, InvocationContext context) {
 			
 			return entity;
 		}

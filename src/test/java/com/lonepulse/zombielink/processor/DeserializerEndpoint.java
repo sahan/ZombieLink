@@ -50,7 +50,7 @@ import com.lonepulse.zombielink.response.AbstractDeserializer;
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Deserializer(JSON)
-@Endpoint(host = "0.0.0.0", port = "8080")
+@Endpoint(host = "0.0.0.0", port = 8080)
 public interface DeserializerEndpoint {
 	
 	/**
@@ -108,16 +108,22 @@ public interface DeserializerEndpoint {
 		}
 
 		@Override
-		protected User deserialize(HttpResponse httpResponse, InvocationContext context) 
-		throws Exception {
+		protected User deserialize(HttpResponse httpResponse, InvocationContext context) {
 
-			String json = EntityUtils.toString(httpResponse.getEntity());
+			try {
+				
+				String json = EntityUtils.toString(httpResponse.getEntity());
+				
+				User user = new Gson().fromJson(json, User.class);
+				user.setFirstName("<redacted>");
+				user.setLastName("<redacted>");
+				
+				return user;
+			}
+			catch (Exception e) {
 			
-			User user = new Gson().fromJson(json, User.class);
-			user.setFirstName("<redacted>");
-			user.setLastName("<redacted>");
-			
-			return user;
+				throw new RuntimeException(e);
+			}
 		}
 	}
 	
@@ -152,7 +158,7 @@ public interface DeserializerEndpoint {
 		}
 		
 		@Override
-		protected String deserialize(HttpResponse response, InvocationContext context) throws Exception {
+		protected String deserialize(HttpResponse response, InvocationContext context) {
 			
 			return "deserialized";
 		}
@@ -178,7 +184,7 @@ public interface DeserializerEndpoint {
 		}
 		
 		@Override
-		protected String deserialize(HttpResponse response, InvocationContext context) throws Exception {
+		protected String deserialize(HttpResponse response, InvocationContext context) {
 			
 			return "deserialized";
 		}

@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
+import static com.lonepulse.zombielink.util.Assert.assertNotNull;
 
 /**
  * <p>This contract defines the services offered by a <i>chain</i> of sequentially executed {@link ProcessorChainLink}s. 
@@ -69,17 +70,10 @@ implements Processor<LINK_RESULT, LINK_FAILURE> {
 	 */
 	public AbstractProcessorChain(ProcessorChainLink<LINK_RESULT, LINK_FAILURE> root) {
 	
-		if(root == null) {
-			
-			StringBuilder errorContext = new StringBuilder("A ")
-			.append(AbstractProcessorChain.class.getName())
-			.append(" cannot be constructed with a <null> root ")
-			.append(ProcessorChainLink.class.getName());
-			
-			throw new IllegalStateException(errorContext.toString());
-		}
-		
-		this.root = root;
+		this.root = assertNotNull(root, new StringBuilder("A ")
+		.append(AbstractProcessorChain.class.getName())
+		.append(" cannot be constructed with a <null> root ")
+		.append(ProcessorChainLink.class.getName()).toString());
 	}
 	
 	/**

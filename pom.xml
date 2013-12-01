@@ -232,6 +232,10 @@
 							<exclude>com/lonepulse/zombielink/**/*Exception.class</exclude>
 							<exclude>com/lonepulse/zombielink/util/*.class</exclude>
 							<exclude>com/lonepulse/zombielink/annotation/*.class</exclude>
+							<exclude>com/lonepulse/zombielink/request/JsonSerializer.class</exclude>
+							<exclude>com/lonepulse/zombielink/request/XmlSerializer.class</exclude>
+							<exclude>com/lonepulse/zombielink/response/JsonDeserializer.class</exclude>
+							<exclude>com/lonepulse/zombielink/response/XmlDeserializer.class</exclude>
 						</excludes>
 					</instrumentation>
 					<format>xml</format>
