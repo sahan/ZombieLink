@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
-
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -29,11 +28,12 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
+import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.inject.Zombie.Configuration;
 
 /**
- * <p>This is a concrete implementation of {@link ConfigurationManager} which provides an implementation of the 
- * services offered for managing request execution configurations.</p> 
+ * <p>This is a concrete implementation of {@link ConfigurationManager} which manages request execution 
+ * configurations defined as instances of {@link Zombie.Configuration}.</p> 
  * 
  * @version 1.1.0
  * <br><br>
@@ -45,8 +45,8 @@ final class ConfigurationService implements ConfigurationManager {
 
 	
 	/**
-	 * <p>The <i>out-of-the-box</i> configuration for an instance of {@link HttpClient} which will be used for 
-	 * executing all endpoint requests. Below is a detailed description of all configured properties.</p> 
+	 * <p>The <i>out-of-the-box</i> configuration for an instance of {@link HttpClient} which will be used 
+	 * for executing all endpoint requests. Below is a detailed description of all configured properties.</p> 
 	 * <br>
 	 * <ul>
 	 * <li>

@@ -47,18 +47,18 @@ public final class RequestFailedException extends RequestExecutionException {
 	
 	
 	/**
-	 * <p>Creates a new instance of {@link RequestFailedException} with the {@link HttpResponse} 
-	 * with the failed status code and the {@link InvocationContext} which resulted in this response.<p>
+	 * <p>Creates a new instance of {@link RequestFailedException} with the {@link HttpResponse} (with 
+	 * the failed status code) and the {@link InvocationContext} which resulted in this response.<p>
 	 * 
-	 * @param response
-	 * 			the {@link HttpResponse} returned for the failed request
-	 * <br><br>
 	 * @param context
 	 * 			the {@link InvocationContext} which initiated the failed request
 	 * <br><br>
+	 * @param response
+	 * 			the {@link HttpResponse} which contains the failure status code 
+	 * <br><br>
 	 * @since 1.2.4
 	 */
-	static RequestFailedException newInstance(HttpResponse response, InvocationContext context) {
+	static RequestFailedException newInstance(InvocationContext context, HttpResponse response) {
 		
 		RequestFailedException rfe = new RequestFailedException(response, context);
 		rfe.setResponse(response);
@@ -74,6 +74,7 @@ public final class RequestFailedException extends RequestExecutionException {
 	 * <br><br>
 	 * @param context
 	 * 			the {@link InvocationContext} which initiated the failed request
+	 * <br><br>
 	 * @param rootCause
 	 * 			the root {@link Throwable} which resulted in an execution failure 
 	 * <br><br>
@@ -104,11 +105,11 @@ public final class RequestFailedException extends RequestExecutionException {
 	 * <p>Retrieves the {@link HttpResponse} which was returned for the request.</p>
 	 * 
 	 * <p><b>Note</b> that if this instance of {@link RequestFailedException} signals an <b>error</b> 
-	 * which resulted before request execution, an {@link HttpResponse} will not be available. Use 
-	 * {@link #hasResponse()} to determine if a response is available.</p> 
+	 * which resulted before or during request execution, an {@link HttpResponse} will not be available. 
+	 * Use {@link #hasResponse()} to determine if a response is available.</p> 
 	 *
 	 * @return the {@link HttpResponse} for the failed request, else {@code null} if this instance 
-	 * 		   signals an <b>error</b> which occurred before request execution
+	 * 		   signals an <b>error</b> which occurred before or during request execution
 	 * <br><br>
 	 * @since 1.2.4
 	 */

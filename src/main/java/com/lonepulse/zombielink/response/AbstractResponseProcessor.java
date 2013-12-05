@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.util.Assert.assertAssignable;
 import static com.lonepulse.zombielink.util.Assert.assertLength;
 import static com.lonepulse.zombielink.util.Assert.assertNotNull;

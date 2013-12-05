@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -82,6 +81,11 @@ public interface ResponseEndpoint {
 	@Request(path = "/rawentity")
 	public HttpEntity rawEntity();
 	
+	/**
+	 * <p>A mock request without an attached serializer.</p>
+	 *
+	 * @since 1.2.4
+	 */
 	@Request(path = "/nodeserializer")
 	public User noDeserializer();
 }

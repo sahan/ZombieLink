@@ -24,11 +24,11 @@ import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
- * <p>This exception is thrown due to failure in <b>managing</b> a {@link Zombie.Configuration}.</p>
+ * <p>This exception is thrown due to a failure in <b>managing</b> a {@link Zombie.Configuration}.</p>
  * 
  * @version 1.1.0
  * <br><br>
- * @sine 1.2.4
+ * @since 1.2.4
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -46,6 +46,8 @@ public class ConfigurationFailedException extends ZombieLinkRuntimeException {
 	 * <br><br>
 	 * @param rootCause
 	 * 			the root {@link Throwable} cause which resulted in a failure to manage the configuration
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ConfigurationFailedException(Class<?> endpointClass, Throwable rootCause) {
 		
@@ -55,11 +57,15 @@ public class ConfigurationFailedException extends ZombieLinkRuntimeException {
 	
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ConfigurationFailedException() {}
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ConfigurationFailedException(String detailMessage) {
 		
@@ -68,6 +74,8 @@ public class ConfigurationFailedException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ConfigurationFailedException(Throwable throwable) {
 		
@@ -76,6 +84,8 @@ public class ConfigurationFailedException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ConfigurationFailedException(String detailMessage, Throwable throwable) {
 

@@ -117,7 +117,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
      * 
      * <p>See {@link AbstractDeserializer#deserialize(HttpResponse, InvocationContext)}.
      * 
-	 * @param httpResponse
+	 * @param response
 	 * 				the {@link HttpResponse} which contains the XML content to be deserialized to a model
 	 * <br><br>
 	 * @param context
@@ -137,7 +137,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected Object deserialize(HttpResponse httpResponse, InvocationContext context) {
+	protected Object deserialize(HttpResponse response, InvocationContext context) {
 		
 		if(unavailable || incompatible) {
 			
@@ -146,7 +146,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 		
 		try {
 			
-			HttpEntity entity = httpResponse.getEntity();
+			HttpEntity entity = response.getEntity();
 			
 			return entity == null? null :Persister_read.invoke(persister, 
 					context.getRequest().getReturnType(), EntityUtils.toString(entity));

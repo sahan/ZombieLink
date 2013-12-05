@@ -21,12 +21,13 @@ package com.lonepulse.zombielink;
  */
 
 /**
- * <p>An extension of {@link RuntimeException} which marks unrecoverable 
- * runtime discrepancies.</p>
+ * <p>An extension of {@link RuntimeException} which signals unrecoverable runtime errors.</p>
  * 
- * @version 1.1.1
+ * @version 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @since 1.1.0
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public class ZombieLinkRuntimeException extends RuntimeException {
 
@@ -36,12 +37,15 @@ public class ZombieLinkRuntimeException extends RuntimeException {
 	
 	/**
 	 * See {@link RuntimeException#RuntimeException()}.
+	 * <br><br>
+	 * @since 1.1.0
 	 */
-	public ZombieLinkRuntimeException() {
-	}
+	public ZombieLinkRuntimeException() {}
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.1.0
 	 */
 	public ZombieLinkRuntimeException(String detailMessage) {
 		
@@ -50,6 +54,8 @@ public class ZombieLinkRuntimeException extends RuntimeException {
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.1.0
 	 */
 	public ZombieLinkRuntimeException(Throwable throwable) {
 		
@@ -58,6 +64,8 @@ public class ZombieLinkRuntimeException extends RuntimeException {
 
 	/**
 	 * See {@link RuntimeException#RuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.1.0
 	 */
 	public ZombieLinkRuntimeException(String detailMessage, Throwable throwable) {
 

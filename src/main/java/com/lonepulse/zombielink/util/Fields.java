@@ -65,7 +65,7 @@ public final class Fields implements Iterable<Field> {
 	 * <br><br>
 	 * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
 	 */
-	public interface Criterion {
+	public static interface Criterion {
 		
 		boolean evaluate(Field field);
 	}

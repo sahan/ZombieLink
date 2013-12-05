@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;

@@ -20,7 +20,6 @@ package com.lonepulse.zombielink;
  * #L%
  */
 
-
 /**
  * <p>This runtime exception signals a <b>generic</b> validation failure when using {@link Validator}s.</p>
  * 
@@ -38,11 +37,15 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 	
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ValidationFailedException() {}
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ValidationFailedException(String detailMessage) {
 		
@@ -51,6 +54,8 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ValidationFailedException(Throwable throwable) {
 		
@@ -59,6 +64,8 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ValidationFailedException(String detailMessage, Throwable throwable) {
 

@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
-
 import java.util.List;
 import java.util.Map;
 

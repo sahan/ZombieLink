@@ -30,9 +30,8 @@ import com.lonepulse.zombielink.Validator;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.util.Metadata;
 
-
 /**
- * <p>Mediates communication between all concrete implementation of {@link Validator}s and their sources.</p> 
+ * <p>Mediates communication between all concrete implementations of {@link Validator}s and their sources.</p> 
  * 
  * <p>The following validators are available:</p>
  * 

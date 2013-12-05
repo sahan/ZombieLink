@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
-
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -33,9 +32,9 @@ import com.lonepulse.zombielink.processor.Processors;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**
- * <p>This is an implementation of {@link ExecutionHandler} which manages {@link AsyncHandler}s that may be 
- * used in <b>asynchronous request execution</b>. It is to be used with {@link RequestExecutor}s that support 
- * asynchronous request execution (for endpoint requestst annotated with @{@link Async}).</p> 
+ * <p>This is an implementation of {@link ExecutionHandler} which manages {@link AsyncHandler}s that 
+ * may be used in <b>asynchronous requests</b>. It should be used with {@link RequestExecutor}s that 
+ * support asynchronous request execution (i.e. those requests annotated with @{@link Async}).</p> 
  * 
  * @version 1.1.0
  * <br><br>
@@ -73,22 +72,22 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 	
 	
 	/**
-	 * <p>The given {@link HttpResponse} with a successful status code is processed using the response processor 
-	 * chain ({@link Processors#RESPONSE} and if an {@link AsyncHandler} is defined, the result of the processor 
-	 * chain is submitted to the <i>onSuccess</i> callback.</p>
+	 * <p>The given {@link HttpResponse} with a successful status code is processed using the response 
+	 * processor chain ({@link Processors#RESPONSE} and if an {@link AsyncHandler} is defined, the result 
+	 * of the processor chain is submitted to the <i>onSuccess</i> callback.</p>
 	 * 
-	 * <p>See {@link ExecutionHandler#onSuccess(HttpResponse, InvocationContext)}</p>
+	 * <p>See {@link ExecutionHandler#onSuccess(InvocationContext, HttpResponse)}</p>
 	 * 
-	 * @param response
-	 * 			the resulting {@link HttpResponse} with a successful status code
-	 * <br><br>
 	 * @param context
 	 * 			the {@link InvocationContext} with information on the proxy invocation 
+	 * <br><br>
+	 * @param response
+	 * 			the resulting {@link HttpResponse} with a successful status code 
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public void onSuccess(HttpResponse response, InvocationContext context) {
+	public void onSuccess(InvocationContext context, HttpResponse response) {
 		
 		Object reponseEntity = Processors.RESPONSE.run(response, context); //process, regardless of an AsyncHandler definition
 		
@@ -108,22 +107,25 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 	}
 
 	/**
-	 * <p>If an {@link AsyncHandler} is defined, the given {@link HttpResponse} with a failed status code 
-	 * is submitted to the <i>onFailure</i> callback.</p>
+	 * <p>The given {@link HttpResponse} with a successful status code is processed using the response 
+	 * processor chain ({@link Processors#RESPONSE} and if an {@link AsyncHandler} is defined, the given 
+	 * {@link HttpResponse} with a failed status code is submitted to the <i>onFailure</i> callback.</p>
 	 * 
-	 * <p>See {@link ExecutionHandler#onFailure(HttpResponse, InvocationContext)}</p>
+	 * <p>See {@link ExecutionHandler#onFailure(InvocationContext, HttpResponse)}</p>
 	 * 
-	 * @param response
-	 * 			the resulting {@link HttpResponse} with a failed status code
-	 * <br><br>
 	 * @param context
 	 * 			the {@link InvocationContext} with information on the proxy invocation 
+	 * <br><br>
+	 * @param response
+	 * 			the resulting {@link HttpResponse} with a failed status code
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	public void onFailure(HttpResponse response, InvocationContext context) {
+	public void onFailure(InvocationContext context, HttpResponse response) {
 
+		Processors.RESPONSE.run(response, context); //process, regardless of a failed response
+		
 		AsyncHandler<Object> asyncHandler = getAsyncHandler(context);
 		
 		if(asyncHandler != null) {
@@ -137,12 +139,11 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 				LOGGER.error("Callback \"onFailure\" aborted with an exception.", e);
 			}
 		}
-		
-		Processors.RESPONSE.run(response, context); //process, regardless of a failed response
 	}
 
 	/**
-	 * <p>If an {@link AsyncHandler} is defined, the exception is submitted to the <i>onError</i> callback.</p>
+	 * <p>If an {@link AsyncHandler} is defined, any exception which resulted in an error will be 
+	 * available via the <i>onError</i> callback.</p>
 	 * 
 	 * <p>See {@link ExecutionHandler#onError(InvocationContext, Exception)}</p>
 	 * 

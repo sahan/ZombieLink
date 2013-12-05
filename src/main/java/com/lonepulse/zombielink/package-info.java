@@ -1,5 +1,5 @@
 /**
- * <p>Contains the <i>core</i> contracts and implementations which common to all modules.
+ * <p>Contains the <i>core</i> contracts and implementations which are common to all modules.</p>
  * 
  * @since 1.1.1
  * <br><br>

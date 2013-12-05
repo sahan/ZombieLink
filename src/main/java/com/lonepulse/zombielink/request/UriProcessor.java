@@ -58,7 +58,7 @@ class UriProcessor extends AbstractRequestProcessor {
 	 * 
 	 * <p>See {@link AbstractRequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
 	 * 
-	 * @param httpRequestBase
+	 * @param request
 	 * 			the {@link HttpRequestBase} whose URI will be initialized to the complete URI formualted using 
 	 * 			the endpoint's root path and the request's subpath
 	 * <br><br>
@@ -75,7 +75,7 @@ class UriProcessor extends AbstractRequestProcessor {
 	 * @since 1.2.4
 	 */
 	@Override
-	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext context) {
+	protected HttpRequestBase process(HttpRequestBase request, InvocationContext context) {
 
 		try {
 			
@@ -88,17 +88,16 @@ class UriProcessor extends AbstractRequestProcessor {
 			String path = endpoint.path();
 			
 			URIBuilder uriBuilder = new URIBuilder()
-			.setScheme(scheme).setHost(host)
-			.setPath(path + Metadata.findPath(context.getRequest()));
-			
+			.setScheme(scheme).setHost(host).setPath(path + Metadata.findPath(context.getRequest()));
+
 			if(port >= 0) {
-			
+				
 				uriBuilder.setPort(port);
 			}
 			
-			httpRequestBase.setURI(uriBuilder.build());
+			request.setURI(uriBuilder.build());
 			
-			return httpRequestBase;
+			return request;
 		}
 		catch(Exception e) {
 			
