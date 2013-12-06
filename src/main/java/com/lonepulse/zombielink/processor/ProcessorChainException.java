@@ -40,11 +40,15 @@ class ProcessorChainException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ProcessorChainException() {}
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ProcessorChainException(String detailMessage) {
 		
@@ -53,6 +57,8 @@ class ProcessorChainException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ProcessorChainException(Throwable throwable) {
 		
@@ -61,6 +67,8 @@ class ProcessorChainException extends ZombieLinkRuntimeException {
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
+	 * <br><br>
+	 * @since 1.2.4
 	 */
 	public ProcessorChainException(String detailMessage, Throwable throwable) {
 
