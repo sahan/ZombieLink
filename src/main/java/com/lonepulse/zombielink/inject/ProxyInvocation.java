@@ -147,7 +147,7 @@ final class ProxyInvocation implements Invocation {
 		 */
 		protected Object handleResponse(InvocationContext context, HttpResponse response) {
 			
-	        return Processors.RESPONSE.run(response, context);
+	        return Processors.RESPONSE.run(context, response);
 		}
 	}
 	

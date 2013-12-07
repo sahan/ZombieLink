@@ -89,7 +89,7 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 	@Override
 	public void onSuccess(InvocationContext context, HttpResponse response) {
 		
-		Object reponseEntity = Processors.RESPONSE.run(response, context); //process, regardless of an AsyncHandler definition
+		Object reponseEntity = Processors.RESPONSE.run(context, response); //process, regardless of an AsyncHandler definition
 		
 		AsyncHandler<Object> asyncHandler = getAsyncHandler(context);
 		
@@ -124,7 +124,7 @@ public final class AsyncExecutionHandler implements ExecutionHandler {
 	@Override
 	public void onFailure(InvocationContext context, HttpResponse response) {
 
-		Processors.RESPONSE.run(response, context); //process, regardless of a failed response
+		Processors.RESPONSE.run(context, response); //process, regardless of a failed response
 		
 		AsyncHandler<Object> asyncHandler = getAsyncHandler(context);
 		

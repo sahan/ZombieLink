@@ -149,7 +149,7 @@ public class InterceptorEndpointTest {
 		interceptorEndpoint.paramInterceptor(new Interceptor() {
 			
 			@Override
-			public void intercept(HttpRequestBase request, InvocationContext context) {
+			public void intercept(InvocationContext context, HttpRequestBase request) {
 				
 				request.addHeader("X-Header", value);
 			}

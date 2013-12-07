@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.util;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.util.Assert.assertNotNull;
 
 import java.lang.annotation.Annotation;

@@ -30,7 +30,6 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
@@ -43,10 +42,10 @@ import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**
- * <p>This is a concrete implementation of {@link AbstractRequestProcessor} which discovers <i>form parameters</i> 
- * in a request which are annotated with @{@link FormParam} or @{@link FormParams} and constructs a 
- * a list of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms"> form-urlencoded
- * </a> <b>name-value</b> pairs which will be sent in the request body.</p> 
+ * <p>This is a concrete implementation of {@link AbstractRequestProcessor} which discovers <b>form 
+ * parameters</b> in a request which are annotated with @{@link FormParam} or @{@link FormParams} and 
+ * constructs a a list of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms"> 
+ * form-urlencoded</a> <b>name-value</b> pairs which will be sent in the request body.</p> 
  * 
  * <p>The @{@link FormParam} annotation should be used on an implementation of {@link CharSequence} which 
  * provides the <i>value</i> for each <i>name-value</i> pair; and the supplied {@link FormParam#value()} 
@@ -65,38 +64,37 @@ class FormParamProcessor extends AbstractRequestProcessor {
 
 	
 	/**
-	 * <p>Accepts the {@link InvocationContext} along with an {@link HttpEntityEnclosingRequestBase} and 
+	 * <p>Accepts the {@link InvocationContext} with an {@link HttpEntityEnclosingRequestBase} and 
 	 * creates a list of <a href="http://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms">
-	 * form-urlencoded</a> <b>name-value</b> pairs using any arguments which were annotated with @{@link FormParam} 
-	 * and @{@link FormParams}. It's then inserted to the request body of an {@link HttpEntityEnclosingRequestBase}.</p>
+	 * form-urlencoded</a> name-value pairs using arguments annotated with @{@link FormParam} and 
+	 * @{@link FormParams}. It's then inserted to the body of the request being processed.</p>
 	 * 
-	 * <p><b>Note</b> that any {@link HttpRequestBase}s which do not extend {@link HttpEntityEnclosingRequestBase} 
+	 * <p><b>Note</b> that any {@link HttpRequestBase}s which aren't {@link HttpEntityEnclosingRequestBase}s 
 	 * will be ignored.</p>
 	 * 
-	 * <p>See {@link AbstractRequestProcessor#process(HttpRequestBase, InvocationContext)}.</p>
+	 * <p>See {@link AbstractRequestProcessor#process(InvocationContext, HttpRequestBase)}.</p>
 	 * 
-	 * @param httpRequestBase
-	 * 			prefers an instance of {@link HttpPost} so as to conform with HTTP 1.1; however, other  
-	 * 			{@link HttpEntityEnclosingRequestBase}s will be entertained to allow compliance with unusual 
-	 * 			endpoint definitions (as long as they are {@link HttpEntityEnclosingRequestBase}s) 
-	 * <br><br>
 	 * @param context
-	 * 			an immutable instance of {@link InvocationContext} which is used to form the query 
-	 * 			string and create the {@link HttpGet} request
+	 * 			the {@link InvocationContext} which is used to discover any annotated form parameters 
 	 * <br><br>
- 	 * @return the same instance of {@link HttpRequestBase} which was given for processing form params 
+	 * @param request
+	 * 			prefers an instance of {@link HttpPost} so as to conform with HTTP 1.1; however, other  
+	 * 			{@link HttpEntityEnclosingRequestBase}s will be entertained to allow compliance with 
+	 * 			unusual endpoint definitions (as long as they are {@link HttpEntityEnclosingRequestBase}s) 
+	 * <br><br>
+ 	 * @return the same instance of {@link HttpRequestBase} which was given for processing form parameters 
 	 * <br><br>
 	 * @throws RequestProcessorException
-	 * 			if an {@link HttpGet} instance failed to be created or if a form parameter failed to be inserted
+	 * 			if a form parameters failed to be created and inserted into the request body
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	@Override
-	protected HttpRequestBase process(HttpRequestBase httpRequestBase, InvocationContext context) {
+	protected HttpRequestBase process(InvocationContext context, HttpRequestBase request) {
 
 		try {
 			
-			if(httpRequestBase instanceof HttpEntityEnclosingRequestBase) {
+			if(request instanceof HttpEntityEnclosingRequestBase) {
 				
 				List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
 				
@@ -132,7 +130,7 @@ class FormParamProcessor extends AbstractRequestProcessor {
 				}
 				
 				//add batch name and value pairs (along with any static params)
-				List<Entry<FormParams, Object>> queryParamMaps = Metadata.onParams(FormParams.class, context); //batch N&V pairs
+				List<Entry<FormParams, Object>> queryParamMaps = Metadata.onParams(FormParams.class, context);
 				
 				for (Entry<FormParams, Object> entry : queryParamMaps) {
 					
@@ -205,16 +203,16 @@ class FormParamProcessor extends AbstractRequestProcessor {
 				UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairs);
 				urlEncodedFormEntity.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
 	
-				httpRequestBase.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
-				((HttpEntityEnclosingRequestBase)httpRequestBase).setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				request.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
+				((HttpEntityEnclosingRequestBase)request).setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			}
 			
-			return httpRequestBase;
+			return request;
 		}
 		catch(Exception e) {
 			
 			throw (e instanceof RequestProcessorException)? 
-					(RequestProcessorException)e :new RequestProcessorException(getClass(), context, e);
+					(RequestProcessorException)e :new RequestProcessorException(context, getClass(), e);
 		}
 	}
 }

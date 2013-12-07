@@ -41,16 +41,14 @@ import org.apache.http.entity.StringEntity;
  * <br><br>
  * @since 1.2.4
  * <br><br>
- * @category utility
- * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public final class Entities {
 
 
 	 /**
-	  * <p>Discovers which concrete implementation of {@link HttpEntity} is suitable for wrapping the given object. 
-	  * This discovery proceeds in the following order by checking the runtime-type of the generic object:</p> 
+	  * <p>Discovers which implementation of {@link HttpEntity} is suitable for wrapping the given object. 
+	  * This discovery proceeds in the following order by checking the runtime-type of the object:</p> 
 	  *
 	  * <ol>
 	  * 	<li>org.apache.http.{@link HttpEntity} --&gt; returned as-is.</li> 
@@ -132,7 +130,7 @@ public final class Entities {
 	 }
 	 
 	 /**
-	  * <p>Discovers type of {@link HttpEntity} is suitable for wrapping an instance of the given {@link Class}. 
+	  * <p>Discovers the {@link HttpEntity} which is suitable for wrapping an instance of the given {@link Class}. 
 	  * This discovery proceeds in the following order by checking the provided generic type:</p> 
 	  *
 	  * <ol>

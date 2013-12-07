@@ -28,11 +28,11 @@ import com.lonepulse.zombielink.inject.InvocationContext;
  * <p>This runtime exception is thrown when a <b>synchronous request invocation</b> failed to result 
  * in a response with a successful status code (of type <b>2xx</b>).</p>
  *
- * @category API
- * <br><br>
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category API
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */

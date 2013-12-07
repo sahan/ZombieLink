@@ -108,11 +108,11 @@ public interface DeserializerEndpoint {
 		}
 
 		@Override
-		protected User deserialize(HttpResponse httpResponse, InvocationContext context) {
+		protected User deserialize(InvocationContext context, HttpResponse response) {
 
 			try {
 				
-				String json = EntityUtils.toString(httpResponse.getEntity());
+				String json = EntityUtils.toString(response.getEntity());
 				
 				User user = new Gson().fromJson(json, User.class);
 				user.setFirstName("<redacted>");
@@ -158,7 +158,7 @@ public interface DeserializerEndpoint {
 		}
 		
 		@Override
-		protected String deserialize(HttpResponse response, InvocationContext context) {
+		protected String deserialize(InvocationContext context, HttpResponse response) {
 			
 			return "deserialized";
 		}
@@ -184,7 +184,7 @@ public interface DeserializerEndpoint {
 		}
 		
 		@Override
-		protected String deserialize(HttpResponse response, InvocationContext context) {
+		protected String deserialize(InvocationContext context, HttpResponse response) {
 			
 			return "deserialized";
 		}

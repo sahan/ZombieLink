@@ -24,12 +24,14 @@ import java.util.Arrays;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
+import sun.misc.RequestProcessor;
+
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
- * <p>This runtime exception is thrown when an HTTP {@link RequestProcessor} fails to execute successfully 
- * for a given {@link HttpRequestBase} and {@link InvocationContext}.
+ * <p>This runtime exception is thrown when a {@link RequestProcessor} fails to execute successfully for 
+ * a given {@link InvocationContext} and {@link HttpRequestBase}.
  * 
  * @version 1.1.0
  * <br><br>
@@ -44,51 +46,50 @@ class RequestProcessorException extends ZombieLinkRuntimeException {
 
 	
 	/**
-	 * <p>Displays a detailed description along with the stacktrace.
+	 * <p>Displays a detailed description with information on the failed {@link RequestProcessor} and 
+	 * {@link InvocationContext}.</p>
 	 * 
+	 * @param context
+	 * 			the {@link InvocationContext} which caused the {@link RequestProcessor} to fail
+	 * <br><br>
 	 * @param requestProcessorClass
 	 * 			the {@link Class} of the {@link RequestProcessor} implementation which failed
-	 * 
-	 * @param config
-	 * 			the {@link InvocationContext} which caused the {@link RequestProcessor} to fail
-	 * 
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public RequestProcessorException(Class<?> requestProcessorClass, 
-									 InvocationContext config) {
+	public RequestProcessorException(InvocationContext context, Class<?> requestProcessorClass) {
 	
 		this(new StringBuilder(requestProcessorClass.getName())
 			 .append(" failed to process the invocation configuration for the request [")
-			 .append(config.getRequest().getName())
+			 .append(context.getRequest().getName())
 			 .append("] with arguments ")
-			 .append(Arrays.toString(config.getArguments().toArray())).toString());
+			 .append(Arrays.toString(context.getArguments().toArray())).toString());
 	}
 	
 	/**
-	 * <p>Displays a detailed description along with the stacktrace.
+	 * <p>Displays a detailed description with information on the failed {@link RequestProcessor} and 
+	 * {@link InvocationContext}, while preserving the stacktrace.</p>
 	 * 
+	 * @param context
+	 * 			the {@link InvocationContext} which caused the {@link RequestProcessor} to fail
+	 * <br><br>
 	 * @param requestProcessorClass
 	 * 			the {@link Class} of the {@link RequestProcessor} implementation which failed
-	 * 
-	 * @param config
-	 * 			the {@link InvocationContext} which caused the {@link RequestProcessor} to fail
-	 * 
+	 * <br><br>
 	 * @param rootCause
 	 * 			the parent exception which caused the {@link RequestProcessor} to fail
-	 * 
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	public RequestProcessorException(Class<?> requestProcessorClass, 
-									 InvocationContext config, 
+	public RequestProcessorException(InvocationContext context,
+									 Class<?> requestProcessorClass, 
 									 Throwable rootCause) {
 		
 		this(new StringBuilder(requestProcessorClass.getName())
 			 .append(" failed to process the invocation configuration for the request [")
-			 .append(config.getRequest().getName())
+			 .append(context.getRequest().getName())
 			 .append("] with arguments ")
-			 .append(Arrays.toString(config.getArguments().toArray())).toString(), rootCause);
+			 .append(Arrays.toString(context.getArguments().toArray())).toString(), rootCause);
 	}
 	
 	/**

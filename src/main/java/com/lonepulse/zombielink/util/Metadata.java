@@ -125,8 +125,8 @@ public final class Metadata {
 	 }
 	
 	/**
-	 * <p>Takes the {@link Method} definition of a request and discovers the {@link RequestMethod} 
-	 * which has been specified using annotated metadata.</p>
+	 * <p>Takes the {@link Method} definition of a request and discovers the {@link RequestMethod} which 
+	 * has been specified using annotated metadata.</p>
 	 *
 	 * @param definition
 	 * 			the {@link Method} definition for the request whose HTTP method is to be discovered  
@@ -159,14 +159,14 @@ public final class Metadata {
 	}
 	
 	/**
-	 * <p>Takes the {@link Method} definition of a request and discovers the sub-path (if any) 
-	 * which is specified using annotated metadata.</p>
+	 * <p>Takes the {@link Method} definition of a request and discovers the sub-path (if any) which is 
+	 * specified using annotated metadata.</p>
 	 *
 	 * @param definition
 	 * 			the {@link Method} definition for the request whose sub-path is to be discovered  
 	 * <br><br>
-	 * @return the sub-path for the given request definition; else <b>an empty String</p> if no 
-	 * 		   sub-path metadata can be found
+	 * @return the sub-path for the given request definition; else <b>an empty String</p> if no sub-path 
+	 * 		   metadata can be found
 	 * <br><br>
 	 * @since 1.2.4
 	 */

@@ -62,7 +62,7 @@ public interface InterceptorEndpoint {
 	class EndpointInterceptor implements com.lonepulse.zombielink.request.Interceptor {
 
 		@Override
-		public void intercept(HttpRequestBase request, InvocationContext context) {
+		public void intercept(InvocationContext context, HttpRequestBase request) {
 			
 			XHeader xHeader = context.getRequest().getAnnotation(XHeader.class);
 			request.addHeader("X-Header", xHeader != null? xHeader.value() :"endpoint");
@@ -72,7 +72,7 @@ public interface InterceptorEndpoint {
 	class RequestInterceptor implements com.lonepulse.zombielink.request.Interceptor {
 		
 		@Override
-		public void intercept(HttpRequestBase request, InvocationContext context) {
+		public void intercept(InvocationContext context, HttpRequestBase request) {
 			
 			request.addHeader("X-Header", "request");
 		}
