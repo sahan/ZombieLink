@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lonepulse</groupId>
-	<artifactId>zombielink</artifactId>
+	<artifactId>zombielink-parent</artifactId>
 	<version>1.2.4-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -14,16 +14,28 @@
 		<version>7</version>
 	</parent>
 
+	<modules>
+		<module>zombielink</module>
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>integration-tests</id>
+			<modules>
+				<module>zombielink-it</module>
+			</modules>
+		</profile>
+	</profiles>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.6</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.name>ZombieLink</project.name>
-		<project.url>http://lonepulse.com/zombielink</project.url>
+		<project.url>http://sahan.me/ZombieLink</project.url>
 		<project.inceptionYear>2013</project.inceptionYear>
 		<project.developer.name>Lahiru Sahan Jayasinghe</project.developer.name>
-		<project.developer.email>lahiru@lonepulse.com</project.developer.email>
+		<project.developer.email>sahan@lonepulse.com</project.developer.email>
 		<project.organization.name>Lonepulse</project.organization.name>
 		<project.organization.url>http://lonepulse.com</project.organization.url>
 		<license.licenseName>apache_v2</license.licenseName>
@@ -67,32 +79,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.simpleframework</groupId>
-			<artifactId>simple-xml</artifactId>
-			<version>2.7.1</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -212,6 +198,15 @@
 							</pluginExecution>
 						</pluginExecutions>
 					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.2</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 

@@ -1,4 +1,12 @@
 target
 .settings
-release.properties
-pom.xml.releaseBackup
+.project
+.classpath
+zombielink/target
+zombielink/.settings
+zombielink/.project
+zombielink/.classpath
+zombielink-it/target
+zombielink-it/.settings
+zombielink-it/.project
+zombielink-it/.classpath
