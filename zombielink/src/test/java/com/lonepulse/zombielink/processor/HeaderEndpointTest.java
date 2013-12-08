@@ -125,8 +125,8 @@ public class HeaderEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test 
-	public final void testRequestHeaderTypeError() throws ClassNotFoundException {
+	@Test
+	public final void testRequestHeaderTypeError() {
 		
 		String subpath = "/requestheadertypeerror";
 		

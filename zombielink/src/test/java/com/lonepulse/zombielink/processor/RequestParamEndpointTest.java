@@ -154,7 +154,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test 
-	public final void testQueryParamsFail() throws ClassNotFoundException {
+	public final void testQueryParamsFail() {
 		
 		String subpath = "/queryparamsfail";
 		
@@ -173,7 +173,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test 
-	public final void testFormParamsFail() throws ClassNotFoundException {
+	public final void testFormParamsFail() {
 		
 		String subpath = "/formparamsfail";
 		
@@ -245,8 +245,8 @@ public class RequestParamEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test 
-	public final void testQueryParamsBatchTypeFail() throws ClassNotFoundException {
+	@Test
+	public final void testQueryParamsBatchTypeFail() {
 		
 		String subpath = "/queryparamsbatchtypefail";
 		
@@ -265,7 +265,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testFormParamsBatchTypeFail() throws ClassNotFoundException {
+	public final void testFormParamsBatchTypeFail() {
 		
 		String subpath = "/formparamsbatchtypefail";
 		
@@ -284,7 +284,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testQueryParamsBatchElementFail() throws ClassNotFoundException {
+	public final void testQueryParamsBatchElementFail() {
 		
 		String subpath = "/queryparamsbatchelementfail";
 		
@@ -306,7 +306,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testFormParamsBatchElementFail() throws ClassNotFoundException {
+	public final void testFormParamsBatchElementFail() {
 		
 		String subpath = "/formparamsbatchelementfail";
 		
@@ -388,7 +388,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testQueryParamsMultivaluedFail() throws ClassNotFoundException {
+	public final void testQueryParamsMultivaluedFail() {
 		
 		String subpath = "/queryparamsmultivaluedfail";
 		
@@ -415,7 +415,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testFormParamsMultivaluedFail() throws ClassNotFoundException {
+	public final void testFormParamsMultivaluedFail() {
 		
 		String subpath = "/formparamsmultivaluedfail";
 		
@@ -675,7 +675,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testMissingEntity() throws ClassNotFoundException {
+	public final void testMissingEntity() {
 		
 		expectedException.expect(Is.isA(InvocationException.class));
 		
@@ -688,7 +688,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testMultipleEntity() throws ClassNotFoundException {
+	public final void testMultipleEntity() {
 		
 		expectedException.expect(Is.isA(InvocationException.class));
 		
@@ -701,7 +701,7 @@ public class RequestParamEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testResolutionFailedEntity() throws IOException, ClassNotFoundException {
+	public final void testResolutionFailedEntity() {
 		
 		expectedException.expect(Is.isA(InvocationException.class));
 		

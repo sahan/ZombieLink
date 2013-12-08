@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Endpoint;

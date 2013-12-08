@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
-
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;

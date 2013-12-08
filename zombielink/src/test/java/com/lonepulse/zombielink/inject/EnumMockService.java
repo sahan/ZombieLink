@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.inject;
  * #L%
  */
 
-
 import com.lonepulse.zombielink.annotation.Bite;
 
 /**

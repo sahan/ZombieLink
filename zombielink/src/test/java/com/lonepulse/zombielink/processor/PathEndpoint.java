@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;

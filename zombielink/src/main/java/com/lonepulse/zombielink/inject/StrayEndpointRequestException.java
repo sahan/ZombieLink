@@ -1,10 +1,5 @@
 package com.lonepulse.zombielink.inject;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
-import com.lonepulse.zombielink.annotation.Request;
-
 /*
  * #%L
  * ZombieLink
@@ -24,6 +19,11 @@ import com.lonepulse.zombielink.annotation.Request;
  * limitations under the License.
  * #L%
  */
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+import com.lonepulse.zombielink.annotation.Request;
 
 /**
  * <p>This runtime exception is thrown when an endpoint contains request definitions without the required 

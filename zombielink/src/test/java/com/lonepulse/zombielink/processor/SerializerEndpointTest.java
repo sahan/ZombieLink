@@ -139,7 +139,7 @@ public class SerializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test  
-	public final void testPlain() throws ClassNotFoundException {
+	public final void testPlain() {
 
 		String subpath = "/plain";
 		
@@ -184,7 +184,7 @@ public class SerializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test  
-	public final void testDetachSerializer() throws ClassNotFoundException, ParseException, IOException {
+	public final void testDetachSerializer() throws ParseException, IOException {
 
 		String subpath = "/detach";
 		
@@ -206,7 +206,7 @@ public class SerializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testUninstantiableSerializer() throws ClassNotFoundException {
+	public final void testUninstantiableSerializer() {
 		
 		String subpath = "/uninstantiableserializer";
 		
@@ -225,7 +225,7 @@ public class SerializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test 
-	public final void testIllegalSerializer() throws ClassNotFoundException {
+	public final void testIllegalSerializer() {
 		
 		String subpath = "/illegalserializer";
 		

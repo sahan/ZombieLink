@@ -123,8 +123,8 @@ public class PathEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test 
-	public final void testRestfulSubpathWithIllegalParamType() throws ClassNotFoundException {
+	@Test
+	public final void testRestfulSubpathWithIllegalParamType() {
 		
 		String subpath = "/restfulsubpathwithillegalparamtype/\\S+", body = "hello";
 		

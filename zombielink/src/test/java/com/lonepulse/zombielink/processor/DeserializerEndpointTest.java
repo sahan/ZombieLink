@@ -89,8 +89,8 @@ public class DeserializerEndpointTest {
 	 *
 	 * @since 1.2.4
 	 */
-	@Test 
-	public final void testResponseError() throws ClassNotFoundException {
+	@Test
+	public final void testResponseError() {
 
 		String subpath = "/responseerror", body = "forbidden";
 		
@@ -175,7 +175,7 @@ public class DeserializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test  
-	public final void testRaw() throws ClassNotFoundException {
+	public final void testRaw() {
 
 		String subpath = "/raw", body = "SAO Nerve Gear";
 		
@@ -253,7 +253,7 @@ public class DeserializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test 
-	public final void testUninstantiableDeserializer() throws ClassNotFoundException {
+	public final void testUninstantiableDeserializer() {
 		
 		String subpath = "/uninstantiabledeserializer";
 		
@@ -273,8 +273,8 @@ public class DeserializerEndpointTest {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Test 
-	public final void testIllegalDeserializer() throws ClassNotFoundException {
+	@Test
+	public final void testIllegalDeserializer() {
 		
 		String subpath = "/illegaldeserializer";
 		

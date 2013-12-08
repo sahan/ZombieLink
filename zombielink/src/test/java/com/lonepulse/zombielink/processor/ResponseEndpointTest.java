@@ -156,19 +156,21 @@ public class ResponseEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testRawResponse() {
+	public final void testRawResponse() throws ParseException, IOException {
 		
-		String subpath = "/rawresponse";
+		String subpath = "/rawresponse",
+			   body = "Welcome to the Republic of Genosha";
 		
 		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
-				.withBody("Welcome to the Republic of Genosha")
+				.withBody(body)
 				.withStatus(200)));
 		
 		Object response = responseEndpoint.rawResponse();
 		
 		assertNotNull(response);
 		assertTrue(response instanceof HttpResponse);
+		assertEquals(EntityUtils.toString(((HttpResponse)response).getEntity()), body);
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 	}
@@ -179,19 +181,21 @@ public class ResponseEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testRawEntity() {
+	public final void testRawEntity() throws ParseException, IOException {
 		
-		String subpath = "/rawentity";
+		String subpath = "/rawentity",
+			   body = "Hulk, make me a sandwich";
 		
 		stubFor(get(urlEqualTo(subpath))
 				.willReturn(aResponse()
-				.withBody("Hulk, make me a sandwich")
+				.withBody(body)
 				.withStatus(200)));
 		
 		Object response = responseEndpoint.rawEntity();
 		
 		assertNotNull(response);
 		assertTrue(response instanceof HttpEntity);
+		assertEquals(EntityUtils.toString(((HttpEntity)response)), body);
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 	}
@@ -202,7 +206,7 @@ public class ResponseEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test
-	public final void testNoDeserializer() throws ClassNotFoundException {
+	public final void testNoDeserializer() {
 		
 		String subpath = "/nodeserializer";
 		

@@ -32,7 +32,7 @@ import java.util.Map;
  * extended-type based on the provided concrete factory. The same can be said for the <b>INPUT</b> and 
  * <b>FAILURE</b> types as well.</p> 
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * <br><br>
  * @version 1.2.4
  * <br><br>

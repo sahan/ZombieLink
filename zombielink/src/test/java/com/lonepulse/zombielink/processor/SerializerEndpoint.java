@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.PLAIN;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.XML;
@@ -48,7 +47,7 @@ import com.lonepulse.zombielink.request.AbstractSerializer;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Serializer(JSON) 
+@Serializer(JSON)
 @Endpoint(host = "0.0.0.0", port = 8080)
 public interface SerializerEndpoint {
 	
