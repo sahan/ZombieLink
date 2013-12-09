@@ -45,6 +45,9 @@ import org.apache.http.entity.StringEntity;
  */
 public final class Entities {
 
+	
+	 private Entities() {}
+	 
 
 	 /**
 	  * <p>Discovers which implementation of {@link HttpEntity} is suitable for wrapping the given object. 
@@ -84,7 +87,7 @@ public final class Entities {
 			 }
 			 else if(byte[].class.isAssignableFrom(genericEntity.getClass())) {
 				
-				 return new ByteArrayEntity(((byte[])genericEntity));
+				 return new ByteArrayEntity((byte[])genericEntity);
 			 }
 			 else if(Byte[].class.isAssignableFrom(genericEntity.getClass())) {
 				
