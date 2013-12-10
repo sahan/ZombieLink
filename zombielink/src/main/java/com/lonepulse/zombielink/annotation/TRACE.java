@@ -39,8 +39,8 @@ import com.lonepulse.zombielink.annotation.Request.RequestMethod;
  * <br>
  * <p>
  * <code>
- * <pre>@TRACE("/users")</b>
- *public abstract void queryGateways(@Header("Via") StringBuilder viaHeader);
+ * <pre>@TRACE("/feeds")</b>
+ *void queryGateways(@Header("Via") StringBuilder viaHeader);
  * </pre>
  * </code>
  * </p>
