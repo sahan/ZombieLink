@@ -31,9 +31,10 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
-import com.lonepulse.zombielink.annotation.Interceptor;
+import com.lonepulse.zombielink.annotation.Intercept;
 import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.processor.InterceptorEndpoint.EndpointInterceptor;
+import com.lonepulse.zombielink.request.Interceptor;
 
 /**
  * <p>An interface which represents a dummy endpoint with request method 
@@ -47,7 +48,7 @@ import com.lonepulse.zombielink.processor.InterceptorEndpoint.EndpointIntercepto
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Interceptor(EndpointInterceptor.class)
+@Intercept(EndpointInterceptor.class)
 @Endpoint(host = "0.0.0.0", port = 8080)
 public interface InterceptorEndpoint {
 	
@@ -59,7 +60,7 @@ public interface InterceptorEndpoint {
 		String value();
 	}
 
-	class EndpointInterceptor implements com.lonepulse.zombielink.request.Interceptor {
+	class EndpointInterceptor implements Interceptor {
 
 		@Override
 		public void intercept(InvocationContext context, HttpRequestBase request) {
@@ -69,7 +70,7 @@ public interface InterceptorEndpoint {
 		}
 	}
 	
-	class RequestInterceptor implements com.lonepulse.zombielink.request.Interceptor {
+	class RequestInterceptor implements Interceptor {
 		
 		@Override
 		public void intercept(InvocationContext context, HttpRequestBase request) {
@@ -102,7 +103,7 @@ public interface InterceptorEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/request")
-	@Interceptor(RequestInterceptor.class)
+	@Intercept(RequestInterceptor.class)
 	void requestInterceptor();
 	
 	/**
@@ -114,8 +115,8 @@ public interface InterceptorEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/param")
-	@Interceptor(RequestInterceptor.class)
-	void paramInterceptor(com.lonepulse.zombielink.request.Interceptor interceptor);
+	@Intercept(RequestInterceptor.class)
+	void paramInterceptor(Interceptor interceptor);
 	
 	/**
 	 * <p>A mock request which detaches the interceptor defined at the endpoint level.</p>
@@ -123,6 +124,6 @@ public interface InterceptorEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/detach") 
-	@Detach(Interceptor.class)
+	@Detach(Intercept.class)
 	void detachInterceptor();
 }

@@ -30,13 +30,14 @@ import java.util.Map;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.lonepulse.zombielink.annotation.Intercept;
 import com.lonepulse.zombielink.inject.InvocationContext;
 
 /**
  * <p>This {@link AbstractRequestProcessor} executes any {@link Interceptor}s that fall within the current 
  * invocation scope.</p>
  * 
- * <p>{@link Interceptor}s may be attached to a proxy invocation using an {@code @Interceptor} annotation 
+ * <p>{@link Interceptor}s may be attached to a proxy invocation using an {@code @Intercept} annotation 
  * at the endpoint or request level. An {@link Interceptor} may also be passed as an instance along with 
  * the request parameters.</p>   
  * 
@@ -84,13 +85,10 @@ class InterceptionProcessor extends AbstractRequestProcessor {
 			
 			List<Class<? extends Interceptor>> interceptors = new ArrayList<Class<? extends Interceptor>>();
 			
-			com.lonepulse.zombielink.annotation.Interceptor endpointMetadata 
-				= context.getEndpoint().getAnnotation(com.lonepulse.zombielink.annotation.Interceptor.class);
+			Intercept endpointMetadata = context.getEndpoint().getAnnotation(Intercept.class);
+			Intercept requestMetadata = context.getRequest().getAnnotation(Intercept.class); 
 			
-			com.lonepulse.zombielink.annotation.Interceptor requestMetadata 
-				= context.getRequest().getAnnotation(com.lonepulse.zombielink.annotation.Interceptor.class); 
-			
-			if(endpointMetadata != null && !detached(context, com.lonepulse.zombielink.annotation.Interceptor.class)) {
+			if(endpointMetadata != null && !detached(context, Intercept.class)) {
 				
 				interceptors.addAll(Arrays.asList(endpointMetadata.value()));
 			}

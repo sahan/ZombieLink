@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 
 /**
  * <p>Detaches any inherited <b>@{@link Serializer}, @{@link Deserializer}, @{@link Async} and 
- * @{@link Interceptor}</b> annotations.</p>
+ * @{@link Intercept}</b> annotations.</p>
  * <br>
  * <br>
  * <b>Usage (assuming the endpoint is asynchronous and a type-level interceptor is attached):</b>
@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * <br>
  * <p>
  * <code>
- * <pre>@GET("/meta")&nbsp;&nbsp;<b>@Detach({Async.class, Interceptor.class})</b>
+ * <pre>@GET("/meta")&nbsp;&nbsp;<b>@Detach({Async.class, Intercept.class})</b>
  *Meta getMetaInfo();
  * </pre>
  * </code>

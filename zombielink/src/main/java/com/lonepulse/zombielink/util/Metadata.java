@@ -34,6 +34,7 @@ import com.lonepulse.zombielink.annotation.DELETE;
 import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.annotation.HEAD;
 import com.lonepulse.zombielink.annotation.OPTIONS;
+import com.lonepulse.zombielink.annotation.PATCH;
 import com.lonepulse.zombielink.annotation.POST;
 import com.lonepulse.zombielink.annotation.PUT;
 import com.lonepulse.zombielink.annotation.Request;
@@ -194,7 +195,8 @@ public final class Metadata {
 					
 					path = type.equals(GET.class)? ((GET)annotation).value() :
 						   type.equals(POST.class)? ((POST)annotation).value() :
-						   type.equals(PUT.class)? ((PUT)annotation).value() : 
+						   type.equals(PUT.class)? ((PUT)annotation).value() :
+						   type.equals(PATCH.class)? ((PATCH)annotation).value() : 
 					       type.equals(DELETE.class)? ((DELETE)annotation).value() :
 					       type.equals(HEAD.class)? ((HEAD)annotation).value() :
 					       type.equals(TRACE.class)? ((TRACE)annotation).value() :

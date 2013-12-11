@@ -28,20 +28,18 @@ import java.lang.annotation.Target;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 
 /**
- * <p>This annotation identifies an <b>HTTP POST</b> request.</p>
+ * <p>This annotation identifies an <b>HTTP PATCH</b> request.</p>
  * 
- * <p>See <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">section 9</a> 
- * of the HTTP/1.1 specification.</p> 
+ * <p>See <a href="http://tools.ietf.org/html/rfc5789">HTTP PATCH</a>.</p> 
  * <br>
  * <br>
- * <p>
  * <b>Usage:</b>
  * <br>
  * <br>
  * <p>
  * <code>
- * <pre><b>@POST(path = "/gists")</b>&nbsp;&nbsp;@Serializer(JSON)
- *void createGist(@Entity Gist gist);</pre>
+ * <pre><b>@PATCH(path = "/gists/{id}")</b>&nbsp;&nbsp;@Serializer(JSON)
+ *void editGist(@PathParam("id") String id, &#064;Entity Gist gist);</pre>
  * </code>
  * </p>
  * 
@@ -53,8 +51,8 @@ import com.lonepulse.zombielink.annotation.Request.RequestMethod;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Request(method = RequestMethod.POST)
-public @interface POST {
+@Request(method = RequestMethod.PATCH)
+public @interface PATCH {
 	
 	/**
 	 * <p>The sub-path (if any) which should be appended to the root path defined on the endpoint.</p> 

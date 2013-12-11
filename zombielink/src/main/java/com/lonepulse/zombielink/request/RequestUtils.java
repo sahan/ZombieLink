@@ -33,6 +33,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpOptions;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -200,6 +201,7 @@ final class RequestUtils {
 		
 			case POST: return new HttpPost();
 			case PUT: return new HttpPut();
+			case PATCH: return new HttpPatch();
 			case DELETE: return new HttpDelete();
 			case HEAD: return new HttpHead();
 			case TRACE: return new HttpTrace();

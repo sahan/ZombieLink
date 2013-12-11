@@ -24,6 +24,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.delete;
 import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.findAll;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.head;
 import static com.github.tomakehurst.wiremock.client.WireMock.headRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
@@ -31,8 +33,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.options;
 import static com.github.tomakehurst.wiremock.client.WireMock.optionsRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
@@ -76,13 +76,10 @@ public class HttpMethodEndpointTest {
 	@Bite
 	private HttpMethodEndpoint httpMethodEndpoint;
 	
+	@Bite
+	private HttpBinEndpoint httpBinEndpoint;
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #httpMethodEndpoint}.
-	 * 
-	 * @throws java.lang.Exception
-	 * 			if the test case setup or endpoint injection failed
-	 */
+	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -159,7 +156,7 @@ public class HttpMethodEndpointTest {
 				.willReturn(aResponse()
 				.withStatus(200)));
 		
-		String user = "{\"_id\":1, \"name\":\"DoctorWho\", \"age\":953, \"location\":\"Tardis\"}";
+		String user = "{ '_id':1, 'alias':'Black Bolt' }";
 		
 		httpMethodEndpoint.putRequest(user);
 		
@@ -172,6 +169,23 @@ public class HttpMethodEndpointTest {
 		
 		String body = request.getBodyAsString();
 		assertTrue(body.contains(user));
+	}
+	
+	/**
+	 * <p>Test for the request method PATCH.
+	 * 
+	 * @since 1.2.4
+	 */
+	@Test
+	public final void testPatchMethod() {
+		
+		String user = "{ '_id':1, 'alias':'Thanos' }";
+		
+		String response = httpBinEndpoint.patchRequest(user);
+		
+		assertFalse(response == null);
+		assertFalse(response.isEmpty());
+		assertTrue(response.contains("\"data\": \"" + user + "\""));
 	}
 	
 	/**
