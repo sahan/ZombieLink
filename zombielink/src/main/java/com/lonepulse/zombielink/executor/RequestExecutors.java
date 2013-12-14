@@ -26,8 +26,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.Async;
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Exposes all available {@link RequestExecutor}s and delegates communication.</p>

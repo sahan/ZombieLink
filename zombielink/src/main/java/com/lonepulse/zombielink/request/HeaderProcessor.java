@@ -26,7 +26,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.Header;
 import com.lonepulse.zombielink.annotation.Headers;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

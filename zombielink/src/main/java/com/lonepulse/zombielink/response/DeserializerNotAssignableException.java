@@ -20,11 +20,9 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
-import com.lonepulse.zombielink.annotation.Deserializer;
-
 /**
  * <p>This runtime exception is thrown when the return type of a request method definition cannot be 
- * assigned to the designated {@link Deserializer}'s return type. 
+ * assigned to the designated {@link Deserializer}'s return type.</p>
  * 
  * @version 1.1.1
  * <br><br>

@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

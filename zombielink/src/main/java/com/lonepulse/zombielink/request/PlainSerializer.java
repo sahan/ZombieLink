@@ -20,7 +20,7 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>An {@link AbstractSerializer} which simply invokes {@code String#valueOf(...)} on a model.</p>

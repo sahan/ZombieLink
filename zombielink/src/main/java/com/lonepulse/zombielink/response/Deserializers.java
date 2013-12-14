@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Entity.ContentType;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>Exposes all available {@link AbstractDeserializer}s, resolves concrete instances of their deserializer 

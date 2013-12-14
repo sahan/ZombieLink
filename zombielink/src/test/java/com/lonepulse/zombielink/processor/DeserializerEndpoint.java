@@ -28,12 +28,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
-import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Deserialize;
 import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
-import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.response.AbstractDeserializer;
 
 /**
@@ -47,7 +47,7 @@ import com.lonepulse.zombielink.response.AbstractDeserializer;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Deserializer(JSON)
+@Deserialize(JSON)
 @Endpoint(host = "0.0.0.0", port = 8080)
 public interface DeserializerEndpoint {
 	
@@ -59,7 +59,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Deserializer(PLAIN)
+	@Deserialize(PLAIN)
 	@GET("/responseerror")
 	String responseError();
 	
@@ -80,19 +80,19 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@GET("/xml") @Deserializer(XML)
+	@GET("/xml") @Deserialize(XML)
 	User deserializeXml();
 	
 	/**
-	 * <p>A mock request which does not use an @{@link Deserializer} definition and defers to 
+	 * <p>A mock request which does not use an @{@link Deserialize} definition and defers to 
 	 * the <i>raw deserializer</i> which simple retrieves the response content as a String.</p>
 	 *
 	 * @return the deserializer <b>raw</b> response content
 	 * 
 	 * @since 1.2.4
 	 */
-	@GET("/raw") @Deserializer(PLAIN)
-	String raw();
+	@GET("/raw") @Deserialize(PLAIN)
+	String plain();
 	
 	
 	static final class Redactor extends AbstractDeserializer<User> {
@@ -131,7 +131,7 @@ public interface DeserializerEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/custom")
-	@Deserializer(type = Redactor.class) 
+	@Deserialize(type = Redactor.class) 
 	User deserializeCustom();
 	
 	/**
@@ -141,7 +141,7 @@ public interface DeserializerEndpoint {
 	 *
 	 * @since 1.2.4
 	 */
-	@GET("/detach") @Detach(Deserializer.class)
+	@GET("/detach") @Detach(Deserialize.class)
 	String detachDeserializer();
 	
 	
@@ -167,7 +167,7 @@ public interface DeserializerEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/uninstantiabledeserializer")
-	@Deserializer(type = UninstantiableDeserializer.class)
+	@Deserialize(type = UninstantiableDeserializer.class)
 	String uninstantiableDeserializer();
 	
 	
@@ -194,6 +194,6 @@ public interface DeserializerEndpoint {
 	 * @since 1.2.4
 	 */
 	@GET("/illegaldeserializer")
-	@Deserializer(type = IllegalDeserializer.class)
+	@Deserialize(type = IllegalDeserializer.class)
 	User illegalDeserializer();
 }

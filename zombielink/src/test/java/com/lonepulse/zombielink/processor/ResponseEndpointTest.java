@@ -46,9 +46,9 @@ import org.junit.Test;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Bite;
-import com.lonepulse.zombielink.inject.InvocationException;
-import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.proxy.InvocationException;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Performs unit testing on {@link ResponseEndpoint}.</p>

@@ -31,8 +31,8 @@ import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.annotation.Intercept;
-import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.processor.InterceptorEndpoint.EndpointInterceptor;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.request.Interceptor;
 
 /**

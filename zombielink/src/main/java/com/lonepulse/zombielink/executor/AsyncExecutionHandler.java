@@ -27,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Async;
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.InvocationException;
 import com.lonepulse.zombielink.processor.Processors;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationException;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**

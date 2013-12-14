@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.response;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This contract defines the policy for a <i>deserializer</i> which reads the response content of a 

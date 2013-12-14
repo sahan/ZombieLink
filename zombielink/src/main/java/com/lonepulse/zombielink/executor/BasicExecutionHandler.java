@@ -22,8 +22,8 @@ package com.lonepulse.zombielink.executor;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.InvocationException;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationException;
 
 /**
  * <p>A minimal implementation of {@link ExecutionHandler} which executes requests <b>synchronously</b>.</p>

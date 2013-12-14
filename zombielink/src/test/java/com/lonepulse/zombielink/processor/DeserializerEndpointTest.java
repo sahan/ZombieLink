@@ -42,9 +42,9 @@ import org.simpleframework.xml.core.Persister;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Bite;
-import com.lonepulse.zombielink.inject.InvocationException;
-import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.proxy.InvocationException;
+import com.lonepulse.zombielink.proxy.Zombie;
 import com.lonepulse.zombielink.response.AbstractDeserializer;
 import com.lonepulse.zombielink.response.Deserializers;
 
@@ -164,7 +164,7 @@ public class DeserializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link DeserializerEndpoint#raw()}.
+	 * <p>Test for {@link DeserializerEndpoint#plain()}.
 	 *
 	 * @since 1.2.4
 	 */
@@ -177,7 +177,7 @@ public class DeserializerEndpointTest {
 				.willReturn(aResponse()
 				.withBody(body)));
 		
-		String responseContent = deserializerEndpoint.raw();
+		String responseContent = deserializerEndpoint.plain();
 		
 		verify(getRequestedFor(urlEqualTo(subpath)));
 		assertEquals(body, responseContent);

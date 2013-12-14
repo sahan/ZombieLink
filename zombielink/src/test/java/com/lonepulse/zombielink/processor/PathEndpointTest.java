@@ -40,8 +40,8 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.inject.InvocationException;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.InvocationException;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Performs unit testing on {@link PathEndpoint}.</p>

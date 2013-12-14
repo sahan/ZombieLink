@@ -31,7 +31,7 @@ import java.util.Map;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.Intercept;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This {@link AbstractRequestProcessor} executes any {@link Interceptor}s that fall within the current 

@@ -28,8 +28,8 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
-import com.lonepulse.zombielink.inject.Zombie;
-import com.lonepulse.zombielink.inject.Zombie.Configuration;
+import com.lonepulse.zombielink.proxy.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie.Configuration;
 
 /**
  * <p>This is a concrete implementation of {@link ConfigurationManager} which manages request execution 

@@ -1,12 +1,4 @@
-/**
- * <p>Contains the set of core and auxiliary classes which allows an endpoint definition interface to be 
- * validated and its mirrored proxy to be injected.</p>
- * 
- * @since 1.1.0
- * <br><br>
- * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
- */
-package com.lonepulse.zombielink.inject;
+package com.lonepulse.zombielink.proxy;
 
 /*
  * #%L
@@ -27,3 +19,32 @@ package com.lonepulse.zombielink.inject;
  * limitations under the License.
  * #L%
  */
+
+import com.lonepulse.zombielink.annotation.Bite;
+
+/**
+ * <p>Emulates a super-type which requires endpoint injection.</p>
+ * 
+ * @version 1.1.0
+ * <br><br>
+ * @since 1.2.4
+ * <br><br>
+ * @category test
+ * <br><br> 
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ */
+public class SuperMockService {
+	
+	
+	@Bite
+	private MockEndpoint superEndpoint;
+	{
+		Zombie.infect(this); //infects all children which may extend this type 
+	}
+	
+	
+	public MockEndpoint getSuperEndpoint() {
+		
+		return superEndpoint;
+	}
+}

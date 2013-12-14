@@ -29,8 +29,8 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.protocol.HttpContext;
 
 import com.lonepulse.zombielink.annotation.Stateful;
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.InvocationException;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationException;
 import com.lonepulse.zombielink.util.Is;
 
 /**

@@ -21,7 +21,7 @@ package com.lonepulse.zombielink.executor;
  */
 
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>This exception is thrown due to a failure in <b>managing</b> a {@link Zombie.Configuration}.</p>

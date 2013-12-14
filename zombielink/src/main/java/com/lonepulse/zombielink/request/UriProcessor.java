@@ -25,7 +25,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

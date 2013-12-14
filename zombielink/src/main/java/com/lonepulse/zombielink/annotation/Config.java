@@ -25,7 +25,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Identifies an alternate {@link Zombie.Configuration} which should be used on an endpoint for 

@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.request;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Entities;
 import com.lonepulse.zombielink.util.EntityResolutionFailedException;
 

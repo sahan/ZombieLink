@@ -30,7 +30,7 @@ import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.annotation.Detach;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>A collection of utility services for common conditional checks.</p>

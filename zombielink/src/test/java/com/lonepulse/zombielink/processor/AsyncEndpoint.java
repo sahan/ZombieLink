@@ -25,7 +25,7 @@ import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Async;
-import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Deserialize;
 import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
@@ -85,7 +85,7 @@ public interface AsyncEndpoint {
 	 * 
 	 * @since 1.3.4
 	 */
-	@Deserializer(JSON)
+	@Deserialize(JSON)
 	@GET("/asyncerror")
 	void asyncError(AsyncHandler<User> asyncHandler);
 	
@@ -131,7 +131,7 @@ public interface AsyncEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Deserializer(JSON)
+	@Deserialize(JSON)
 	@GET("/errorcallbackerror")
 	void asyncErrorCallbackError(AsyncHandler<User> asyncHandler);
 	

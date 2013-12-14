@@ -30,10 +30,10 @@ import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
-import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.processor.AbstractProcessorChain;
 import com.lonepulse.zombielink.processor.ProcessorChainFactory;
 import com.lonepulse.zombielink.processor.ProcessorChainLink;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This is a concrete implementation of {@link AbstractProcessorChain} which creates a sequentially 

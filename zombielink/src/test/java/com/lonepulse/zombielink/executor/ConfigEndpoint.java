@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.executor;
 import com.lonepulse.zombielink.annotation.Config;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>An endpoint which uses a custom {@link Zombie.Configuration}.</p>

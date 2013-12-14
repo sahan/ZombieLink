@@ -40,7 +40,7 @@ import com.lonepulse.zombielink.annotation.PUT;
 import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
 import com.lonepulse.zombielink.annotation.TRACE;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>A collection of <b>generic</b> utility services which enables the discovery of metadata on endpoint 

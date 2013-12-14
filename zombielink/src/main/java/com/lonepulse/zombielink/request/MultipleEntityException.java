@@ -21,7 +21,7 @@ package com.lonepulse.zombielink.request;
  */
 
 import com.lonepulse.zombielink.annotation.Entity;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This runtime exception is thrown when many @{@link Entity} annotations are discovered on the 

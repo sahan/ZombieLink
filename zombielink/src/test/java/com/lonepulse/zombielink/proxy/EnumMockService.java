@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.inject;
+package com.lonepulse.zombielink.proxy;
 
 /*
  * #%L
@@ -20,27 +20,43 @@ package com.lonepulse.zombielink.inject;
  * #L%
  */
 
+import com.lonepulse.zombielink.annotation.Bite;
+
 /**
- * <p>This contract specifies the services offered on a generic command which allows deferred invocations 
- * to be carried out for the purposes of parallel processing, prioritized queuing, cached reuse, etc.</p>
- * 
- * <p>This contract may be extended to support additional responsibilities such as invalidation.</p> 
+ * <p>Emulates an enum which requires endpoint injection.</p>
  * 
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
  * <br><br>
+ * @category test
+ * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-interface Invocation {
-
+public enum EnumMockService {
 	
-	/**
-	 * <p><i>Initiates</i> the command and attempts to complete the duties defined in its implementation.</p>
-	 * 
-	 * @return the result of the invocation as defined by the implementation
-	 * <br><br>
-	 * @since 1.2.4
-	 */
-	Object invoke();
+	
+	INSTANCE;
+	
+	
+	@Bite
+	private static MockEndpoint staticEndpoint;
+	
+	@Bite
+	private MockEndpoint endpoint;
+	
+	{
+		Zombie.infect(this);
+	}
+	
+	
+	public MockEndpoint getEndpoint() {
+		
+		return endpoint;
+	}
+	
+	public static MockEndpoint getStaticEndpoint() {
+		
+		return staticEndpoint;
+	}
 }

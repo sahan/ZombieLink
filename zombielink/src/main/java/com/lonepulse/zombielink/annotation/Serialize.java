@@ -26,31 +26,29 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.lonepulse.zombielink.annotation.Entity.ContentType;
-import com.lonepulse.zombielink.response.AbstractDeserializer;
-import com.lonepulse.zombielink.response.PlainDeserializer;
+import com.lonepulse.zombielink.request.AbstractSerializer;
+import com.lonepulse.zombielink.request.PlainSerializer;
 
 /**
- * <p>Attaches a {@link Deserializer} for converting response content of an identified {@link ContentType} 
- * into consumable models.</p>
- * <br>
- * <br>
+ * <p>Attaches a serialize for converting models to the format consumed by endpoints.</p>
+ * 
  * <b>Usage:</b>
  * <br>
  * <br>
  * <ol>
  * <li>
- * <p>At <b>type-level</b> on an endpoint <i>definition</i>; attaches this deserializer for all requests.</p><br>
+ * <p>At <b>type-level</b> on an endpoint <i>definition</i>; attaches this serializer for all requests.</p><br>
  * <code>
  * <pre>@Endpoint(scheme = "https", host = "api.github.com")<b>
- *&#064;Deserializer(JSON)</b><br>public interface GitHubEndpoint {<br>&nbsp;...<br>}</b>
+ *&#064;Serialize(JSON)</b><br>public interface GitHubEndpoint {<br>&nbsp;...<br>}</b>
  * </pre>
  * </code>
  * </li>
  * <li>
  * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
  * <code>
- * <pre><b>@Deserializer(JSON)</b>&nbsp;&nbsp;@GET("/users/{user}/gists")
- *List&lt;Gist&gt; getGists(@PathParam("user") String user);</b></b></pre>
+ * <pre>@POST(path = "/gists")&nbsp;&nbsp;<b>@Serialize(JSON)</b>
+ *void createGist(<b>@Entity</b> Gist gist);</pre>
  * </code>
  * </li>
  * </ol>
@@ -58,36 +56,36 @@ import com.lonepulse.zombielink.response.PlainDeserializer;
  * 
  * @version 1.1.2
  * <br><br>
- * @since 1.1.0
+ * @since 1.2.4
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface Deserializer {
+public @interface Serialize {
 
 
 	/**
-	 * <p>The {@link ContentType} which identifies a pre-fabricated deserializer, which is responsible for 
-	 * converting response content of the specified type to a model.</p>
+	 * <p>The {@link ContentType} which identifies a pre-fabricated serializer, which is responsible for 
+	 * converting model to the accepted request content.</p>
 	 * 
-	 * @return the {@link ContentType} which identifies an out-of-the-box deserializer
+	 * @return the {@link ContentType} which identifies an out-of-the-box serializer
 	 * <br><br>
 	 * @since 1.2.4
 	 */
 	ContentType value() default ContentType.UNDEFINED;
 	
 	/**
-	 * <p>The {@link Class} of a custom {@link AbstractDeserializer} which should be attached.</p> 
+	 * <p>The {@link Class} of a custom {@link AbstractSerializer} which should be attached.</p> 
 	 * 
 	 * <code>
-	 * <pre><b>@Deserializer(type = RawGistDeserializer.class)</b>&nbsp;&nbsp;@GET("/users/{user}/gists")<br>
-	 *RawGist[] getRawGists(@PathParam("user") String user);</b></b></pre>
+	 * <pre><b>@Serialize(type = GistSerializer.class)</b>&nbsp;&nbsp;@POST(path = "/gists")&nbsp;&nbsp;<b>@Serialize(JSON)</b>
+	 *void createGist(<b>@Entity</b> Gist gist);</pre>
 	 * </code>
 	 * 
-	 * @return the {@link Class} of the custom {@link AbstractDeserializer} to be used
+	 * @return the {@link Class} of the custom {@link AbstractSerializer} to be used
 	 * <br><br>
-	 * @since 1.1.1
+	 * @since 1.2.4
 	 */
-	Class<? extends AbstractDeserializer<?>> type() default PlainDeserializer.class;
+	Class<? extends AbstractSerializer<?,?>> type() default PlainSerializer.class;
 }

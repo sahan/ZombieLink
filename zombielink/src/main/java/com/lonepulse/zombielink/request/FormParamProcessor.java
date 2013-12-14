@@ -38,7 +38,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.FormParams;
 import com.lonepulse.zombielink.annotation.Param;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

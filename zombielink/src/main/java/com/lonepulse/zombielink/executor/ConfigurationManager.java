@@ -21,8 +21,8 @@ package com.lonepulse.zombielink.executor;
  */
 
 import com.lonepulse.zombielink.annotation.Config;
-import com.lonepulse.zombielink.inject.Zombie;
-import com.lonepulse.zombielink.inject.Zombie.Configuration;
+import com.lonepulse.zombielink.proxy.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie.Configuration;
 
 /**
  * <p>This contract defines the services for managing <b>request execution configurations</b>. These may 

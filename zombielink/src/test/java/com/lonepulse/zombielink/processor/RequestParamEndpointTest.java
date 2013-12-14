@@ -65,9 +65,9 @@ import com.lonepulse.zombielink.annotation.FormParams;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request;
-import com.lonepulse.zombielink.inject.InvocationException;
-import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.proxy.InvocationException;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Performs unit testing on {@link RequestParamEndpoint}.</p>

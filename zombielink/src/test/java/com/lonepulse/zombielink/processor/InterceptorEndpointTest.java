@@ -35,8 +35,8 @@ import org.junit.Test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Bite;
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.Zombie;
 import com.lonepulse.zombielink.request.Interceptor;
 
 /**

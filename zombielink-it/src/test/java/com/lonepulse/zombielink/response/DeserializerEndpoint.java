@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.response;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.XML;
 
-import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Deserialize;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.model.User;
@@ -50,7 +50,7 @@ public interface DeserializerEndpoint {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Deserializer(JSON) 
+	@Deserialize(JSON) 
 	@GET("/gsonunavailable")
 	User gsonUnavailable();
 	
@@ -61,7 +61,7 @@ public interface DeserializerEndpoint {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Deserializer(XML) 
+	@Deserialize(XML) 
 	@GET("/simplexmlunavailable")
 	User simpleXmlUnavailable();
 }

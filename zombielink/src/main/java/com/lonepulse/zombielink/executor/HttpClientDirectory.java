@@ -29,7 +29,7 @@ import org.apache.http.client.HttpClient;
 
 import com.lonepulse.zombielink.Directory;
 import com.lonepulse.zombielink.annotation.Config;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>A registry of {@link HttpClient}s which are configured to be used for a specific endpoint.</p>

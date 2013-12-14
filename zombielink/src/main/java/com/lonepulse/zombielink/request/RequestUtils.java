@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.annotation.Headers;
 import com.lonepulse.zombielink.annotation.Param;
 import com.lonepulse.zombielink.annotation.QueryParams;
 import com.lonepulse.zombielink.annotation.Request.RequestMethod;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

@@ -1,4 +1,4 @@
-package com.lonepulse.zombielink.inject;
+package com.lonepulse.zombielink.proxy;
 
 /*
  * #%L

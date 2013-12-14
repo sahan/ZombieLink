@@ -20,7 +20,7 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This contract defines the policy of a <b>serializer</b> which is responsible for translating a model 

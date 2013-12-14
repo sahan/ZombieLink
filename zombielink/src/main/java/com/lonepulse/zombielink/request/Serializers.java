@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.lonepulse.zombielink.annotation.Entity.ContentType;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>Exposes all available {@link AbstractSerializer}s, resolves concrete instances of their serializer 

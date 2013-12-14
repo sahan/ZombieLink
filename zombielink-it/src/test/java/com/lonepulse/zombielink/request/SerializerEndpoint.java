@@ -20,14 +20,13 @@ package com.lonepulse.zombielink.request;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.XML;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.PUT;
-import com.lonepulse.zombielink.annotation.Serializer;
+import com.lonepulse.zombielink.annotation.Serialize;
 import com.lonepulse.zombielink.model.User;
 
 /**
@@ -53,7 +52,7 @@ public interface SerializerEndpoint {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Serializer(JSON) 
+	@Serialize(JSON) 
 	@PUT("/gsonunavailable")
 	String gsonUnavailable(@Entity User user);
 	
@@ -65,7 +64,7 @@ public interface SerializerEndpoint {
 	 * <br><br>
 	 * @since 1.2.4
 	 */
-	@Serializer(XML) 
+	@Serialize(XML) 
 	@PUT("/simplexmlunavailable")
 	String simpleXmlUnavailable(@Entity User user);
 }

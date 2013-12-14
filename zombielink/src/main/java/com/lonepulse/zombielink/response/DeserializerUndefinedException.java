@@ -22,13 +22,13 @@ package com.lonepulse.zombielink.response;
 
 import java.lang.reflect.Method;
 
-import com.lonepulse.zombielink.annotation.Deserializer;
+import com.lonepulse.zombielink.annotation.Deserialize;
 import com.lonepulse.zombielink.annotation.Endpoint;
 import com.lonepulse.zombielink.annotation.Request;
 
 /**
  * <p>This runtime exception is thrown when a {@link Deserializer} to be used for a particular 
- * {@link Endpoint} or {@link Request} has not been declared using @{@link Deserializer}.
+ * {@link Endpoint} or {@link Request} has not been declared using @{@link Deserialize}.</p>
  * 
  * @version 1.1.0
  * <br><br>
@@ -57,7 +57,7 @@ class DeserializerUndefinedException extends ResponseProcessorException {
 		
 		this(new StringBuilder("Deserialization failed for request ").append(method.getName())
 			 .append(" on endpoint ").append(endpoint.getName()).append(": a ").append(Deserializer.class.getName())
-			 .append(" has not been defined via the ").append(Deserializer.class.getName()).append(" annotation.").toString());
+			 .append(" has not been defined via the ").append(Deserialize.class.getName()).append(" annotation.").toString());
 	}
 
 	/**

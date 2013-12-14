@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.PathParam;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

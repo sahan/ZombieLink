@@ -28,7 +28,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This is an extension of {@link AbstractDeserializer} which converts <b>XML response content</b> to 
@@ -51,7 +51,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 	
 	private static final String ERROR_CONTEXT_UNAVAILABLE = new StringBuilder()
 	.append("\n\nSimple-XML (simple-xml-2.7.1.jar) was not detected on the classpath. ")
-	.append("To enable XML deserialization with @Deserializer(ContentType.XML) ")
+	.append("To enable XML deserialization with @Deserialize(ContentType.XML) ")
 	.append("add the following dependency to your build configuration.\n\n")
 	.append("Maven:\n")
 	.append("<dependency>\n")
@@ -67,7 +67,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 	.append("http://simple.sourceforge.net/download.php \n\n").toString();
 	
 	private static final String ERROR_CONTEXT_INCOMPATIBLE = new StringBuilder()
-	.append("\n\nFailed to initialize XmlDeserializer; use of @Deserializer(ContentType.XML) is disabled.\n")
+	.append("\n\nFailed to initialize XmlDeserializer; use of @Deserialize(ContentType.XML) is disabled.\n")
 	.append("Please make sure that you are using version 2.7.1 of Simple-XML.\n\n").toString();
 	
 

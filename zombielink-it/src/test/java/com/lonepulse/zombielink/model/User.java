@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.model;
  * #L%
  */
 
-
 import java.io.Serializable;
 
 /**

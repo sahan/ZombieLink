@@ -29,8 +29,8 @@ import com.lonepulse.zombielink.annotation.Entity;
 import com.lonepulse.zombielink.annotation.FormParam;
 import com.lonepulse.zombielink.annotation.PathParam;
 import com.lonepulse.zombielink.annotation.QueryParam;
-import com.lonepulse.zombielink.inject.InvocationContext;
-import com.lonepulse.zombielink.inject.InvocationException;
+import com.lonepulse.zombielink.proxy.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationException;
 import com.lonepulse.zombielink.request.RequestProcessorChain;
 import com.lonepulse.zombielink.response.ResponseProcessorChain;
 

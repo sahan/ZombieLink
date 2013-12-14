@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.ZombieLinkRuntimeException;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This runtime exception is thrown when a {@link AbstractRequestProcessor} fails to execute successfully 

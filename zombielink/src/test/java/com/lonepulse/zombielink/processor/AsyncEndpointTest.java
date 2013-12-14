@@ -42,9 +42,9 @@ import org.junit.Test;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.lonepulse.zombielink.annotation.Async;
 import com.lonepulse.zombielink.annotation.Bite;
-import com.lonepulse.zombielink.inject.InvocationException;
-import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
+import com.lonepulse.zombielink.proxy.InvocationException;
+import com.lonepulse.zombielink.proxy.Zombie;
 import com.lonepulse.zombielink.response.AsyncHandler;
 
 /**

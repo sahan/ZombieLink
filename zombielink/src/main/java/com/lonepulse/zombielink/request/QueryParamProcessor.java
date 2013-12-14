@@ -32,7 +32,7 @@ import org.apache.http.client.utils.URIBuilder;
 import com.lonepulse.zombielink.annotation.Param;
 import com.lonepulse.zombielink.annotation.QueryParam;
 import com.lonepulse.zombielink.annotation.QueryParams;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 import com.lonepulse.zombielink.util.Metadata;
 
 /**

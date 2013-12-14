@@ -27,8 +27,8 @@ import static com.lonepulse.zombielink.util.Assert.assertNotNull;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.processor.Processor;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This is an abstract implementation of {@link Processor} which specifies a template for processing 

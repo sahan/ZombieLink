@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.executor;
 
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This contract defines the callbacks offered for customizing the stages in a request execution. 

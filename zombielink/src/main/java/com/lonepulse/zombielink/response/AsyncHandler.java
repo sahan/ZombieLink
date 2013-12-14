@@ -23,7 +23,7 @@ package com.lonepulse.zombielink.response;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
-import com.lonepulse.zombielink.inject.InvocationException;
+import com.lonepulse.zombielink.proxy.InvocationException;
 
 /**
  * <p>To be used with <b>asynchronous request execution</b> for retrieving the deserialized response content 

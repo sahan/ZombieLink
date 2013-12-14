@@ -54,7 +54,7 @@ import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 import com.lonepulse.zombielink.annotation.Bite;
-import com.lonepulse.zombielink.inject.Zombie;
+import com.lonepulse.zombielink.proxy.Zombie;
 
 /**
  * <p>Performs unit testing on {@link HttpMethodEndpoint}.</p>

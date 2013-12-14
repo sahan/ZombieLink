@@ -22,7 +22,7 @@ package com.lonepulse.zombielink.request;
 
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>This contract defines the policy for <b>intercepting</b> a request and processing it just before 

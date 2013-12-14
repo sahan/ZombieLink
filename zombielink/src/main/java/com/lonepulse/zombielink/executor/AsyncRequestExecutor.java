@@ -32,7 +32,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.lonepulse.zombielink.annotation.Async;
-import com.lonepulse.zombielink.inject.InvocationContext;
+import com.lonepulse.zombielink.proxy.InvocationContext;
 
 /**
  * <p>An extension of {@link BasicRequestExecutor} which is responsible for executing <b>asynchronous 
