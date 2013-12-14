@@ -51,13 +51,13 @@ import com.lonepulse.zombielink.request.AbstractSerializer;
 import com.lonepulse.zombielink.request.Serializers;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link SerializerEndpoint}.
+ * <p>Performs unit testing on {@link SerializerEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.1
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -74,12 +74,6 @@ public class SerializerEndpointTest {
 	private SerializerEndpoint serializerEndpoint;
 	
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #serializerEndpoint}.
-	 * 
-	 * @throws java.lang.Exception
-	 * 			if the test case setup or endpoint injection failed
-	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -87,7 +81,7 @@ public class SerializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link Serializers#JSON}.
+	 * <p>Test for {@link Serializers#JSON}.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -109,7 +103,7 @@ public class SerializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link Serializers#XML}.
+	 * <p>Test for {@link Serializers#XML}.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -134,7 +128,7 @@ public class SerializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link Serializers#PLAIN}.
+	 * <p>Test for {@link Serializers#PLAIN}.</p>
 	 *
 	 * @since 1.2.4
 	 */
@@ -156,7 +150,7 @@ public class SerializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for custom {@link AbstractSerializer}s.
+	 * <p>Test for custom {@link AbstractSerializer}s.</p>
 	 * 
 	 * @since 1.2.4
 	 */

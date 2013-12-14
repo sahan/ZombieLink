@@ -20,14 +20,13 @@ package com.lonepulse.zombielink.executor;
  * #L%
  */
 
-
 import com.lonepulse.zombielink.annotation.Config;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
- * <p>An interface which represents a dummy endpoint that uses a custom {@link Zombie.Configuration}.
+ * <p>An endpoint which uses a custom {@link Zombie.Configuration}.</p>
  * 
  * @version 1.1.1
  * <br><br> 
@@ -42,6 +41,6 @@ import com.lonepulse.zombielink.inject.Zombie;
 public interface ConfigEndpoint {
 	
 	
-	@Request(path = "/timeout")
+	@GET("/timeout")
 	public void timeout();
 }

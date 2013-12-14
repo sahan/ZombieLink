@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -37,14 +36,13 @@ import com.lonepulse.zombielink.processor.InterceptorEndpoint.EndpointIntercepto
 import com.lonepulse.zombielink.request.Interceptor;
 
 /**
- * <p>An interface which represents a dummy endpoint with request method 
- * definitions that use various pre-fabricated and custom serializers.</p>
+ * <p>An endpoint which uses {@link Interceptor}s defined at multiple levels.</p>
  * 
- * @category test
- * <br><br> 
  * @version 1.1.0
  * <br><br> 
  * @since 1.2.4
+ * <br><br> 
+ * @category test
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */

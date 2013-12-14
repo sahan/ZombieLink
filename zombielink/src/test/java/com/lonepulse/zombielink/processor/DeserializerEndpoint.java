@@ -20,7 +20,6 @@ package com.lonepulse.zombielink.processor;
  * #L%
  */
 
-
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.JSON;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.PLAIN;
 import static com.lonepulse.zombielink.annotation.Entity.ContentType.XML;
@@ -32,20 +31,19 @@ import com.google.gson.Gson;
 import com.lonepulse.zombielink.annotation.Deserializer;
 import com.lonepulse.zombielink.annotation.Detach;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.annotation.Request;
+import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.inject.InvocationContext;
 import com.lonepulse.zombielink.model.User;
 import com.lonepulse.zombielink.response.AbstractDeserializer;
 
 /**
- * <p>An interface which represents a dummy endpoint with request method definitions 
- * that use various pre-fabricated and custom deserializers.
+ * <p>An endpoint with request method definitions that use various pre-fabricated and custom deserializers.</p>
  * 
- * @category test
- * <br><br> 
  * @version 1.1.1
  * <br><br> 
  * @since 1.2.4
+ * <br><br> 
+ * @category test
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -55,35 +53,34 @@ public interface DeserializerEndpoint {
 	
 	/**
 	 * <p>A mock request which receives a response with a code that signals a failure. 
-	 * Expects a domain specific exception to be thrown rather than the deserialized result.  
+	 * Expects a domain specific exception to be thrown rather than the deserialized result.</p>  
 	 *
 	 * @return the deserialized response content, which in this case should not be available
 	 * 
 	 * @since 1.2.4
 	 */
 	@Deserializer(PLAIN)
-	@Request(path = "/responseerror")
+	@GET("/responseerror")
 	String responseError();
 	
 	/**
-	 * <p>A mock request which receives a JSON response that is deserialized to it model.
+	 * <p>A mock request which receives a JSON response that is deserialized to its model.</p>
 	 * 
 	 * @return the deserialized response entity
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/json")
+	@GET("/json")
 	User deserializeJson();
 	
 	/**
-	 * <p>A mock request which receives an XML response that is deserialized to it model.
+	 * <p>A mock request which receives an XML response that is deserialized to its model.</p>
 	 * 
 	 * @return the deserialized response entity
 	 * 
 	 * @since 1.2.4
 	 */
-	@Deserializer(XML) 
-	@Request(path = "/xml")
+	@GET("/xml") @Deserializer(XML)
 	User deserializeXml();
 	
 	/**
@@ -94,8 +91,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Deserializer(PLAIN)
-	@Request(path = "/raw")
+	@GET("/raw") @Deserializer(PLAIN)
 	String raw();
 	
 	
@@ -134,7 +130,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/custom")
+	@GET("/custom")
 	@Deserializer(type = Redactor.class) 
 	User deserializeCustom();
 	
@@ -145,8 +141,7 @@ public interface DeserializerEndpoint {
 	 *
 	 * @since 1.2.4
 	 */
-	@Detach(Deserializer.class)
-	@Request(path = "/detach")
+	@GET("/detach") @Detach(Deserializer.class)
 	String detachDeserializer();
 	
 	
@@ -171,7 +166,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/uninstantiabledeserializer")
+	@GET("/uninstantiabledeserializer")
 	@Deserializer(type = UninstantiableDeserializer.class)
 	String uninstantiableDeserializer();
 	
@@ -198,7 +193,7 @@ public interface DeserializerEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/illegaldeserializer")
+	@GET("/illegaldeserializer")
 	@Deserializer(type = IllegalDeserializer.class)
 	User illegalDeserializer();
 }

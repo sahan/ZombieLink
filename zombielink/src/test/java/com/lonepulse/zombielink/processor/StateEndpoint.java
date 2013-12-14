@@ -23,28 +23,27 @@ package com.lonepulse.zombielink.processor;
 import org.apache.http.HttpResponse;
 
 import com.lonepulse.zombielink.annotation.Endpoint;
+import com.lonepulse.zombielink.annotation.GET;
 import com.lonepulse.zombielink.annotation.Header;
-import com.lonepulse.zombielink.annotation.Request;
 import com.lonepulse.zombielink.annotation.Stateful;
 
 /**
- * <p>An interface which represents a dummy endpoint with request method definitions 
- * which use cookies.
+ * <p>An endpoint which uses cookies for state mangement.</p>
  * 
- * @category test
- * <br><br> 
  * @version 1.1.1
  * <br><br> 
  * @since 1.2.4
  * <br><br> 
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @category test
+ * <br><br> 
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 @Stateful
 @Endpoint(host = "0.0.0.0", port = 8080)
 public interface StateEndpoint {
 	
 	/**
-	 * <p>A mock request which initiates a stateful connection.
+	 * <p>A mock request which initiates a stateful connection using cookies.</p>
 	 * 
 	 * @param cookieHeader
 	 * 			a response header which the server sets with a cookie
@@ -53,6 +52,6 @@ public interface StateEndpoint {
 	 * 
 	 * @since 1.2.4
 	 */
-	@Request(path = "/stateful")
+	@GET("/stateful")
 	public String stateful(@Header("Set-Cookie") StringBuilder cookieHeader);
 }

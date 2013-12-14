@@ -51,13 +51,13 @@ import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.model.User;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link ResponseEndpoint}.
+ * <p>Performs unit testing on {@link ResponseEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -170,8 +170,11 @@ public class ResponseEndpointTest {
 		
 		assertNotNull(response);
 		assertTrue(response instanceof HttpResponse);
-		assertEquals(EntityUtils.toString(((HttpResponse)response).getEntity()), body);
 		
+		//ensures that the input stream is closed 
+		String content = EntityUtils.toString(((HttpResponse)response).getEntity());
+		
+		assertEquals(content, body);
 		verify(getRequestedFor(urlEqualTo(subpath)));
 	}
 	
@@ -195,8 +198,11 @@ public class ResponseEndpointTest {
 		
 		assertNotNull(response);
 		assertTrue(response instanceof HttpEntity);
-		assertEquals(EntityUtils.toString(((HttpEntity)response)), body);
 		
+		//ensures that the input stream is closed 
+		String content = EntityUtils.toString(((HttpEntity)response));
+		
+		assertEquals(content, body);
 		verify(getRequestedFor(urlEqualTo(subpath)));
 	}
 	

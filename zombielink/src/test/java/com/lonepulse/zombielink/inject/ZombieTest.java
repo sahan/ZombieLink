@@ -25,18 +25,16 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
-
 /**
- * <p>Performs <b>Unit Testing</b> on the {@link Zombie} and its infection capabilities.
+ * <p>Tests the infection capabilities of the {@link Zombie}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.2.0
  * <br><br>
  * @since 1.1.0
  * <br><br>
- * @author <a href="mailto:lahiru@lonepulse.com">Lahiru Sahan Jayasinghe</a>
+ * @category test
+ * <br><br>
+ * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public class ZombieTest {
 	
@@ -67,7 +65,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for single injection using {@link Zombie#infect(Object, Object...)}
+	 * <p>Test method for single injection using {@link Zombie#infect(Object, Object...)}</p>
 	 */
 	@Test
 	public final void testPropertyInjection() {
@@ -81,7 +79,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for multiple injections using {@link Zombie#infect(Object, Object...)}
+	 * <p>Test method for multiple injections using {@link Zombie#infect(Object, Object...)}</p>
 	 */
 	@Test
 	public final void testMultipleInjection() {
@@ -92,7 +90,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for endpoint injection on an object hierarchy.
+	 * <p>Test method for endpoint injection on an object hierarchy.</p>
 	 */
 	@Test
 	public final void testHierarchicalInjection() {
@@ -102,7 +100,7 @@ public class ZombieTest {
 	}
 	
 	/**
-	 * Test method for endpoint injection on an enum.
+	 * <p>Test method for endpoint injection on an enum.</p>
 	 */
 	@Test
 	public final void testEnumInjection() {

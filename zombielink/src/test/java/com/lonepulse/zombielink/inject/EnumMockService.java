@@ -25,10 +25,12 @@ import com.lonepulse.zombielink.annotation.Bite;
 /**
  * <p>Emulates an enum which requires endpoint injection.</p>
  * 
- * @category test
- * <br><br> 
  * @version 1.1.0
  * <br><br>
+ * @since 1.2.4
+ * <br><br>
+ * @category test
+ * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
 public enum EnumMockService {

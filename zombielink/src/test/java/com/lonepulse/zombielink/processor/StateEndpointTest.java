@@ -40,13 +40,13 @@ import com.lonepulse.zombielink.annotation.Stateful;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link StateEndpoint}.
+ * <p>Performs unit testing on {@link StateEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.1
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -60,12 +60,6 @@ public class StateEndpointTest {
 	private StateEndpoint stateEndpoint;
 	
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #stateEndpoint}.
-	 * 
-	 * @throws java.lang.Exception
-	 * 			if the test case setup or endpoint injection failed
-	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -73,7 +67,7 @@ public class StateEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link Stateful}.
+	 * <p>Test for {@link Stateful} requests.</p>
 	 * 
 	 * @since 1.2.4
 	 */

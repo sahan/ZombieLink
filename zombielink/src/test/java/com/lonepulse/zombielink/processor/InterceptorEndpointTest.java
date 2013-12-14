@@ -40,13 +40,13 @@ import com.lonepulse.zombielink.inject.Zombie;
 import com.lonepulse.zombielink.request.Interceptor;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link InterceptorEndpoint}.</p>
+ * <p>Performs unit testing on {@link InterceptorEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.0
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -60,9 +60,6 @@ public class InterceptorEndpointTest {
 	private InterceptorEndpoint interceptorEndpoint;
 	
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #interceptorEndpoint}.</p>
-	 */
 	@Before
 	public void setUp() {
 		

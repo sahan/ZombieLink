@@ -49,13 +49,13 @@ import com.lonepulse.zombielink.response.AbstractDeserializer;
 import com.lonepulse.zombielink.response.Deserializers;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link DeserializerEndpoint}.
+ * <p>Performs unit testing on {@link DeserializerEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.1
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -72,12 +72,6 @@ public class DeserializerEndpointTest {
 	private DeserializerEndpoint deserializerEndpoint;
 	
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #deserializerEndpoint}.
-	 * 
-	 * @throws java.lang.Exception
-	 * 			if the test case setup or endpoint injection failed
-	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -85,7 +79,7 @@ public class DeserializerEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link DeserializerEndpoint#responseError()}
+	 * <p>Test for {@link DeserializerEndpoint#responseError()}.</p>
 	 *
 	 * @since 1.2.4
 	 */
@@ -175,7 +169,7 @@ public class DeserializerEndpointTest {
 	 * @since 1.2.4
 	 */
 	@Test  
-	public final void testRaw() {
+	public final void testPlain() {
 
 		String subpath = "/raw", body = "SAO Nerve Gear";
 		

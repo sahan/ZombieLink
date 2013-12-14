@@ -44,13 +44,13 @@ import com.lonepulse.zombielink.inject.InvocationException;
 import com.lonepulse.zombielink.inject.Zombie;
 
 /**
- * <p>Performs <b>Unit Testing</b> on the proxy of {@link PathEndpoint}.
+ * <p>Performs unit testing on {@link PathEndpoint}.</p>
  * 
- * @category test
- * <br><br>
  * @version 1.1.1
  * <br><br>
  * @since 1.2.4
+ * <br><br>
+ * @category test
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -67,12 +67,6 @@ public class PathEndpointTest {
 	private PathEndpoint pathEndpoint;
 	
 	
-	/**
-	 * <p>Sets up the test case by performing endpoint injection on {@link #pathEndpoint}.
-	 * 
-	 * @throws java.lang.Exception
-	 * 			if the test case setup or endpoint injection failed
-	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -80,7 +74,7 @@ public class PathEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a {@link Request} with a subpath.
+	 * <p>Test for a {@link Request} with a subpath.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -99,7 +93,7 @@ public class PathEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.
+	 * <p>Test for a RESTful {@link Request} with a subpath having {@link PathParam}s.</p>
 	 * 
 	 * @since 1.2.4
 	 */
@@ -119,7 +113,7 @@ public class PathEndpointTest {
 	}
 	
 	/**
-	 * <p>Test for {@link PathEndpoint#restfulSubpathWithIllegalParamType(Long)}.
+	 * <p>Test for {@link PathEndpoint#restfulSubpathWithIllegalParamType(Long)}.</p>
 	 * 
 	 * @since 1.2.4
 	 */
