@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.request.Interceptor;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @category test
  * <br><br>
@@ -69,7 +69,7 @@ public class InterceptorEndpointTest {
 	/**
 	 * <p>Test for {@link Interceptor}s defined at an endpoint level.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testEndpointInterceptor() {
@@ -89,7 +89,7 @@ public class InterceptorEndpointTest {
 	/**
 	 * <p>Test for {@link Interceptor}s defined at an endpoint level.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testMetadataInterceptor() {
@@ -109,7 +109,7 @@ public class InterceptorEndpointTest {
 	/**
 	 * <p>Test for {@link Interceptor}s defined at an request level.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testRequestInterceptor() {
@@ -130,7 +130,7 @@ public class InterceptorEndpointTest {
 	/**
 	 * <p>Test for {@link Interceptor}s passed as a request parameters.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testParamInterceptor() {
@@ -161,7 +161,7 @@ public class InterceptorEndpointTest {
 	/**
 	 * <p>Test for detaching {@link Interceptor}s.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testDetachInterceptor() {

@@ -5,7 +5,7 @@
 
 	<groupId>com.lonepulse</groupId>
 	<artifactId>zombielink-parent</artifactId>
-	<version>1.2.4-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -32,7 +32,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.6</java.version>
 		<project.name>ZombieLink Parent</project.name>
-		<project.url>http://sahan.me/ZombieLink</project.url>
+		<project.url>https://github.com/sahan/ZombieLink</project.url>
 		<project.inceptionYear>2013</project.inceptionYear>
 		<project.developer.name>Lahiru Sahan Jayasinghe</project.developer.name>
 		<project.developer.email>sahan@lonepulse.com</project.developer.email>

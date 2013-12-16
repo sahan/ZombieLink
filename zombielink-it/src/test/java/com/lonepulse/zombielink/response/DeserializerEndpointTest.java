@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.proxy.Zombie;
  * 
  * @version 1.1.1
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @category test
  * <br><br>
@@ -72,7 +72,7 @@ public class DeserializerEndpointTest {
 	/**
 	 * <p>Test for integration with the Gson library when it's not detected on the classpath.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test 
 	public final void testGsonUnavailable() {
@@ -94,7 +94,7 @@ public class DeserializerEndpointTest {
 	/**
 	 * <p>Test for integration with the Simple-XML library when it's not detected on the classpath.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test 
 	public final void testSimpleXmlUnavailable() {

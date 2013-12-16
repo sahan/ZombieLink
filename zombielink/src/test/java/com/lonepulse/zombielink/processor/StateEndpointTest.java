@@ -44,7 +44,7 @@ import com.lonepulse.zombielink.proxy.Zombie;
  * 
  * @version 1.1.1
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @category test
  * <br><br>
@@ -69,7 +69,7 @@ public class StateEndpointTest {
 	/**
 	 * <p>Test for {@link Stateful} requests.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testState() {

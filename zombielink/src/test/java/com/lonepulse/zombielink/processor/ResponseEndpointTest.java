@@ -55,7 +55,7 @@ import com.lonepulse.zombielink.proxy.Zombie;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @category test
  * <br><br>
@@ -80,7 +80,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for response failures.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testFailure() throws ParseException, IOException {
@@ -111,7 +111,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for successful responses without any content.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testNoContent() {
@@ -132,7 +132,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for successful response indicating a content reset.</p>
 	 * 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testResetContent() {
@@ -153,7 +153,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for a request which expects the raw {@link HttpResponse}.</p>
 	 *
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testRawResponse() throws ParseException, IOException {
@@ -181,7 +181,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for a request which expects the raw {@link HttpEntity}.</p>
 	 *
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testRawEntity() throws ParseException, IOException {
@@ -209,7 +209,7 @@ public class ResponseEndpointTest {
 	/**
 	 * <p>Test for a request which expects the raw {@link HttpEntity}.</p>
 	 *
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	@Test
 	public final void testNoDeserializer() {

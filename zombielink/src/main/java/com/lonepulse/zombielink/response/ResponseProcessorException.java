@@ -33,7 +33,7 @@ import com.lonepulse.zombielink.proxy.InvocationContext;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -52,15 +52,15 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	 * @param responseProcessorClass
 	 * 			the {@link Class} of the {@link AbstractResponseProcessor} implementation which failed
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException(Class<?> responseProcessorClass, 
 									  InvocationContext context) {
 	
 		this(new StringBuilder(responseProcessorClass.getName())
-			 .append(" failed to process the response for the request [")
+			 .append(" failed to process the response for request <")
 			 .append(context.getRequest().getName())
-			 .append("] with arguments ")
+			 .append("> with arguments ")
 			 .append(Arrays.toString(context.getArguments().toArray())).toString());
 	}
 	
@@ -77,7 +77,7 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	 * @param rootCause
 	 * 			the parent exception which caused the {@link AbstractResponseProcessor} to fail
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException(Class<?> responseProcessorClass, 
 									  InvocationContext config, 
@@ -93,14 +93,14 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException() {}
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException(String detailMessage) {
 		
@@ -110,7 +110,7 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException(Throwable throwable) {
 		
@@ -120,7 +120,7 @@ class ResponseProcessorException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ResponseProcessorException(String detailMessage, Throwable throwable) {
 

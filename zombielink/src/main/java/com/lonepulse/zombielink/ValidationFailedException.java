@@ -25,7 +25,7 @@ package com.lonepulse.zombielink;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -38,14 +38,14 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException()}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ValidationFailedException() {}
 
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ValidationFailedException(String detailMessage) {
 		
@@ -55,7 +55,7 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(Throwable)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ValidationFailedException(Throwable throwable) {
 		
@@ -65,7 +65,7 @@ public class ValidationFailedException extends ZombieLinkRuntimeException {
 	/**
 	 * See {@link ZombieLinkRuntimeException#ZombieLinkRuntimeException(String, Throwable)}.
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	public ValidationFailedException(String detailMessage, Throwable throwable) {
 

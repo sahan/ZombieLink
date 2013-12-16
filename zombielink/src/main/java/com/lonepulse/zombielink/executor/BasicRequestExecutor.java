@@ -55,7 +55,7 @@ class BasicRequestExecutor implements RequestExecutor {
 	 * @param executionHandler
 	 * 			the {@link ExecutionHandler} which will be invoked during request execution
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	BasicRequestExecutor(ExecutionHandler executionHandler) {
 		
@@ -77,7 +77,7 @@ class BasicRequestExecutor implements RequestExecutor {
 	 * <br><br>
 	 * @return the {@link HttpResponse} which resulted from the execution
 	 * <br><br>
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	protected HttpResponse fetchResponse(InvocationContext context, HttpRequestBase request) {
 

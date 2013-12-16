@@ -33,7 +33,7 @@ import com.lonepulse.zombielink.proxy.Zombie.Configuration;
  * 
  * @version 1.1.0
  * <br><br>
- * @since 1.2.4
+ * @since 1.3.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
@@ -45,7 +45,7 @@ public interface ConfigurationManager {
 	 *
 	 * @return the default {@link Zombie.Configuration} used for all endpoints
 	 * <br><br> 
-	 * @since 1.2.4
+	 * @since 1.3.0
 	 */
 	Configuration getDefault();
 	
