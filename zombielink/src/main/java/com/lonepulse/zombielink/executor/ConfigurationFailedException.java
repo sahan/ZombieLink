@@ -32,7 +32,7 @@ import com.lonepulse.zombielink.proxy.Zombie;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public class ConfigurationFailedException extends ZombieLinkRuntimeException {
+class ConfigurationFailedException extends ZombieLinkRuntimeException {
 
 	
 	private static final long serialVersionUID = 1799332682414518776L;

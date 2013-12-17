@@ -34,7 +34,7 @@ import com.lonepulse.zombielink.proxy.InvocationException;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public final class BasicExecutionHandler implements ExecutionHandler {
+final class BasicExecutionHandler implements ExecutionHandler {
 
 
 	/**

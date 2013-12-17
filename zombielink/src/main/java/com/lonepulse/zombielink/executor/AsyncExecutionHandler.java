@@ -43,7 +43,7 @@ import com.lonepulse.zombielink.response.AsyncHandler;
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-public final class AsyncExecutionHandler implements ExecutionHandler {
+final class AsyncExecutionHandler implements ExecutionHandler {
 	
 
 	private static final Log LOGGER = LogFactory.getLog(AsyncRequestExecutor.class);

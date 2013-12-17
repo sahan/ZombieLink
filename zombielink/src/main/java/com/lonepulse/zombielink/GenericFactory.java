@@ -30,11 +30,11 @@ import java.util.Map;
  * <p>Use this contract when different factories may be passed to a dependent object, where the factories 
  * produce an <b>OUTPUT</b> which adheres to a contract or super-type and yet differ in implementation or 
  * extended-type based on the provided concrete factory. The same can be said for the <b>INPUT</b> and 
- * <b>FAILURE</b> types as well.</p> 
+ * <b>FAILURE</b> types as well.</p>
  * 
  * @version 1.2.0
  * <br><br>
- * @version 1.3.0
+ * @since 1.3.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */

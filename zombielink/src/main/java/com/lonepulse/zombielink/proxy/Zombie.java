@@ -39,7 +39,6 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import com.lonepulse.zombielink.annotation.Bite;
 import com.lonepulse.zombielink.annotation.Config;
 import com.lonepulse.zombielink.annotation.Endpoint;
-import com.lonepulse.zombielink.executor.ConfigurationFailedException;
 import com.lonepulse.zombielink.executor.RequestExecutors;
 import com.lonepulse.zombielink.util.Fields;
 

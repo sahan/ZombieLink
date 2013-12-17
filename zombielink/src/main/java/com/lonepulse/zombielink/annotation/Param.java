@@ -1,5 +1,8 @@
 package com.lonepulse.zombielink.annotation;
 
+import java.lang.annotation.Documented;
+
+
 /*
  * #%L
  * ZombieLink
@@ -23,7 +26,6 @@ package com.lonepulse.zombielink.annotation;
 /**
  * <p>Allows a basic name and value pair to be provided as annotated metadata.</p>
  * <br>
- * <br>
  * <b>Usage:</b>
  * <br>
  * <br>
@@ -31,17 +33,18 @@ package com.lonepulse.zombielink.annotation;
  * <code>
  * <pre>@POST(path = "/emails/send")
  *&#064;FormParams({<b>@Param(name = "from", value = "someone@example.com"),
- *            &#064;Param(name = "to", value = "support@example.com")</b>})
+ *             &#064;Param(name = "to", value = "support@example.com")</b>})
  *void contactSupport(<b>@FormParams</b> Map&lt;String, String&gt; subjectAndBody);</pre>
  * </code>
  * </p>
- * 
+ * <br>
  * @version 1.1.0
  * <br><br> 
  * @since 1.3.0
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
+@Documented
 public @interface Param { 
 	
 	

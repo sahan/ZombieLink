@@ -20,6 +20,7 @@ package com.lonepulse.zombielink.annotation;
  * #L%
  */
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,35 +32,37 @@ import com.lonepulse.zombielink.request.PlainSerializer;
 
 /**
  * <p>Attaches a serialize for converting models to the format consumed by endpoints.</p>
- * 
- * <b>Usage:</b>
  * <br>
+ * <b>Usage:</b>
  * <br>
  * <ol>
  * <li>
- * <p>At <b>type-level</b> on an endpoint <i>definition</i>; attaches this serializer for all requests.</p><br>
+ * <p>At <b>type-level</b> on an endpoint <i>definition</i>; attaches this serializer for all requests.</p>
  * <code>
- * <pre>@Endpoint(scheme = "https", host = "api.github.com")<b>
- *&#064;Serialize(JSON)</b><br>public interface GitHubEndpoint {<br>&nbsp;...<br>}</b>
+ * <pre><b>@Serialize(JSON)</b>
+ *&#064;Endpoint(scheme = "https", host = "api.github.com")
+ *public interface GitHubEndpoint {<br>&nbsp;&nbsp;...<br>}</b>
  * </pre>
  * </code>
  * </li>
  * <li>
- * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p><br>
+ * <p>At <b>method-level</b> on an endpoint <i>request</i>.</p>
  * <code>
- * <pre>@POST(path = "/gists")&nbsp;&nbsp;<b>@Serialize(JSON)</b>
+ * <pre><b>@Serialize(JSON)</b>
+ *&#064;POST(path = "/gists")
  *void createGist(<b>@Entity</b> Gist gist);</pre>
  * </code>
  * </li>
  * </ol>
  * </p>
- * 
+ * <br>
  * @version 1.1.2
  * <br><br>
  * @since 1.3.0
  * <br><br>
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Serialize {
