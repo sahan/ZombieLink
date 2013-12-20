@@ -37,7 +37,7 @@ import com.lonepulse.zombielink.annotation.PATCH;
  * <br><br> 
  * @author <a href="mailto:sahan@lonepulse.com">Lahiru Sahan Jayasinghe</a>
  */
-@Endpoint("httpbin.org")
+@Endpoint("http://httpbin.org")
 public interface HttpBinEndpoint {
 	
 
