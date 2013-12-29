@@ -83,11 +83,12 @@ public class InterceptorEndpointTest {
 		interceptorEndpoint.endpointInterceptor();
 		
 		verify(getRequestedFor(urlEqualTo(subpath))
-				.withHeader("X-Header", equalTo("endpoint")));
+				.withHeader("X-Header", equalTo("endpoint"))
+				.withHeader("Accept-Charset", equalTo("utf-8")));
 	}
 	
 	/**
-	 * <p>Test for {@link Interceptor}s defined at an endpoint level.</p>
+	 * <p>Test for {@link Interceptor}s defined at an endpoint level which processes meta-data.</p>
 	 * 
 	 * @since 1.3.0
 	 */
@@ -103,7 +104,8 @@ public class InterceptorEndpointTest {
 		interceptorEndpoint.metadataInterceptor();
 		
 		verify(getRequestedFor(urlEqualTo(subpath))
-				.withHeader("X-Header", equalTo("X-Value")));
+				.withHeader("X-Header", equalTo("X-Value"))
+				.withHeader("Accept-Charset", equalTo("utf-8")));
 	}
 	
 	/**
@@ -124,7 +126,8 @@ public class InterceptorEndpointTest {
 		
 		verify(getRequestedFor(urlEqualTo(subpath))
 			   .withHeader("X-Header", equalTo("endpoint"))
-			   .withHeader("X-Header", equalTo("request")));
+			   .withHeader("X-Header", equalTo("request"))
+			   .withHeader("Accept-Charset", equalTo("utf-8")));
 	}
 	
 	/**
@@ -155,7 +158,8 @@ public class InterceptorEndpointTest {
 		verify(getRequestedFor(urlEqualTo(subpath))
 			   .withHeader("X-Header", equalTo("endpoint"))
 			   .withHeader("X-Header", equalTo("request"))
-			   .withHeader("X-Header", equalTo(value)));
+			   .withHeader("X-Header", equalTo(value))
+			   .withHeader("Accept-Charset", equalTo("utf-8")));
 	}
 	
 	/**
@@ -175,6 +179,28 @@ public class InterceptorEndpointTest {
 		interceptorEndpoint.detachInterceptor();
 		
 		verify(getRequestedFor(urlEqualTo(subpath))
+			   .withoutHeader("X-Header")
+			   .withoutHeader("Accept-Charset"));
+	}
+	
+	/**
+	 * <p>Test for skipping {@link Interceptor}s.</p>
+	 * 
+	 * @since 1.3.0
+	 */
+	@Test
+	public final void testSkipInterceptor() {
+		
+		String subpath = "/skip";
+		
+		stubFor(get(urlEqualTo(subpath))
+				.willReturn(aResponse()
+				.withStatus(200)));
+		
+		interceptorEndpoint.skipInterceptor();
+		
+		verify(getRequestedFor(urlEqualTo(subpath))
+			   .withHeader("Accept-Charset", equalTo("utf-8"))
 			   .withoutHeader("X-Header"));
 	}
 }

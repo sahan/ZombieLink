@@ -20,8 +20,8 @@ package com.lonepulse.zombielink.response;
  * #L%
  */
 
+import static com.lonepulse.zombielink.util.Components.isDetached;
 import static com.lonepulse.zombielink.util.Is.async;
-import static com.lonepulse.zombielink.util.Is.detached;
 import static com.lonepulse.zombielink.util.Is.status;
 import static com.lonepulse.zombielink.util.Is.successful;
 
@@ -114,7 +114,7 @@ class EntityProcessor extends AbstractResponseProcessor {
 						request.getAnnotation(Deserialize.class)) == null? 
 							endpoint.getAnnotation(Deserialize.class) :metadata;
 					
-					if(metadata != null & !detached(context, Deserialize.class)) {
+					if(metadata != null & !isDetached(context, Deserialize.class)) {
 						
 						deserializer = (metadata.value() == ContentType.UNDEFINED)? 
 							Deserializers.resolve(metadata.type()) :Deserializers.resolve(metadata.value()); 
