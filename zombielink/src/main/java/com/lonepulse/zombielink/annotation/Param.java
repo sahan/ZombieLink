@@ -2,7 +2,6 @@ package com.lonepulse.zombielink.annotation;
 
 import java.lang.annotation.Documented;
 
-
 /*
  * #%L
  * ZombieLink
@@ -31,7 +30,7 @@ import java.lang.annotation.Documented;
  * <br>
  * <p>
  * <code>
- * <pre>@POST(path = "/emails/send")
+ * <pre>@POST("/emails/send")
  *&#064;FormParams({<b>@Param(name = "from", value = "someone@example.com"),
  *             &#064;Param(name = "to", value = "support@example.com")</b>})
  *void contactSupport(<b>@FormParams</b> Map&lt;String, String&gt; subjectAndBody);</pre>

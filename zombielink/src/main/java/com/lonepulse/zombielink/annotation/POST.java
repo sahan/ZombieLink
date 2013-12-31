@@ -41,7 +41,7 @@ import com.lonepulse.zombielink.annotation.Request.RequestMethod;
  * <p>
  * <code>
  * <pre>@Serialize(JSON)
- *<b>@POST(path = "/gists")</b>
+ *<b>@POST("/gists")</b>
  *void createGist(@Entity Gist gist);</pre>
  * </code>
  * </p>
