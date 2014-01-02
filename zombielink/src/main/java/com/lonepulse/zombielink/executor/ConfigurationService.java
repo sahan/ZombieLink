@@ -82,8 +82,8 @@ final class ConfigurationService implements ConfigurationManager {
 					schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 					
 					PoolingClientConnectionManager pccm = new PoolingClientConnectionManager(schemeRegistry);
-					pccm.setMaxTotal(128);
-					pccm.setDefaultMaxPerRoute(4);
+					pccm.setMaxTotal(200);
+					pccm.setDefaultMaxPerRoute(20);
 					
 					return new DefaultHttpClient(pccm);
 				}
