@@ -1,75 +1,178 @@
-![ZombieLink](https://raw.github.com/sahan/ZombieLink/master/logo.png)
+<table>
+<tr>
+<td>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.github.com/sahan/ZombieLink/master/logo.png"/>
+</td>
+<td rowspan="3">
+<font color="#1C1C1C"><b>ZombieLink</b> &nbsp;&nbsp;/zŏm'bē'lĭngk/ &nbsp;&nbsp;<em>noun.</em></font> 
+<br><br>
+<font color="#424242">
+<b>1.</b> A lightweight HTTP facade which simplifies network communication. &nbsp; <b>2.</b> Accepts an interface which describes the remote service and gives you an implementation of it.
+</font>
+<br><br>
+<a href="https://travis-ci.org/sahan/ZombieLink"><img alt="Build Status" src="https://travis-ci.org/sahan/ZombieLink.png?branch=master"></a>&nbsp;&nbsp;
+<a href="https://coveralls.io/r/sahan/ZombieLink?branch=master"><img alt="Coverage Status" src="https://coveralls.io/repos/sahan/ZombieLink/badge.png?branch=master"></a>
+</td>
+</tr>
+<tr>
+<td>
+<a href="http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.1/zombielink-1.3.1.jar"><pre>zombielink-1.3.1.jar</pre></a>
+</td>
+</tr>
+</table>
 
-> **ZombieLink** /zŏm'bē'lĭngk/ <em>noun.</em> **1** A lightweight HTTP facade 
-which simplifies network communication. **2** An endpoint proxy generator for web services. 
-[![Build Status](https://travis-ci.org/sahan/ZombieLink.png?branch=master)](https://travis-ci.org/sahan/ZombieLink)
-[![Coverage Status](https://coveralls.io/repos/sahan/ZombieLink/badge.png?branch=master)](https://coveralls.io/r/sahan/ZombieLink?branch=master)
+<br>
+##Overview
 
-<br/>
-##About
+Here's your model.   
 
-**ZombieLink** allows easy integration with remote services by allowing you to replicate an endpoint 
-contract and generate a proxy to access it.   
+```java
+public class Repo {
 
-* Contracts can be very flexible in terms of the resources they access. These could be vary from static 
-*html* content or an *RRS* feed, to a RESTful web service endpoint.   
-<br/>
-* Each endpoint contract is specified on a single interface using annotations to provide the communication 
-metadata. It is then wired into your code via an annotation, where it'll be created, cached and injected at 
-runtime.   
-<br/>
+    private String id;
+    private String name;
+    private boolean fork;
+    private int stargazers_count;
+    
+    ...
+}
+```
 
+<br>
+Define the endpoint.   
+
+```java
+@Deserialize(JSON)
+@Endpoint("https://api.github.com")
+public interface GitHubEndpoint {
+
+    @GET("/users/{user}/repos")
+    List<Repo> getRepos(@PathParam("user") String user);
+}
+```
+> Looks for [Gson](http://code.google.com/p/google-gson) on your build path.   
+
+<br>
+Inject and invoke.   
+
+```java
+@Bite
+private GitHubEndpoint endpoint;   
+
+{
+    Zombie.infect(this);
+}
+
+...
+
+List<Repo> repos = endpoint.getRepos("sahan");
+```
+<br>
+Create as many endpoints as you want...   
+
+```java
+@Endpoint("http://example.com")
+public interface ExampleEndpoint {
+
+    @Serialize(XML)	
+    @PUT("/content")
+    void putContent(@Entity Content content);
+}
+```
+> Looks for [Simple-XML](http://simple.sourceforge.net) on your build path.
+
+<br>
+...and inject 'em all.   
+
+```java
+@Bite
+private GitHubEndpoint gitHubEndpoint;
+
+@Bite
+private ExampleEndpoint exampleEndpoint;
+
+{
+    Zombie.infect(this);
+}
+```
+
+<br>
 ##Setup
+> If you opt to use the out-of-the-box JSON (de)serializer add the [Gson](http://code.google.com/p/google-gson) dependency; like wise add the [Simple-XML](http://simple.sourceforge.net) dependency for the XML (de)serializer.    
 
-### 1. For Maven Projects
-Simply add it as a dependency in your [Maven](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html) 
-project's **pom.xml**.
+<br>
+### 1. For Maven based projects.   
+
+Add the following dependency to project's pom.xml file.
 
 ```xml
 <dependency>
    <groupId>com.lonepulse</groupId>
    <artifactId>zombielink</artifactId>
-   <version>1.2.3</version>
+   <version>1.3.1</version>
 </dependency>
 ```
-      
-> For documentation, resolve dependencies with   
-```bash
-$ mvn dependency:resolve -Dclassifier=javadoc
-```   
-   
-<br/>
-### 2. For Non-Maven Projects
 
-For projects which use an alternative build tool, clone the repository and package with Maven to find the uberjar 
-in the target directory. 
+<br>   
+### 2. For Gradle based projects.   
 
-```bash
-$ git clone git://github.com/sahan/ZombieLink.git
-$ cd ZombieLink
-$ mvn package
+Add the following repository and dependency to your project's build.gradle file.
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.lonepulse:zombielink:1.3.1'
+}
 ```
-   
-Attach documentation using [ZombieLink-1.2.3-javadoc.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.2.3/zombielink-1.2.3-javadoc.jar).   
-<br/>
 
-##Usage
-Coding with ZombieLink is a breeze. It follows a simple annotation based coding style 
-and adheres to a *minimal intrusion* policy. Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) 
-and follow the rest of the wiki pages. 
+<br>   
+### 3. Add the JAR to your build path manually.   
+
+Download the [ZombieLink-1.3.1.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.1/zombielink-1.3.1.jar) 
+and add it to your **libs** folder.   
+> Note that [Gson](http://search.maven.org/remotecontent?filepath=com/google/code/gson/gson/2.2.4/gson-2.2.4.jar) 
+is required for JSON (de)serialization and [Simple-XML](http://search.maven.org/remotecontent?filepath=org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar) 
+is required for XML (de)serialization.   
+
+<br>
+##Wiki
+
+Coding with ZombieLink is a breeze. It follows a simple annotation based coding style and adheres to a *minimal intrusion* policy. 
+Kickoff with the [quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart) and follow the rest of the wiki pages. 
 
 1. [Quickstart](https://github.com/sahan/ZombieLink/wiki/Quickstart)
 
-2. [Defining Endpoint Contracts](https://github.com/sahan/ZombieLink/wiki/Defining-Endpoint-Contracts)
+2. [Defining, Injecting and Invoking](https://github.com/sahan/ZombieLink/wiki/Defining,-Injecting-and-Invoking)
 
-3. [Working With Response Parsers](https://github.com/sahan/ZombieLink/wiki/Working-With-Response-Parsers)
+3. [Identifying HTTP Methods](https://github.com/sahan/ZombieLink/wiki/Identifying-HTTP-Methods)
 
-4. [Injecting Endpoint Proxies](https://github.com/sahan/ZombieLink/wiki/Injecting-Endpoint-Proxies)
+4. [Sending Query and Form Parameters](https://github.com/sahan/ZombieLink/wiki/Sending-Query-and-Form-Parameters)
 
-5. [Accessing RESTful Services](https://github.com/sahan/ZombieLink/wiki/Accessing-RESTful-Services)   
+5. [Sending a Request Body](https://github.com/sahan/ZombieLink/wiki/Sending-a-Request-Body)
 
-6. [Executing Requests Asynchronously](https://github.com/sahan/ZombieLink/wiki/Executing-Requests-Asynchronously)   
-<br/>
+6. [Serializing Request Content](https://github.com/sahan/ZombieLink/wiki/Serializing-Request-Content)
+
+7. [Receiving a Response Body](https://github.com/sahan/ZombieLink/wiki/Receiving-a-Response-Body)
+
+8. [Deserializing Response Content](https://github.com/sahan/ZombieLink/wiki/Deserializing-Response-Content)
+
+7. [Sending and Receiving Headers](https://github.com/sahan/ZombieLink/wiki/Sending-and-Receiving-Headers)
+
+8. [Executing Requests Asynchronously](https://github.com/sahan/ZombieLink/wiki/Executing-Requests-Asynchronously)
+
+9. [Creating Stateful Endpoints](https://github.com/sahan/ZombieLink/wiki/Creating-Stateful-Endpoints)
+
+10. [Intercepting Requests](https://github.com/sahan/ZombieLink/wiki/Intercepting-Requests)
+
+11. [Overriding, Detaching and Skipping Components](https://github.com/sahan/ZombieLink/wiki/Overriding,-Detaching-and-Skipping-Components)
+
+12. [Wiring and Injecting Endpoints](https://github.com/sahan/ZombieLink/wiki/Wiring-and-Injecting-Endpoints)
+
+13. [Configuring ZombieLink](https://github.com/sahan/ZombieLink/wiki/Configuring-ZombieLink)
+<br><br>   
 
 ##License
 This library is licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
