@@ -16,7 +16,7 @@
 </tr>
 <tr>
 <td>
-<a href="http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.1/zombielink-1.3.1.jar"><pre>zombielink-1.3.1.jar</pre></a>
+<a href="http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.2/zombielink-1.3.2.jar"><pre>zombielink-1.3.2.jar</pre></a>
 </td>
 </tr>
 </table>
@@ -109,7 +109,7 @@ Add the following dependency to project's pom.xml file.
 <dependency>
    <groupId>com.lonepulse</groupId>
    <artifactId>zombielink</artifactId>
-   <version>1.3.1</version>
+   <version>1.3.2</version>
 </dependency>
 ```
 
@@ -124,14 +124,14 @@ repositories {
 }
 
 dependencies {
-    compile 'com.lonepulse:zombielink:1.3.1'
+    compile 'com.lonepulse:zombielink:1.3.2'
 }
 ```
 
 <br>   
 ### 3. Add the JAR to your build path manually.   
 
-Download the [ZombieLink-1.3.1.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.1/zombielink-1.3.1.jar) 
+Download the [ZombieLink-1.3.2.jar](http://repo1.maven.org/maven2/com/lonepulse/zombielink/1.3.2/zombielink-1.3.2.jar) 
 and add it to your **libs** folder.   
 > Note that [Gson](http://search.maven.org/remotecontent?filepath=com/google/code/gson/gson/2.2.4/gson-2.2.4.jar) 
 is required for JSON (de)serialization and [Simple-XML](http://search.maven.org/remotecontent?filepath=org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar) 
