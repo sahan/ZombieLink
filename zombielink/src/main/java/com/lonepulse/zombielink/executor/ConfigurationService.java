@@ -28,6 +28,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
+import com.lonepulse.zombielink.annotation.Config;
 import com.lonepulse.zombielink.proxy.Zombie;
 import com.lonepulse.zombielink.proxy.Zombie.Configuration;
 
@@ -103,10 +104,9 @@ final class ConfigurationService implements ConfigurationManager {
 		
 		try {
 			
-			if(endpointClass.isAnnotationPresent(com.lonepulse.zombielink.annotation.Config.class)) {
+			if(endpointClass.isAnnotationPresent(Config.class)) {
 				
-				Configuration configuration = endpointClass.getAnnotation(
-					com.lonepulse.zombielink.annotation.Config.class).value().newInstance();
+				Configuration configuration = endpointClass.getAnnotation(Config.class).value().newInstance();
 				
 				HttpClient httpClient = configuration.httpClient();
 				HttpClientDirectory.INSTANCE.bind(endpointClass, httpClient); //currently the only configurable property

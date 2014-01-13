@@ -148,7 +148,7 @@ final class XmlDeserializer extends AbstractDeserializer<Object> {
 			HttpEntity entity = response.getEntity();
 			
 			return entity == null? null :Persister_read.invoke(persister, 
-					context.getRequest().getReturnType(), EntityUtils.toString(entity));
+					context.getRequest().getGenericReturnType(), EntityUtils.toString(entity));
 		} 
 		catch(Exception e) {
 			
