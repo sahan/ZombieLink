@@ -124,8 +124,8 @@ public final class Is {
 	 * 
 	 * <p>This evaluation is performed using a basic conditional check which will return {@code true} if 
 	 * the given type is in the specified packages list. If a package list is not provided, the hierarchy 
-	 * is deemed to have terminated if the given type is ina a package whose name starts with <b>"android."</b>, 
-	 * <b>"java."</b>, <b>"javax."</b> or <b>"junit."</b>.</p>
+	 * is deemed to have terminated if the given type is ina a package whose name starts with, <b>"java."</b>, 
+	 * <b>"javax."</b> or <b>"junit."</b>.</p>
 	 * 
 	 * <p>Will be rendered obsolete if a future enhancement allows isolation of packages to scan for 
 	 * endpoint injection.</p>
@@ -135,8 +135,7 @@ public final class Is {
 	 * <br><br>
 	 * @param packagePrefixes
 	 * 			the packages prefixes to restrict the inheritance hierarchy to; else {@code null} 
-	 * 			or {@code empty} to specify the <b>restriction packages</b> as "android.", "java.", 
-	 * 			"javax." or "junit."
+	 * 			or {@code empty} to specify the <b>restriction packages</b> as "java.", "javax." or "junit."
 	 * <br><br>
 	 * @return {@code true} if this type represents a termination in the hierarchy 
 	 * <br><br>
