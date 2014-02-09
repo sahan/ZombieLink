@@ -5,3 +5,11 @@ install: mvn clean install --quiet -DskipTests=true
 script: mvn clean test -P integration-tests
 
 after_success: mvn cobertura:cobertura coveralls:cobertura
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/d2555d730429c60851d7
+    on_success: change
+    on_failure: always
+    on_start: false
